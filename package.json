@@ -1,7 +1,7 @@
 {
     "name": "chamba-lab",
     "type": "module",
-    "version": "0.3.2",
+    "version": "0.3.3",
     "description": "Chamba Lab: Community-Led Tech Platform",
     "scripts": {
         "dev": "astro dev",
