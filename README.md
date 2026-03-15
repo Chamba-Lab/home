@@ -1,79 +1,92 @@
 # Chamba Lab 🚀
 
+![Chamba Lab Hero Banner](https://raw.githubusercontent.com/Chamba-Lab/home/master/public/banner.png)
+
 > **Community-Led Tech Platform**  
 > *Democratizando el acceso a oportunidades laborales en tech para la comunidad local.*
 
-![License](https://img.shields.io/badge/license-MIT-blue.svg)
-![CI Status](https://github.com/MeloDev2111/Chamba-Lab/actions/workflows/master-pipeline.yml/badge.svg)
+[![License: MIT](https://img.shields.io/badge/License-MIT-indigo.svg)](https://opensource.org/licenses/MIT)
+[![CI/CD Status](https://github.com/Chamba-Lab/home/actions/workflows/master-pipeline.yml/badge.svg)](https://github.com/Chamba-Lab/home/actions)
+[![Astro](https://img.shields.io/badge/Astro-5.x-BC52EE.svg)](https://astro.build)
+[![TailwindCSS](https://img.shields.io/badge/Tailwind-4.x-38B2AC.svg)](https://tailwindcss.com)
 
-## 📌 Misión
-Nuestra misión es conectar talento local con oportunidades globales a través de colaboración (*Minka*) y recursos prácticos (*Cancha*). Sin floro, directo al grano.
+## 📌 Nuestra Misión
 
-## 🛠 Tech Stack
-Este proyecto utiliza un stack moderno y eficiente:
+Conectamos talento local con oportunidades globales a través de colaboración (**Minka**) y recursos prácticos (**Cancha**). Operamos bajo el principio de **"Sin Floro"**: soluciones prácticas, directas y efectivas.
 
-- **Framework**: [Astro 5.x](https://astro.build) (Alto rendimiento por defecto)
-- **UI Library**: React 18+ (Para interactividad selectiva)
-- **Styling**: TailwindCSS 4.x (Utility-first)
-- **Despliegue**: GitHub Pages (Static Site Generation)
+---
+
+## 🛠 Tech Stack: "Barrio Moderno"
+
+Construido para ser rápido, accesible y escalable.
+
+- **Frontend**: [Astro 5.x](https://astro.build) (Optimizado para rendimiento extremo).
+- **UI Library**: [React 18+](https://reactjs.org) (Utilizado en "Islas" de interacción).
+- **Styling**: [TailwindCSS 4.x](https://tailwindcss.com) (Esmaltado moderno y minimalista).
+- **CI/CD**: GitHub Actions + `release-it` para versionado automático.
+
+---
 
 ## 🚀 Comenzando
 
 ### Prerrequisitos
-- Node.js (v18 o superior)
-- npm o pnpm
+- **Node.js**: v20 o superior
+- **Gestor de paquetes**: npm (recomendado)
 
-### Instalación
+### Instalación Local
 
-1. Clona el repositorio:
+1. **Clona el repositorio**:
    ```bash
-   git clone https://github.com/tu-usuario/chamba-lab.git
-   cd chamba-lab
+   git clone https://github.com/Chamba-Lab/home.git
+   cd home
    ```
 
-2. Instala las dependencias:
+2. **Instala dependencias**:
    ```bash
    npm install
    ```
 
-3. Inicia el servidor de desarrollo:
+3. **Inicia el entorno de desarrollo**:
    ```bash
    npm run dev
    ```
 
-## 📦 Despliegue y Versiones
+---
 
-El proyecto cuenta con un pipeline automatizado para gestionar versiones y despliegues (CI/CD).
+## 📦 Flujo de Desarrollo
 
-### Scripts Disponibles
+Utilizamos un pipeline automatizado para asegurar la calidad y facilitar el crecimiento.
 
-- `npm run dev`: Inicia servidor local.
-- `npm run build`: Construye para producción.
-- `npm run test`: Ejecuta las pruebas unitarias con Vitest.
-- `npm run lint`: Ejecuta el linter y verificador de formato.
-- `npm run release`: Ejecuta el proceso de release interactivo.
-- `npm run changelog`: Genera el historial de cambios en `CHANGELOG.md`.
+### Comandos Clave
+| Comando | Descripción |
+| :--- | :--- |
+| `npm run dev` | Inicia el servidor de desarrollo local |
+| `npm run build` | Genera la versión de producción (SSG) |
+| `npm run lint` | Valida el código con ESLint y Prettier |
+| `npm run lint:fix` | **Corrige automáticamente** problemas de estilo y lint |
+| `npm run test` | Ejecuta las pruebas unitarias con Vitest |
+| `npm run release` | Proceso de lanzamiento y versionado (Conventional Commits) |
 
-### Flujo CI/CD
+### Despliegue Automático
+Al realizar un push a la rama `master`, el sistema activa:
+1. **Validación**: Linting y Tests de unidad.
+2. **Release**: Generación de tags, actualización de `CHANGELOG.md`.
+3. **Deploy**: Publicación instantánea en **GitHub Pages**.
 
-Al hacer push a la rama `master`:
-1.  **Validación**: Tests y linting.
-2.  **Release**: `release-it` genera versión, tag y changelog.
-3.  **Deploy**: Publicación automática en **GitHub Pages**.
+---
 
-> **Nota**: Es obligatorio usar [Conventional Commits](https://www.conventionalcommits.org/) (ej. `feat:`, `fix:`) para el versionado automático.
+## 🤝 Comunidad y Contribución
 
-## 🤝 Contribución
-¡Las contribuciones son bienvenidas! Por favor lee `AGENTS.md` para entender nuestros principios de diseño y flujo de trabajo.
+¡Nadie crece solo! Las contribuciones son el motor de Chamba Lab.
 
-1. Haz un Fork del proyecto
-2. Crea tu rama de características (`git checkout -b feature/AmazingFeature`)
-3. Commit tus cambios (`git commit -m 'feat: Add some AmazingFeature'`)
-4. Push a la rama (`git push origin feature/AmazingFeature`)
-5. Abre un Pull Request
+- **Guía del Colaborador**: Revisa nuestro archivo [AGENTS.md](./AGENTS.md) para entender el sistema de diseño y flujos.
+- **Discord**: [Escríbenos en la comunidad](https://discord.gg/TCuZSnfKTE).
+
+---
 
 ## 📄 Licencia
-Distribuido bajo la licencia MIT. Ver `LICENSE` para más información.
 
-## 📞 Comunidad
-- **Discord**: [Unirse a la conversación](https://discord.gg/TCuZSnfKTE)
+Este proyecto está bajo la Licencia MIT. Consulta el archivo `LICENSE` para más detalles.
+
+---
+<p align="center">Hecho con ❤️ por la comunidad de Chamba Lab</p>

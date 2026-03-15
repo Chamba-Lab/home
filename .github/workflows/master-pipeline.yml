@@ -36,8 +36,8 @@ jobs:
 
             - name: Configure Git User
               run: |
-                  git config --global user.name "MeloDev [Bot]"
-                  git config --global user.email "melodiaz2111@gmail.com"
+                  git config --global user.name "Chamba Lab [Bot]"
+                  git config --global user.email "contacto@chambalab.org"
 
             - name: Validate Code
               run: |
