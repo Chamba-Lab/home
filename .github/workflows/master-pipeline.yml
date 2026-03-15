@@ -37,7 +37,7 @@ jobs:
             - name: Configure Git User
               run: |
                   git config --global user.name "Chamba Lab [Bot]"
-                  git config --global user.email "contacto@chambalab.org"
+                  git config --global user.email "melodiaz2111@gmail.com"
 
             - name: Validate Code
               run: |
