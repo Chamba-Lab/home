@@ -1,26 +1,16 @@
 [
     {
+        "id": "launch",
+        "title": "Lanzamiento de la comunidad",
+        "description": "El evento inaugural de Chamba Lab: presentamos la comunidad, cómo funciona y qué viene después.",
+        "type": "fixed",
+        "date": "2026-10-21"
+    },
+    {
         "id": "code-coffee",
         "title": "Code & Coffee",
-        "description": "Sesión informal de coworking: cada quien avanza en lo suyo, con compañía y música de fondo.",
-        "cadence": "Quincenal"
-    },
-    {
-        "id": "mock-interviews",
-        "title": "Simulacros de entrevista",
-        "description": "Practica entrevistas técnicas y de comportamiento en pareja, con feedback directo al terminar.",
-        "cadence": "Mensual"
-    },
-    {
-        "id": "ama",
-        "title": "AMA con la comunidad",
-        "description": "Alguien de la comunidad cuenta su camino y responde preguntas en vivo por Discord.",
-        "cadence": "Mensual"
-    },
-    {
-        "id": "code-review",
-        "title": "Revisión de código en grupo",
-        "description": "Trae un proyecto o PR y recibe feedback de otros miembros de la comunidad.",
-        "cadence": "Según demanda"
+        "description": "Sesión recurrente de coworking: cada quien avanza en lo suyo, con compañía y música de fondo.",
+        "type": "recurring",
+        "recurrence": "Todos los viernes, a partir del lanzamiento"
     }
 ]

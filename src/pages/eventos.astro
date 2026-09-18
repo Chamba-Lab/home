@@ -3,43 +3,54 @@ import Layout from "../layouts/Layout.astro";
 import { getCollection } from "astro:content";
 
 const events = await getCollection("events");
+
+function formatDate(iso: string) {
+    return new Intl.DateTimeFormat("es-PE", {
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+    }).format(new Date(`${iso}T00:00:00`));
+}
 ---
 
 <Layout title="Chamba Lab | Eventos">
-    <main class="max-w-3xl mx-auto px-6 py-20 sm:py-28">
+    <main class="max-w-2xl mx-auto px-6 py-20 sm:py-28">
         <h1
             class="text-4xl md:text-5xl font-display font-bold mb-4 tracking-tight text-slate-900 dark:text-white"
             data-i18n="eventsTitle"
         >
-            Formatos de eventos
+            Próximos eventos
         </h1>
         <p
-            class="text-lg text-slate-600 dark:text-slate-400 max-w-2xl leading-relaxed mb-12"
+            class="text-lg text-slate-600 dark:text-slate-400 leading-relaxed mb-12"
             data-i18n="eventsIntro"
         >
-            Estos son los tipos de sesiones que organizamos. Las fechas se
-            anuncian en el canal #eventos de Discord.
+            El lanzamiento y las sesiones recurrentes de la comunidad. Fechas
+            exactas siempre confirmadas en el canal #eventos de Discord.
         </p>
 
-        <div class="grid sm:grid-cols-2 gap-4 mb-12">
+        <ol
+            class="relative ml-1.5 border-l-2 border-slate-200 dark:border-slate-700 pl-6 space-y-10 mb-12"
+        >
             {
                 events.map((event) => (
-                    <div class="p-5 rounded-xl bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 shadow-sm">
-                        <div class="flex items-center justify-between gap-2 mb-2">
-                            <h3 class="font-semibold text-slate-900 dark:text-white">
-                                {event.data.title}
-                            </h3>
-                            <span class="shrink-0 text-[10px] font-bold uppercase tracking-wide px-1.5 py-0.5 rounded-full bg-indigo-50 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300">
-                                {event.data.cadence}
-                            </span>
-                        </div>
+                    <li class="relative">
+                        <span class="absolute -left-[29px] top-1 w-2.5 h-2.5 rounded-full bg-indigo-600 ring-4 ring-gray-50 dark:ring-slate-900" />
+                        <span class="inline-block text-xs font-semibold uppercase tracking-wide text-indigo-600 dark:text-indigo-400 mb-1">
+                            {event.data.type === "fixed"
+                                ? formatDate(event.data.date!)
+                                : event.data.recurrence}
+                        </span>
+                        <h3 class="font-semibold text-slate-900 dark:text-white mb-1">
+                            {event.data.title}
+                        </h3>
                         <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
                             {event.data.description}
                         </p>
-                    </div>
+                    </li>
                 ))
             }
-        </div>
+        </ol>
 
         <a
             href="https://discord.gg/TCuZSnfKTE"

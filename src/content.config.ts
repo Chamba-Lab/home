@@ -17,7 +17,10 @@ const events = defineCollection({
     schema: z.object({
         title: z.string(),
         description: z.string(),
-        cadence: z.string(),
+        type: z.enum(["fixed", "recurring"]),
+        // "fixed": one-time event, ISO date. "recurring": human-readable cadence.
+        date: z.string().optional(),
+        recurrence: z.string().optional(),
     }),
 });
 
