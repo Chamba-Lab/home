@@ -2,57 +2,71 @@
     {
         "id": "awesome-cv",
         "title": "Awesome-CV",
-        "description": "Plantilla LaTeX minimalista y muy usada para armar un CV limpio, compatible con ATS.",
+        "description": {
+            "en": "A minimal, widely-used LaTeX template for a clean, ATS-friendly CV.",
+            "es": "Plantilla LaTeX minimalista y muy usada para armar un CV limpio, compatible con ATS."
+        },
         "url": "https://github.com/posquit0/Awesome-CV",
-        "category": "cv",
-        "lang": "en"
+        "category": "cv"
     },
     {
         "id": "jsonresume",
         "title": "JSON Resume",
-        "description": "Estándar abierto y temas de diseño para generar tu CV a partir de un solo archivo JSON.",
+        "description": {
+            "en": "An open standard and set of themes for generating your resume from a single JSON file.",
+            "es": "Estándar abierto y temas de diseño para generar tu CV a partir de un solo archivo JSON."
+        },
         "url": "https://jsonresume.org",
-        "category": "cv",
-        "lang": "en"
+        "category": "cv"
     },
     {
         "id": "roadmap-sh",
         "title": "roadmap.sh",
-        "description": "Rutas de aprendizaje visuales para casi cualquier rol tech: frontend, backend, DevOps y más.",
+        "description": {
+            "en": "Visual learning roadmaps for almost any tech role: frontend, backend, DevOps, and more.",
+            "es": "Rutas de aprendizaje visuales para casi cualquier rol tech: frontend, backend, DevOps y más."
+        },
         "url": "https://roadmap.sh",
-        "category": "aprendizaje",
-        "lang": "en"
+        "category": "aprendizaje"
     },
     {
         "id": "mdn-es",
         "title": "MDN Web Docs (ES)",
-        "description": "Documentación técnica de referencia para desarrollo web, traducida a español.",
+        "description": {
+            "en": "Reference documentation for web development, also available in Spanish.",
+            "es": "Documentación técnica de referencia para desarrollo web, traducida a español."
+        },
         "url": "https://developer.mozilla.org/es/",
-        "category": "aprendizaje",
-        "lang": "es"
+        "category": "aprendizaje"
     },
     {
         "id": "freecodecamp",
         "title": "freeCodeCamp",
-        "description": "Cursos gratuitos y certificaciones prácticas para aprender a programar desde cero.",
+        "description": {
+            "en": "Free courses and hands-on certifications to learn programming from scratch.",
+            "es": "Cursos gratuitos y certificaciones prácticas para aprender a programar desde cero."
+        },
         "url": "https://www.freecodecamp.org",
-        "category": "aprendizaje",
-        "lang": "en"
+        "category": "aprendizaje"
     },
     {
         "id": "leetcode",
         "title": "LeetCode",
-        "description": "La plataforma más usada para practicar problemas de algoritmos de cara a entrevistas técnicas.",
+        "description": {
+            "en": "The most widely used platform for practicing algorithm problems ahead of technical interviews.",
+            "es": "La plataforma más usada para practicar problemas de algoritmos de cara a entrevistas técnicas."
+        },
         "url": "https://leetcode.com",
-        "category": "practica",
-        "lang": "en"
+        "category": "practica"
     },
     {
         "id": "interviewing-io",
         "title": "interviewing.io",
-        "description": "Entrevistas técnicas simuladas, anónimas, con ingenieros reales.",
+        "description": {
+            "en": "Anonymous, simulated technical interviews with real engineers.",
+            "es": "Entrevistas técnicas simuladas, anónimas, con ingenieros reales."
+        },
         "url": "https://interviewing.io",
-        "category": "practica",
-        "lang": "en"
+        "category": "practica"
     }
 ]

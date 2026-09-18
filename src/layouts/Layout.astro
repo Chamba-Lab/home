@@ -85,6 +85,9 @@ const base = rawBase.endsWith("/") ? rawBase : `${rawBase}/`;
 
             function applyLang(lang: Lang) {
                 document.documentElement.lang = lang;
+
+                // Chrome-level strings (nav, hero, section titles) from the
+                // dictionary above.
                 document
                     .querySelectorAll<HTMLElement>("[data-i18n]")
                     .forEach((el) => {
@@ -93,6 +96,20 @@ const base = rawBase.endsWith("/") ? rawBase : `${rawBase}/`;
                         if (key && translations[lang][key]) {
                             el.textContent = translations[lang][key];
                         }
+                    });
+
+                // Content-collection text (resource/event descriptions, etc.)
+                // authored inline as data-i18n-en (required) / data-i18n-es
+                // (optional). Falls back to English when the selected
+                // language has no translation configured.
+                document
+                    .querySelectorAll<HTMLElement>("[data-i18n-en]")
+                    .forEach((el) => {
+                        const enText = el.dataset.i18nEn;
+                        const esText = el.dataset.i18nEs;
+                        const text =
+                            lang === "es" ? (esText ?? enText) : enText;
+                        if (text) el.textContent = text;
                     });
             }
 

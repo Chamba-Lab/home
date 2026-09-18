@@ -31,8 +31,7 @@ const grouped = categoryOrder.map((category) => ({
             data-i18n="resourcesIntro"
         >
             Una selección de guías, plataformas de práctica y plantillas que la
-            comunidad recomienda. Algunos están en inglés — lo marcamos en cada
-            tarjeta.
+            comunidad recomienda.
         </p>
 
         <div class="space-y-12">
@@ -55,8 +54,17 @@ const grouped = categoryOrder.map((category) => ({
                                             <h3 class="font-semibold text-slate-900 dark:text-white mb-2">
                                                 {item.data.title}
                                             </h3>
-                                            <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-                                                {item.data.description}
+                                            <p
+                                                class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed"
+                                                data-i18n-en={
+                                                    item.data.description.en
+                                                }
+                                                data-i18n-es={
+                                                    item.data.description.es
+                                                }
+                                            >
+                                                {item.data.description.es ??
+                                                    item.data.description.en}
                                             </p>
                                         </a>
                                     ))}
