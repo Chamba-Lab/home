@@ -1,7 +1,6 @@
 [
     {
         "id": "launch",
-        "order": 1,
         "title": {
             "en": "Community Launch",
             "es": "Lanzamiento de la comunidad"
@@ -15,7 +14,6 @@
     },
     {
         "id": "code-coffee",
-        "order": 2,
         "title": {
             "en": "Code & Coffee"
         },
@@ -24,9 +22,11 @@
             "es": "Sesión recurrente de coworking: cada quien avanza en lo suyo, con compañía y música de fondo."
         },
         "type": "recurring",
-        "recurrence": {
-            "en": "Every Friday, starting after the launch",
-            "es": "Todos los viernes, a partir del lanzamiento"
+        "weekday": 5,
+        "startDate": "2026-10-23",
+        "recurrenceLabel": {
+            "en": "Every Friday",
+            "es": "Todos los viernes"
         }
     }
 ]

@@ -54,6 +54,7 @@ const base = rawBase.endsWith("/") ? rawBase : `${rawBase}/`;
                     eventsTitle: "Próximos eventos",
                     eventsIntro:
                         "El lanzamiento y las sesiones recurrentes de la comunidad. Fechas exactas siempre confirmadas en el canal #eventos de Discord.",
+                    noEvents: "No hay eventos programados este mes.",
                 },
                 en: {
                     langToggle: "ES",
@@ -68,6 +69,7 @@ const base = rawBase.endsWith("/") ? rawBase : `${rawBase}/`;
                     eventsTitle: "Upcoming events",
                     eventsIntro:
                         "The launch and the community's recurring sessions. Exact dates are always confirmed in the #eventos channel on Discord.",
+                    noEvents: "No events scheduled this month.",
                 },
             };
 
@@ -111,6 +113,13 @@ const base = rawBase.endsWith("/") ? rawBase : `${rawBase}/`;
                             lang === "es" ? (esText ?? enText) : enText;
                         if (text) el.textContent = text;
                     });
+
+                // Notify page-specific scripts (e.g. Eventos' month
+                // navigation) that need to know the current language for UI
+                // they render/update dynamically, outside the sweeps above.
+                document.dispatchEvent(
+                    new CustomEvent("chamba-lab:lang", { detail: { lang } }),
+                );
             }
 
             let currentLang: Lang = getStoredLang();

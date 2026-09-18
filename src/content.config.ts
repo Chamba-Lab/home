@@ -21,14 +21,15 @@ const resources = defineCollection({
 const events = defineCollection({
     loader: file("src/content/events.json"),
     schema: z.object({
-        // Explicit ordering: the file loader does not preserve JSON array order.
-        order: z.number(),
         title: i18nText,
         description: i18nText,
         type: z.enum(["fixed", "recurring"]),
-        // "fixed": one-time event, ISO date. "recurring": human-readable cadence.
+        // "fixed": one-time event, ISO date.
         date: z.string().optional(),
-        recurrence: i18nText.optional(),
+        // "recurring": weekly on `weekday` (0=Sun..6=Sat), starting `startDate`.
+        weekday: z.number().min(0).max(6).optional(),
+        startDate: z.string().optional(),
+        recurrenceLabel: i18nText.optional(),
     }),
 });
 

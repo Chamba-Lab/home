@@ -2,17 +2,91 @@
 import Layout from "../layouts/Layout.astro";
 import { getCollection } from "astro:content";
 
-const events = (await getCollection("events")).sort(
-    (a, b) => a.data.order - b.data.order,
-);
+const MONTHS_AHEAD = 12;
 
-function formatDate(iso: string, locale: string) {
-    return new Intl.DateTimeFormat(locale, {
-        day: "numeric",
-        month: "long",
-        year: "numeric",
-    }).format(new Date(`${iso}T00:00:00`));
+const events = await getCollection("events");
+
+function startOfMonth(d: Date) {
+    return new Date(d.getFullYear(), d.getMonth(), 1);
 }
+function addMonths(d: Date, n: number) {
+    return new Date(d.getFullYear(), d.getMonth() + n, 1);
+}
+function endOfMonth(d: Date) {
+    return new Date(d.getFullYear(), d.getMonth() + 1, 0);
+}
+function capitalize(s: string) {
+    return s.charAt(0).toUpperCase() + s.slice(1);
+}
+
+type I18nText = { en: string; es?: string };
+
+interface Occurrence {
+    date: Date;
+    title: I18nText;
+    description: I18nText;
+    recurrenceLabel?: I18nText;
+}
+
+const firstMonth = startOfMonth(new Date());
+
+const months = Array.from({ length: MONTHS_AHEAD }, (_, i) => {
+    const monthStart = addMonths(firstMonth, i);
+    const monthEnd = endOfMonth(monthStart);
+    const occurrences: Occurrence[] = [];
+
+    for (const event of events) {
+        if (event.data.type === "fixed" && event.data.date) {
+            const date = new Date(`${event.data.date}T00:00:00`);
+            if (date >= monthStart && date <= monthEnd) {
+                occurrences.push({
+                    date,
+                    title: event.data.title,
+                    description: event.data.description,
+                });
+            }
+        } else if (
+            event.data.type === "recurring" &&
+            event.data.startDate &&
+            event.data.weekday !== undefined
+        ) {
+            const start = new Date(`${event.data.startDate}T00:00:00`);
+            const rangeStart = start > monthStart ? start : monthStart;
+            const cursor = new Date(rangeStart);
+            cursor.setDate(
+                cursor.getDate() +
+                    ((event.data.weekday - cursor.getDay() + 7) % 7),
+            );
+            while (cursor <= monthEnd) {
+                occurrences.push({
+                    date: new Date(cursor),
+                    title: event.data.title,
+                    description: event.data.description,
+                    recurrenceLabel: event.data.recurrenceLabel,
+                });
+                cursor.setDate(cursor.getDate() + 7);
+            }
+        }
+    }
+
+    occurrences.sort((a, b) => a.date.getTime() - b.date.getTime());
+
+    return {
+        labelEn: capitalize(
+            monthStart.toLocaleDateString("en-US", {
+                month: "long",
+                year: "numeric",
+            }),
+        ),
+        labelEs: capitalize(
+            monthStart.toLocaleDateString("es-PE", {
+                month: "long",
+                year: "numeric",
+            }),
+        ),
+        occurrences,
+    };
+});
 ---
 
 <Layout title="Chamba Lab | Eventos">
@@ -24,59 +98,144 @@ function formatDate(iso: string, locale: string) {
             Próximos eventos
         </h1>
         <p
-            class="text-lg text-slate-600 dark:text-slate-400 leading-relaxed mb-12"
+            class="text-lg text-slate-600 dark:text-slate-400 leading-relaxed mb-10"
             data-i18n="eventsIntro"
         >
             El lanzamiento y las sesiones recurrentes de la comunidad. Fechas
             exactas siempre confirmadas en el canal #eventos de Discord.
         </p>
 
-        <ol
-            class="relative ml-1.5 border-l-2 border-slate-200 dark:border-slate-700 pl-6 space-y-10 mb-12"
-        >
-            {
-                events.map((event) => {
-                    const label =
-                        event.data.type === "fixed"
-                            ? {
-                                  en: formatDate(event.data.date!, "en-US"),
-                                  es: formatDate(event.data.date!, "es-PE"),
-                              }
-                            : (event.data.recurrence ?? {
-                                  en: "",
-                                  es: undefined,
-                              });
+        <div class="flex items-center justify-between mb-6">
+            <button
+                id="month-prev"
+                type="button"
+                aria-label="Mes anterior"
+                class="w-9 h-9 flex items-center justify-center rounded-full border border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 hover:border-indigo-300 dark:hover:border-indigo-700 disabled:opacity-30 disabled:pointer-events-none transition-colors"
+            >
+                <svg
+                    class="w-4 h-4"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="2"
+                    stroke="currentColor"
+                >
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M15.75 19.5 8.25 12l7.5-7.5"></path>
+                </svg>
+            </button>
+            <span
+                id="month-label"
+                class="text-sm font-semibold uppercase tracking-wide text-slate-700 dark:text-slate-300"
+            >
+                {months[0].labelEs}
+            </span>
+            <button
+                id="month-next"
+                type="button"
+                aria-label="Mes siguiente"
+                class="w-9 h-9 flex items-center justify-center rounded-full border border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 hover:border-indigo-300 dark:hover:border-indigo-700 disabled:opacity-30 disabled:pointer-events-none transition-colors"
+            >
+                <svg
+                    class="w-4 h-4"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="2"
+                    stroke="currentColor"
+                >
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="m8.25 4.5 7.5 7.5-7.5 7.5"></path>
+                </svg>
+            </button>
+        </div>
 
-                    return (
-                        <li class="relative">
-                            <span class="absolute -left-[29px] top-1 w-2.5 h-2.5 rounded-full bg-indigo-600 ring-4 ring-gray-50 dark:ring-slate-900" />
-                            <span
-                                class="inline-block text-xs font-semibold uppercase tracking-wide text-indigo-600 dark:text-indigo-400 mb-1"
-                                data-i18n-en={label.en}
-                                data-i18n-es={label.es}
+        <div class="mb-12">
+            {
+                months.map((month, i) => (
+                    <ol
+                        data-month-index={i}
+                        data-month-label-en={month.labelEn}
+                        data-month-label-es={month.labelEs}
+                        hidden={i !== 0}
+                        class="space-y-4"
+                    >
+                        {month.occurrences.length === 0 && (
+                            <li
+                                class="text-sm text-slate-500 dark:text-slate-400 py-6 text-center border border-dashed border-slate-200 dark:border-slate-700 rounded-xl"
+                                data-i18n="noEvents"
                             >
-                                {label.es ?? label.en}
-                            </span>
-                            <h3
-                                class="font-semibold text-slate-900 dark:text-white mb-1"
-                                data-i18n-en={event.data.title.en}
-                                data-i18n-es={event.data.title.es}
-                            >
-                                {event.data.title.es ?? event.data.title.en}
-                            </h3>
-                            <p
-                                class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed"
-                                data-i18n-en={event.data.description.en}
-                                data-i18n-es={event.data.description.es}
-                            >
-                                {event.data.description.es ??
-                                    event.data.description.en}
-                            </p>
-                        </li>
-                    );
-                })
+                                No hay eventos programados este mes.
+                            </li>
+                        )}
+                        {month.occurrences.map((occurrence) => (
+                            <li class="flex gap-4 p-4 rounded-xl bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 shadow-sm">
+                                <div class="shrink-0 w-14 h-14 rounded-lg bg-indigo-600 text-white flex flex-col items-center justify-center leading-none">
+                                    <span class="text-xl font-bold">
+                                        {occurrence.date.getDate()}
+                                    </span>
+                                    <span
+                                        class="text-[10px] font-semibold uppercase tracking-wide mt-0.5"
+                                        data-i18n-en={occurrence.date
+                                            .toLocaleDateString("en-US", {
+                                                month: "short",
+                                            })
+                                            .toUpperCase()}
+                                        data-i18n-es={occurrence.date
+                                            .toLocaleDateString("es-PE", {
+                                                month: "short",
+                                            })
+                                            .toUpperCase()}
+                                    >
+                                        {occurrence.date
+                                            .toLocaleDateString("es-PE", {
+                                                month: "short",
+                                            })
+                                            .toUpperCase()}
+                                    </span>
+                                </div>
+                                <div class="min-w-0">
+                                    <div class="flex items-center gap-2 mb-1">
+                                        <h3 class="font-semibold text-slate-900 dark:text-white">
+                                            {occurrence.title.es ??
+                                                occurrence.title.en}
+                                        </h3>
+                                        {occurrence.recurrenceLabel && (
+                                            <span
+                                                class="text-[10px] font-semibold uppercase tracking-wide px-1.5 py-0.5 rounded-full bg-indigo-50 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300"
+                                                data-i18n-en={
+                                                    occurrence.recurrenceLabel
+                                                        .en
+                                                }
+                                                data-i18n-es={
+                                                    occurrence.recurrenceLabel
+                                                        .es
+                                                }
+                                            >
+                                                {occurrence.recurrenceLabel
+                                                    .es ??
+                                                    occurrence.recurrenceLabel
+                                                        .en}
+                                            </span>
+                                        )}
+                                    </div>
+                                    <p
+                                        class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed"
+                                        data-i18n-en={occurrence.description.en}
+                                        data-i18n-es={occurrence.description.es}
+                                    >
+                                        {occurrence.description.es ??
+                                            occurrence.description.en}
+                                    </p>
+                                </div>
+                            </li>
+                        ))}
+                    </ol>
+                ))
             }
-        </ol>
+        </div>
 
         <a
             href="https://discord.gg/TCuZSnfKTE"
@@ -97,4 +256,56 @@ function formatDate(iso: string, locale: string) {
             <span data-i18n="cta">Unirse a Discord</span>
         </a>
     </main>
+
+    <script>
+        const sections = Array.from(
+            document.querySelectorAll<HTMLElement>("[data-month-index]"),
+        );
+        const prevBtn =
+            document.querySelector<HTMLButtonElement>("#month-prev");
+        const nextBtn =
+            document.querySelector<HTMLButtonElement>("#month-next");
+        const label = document.querySelector<HTMLElement>("#month-label");
+
+        let currentIndex = 0;
+        let currentLang: "es" | "en" = "es";
+
+        function render() {
+            sections.forEach((section, i) => {
+                section.hidden = i !== currentIndex;
+            });
+            const active = sections[currentIndex];
+            if (active && label) {
+                const en = active.dataset.monthLabelEn;
+                const es = active.dataset.monthLabelEs;
+                const text = currentLang === "es" ? (es ?? en) : en;
+                if (text) label.textContent = text;
+            }
+            if (prevBtn) prevBtn.disabled = currentIndex === 0;
+            if (nextBtn)
+                nextBtn.disabled = currentIndex === sections.length - 1;
+        }
+
+        document.addEventListener("chamba-lab:lang", (event) => {
+            currentLang = (event as CustomEvent<{ lang: "es" | "en" }>).detail
+                .lang;
+            render();
+        });
+
+        prevBtn?.addEventListener("click", () => {
+            if (currentIndex > 0) {
+                currentIndex -= 1;
+                render();
+            }
+        });
+
+        nextBtn?.addEventListener("click", () => {
+            if (currentIndex < sections.length - 1) {
+                currentIndex += 1;
+                render();
+            }
+        });
+
+        render();
+    </script>
 </Layout>
