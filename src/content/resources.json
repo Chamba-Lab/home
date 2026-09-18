@@ -1,0 +1,58 @@
+[
+    {
+        "id": "awesome-cv",
+        "title": "Awesome-CV",
+        "description": "Plantilla LaTeX minimalista y muy usada para armar un CV limpio, compatible con ATS.",
+        "url": "https://github.com/posquit0/Awesome-CV",
+        "category": "cv",
+        "lang": "en"
+    },
+    {
+        "id": "jsonresume",
+        "title": "JSON Resume",
+        "description": "Estándar abierto y temas de diseño para generar tu CV a partir de un solo archivo JSON.",
+        "url": "https://jsonresume.org",
+        "category": "cv",
+        "lang": "en"
+    },
+    {
+        "id": "roadmap-sh",
+        "title": "roadmap.sh",
+        "description": "Rutas de aprendizaje visuales para casi cualquier rol tech: frontend, backend, DevOps y más.",
+        "url": "https://roadmap.sh",
+        "category": "aprendizaje",
+        "lang": "en"
+    },
+    {
+        "id": "mdn-es",
+        "title": "MDN Web Docs (ES)",
+        "description": "Documentación técnica de referencia para desarrollo web, traducida a español.",
+        "url": "https://developer.mozilla.org/es/",
+        "category": "aprendizaje",
+        "lang": "es"
+    },
+    {
+        "id": "freecodecamp",
+        "title": "freeCodeCamp",
+        "description": "Cursos gratuitos y certificaciones prácticas para aprender a programar desde cero.",
+        "url": "https://www.freecodecamp.org",
+        "category": "aprendizaje",
+        "lang": "en"
+    },
+    {
+        "id": "leetcode",
+        "title": "LeetCode",
+        "description": "La plataforma más usada para practicar problemas de algoritmos de cara a entrevistas técnicas.",
+        "url": "https://leetcode.com",
+        "category": "practica",
+        "lang": "en"
+    },
+    {
+        "id": "interviewing-io",
+        "title": "interviewing.io",
+        "description": "Entrevistas técnicas simuladas, anónimas, con ingenieros reales.",
+        "url": "https://interviewing.io",
+        "category": "practica",
+        "lang": "en"
+    }
+]

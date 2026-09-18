@@ -15,14 +15,20 @@
 *Construiremos un ecosistema evolutivo, iniciando lean.*
 
 ### Frontend (Web Platform)
-*   **Framework**: **Astro 5.x** (Rendimiento por defecto).
-*   **UI Library**: **React 18+** (Para "Islas" de interactividad: Chamba Board, Forms).
+*   **Framework**: **Astro 7.x** (Rendimiento por defecto).
+*   **UI Library**: **React 19+** (Para "Islas" de interactividad: Chamba Board, Forms).
 *   **Styling**: **TailwindCSS 4.x** (Utility-first).
 *   **Hosting**: **GitHub Pages** (Opción Principal - Costo Cero).
     *   *Alternativa*: Vercel / Netlify (Solo si se requiere SSR en el futuro).
+*   **Runtime**: **Node.js >=22.12.0** (ver `engines` en `package.json`; el pipeline usa `lts/*`).
+
+### Site Structure
+*   **Páginas**: `/` (hero + intro + CTA), `/recursos` (guías y plataformas curadas), `/eventos` (formatos de sesiones recurrentes).
+*   **Layout compartido**: `src/layouts/Layout.astro` monta `Header` y `Footer` (`src/components/`) y centraliza el diccionario ES/EN del toggle de idioma (persistido en `localStorage`).
+*   **i18n**: el toggle traduce chrome estructural (nav, hero, CTAs, títulos de sección) vía `data-i18n`. El contenido específico de cada recurso/evento no se fuerza a traducir — se marca su idioma en la propia tarjeta (ver `docs/branding_concepts.md` sobre no forzar copy).
 
 ### Backend & Data (Evolutionary)
-*   **Phase 1 (Static)**: JSON files como "base de datos" (Content Collections de Astro). **Strict Static Site Generation (SSG)** para compatibilidad con GitHub Pages.
+*   **Phase 1 (Static)**: JSON files como "base de datos" (Content Collections de Astro, `src/content.config.ts` + `src/content/*.json`). **Strict Static Site Generation (SSG)** para compatibilidad con GitHub Pages.
 *   **Phase 2 (Dynamic)**:
     *   **Logic**: Python (FastAPI) o Node.js (Hono) para scrapers/APIs ligeras.
     *   **Cloud**: AWS Lambda (Serverless) para tareas cron (ej. Scraper semanal).

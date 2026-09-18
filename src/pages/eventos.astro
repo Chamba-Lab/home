@@ -1,0 +1,63 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { getCollection } from "astro:content";
+
+const events = await getCollection("events");
+---
+
+<Layout title="Chamba Lab | Eventos">
+    <main class="max-w-3xl mx-auto px-6 py-20 sm:py-28">
+        <h1
+            class="text-4xl md:text-5xl font-display font-bold mb-4 tracking-tight text-slate-900 dark:text-white"
+            data-i18n="eventsTitle"
+        >
+            Formatos de eventos
+        </h1>
+        <p
+            class="text-lg text-slate-600 dark:text-slate-400 max-w-2xl leading-relaxed mb-12"
+            data-i18n="eventsIntro"
+        >
+            Estos son los tipos de sesiones que organizamos. Las fechas se
+            anuncian en el canal #eventos de Discord.
+        </p>
+
+        <div class="grid sm:grid-cols-2 gap-4 mb-12">
+            {
+                events.map((event) => (
+                    <div class="p-5 rounded-xl bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 shadow-sm">
+                        <div class="flex items-center justify-between gap-2 mb-2">
+                            <h3 class="font-semibold text-slate-900 dark:text-white">
+                                {event.data.title}
+                            </h3>
+                            <span class="shrink-0 text-[10px] font-bold uppercase tracking-wide px-1.5 py-0.5 rounded-full bg-indigo-50 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300">
+                                {event.data.cadence}
+                            </span>
+                        </div>
+                        <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+                            {event.data.description}
+                        </p>
+                    </div>
+                ))
+            }
+        </div>
+
+        <a
+            href="https://discord.gg/TCuZSnfKTE"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center justify-center gap-2 px-8 py-3 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white font-medium transition-all shadow-lg shadow-indigo-500/25"
+        >
+            <svg
+                class="w-5 h-5"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+                aria-hidden="true"
+            >
+                <path
+                    d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z"
+                ></path>
+            </svg>
+            <span data-i18n="cta">Unirse a Discord</span>
+        </a>
+    </main>
+</Layout>

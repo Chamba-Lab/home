@@ -1,0 +1,75 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { getCollection } from "astro:content";
+
+const resources = await getCollection("resources");
+
+const categoryOrder = ["cv", "aprendizaje", "practica"] as const;
+const categoryLabel: Record<(typeof categoryOrder)[number], string> = {
+    cv: "CV y LinkedIn",
+    aprendizaje: "Aprendizaje",
+    practica: "Práctica técnica",
+};
+
+const grouped = categoryOrder.map((category) => ({
+    category,
+    label: categoryLabel[category],
+    items: resources.filter((r) => r.data.category === category),
+}));
+---
+
+<Layout title="Chamba Lab | Recursos">
+    <main class="max-w-3xl mx-auto px-6 py-20 sm:py-28">
+        <h1
+            class="text-4xl md:text-5xl font-display font-bold mb-4 tracking-tight text-slate-900 dark:text-white"
+            data-i18n="resourcesTitle"
+        >
+            Recursos
+        </h1>
+        <p
+            class="text-lg text-slate-600 dark:text-slate-400 max-w-2xl leading-relaxed mb-12"
+            data-i18n="resourcesIntro"
+        >
+            Una selección de guías, plataformas de práctica y plantillas que la
+            comunidad recomienda. Algunos están en inglés — lo marcamos en cada
+            tarjeta.
+        </p>
+
+        <div class="space-y-12">
+            {
+                grouped.map(
+                    (group) =>
+                        group.items.length > 0 && (
+                            <section>
+                                <h2 class="text-sm font-semibold uppercase tracking-wide text-indigo-600 dark:text-indigo-400 mb-4">
+                                    {group.label}
+                                </h2>
+                                <div class="grid sm:grid-cols-2 gap-4">
+                                    {group.items.map((item) => (
+                                        <a
+                                            href={item.data.url}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            class="block p-5 rounded-xl bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 hover:border-indigo-300 dark:hover:border-indigo-700 shadow-sm hover:shadow-md transition-all"
+                                        >
+                                            <div class="flex items-center justify-between gap-2 mb-2">
+                                                <h3 class="font-semibold text-slate-900 dark:text-white">
+                                                    {item.data.title}
+                                                </h3>
+                                                <span class="shrink-0 text-[10px] font-bold uppercase tracking-wide px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-700 text-slate-500 dark:text-slate-400">
+                                                    {item.data.lang}
+                                                </span>
+                                            </div>
+                                            <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+                                                {item.data.description}
+                                            </p>
+                                        </a>
+                                    ))}
+                                </div>
+                            </section>
+                        ),
+                )
+            }
+        </div>
+    </main>
+</Layout>
