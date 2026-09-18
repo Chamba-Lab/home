@@ -1,5 +1,18 @@
 [
     {
+        "id": "planning-meeting",
+        "title": {
+            "en": "Planning Meeting",
+            "es": "Reunión de planificación"
+        },
+        "description": {
+            "en": "The founding team meets to define the community's direction, roles, and next steps.",
+            "es": "El equipo fundador se reúne para definir el rumbo de la comunidad, roles y próximos pasos."
+        },
+        "type": "fixed",
+        "date": "2026-09-27"
+    },
+    {
         "id": "launch",
         "title": {
             "en": "Community Launch",
