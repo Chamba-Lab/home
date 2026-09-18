@@ -3,10 +3,12 @@
 > **Status**: Definition Phase
 > **Focus**: Professional Evolution & Community Support
 
-## 🚀 Manifiesto
-**Chamba Lab** es una iniciativa comunitaria, sin fines de lucro, nacida para potenciar al talento tech local. No somos una "aceleradora comercial"; somos un grupo de estudiantes y profesionales que creen en el poder de devolver lo aprendido (*Ayni*).
+> **MVP actual**: la landing pública es intencionalmente simple — hero, una intro breve y un botón a Discord. Los "Pilares de Acción" descritos abajo son la visión de roadmap a mediano/largo plazo, no contenido que exista hoy en el sitio. El único término del glosario cultural presente en el copy público hoy es "Chamba" (el nombre); el resto se introduce progresivamente en features concretas — ver `docs/branding_concepts.md`.
 
-Nuestro objetivo es simple: **que nadie se quede atrás en su carrera por falta de guía o contactos.** Combinamos el aprendizaje autodidacta con el soporte colectivo (*Minka*), creando un espacio seguro para fallar, aprender y crecer.
+## 🚀 Manifiesto
+**Chamba Lab** es una iniciativa comunitaria, sin fines de lucro, para potenciar el talento tech. No somos una "aceleradora comercial"; somos un grupo de estudiantes y profesionales que creen en el poder de devolver lo aprendido.
+
+Nuestro objetivo es simple: **que nadie se quede atrás en su carrera por falta de guía o contactos.** Combinamos el aprendizaje autodidacta con el soporte colectivo, creando un espacio seguro para fallar, aprender y crecer. *(Ayni y Minka siguen siendo valores internos que inspiran esta filosofía, aunque no son parte del vocabulario de cara al usuario por ahora — ver `docs/branding_concepts.md`.)*
 
 ## 🏛️ Pilares de Acción
 

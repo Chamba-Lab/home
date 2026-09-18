@@ -3,7 +3,7 @@
 ![Chamba Lab Hero Banner](https://raw.githubusercontent.com/Chamba-Lab/home/master/public/banner.png)
 
 > **Community-Led Tech Platform**  
-> *Democratizando el acceso a oportunidades laborales en tech para la comunidad local.*
+> *Democratizando el acceso a oportunidades laborales en tech.*
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-indigo.svg)](https://opensource.org/licenses/MIT)
 [![CI/CD Status](https://github.com/Chamba-Lab/home/actions/workflows/master-pipeline.yml/badge.svg)](https://github.com/Chamba-Lab/home/actions)
@@ -12,7 +12,7 @@
 
 ## 📌 Nuestra Misión
 
-Conectamos talento local con oportunidades globales a través de colaboración (**Minka**) y recursos prácticos (**Cancha**). Operamos bajo el principio de **"Sin Floro"**: soluciones prácticas, directas y efectivas.
+Somos una comunidad tech para quienes construyen su carrera en tecnología — estudiantes, profesionales y todo lo que hay en el medio. Compartimos conocimiento, oportunidades y apoyo real para crecer juntos. Discord es nuestro punto de encuentro.
 
 ---
 

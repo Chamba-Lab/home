@@ -1,65 +1,32 @@
 # Branding Concepts: The DNA of Chamba Lab
 
-Este documento captura la esencia cultural y los conceptos "criollos" que le darán identidad única a nuestra comunidad. No es solo jerga, es nuestra filosofía de trabajo.
+Este documento captura la esencia cultural y los conceptos "criollos" que le dan identidad a la comunidad. Chamba Lab nace en la comunidad hispanohablante tech pero está pensada como una comunidad tech universal — no forzamos el argot en el copy genérico (landing, descripciones). En vez de eso, los términos se van introduciendo **progresivamente, cada uno en el lugar donde tiene sentido**: un rol de Discord, el nombre de una sesión, un tipo de recurso — no todos a la vez en el hero de la página.
 
-## 🇵🇪 Glosario de Identidad
+## ✅ En uso hoy
 
-### 1. Chamba (Work / Hustle)
+### Chamba (Work / Hustle)
 *   **Concepto**: El esfuerzo, la dedicación y la acción de trabajar.
-*   **Uso en la comunidad**: No venimos a perder el tiempo, venimos a hacer *chamba* de calidad.
-*   **Aplicación**: "Chamba Board" (Bolsa de trabajo), "Modo Chamba" (Productividad).
+*   **Dónde se usa**: Es el nombre de la comunidad ("Chamba Lab"). No necesita más presencia que esa — no se fuerza como wordplay adicional en el copy.
 
-### 2. Cancha (Experience / Street Smarts)
-*   **Concepto**: Tener experiencia práctica, saber desenvolverse en el terreno real.
-*   **Uso en la comunidad**: Valoramos más la práctica que la teoría pura.
-*   **Aplicación**: "Ganar Cancha" (Proyectos reales), "Tener Cancha" (Seniority).
+## 🌱 Reservados para uso progresivo (features futuras)
 
-### 3. Minka (Collective Work)
-*   **Concepto**: Trabajo colectivo en favor de la comunidad (origen Inca).
-*   **Uso en la comunidad**: Nadie crece solo. Todos aportamos al crecimiento del grupo.
-*   **Aplicación**: "Minka Sessions" (Hackathons o resolución de problemas en grupo).
+Estos términos no aparecen en el landing ni en el copy genérico. Se activan uno a uno cuando exista la feature concreta que les da sentido, en vez de decorar texto con ellos.
 
-### 4. Ayni (Reciprocity)
-*   **Concepto**: "Hoy por ti, mañana por mí".
-*   **Uso en la comunidad**: Si recibes ayuda (review, mentoría), devuélvela ayudando a otro.
-*   **Aplicación**: Sistema de karma o reputación interna.
+*   **Trome** (Master / Pro) — candidato a rol de Discord para miembros senior o top contributors (ej. rol `Trome` visible en el server).
+*   **Pilas** (Energy / Motivation) — candidato a nombre de sesión o iniciativa puntual (ej. "Pilas Sprint" para un evento de sprint de código), no como adjetivo suelto en el copy.
+*   **Yapa** (The Bonus) — candidato a nombre de un tipo de recurso o bonus (ej. sección "La Yapa" con materiales extra al cerrar un taller).
 
-### 5. Yunta (Close Friend / Partner)
-*   **Concepto**: Amigo de confianza, par, compañero.
-*   **Uso en la comunidad**: Fomentamos conexiones reales, no solo networking frío.
-*   **Aplicación**: "Coding Yuntas" (Pair programming), "Busca tu Yunta" (Study partners).
+Cuando se implemente alguna de estas features, actualizar esta sección moviendo el término a "En uso hoy" con el detalle de dónde vive.
 
-### 6. Barrio (Neighborhood / Community)
-*   **Concepto**: El lugar donde perteneces, donde te cuidan y respaldan.
-*   **Uso en la comunidad**: *Chamba Lab* es tu barrio digital.
-*   **Aplicación**: "El Barrio" (Canal general de chat), "Reglas del Barrio" (Código de conducta).
+## 🗂️ Términos reservados (sin plan definido)
 
-### 7. Pilas (Energy / Motivation)
-*   **Concepto**: Energía, motivación, rapidez mental. "Ponerse las pilas".
-*   **Uso en la comunidad**: Actitud proactiva ante los retos. Prohibido el "flojeo".
-*   **Aplicación**: "Pilas Mode" (Sprints de trabajo), "Gente Pilas" (Top contributors).
+El resto del glosario cultural queda documentado por si es útil a futuro, pero sin una feature concreta asignada todavía:
 
-### 8. Sin Floro (No BS / Direct)
-*   **Concepto**: Hablar directo, sin rodeos, sin mentiras ni exageraciones.
-*   **Uso en la comunidad**: Feedback honesto y directo. Cero humo.
-*   **Aplicación**: "Reviews Sin Floro" (Code reviews directos), "Charlas Sin Floro" (Casos de éxito reales).
-
-### 9. La Yapa (The Bonus)
-*   **Concepto**: Lo que das extra, de cortesía, el "plus".
-*   **Uso en la comunidad**: Siempre dar más de lo esperado en proyectos y ayudas.
-*   **Aplicación**: "La Yapa" (Recursos exclusivos al final de un taller), "Yapeo de conocimiento".
-
-### 10. Recurseo (Gig / Side Hustle)
-*   **Concepto**: Trabajos extra, "cachuelos", freelancing para ingresos rápidos.
-*   **Uso en la comunidad**: Oportunidades puntuales para ganar dinero mientras estudias.
-*   **Aplicación**: "Zona Recurseo" (Gigs pequeños), "Cachuelos Tech".
-
-### 11. Trome (Master / Pro)
-*   **Concepto**: Alguien que domina su arte al máximo nivel. Un "capo".
-*   **Uso en la comunidad**: Reconocimiento a la excelencia técnica.
-*   **Aplicación**: "Trome del Mes" (MVPs), "Nivel Trome" (Badges de seniority).
-
-### 12. Camiseta (Loyalty / Commitment)
-*   **Concepto**: "Sudar la camiseta". Compromiso total con el equipo.
-*   **Uso en la comunidad**: Sentido de pertenencia y compromiso con el crecimiento de todos.
-*   **Aplicación**: "Ponte la Camiseta" (Voluntariado interno), "Team Camiseta" (Organizadores).
+*   **Cancha** (Experience / Street smarts) — "Ganar cancha", "tener cancha".
+*   **Minka** (Collective work, origen Inca) — sesiones colaborativas / hackathons internas.
+*   **Ayni** (Reciprocity) — "hoy por ti, mañana por mí"; posible sistema de karma/reputación interno.
+*   **Yunta** (Close friend / partner) — pair programming, study partners.
+*   **Barrio** (Neighborhood / community) — canal general de chat, código de conducta.
+*   **Sin Floro** (No BS / direct) — feedback directo, code reviews.
+*   **Recurseo** (Gig / side hustle) — oportunidades puntuales de freelancing.
+*   **Camiseta** (Loyalty / commitment) — voluntariado interno, equipo organizador.

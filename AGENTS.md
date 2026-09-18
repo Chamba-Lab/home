@@ -4,11 +4,12 @@
 ## 1. Project Identity
 *   **Name**: Chamba Lab
 *   **Type**: Community-Led Tech Platform (Non-Profit).
-*   **Mission**: Democratizar el acceso a oportunidades laborales en tech para la comunidad local a través de colaboración (*Minka*) y recursos prácticos (*Cancha*).
+*   **Mission**: Democratizar el acceso a oportunidades laborales en tech, conectando a quienes están construyendo su carrera con quienes ya tienen camino recorrido.
 *   **Core Values**:
-    *   *Sin Floro*: Práctico y directo.
     *   *Comunidad*: Nadie crece solo.
+    *   *Práctico*: Recursos y apoyo real, no solo teoría.
     *   *Privacidad*: Datos protegidos por diseño.
+*   **Nota de marca**: "Chamba" es el único término del glosario cultural activo hoy (es el nombre). El resto (Trome, Pilas, Yapa, etc.) se introduce progresivamente en features concretas, no como copy genérico — ver `docs/branding_concepts.md`.
 
 ## 2. Tech Stack Strict (The Ecosystem)
 *Construiremos un ecosistema evolutivo, iniciando lean.*

@@ -2,141 +2,116 @@
 import Layout from "../layouts/Layout.astro";
 ---
 
-<Layout title="Chamba Lab | Evolución Profesional">
-    <main class="max-w-5xl mx-auto px-6 py-24 sm:py-32">
-        <!-- Hero Section -->
-        <section class="text-center mb-24">
-            <div
-                class="inline-flex items-center px-3 py-1 rounded-full border border-indigo-200 dark:border-indigo-800 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 text-xs font-semibold mb-6"
-            >
-                <span>Plataforma Tech Comunitaria</span>
-            </div>
-            <h1
-                class="text-5xl md:text-7xl font-display font-bold mb-6 tracking-tight text-slate-900 dark:text-white"
-            >
-                Chamba <span
-                    class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600 dark:from-indigo-400 dark:to-purple-400"
-                    >Lab</span
-                >
-            </h1>
-            <p
-                class="text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto leading-relaxed"
-            >
-                Impulsa tu carrera en el sector Tech. Conecta con la comunidad, <span
-                    class="text-slate-900 dark:text-white font-medium"
-                    >mejora tus habilidades</span
-                > y accede a <span
-                    class="text-slate-900 dark:text-white font-medium"
-                    >oportunidades reales</span
-                >.
-            </p>
+<Layout title="Chamba Lab | Comunidad Tech">
+    <main
+        class="max-w-3xl mx-auto px-6 py-24 sm:py-32 flex flex-col items-center text-center"
+    >
+        <!-- Language toggle -->
+        <button
+            id="lang-toggle"
+            type="button"
+            class="fixed top-6 right-6 inline-flex items-center gap-1 px-3 py-1.5 rounded-full border border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 backdrop-blur text-xs font-semibold text-slate-600 dark:text-slate-300 hover:border-indigo-300 dark:hover:border-indigo-700 transition-colors"
+            aria-label="Cambiar idioma / Switch language"
+        >
+            <span data-i18n="langToggle">EN</span>
+        </button>
 
-            <div class="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
-                <a
-                    href="https://discord.gg/TCuZSnfKTE"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="inline-flex items-center justify-center gap-2 px-8 py-3 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white font-medium transition-all shadow-lg shadow-indigo-500/25"
-                >
-                    <svg
-                        class="w-5 h-5"
-                        fill="currentColor"
-                        viewBox="0 0 20 20"
-                        aria-hidden="true"
-                    >
-                        <path
-                            d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z"
-                        ></path>
-                    </svg>
-                    Unirse a Discord
-                </a>
-                <a
-                    href="#manifiesto"
-                    class="inline-flex items-center justify-center px-8 py-3 rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 font-medium transition-all"
-                >
-                    Explorar Manifiesto
-                </a>
-            </div>
-        </section>
+        <!-- Badge -->
+        <div
+            class="inline-flex items-center px-3 py-1 rounded-full border border-indigo-200 dark:border-indigo-800 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 text-xs font-semibold mb-6"
+        >
+            <span data-i18n="badge">Comunidad Tech</span>
+        </div>
 
-        <!-- Pillars Grid -->
-        <section id="manifiesto" class="grid md:grid-cols-2 gap-8 scroll-mt-24">
-            <!-- Professional Evolution -->
-            <div
-                class="p-8 rounded-2xl bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-md transition-all"
+        <!-- Heading -->
+        <h1
+            class="text-5xl md:text-7xl font-display font-bold mb-6 tracking-tight text-slate-900 dark:text-white"
+        >
+            Chamba <span
+                class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600 dark:from-indigo-400 dark:to-purple-400"
+                >Lab</span
             >
-                <div
-                    class="w-12 h-12 rounded-lg bg-indigo-100 dark:bg-indigo-900/50 flex items-center justify-center mb-6 text-indigo-600 dark:text-indigo-400"
-                >
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke-width="1.5"
-                        stroke="currentColor"
-                        class="w-6 h-6"
-                    >
-                        <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            d="M2.25 18L9 11.25l4.306 4.307a11.95 11.95 0 015.814-5.519l2.74-1.22m0 0l-5.94-2.28m5.94 2.28l-2.28 5.941"
-                        ></path>
-                    </svg>
-                </div>
-                <h3
-                    class="text-xl font-bold mb-3 text-slate-900 dark:text-white"
-                >
-                    Professional Evolution
-                </h3>
-                <p class="text-slate-600 dark:text-slate-400 leading-relaxed">
-                    Herramientas estratégicas para acelerar tu carrera. Desde
-                    CVs optimizados para ATS hasta simulacros de entrevistas
-                    técnicas rigurosos.
-                </p>
-            </div>
+        </h1>
 
-            <!-- Community Core -->
-            <div
-                class="p-8 rounded-2xl bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-md transition-all"
+        <!-- Intro -->
+        <p
+            class="text-lg md:text-xl text-slate-600 dark:text-slate-400 max-w-2xl leading-relaxed"
+            data-i18n="intro"
+        >
+            Una comunidad para quienes construyen su carrera en tech —
+            estudiantes, profesionales y todo lo que hay en el medio.
+            Compartimos conocimiento, oportunidades y apoyo real para crecer
+            juntos. Todo pasa en nuestro Discord.
+        </p>
+
+        <!-- CTA -->
+        <div class="mt-10">
+            <a
+                href="https://discord.gg/TCuZSnfKTE"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-flex items-center justify-center gap-2 px-8 py-3 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white font-medium transition-all shadow-lg shadow-indigo-500/25"
             >
-                <div
-                    class="w-12 h-12 rounded-lg bg-emerald-100 dark:bg-emerald-900/50 flex items-center justify-center mb-6 text-emerald-600 dark:text-emerald-400"
+                <svg
+                    class="w-5 h-5"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                    aria-hidden="true"
                 >
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke-width="1.5"
-                        stroke="currentColor"
-                        class="w-6 h-6"
-                    >
-                        <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 5.472m0 0a9.09 9.09 0 00-3.279 3.298m.944-5.463A11.955 11.955 0 0112 2.944a11.955 11.955 0 015.514 1.354c0 .95.355 1.821.944 2.508M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
-                        ></path>
-                    </svg>
-                </div>
-                <h3
-                    class="text-xl font-bold mb-3 text-slate-900 dark:text-white"
-                >
-                    Community Core
-                </h3>
-                <p class="text-slate-600 dark:text-slate-400 leading-relaxed">
-                    Una red estructurada de soporte. Espacios de co-working
-                    virtual, sistemas de revisión entre pares y bases de
-                    conocimiento compartidas.
-                </p>
-            </div>
-        </section>
+                    <path
+                        d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z"
+                    ></path>
+                </svg>
+                <span data-i18n="cta">Unirse a Discord</span>
+            </a>
+        </div>
 
         <!-- Footer -->
         <footer
-            class="mt-32 pt-8 border-t border-slate-200 dark:border-slate-800 text-center text-slate-500 text-sm"
+            class="mt-32 pt-8 border-t border-slate-200 dark:border-slate-800 text-center text-slate-500 text-sm w-full"
         >
             <p>
                 &copy; {new Date().getFullYear()} Chamba Lab. All rights reserved.
             </p>
         </footer>
     </main>
+
+    <script>
+        const translations = {
+            es: {
+                langToggle: "EN",
+                badge: "Comunidad Tech",
+                intro: "Una comunidad para quienes construyen su carrera en tech — estudiantes, profesionales y todo lo que hay en el medio. Compartimos conocimiento, oportunidades y apoyo real para crecer juntos. Todo pasa en nuestro Discord.",
+                cta: "Unirse a Discord",
+            },
+            en: {
+                langToggle: "ES",
+                badge: "Tech Community",
+                intro: "A community for people building their careers in tech — students, professionals, and everyone in between. We share knowledge, opportunities, and real support to grow together. It all happens in our Discord.",
+                cta: "Join Discord",
+            },
+        };
+
+        let currentLang: "es" | "en" = "es";
+
+        function applyLang(lang: "es" | "en") {
+            document.documentElement.lang = lang;
+            document
+                .querySelectorAll<HTMLElement>("[data-i18n]")
+                .forEach((el) => {
+                    const key = el.dataset
+                        .i18n as keyof (typeof translations)["es"];
+                    if (key && translations[lang][key]) {
+                        el.textContent = translations[lang][key];
+                    }
+                });
+        }
+
+        document
+            .getElementById("lang-toggle")
+            ?.addEventListener("click", () => {
+                currentLang = currentLang === "es" ? "en" : "es";
+                applyLang(currentLang);
+            });
+    </script>
 </Layout>
