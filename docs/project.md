@@ -47,6 +47,10 @@ Nuestra estrategia se basa en dos columnas vertebrales que sostienen el crecimie
 4.  **Events**:
     *   AMAs (Ask Me Anything) con referentes.
     *   Networking mixers.
+    *   Exportar cada evento a calendario personal (`.ics`) o suscribirse al calendario general de la comunidad (feed ICS siempre actualizado).
+5.  **Dinámicas**:
+    *   Mini actividades para la comunidad, empezando por una ruleta con opciones configurables (ej. temas de empleabilidad a debatir, prompts de improvisación).
+    *   Pensada para sesiones en vivo (Discord/eventos) tanto como para uso libre en el sitio.
 
 ## 🗺️ Primeros Pasos (Bootstrap)
 
