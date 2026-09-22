@@ -2,6 +2,9 @@
 import { DISCORD_URL } from "../lib/constants";
 import SunIcon from "./icons/SunIcon.astro";
 import MoonIcon from "./icons/MoonIcon.astro";
+import MenuIcon from "./icons/MenuIcon.astro";
+import CloseIcon from "./icons/CloseIcon.astro";
+import DiscordIcon from "./icons/DiscordIcon.astro";
 
 const rawBase = import.meta.env.BASE_URL;
 const base = rawBase.endsWith("/") ? rawBase : `${rawBase}/`;
@@ -9,7 +12,7 @@ const base = rawBase.endsWith("/") ? rawBase : `${rawBase}/`;
 
 <header class="bg-surface border-b-[3px] border-border">
     <div
-        class="max-w-3xl mx-auto px-4 sm:px-6 h-auto min-h-16 py-3 flex flex-wrap items-center justify-between gap-3"
+        class="max-w-3xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-3"
     >
         <a
             href={base}
@@ -20,8 +23,9 @@ const base = rawBase.endsWith("/") ? rawBase : `${rawBase}/`;
             >
         </a>
 
+        <!-- Desktop nav — collapses behind the hamburger below sm. -->
         <nav
-            class="flex items-center gap-4 sm:gap-6 text-sm font-bold uppercase text-content"
+            class="hidden sm:flex items-center gap-4 sm:gap-6 text-sm font-bold uppercase text-content"
         >
             <a
                 href={`${base}resources`}
@@ -37,12 +41,13 @@ const base = rawBase.endsWith("/") ? rawBase : `${rawBase}/`;
             >
             <a
                 href={`${base}activities`}
+                data-i18n="navActivities"
                 class="hover:underline decoration-[3px] underline-offset-4"
                 >Dinámicas</a
             >
         </nav>
 
-        <div class="flex items-center gap-3 shrink-0">
+        <div class="flex items-center gap-2 sm:gap-3 shrink-0">
             <button
                 id="theme-toggle"
                 type="button"
@@ -64,10 +69,73 @@ const base = rawBase.endsWith("/") ? rawBase : `${rawBase}/`;
                 href={DISCORD_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                class="inline-flex items-center gap-1.5 px-3 py-1.5 border-[3px] border-border bg-primary text-content-inverse text-xs font-bold uppercase shadow-brutal-sm transition-transform hover:translate-x-[3px] hover:translate-y-[3px] hover:shadow-none"
+                class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 border-[3px] border-border bg-primary text-content-inverse text-xs font-bold uppercase shadow-brutal-sm transition-transform hover:translate-x-[3px] hover:translate-y-[3px] hover:shadow-none"
             >
                 Discord
             </a>
+            <button
+                id="nav-toggle"
+                type="button"
+                class="sm:hidden inline-flex items-center justify-center w-8 h-8 border-[3px] border-border bg-surface text-content hover:bg-accent hover:text-on-accent transition-colors"
+                aria-label="Abrir menú"
+                aria-expanded="false"
+                aria-controls="mobile-nav"
+            >
+                <MenuIcon id="nav-icon-open" class="w-4 h-4" />
+                <CloseIcon id="nav-icon-close" class="w-4 h-4" hidden />
+            </button>
         </div>
     </div>
+
+    <!-- Mobile nav panel — same links/CTA as the desktop row above, just
+         stacked and only reachable below sm via the hamburger. -->
+    <div
+        id="mobile-nav"
+        class="hidden sm:hidden border-t-[3px] border-border bg-surface px-4 py-4"
+    >
+        <nav
+            class="flex flex-col gap-1 text-sm font-bold uppercase text-content mb-4"
+        >
+            <a
+                href={`${base}resources`}
+                data-i18n="navResources"
+                class="py-2 border-b-[3px] border-border hover:text-primary"
+                >Recursos</a
+            >
+            <a
+                href={`${base}events`}
+                data-i18n="navEvents"
+                class="py-2 border-b-[3px] border-border hover:text-primary"
+                >Eventos</a
+            >
+            <a
+                href={`${base}activities`}
+                data-i18n="navActivities"
+                class="py-2 hover:text-primary">Dinámicas</a
+            >
+        </nav>
+        <a
+            href={DISCORD_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="flex items-center justify-center gap-1.5 px-3 py-2.5 border-[3px] border-border bg-primary text-content-inverse text-xs font-bold uppercase shadow-brutal-sm"
+        >
+            <DiscordIcon class="w-4 h-4" />
+            Discord
+        </a>
+    </div>
 </header>
+
+<script>
+    const navToggle = document.getElementById("nav-toggle");
+    const mobileNav = document.getElementById("mobile-nav");
+    const iconOpen = document.getElementById("nav-icon-open");
+    const iconClose = document.getElementById("nav-icon-close");
+
+    navToggle?.addEventListener("click", () => {
+        const nowOpen = mobileNav?.classList.toggle("hidden") === false;
+        navToggle.setAttribute("aria-expanded", String(nowOpen));
+        iconOpen?.toggleAttribute("hidden", nowOpen);
+        iconClose?.toggleAttribute("hidden", !nowOpen);
+    });
+</script>
