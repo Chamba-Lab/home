@@ -1,7 +1,9 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import RouletteWheel from "../components/RouletteWheel";
 import { getCollection } from "astro:content";
+
+const rawBase = import.meta.env.BASE_URL;
+const base = rawBase.endsWith("/") ? rawBase : `${rawBase}/`;
 
 const dinamicasData = await getCollection("dinamicas");
 const config = dinamicasData[0]?.data;
@@ -10,7 +12,7 @@ if (!config) {
     throw new Error("Dinamicas configuration not found");
 }
 
-const { activities, roulette } = config;
+const { activities } = config;
 ---
 
 <Layout title="Chamba Lab | Dinámicas">
@@ -33,18 +35,13 @@ const { activities, roulette } = config;
         </div>
 
         <section class="mb-14">
-            <h2
-                class="inline-block text-sm font-bold uppercase tracking-wide text-content mb-4 border-b-[3px] border-accent pb-1"
-            >
-                Actividades
-            </h2>
             <div class="grid sm:grid-cols-2 gap-4">
                 {
                     activities.map((activity, i) =>
                         activity.status === "available" ? (
                             <a
-                                href={`#${activity.id}`}
-                                class="block border-[3px] border-border bg-surface p-5 shadow-brutal-sm transition-transform hover:translate-x-[3px] hover:translate-y-[3px] hover:shadow-none"
+                                href={`${base}dinamicas/${activity.id}`}
+                                class="block border-[3px] border-border bg-surface p-5 shadow-brutal transition-transform hover:translate-x-[3px] hover:translate-y-[3px] hover:shadow-none"
                             >
                                 <p class="text-xs font-bold uppercase text-primary mb-1">
                                     Dinámica {String(i + 1).padStart(2, "0")}
@@ -73,56 +70,6 @@ const { activities, roulette } = config;
                 }
             </div>
         </section>
-
-        <section id="roulette" class="mb-14 max-w-xl mx-auto scroll-mt-24">
-            <p
-                class="text-xs font-bold uppercase text-primary mb-1 text-center"
-            >
-                Dinámica 01
-            </p>
-            <h2
-                class="text-2xl font-display uppercase mb-6 text-content text-center"
-            >
-                🎡 La Ruleta
-            </h2>
-
-            <div
-                class="border-[3px] border-border bg-surface p-5 sm:p-8 shadow-brutal"
-            >
-                <RouletteWheel
-                    client:load
-                    presets={roulette.presets}
-                    freeModePlaceholder={roulette.freeMode.placeholder}
-                    freeModeMaxOptions={roulette.freeMode.maxOptions}
-                />
-            </div>
-        </section>
-
-        <div
-            class="mb-14 max-w-xl mx-auto p-6 border-[3px] border-border bg-surface"
-        >
-            <h3 class="text-lg font-bold uppercase text-content mb-3">
-                💡 Cómo usar la ruleta
-            </h3>
-            <ul class="space-y-2 text-sm text-muted">
-                <li>
-                    <strong class="text-content">Ruleta Libre:</strong> Agrega tus
-                    propias opciones (máximo 12).
-                </li>
-                <li>
-                    <strong class="text-content">Temas Preestablecidos:</strong>
-                    Elige entre empleabilidad, debates tech, o qué aprender en 2026.
-                </li>
-                <li>
-                    <strong class="text-content">Gira y descubre:</strong> El resultado
-                    aparece en la tarjeta dorada abajo.
-                </li>
-                <li>
-                    <strong class="text-content">Úsalo en equipo:</strong>
-                    Perfecta para sesiones de Discord, eventos o talleres.
-                </li>
-            </ul>
-        </div>
 
         <div class="text-center">
             <p class="text-sm text-muted mb-4">

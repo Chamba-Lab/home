@@ -3,7 +3,7 @@
         "id": "roulette",
         "activities": [
             {
-                "id": "roulette",
+                "id": "ruleta",
                 "name": "🎡 La Ruleta",
                 "description": "Gira y descubre un tema para debatir o improvisar. Modo libre o temas preestablecidos.",
                 "status": "available"
