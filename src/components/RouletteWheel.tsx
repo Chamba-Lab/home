@@ -294,7 +294,7 @@ export default function RouletteWheel({
     return (
         <div className="space-y-6">
             {/* Mode Selector */}
-            <div className="flex flex-wrap gap-3 border-b-[3px] border-border pb-4">
+            <div className="grid grid-cols-2 gap-3 border-b-[3px] border-border pb-4">
                 <button
                     type="button"
                     onClick={() => switchMode("free")}
