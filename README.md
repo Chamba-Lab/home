@@ -5,9 +5,9 @@
 > **Community-Led Tech Platform**  
 > *Democratizando el acceso a oportunidades laborales en tech.*
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-indigo.svg)](https://opensource.org/licenses/MIT)
+[![License: MIT](https://img.shields.io/badge/License-MIT-indigo.svg)](./LICENSE)
 [![CI/CD Status](https://github.com/Chamba-Lab/home/actions/workflows/master-pipeline.yml/badge.svg)](https://github.com/Chamba-Lab/home/actions)
-[![Astro](https://img.shields.io/badge/Astro-5.x-BC52EE.svg)](https://astro.build)
+[![Astro](https://img.shields.io/badge/Astro-7.x-BC52EE.svg)](https://astro.build)
 [![TailwindCSS](https://img.shields.io/badge/Tailwind-4.x-38B2AC.svg)](https://tailwindcss.com)
 
 ## 📌 Nuestra Misión
@@ -16,13 +16,13 @@ Somos una comunidad tech para quienes construyen su carrera en tecnología — e
 
 ---
 
-## 🛠 Tech Stack: "Barrio Moderno"
+## 🛠 Tech Stack
 
 Construido para ser rápido, accesible y escalable.
 
-- **Frontend**: [Astro 5.x](https://astro.build) (Optimizado para rendimiento extremo).
-- **UI Library**: [React 18+](https://reactjs.org) (Utilizado en "Islas" de interacción).
-- **Styling**: [TailwindCSS 4.x](https://tailwindcss.com) (Esmaltado moderno y minimalista).
+- **Frontend**: [Astro 7.x](https://astro.build) (Optimizado para rendimiento extremo).
+- **UI Library**: [React 19+](https://reactjs.org) (Utilizado en "Islas" de interacción).
+- **Styling**: [TailwindCSS 4.x](https://tailwindcss.com), sistema de diseño neo-brutalista (bordes gruesos, sombra dura, indigo + oro) — ver [AGENTS.md](./AGENTS.md#3-design-system-neo-brutalista-indigooro).
 - **CI/CD**: GitHub Actions + `release-it` para versionado automático.
 
 ---
@@ -30,7 +30,7 @@ Construido para ser rápido, accesible y escalable.
 ## 🚀 Comenzando
 
 ### Prerrequisitos
-- **Node.js**: v20 o superior
+- **Node.js**: v22.12+ (ver `engines` en `package.json`)
 - **Gestor de paquetes**: npm (recomendado)
 
 ### Instalación Local
@@ -86,7 +86,7 @@ Al realizar un push a la rama `master`, el sistema activa:
 
 ## 📄 Licencia
 
-Este proyecto está bajo la Licencia MIT. Consulta el archivo `LICENSE` para más detalles.
+Este proyecto está bajo la Licencia MIT. Consulta el archivo [`LICENSE`](./LICENSE) para más detalles.
 
 ---
 <p align="center">Hecho con ❤️ por la comunidad de Chamba Lab</p>
