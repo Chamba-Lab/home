@@ -49,8 +49,11 @@ Nuestra estrategia se basa en dos columnas vertebrales que sostienen el crecimie
     *   Networking mixers.
     *   Exportar cada evento a calendario personal (`.ics`) o suscribirse al calendario general de la comunidad (feed ICS siempre actualizado).
 5.  **Dinámicas**:
-    *   Mini actividades para la comunidad, empezando por una ruleta con opciones configurables (ej. temas de empleabilidad a debatir, prompts de improvisación).
-    *   Pensada para sesiones en vivo (Discord/eventos) tanto como para uso libre en el sitio.
+    *   Mini actividades para la comunidad, comenzando con una **ruleta configurable** (✅ implementada).
+    *   Modo libre: usuarios aportan opciones personalizadas (máx 12).
+    *   Modo preestablecido: tres packs temáticos precargados (Empleabilidad, Debates Tech, Qué Aprender 2026).
+    *   Canvas 2D animado con resultado destacado en tarjeta.
+    *   Próximo: agregar más actividades (preguntas rápidas, minijuegos, etc.).
 
 ## 🗺️ Primeros Pasos (Bootstrap)
 
