@@ -6,12 +6,69 @@ interface RouletteWheelProps {
     freeModeMaxOptions: number;
 }
 
-const SLICE_COLORS_HUE = [280, 240, 200, 160, 120, 80, 40, 0];
 const SPIN_DURATION_MS = 3000;
 const MIN_SPIN_TURNS = 6;
+const CANVAS_SIZE = 320;
+
+interface WheelPalette {
+    border: string;
+    muted: string;
+    surface: string;
+    slices: Array<{ fill: string; text: string }>;
+    selectedFill: string;
+    selectedText: string;
+}
 
 function easeOutCubic(t: number) {
     return 1 - Math.pow(1 - t, 3);
+}
+
+function readPalette(el: HTMLElement): WheelPalette {
+    const styles = getComputedStyle(el);
+    const read = (name: string) => styles.getPropertyValue(name).trim();
+
+    const border = read("--color-border");
+    const muted = read("--color-muted");
+    const surface = read("--color-surface");
+    const primary = read("--color-primary");
+    const primaryStrong = read("--color-primary-strong");
+    const accent = read("--color-accent");
+    const content = read("--color-content");
+    const contentInverse = read("--color-content-inverse");
+    const onAccent = read("--color-on-accent");
+
+    return {
+        border,
+        muted,
+        surface,
+        slices: [
+            { fill: primary, text: contentInverse },
+            { fill: accent, text: onAccent },
+            { fill: primaryStrong, text: contentInverse },
+            { fill: surface, text: content },
+        ],
+        selectedFill: accent,
+        selectedText: onAccent,
+    };
+}
+
+// Truncates `text` with an ellipsis so it fits within `maxWidth` px at the
+// canvas's current font — slice labels are real option text now, which can
+// easily overrun a narrow pie slice unlike the single-digit numbers before.
+function truncateToFit(
+    ctx: CanvasRenderingContext2D,
+    text: string,
+    maxWidth: number,
+) {
+    if (ctx.measureText(text).width <= maxWidth) return text;
+    let truncated = text;
+    while (
+        truncated.length > 1 &&
+        ctx.measureText(`${truncated}…`).width > maxWidth
+    ) {
+        truncated = truncated.slice(0, -1);
+    }
+    return `${truncated}…`;
 }
 
 export default function RouletteWheel({
@@ -50,42 +107,61 @@ export default function RouletteWheel({
         const ctx = canvas.getContext("2d");
         if (!ctx) return;
 
-        const size = canvas.width;
+        // Render at device-pixel resolution so real words stay crisp — the
+        // old single-digit labels could get away with a soft canvas, text
+        // can't. `size` below stays in logical (CSS) px for all the layout
+        // math; only the transform scales up to the backing store.
+        const dpr = window.devicePixelRatio || 1;
+        const size = CANVAS_SIZE;
+        const targetPx = Math.round(size * dpr);
+        if (canvas.width !== targetPx || canvas.height !== targetPx) {
+            canvas.width = targetPx;
+            canvas.height = targetPx;
+        }
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+        const palette = readPalette(canvas);
         const centerX = size / 2;
         const centerY = size / 2;
-        const radius = size / 2 - 4;
+        const radius = size / 2 - 6;
 
         ctx.clearRect(0, 0, size, size);
 
         if (options.length < 2) {
             ctx.beginPath();
             ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
-            ctx.fillStyle = "#e5e5e5";
+            ctx.fillStyle = palette.surface;
             ctx.fill();
-            ctx.strokeStyle = "#111111";
-            ctx.lineWidth = 2;
+            ctx.strokeStyle = palette.border;
+            ctx.lineWidth = 3;
             ctx.stroke();
 
-            ctx.fillStyle = "#666666";
-            ctx.font = "bold 12px Inter, sans-serif";
+            ctx.fillStyle = palette.muted;
+            ctx.font = "bold 13px Inter, sans-serif";
             ctx.textAlign = "center";
             ctx.textBaseline = "middle";
-            ctx.fillText("Agrega al menos", centerX, centerY - 8);
-            ctx.fillText("2 opciones", centerX, centerY + 8);
+            ctx.fillText("Agrega al menos", centerX, centerY - 9);
+            ctx.fillText("2 opciones", centerX, centerY + 9);
             return;
         }
 
         const sliceAngle = (Math.PI * 2) / options.length;
         const rotationRad = (rotationDeg * Math.PI) / 180;
+        const labelRadius = radius * 0.62;
+        const fontSize =
+            options.length <= 4 ? 14 : options.length <= 8 ? 12 : 10.5;
+        // Text runs tangentially (perpendicular to the radius), so the space
+        // it has to work with is the slice's chord width at `labelRadius`,
+        // not the slice's radial depth.
+        const maxLabelWidth = 2 * labelRadius * Math.sin(sliceAngle / 2) * 0.82;
 
-        options.forEach((_, i) => {
+        options.forEach((option, i) => {
             const angle = i * sliceAngle + rotationRad;
             const nextAngle = angle + sliceAngle;
+            const isSelected = i === selectedIndex;
+            const swatch = palette.slices[i % palette.slices.length];
 
-            ctx.fillStyle =
-                i === selectedIndex
-                    ? "rgba(79, 70, 229, 0.9)"
-                    : `hsl(${SLICE_COLORS_HUE[i % SLICE_COLORS_HUE.length]}, 70%, 55%)`;
+            ctx.fillStyle = isSelected ? palette.selectedFill : swatch.fill;
 
             ctx.beginPath();
             ctx.moveTo(centerX, centerY);
@@ -93,24 +169,37 @@ export default function RouletteWheel({
             ctx.closePath();
             ctx.fill();
 
-            ctx.strokeStyle = "#111111";
-            ctx.lineWidth = 2;
+            ctx.strokeStyle = palette.border;
+            ctx.lineWidth = isSelected ? 4 : 2.5;
             ctx.stroke();
 
             const textAngle = angle + sliceAngle / 2;
-            const textX = centerX + Math.cos(textAngle) * (radius * 0.65);
-            const textY = centerY + Math.sin(textAngle) * (radius * 0.65);
+            const textX = centerX + Math.cos(textAngle) * labelRadius;
+            const textY = centerY + Math.sin(textAngle) * labelRadius;
 
             ctx.save();
             ctx.translate(textX, textY);
             ctx.rotate(textAngle + Math.PI / 2);
-            ctx.fillStyle = "#ffffff";
-            ctx.font = "bold 11px Inter, sans-serif";
+            ctx.fillStyle = isSelected ? palette.selectedText : swatch.text;
+            ctx.font = `bold ${isSelected ? fontSize + 1 : fontSize}px Inter, sans-serif`;
             ctx.textAlign = "center";
             ctx.textBaseline = "middle";
-            ctx.fillText(String(i + 1), 0, 0);
+            ctx.fillText(
+                truncateToFit(ctx, option.toUpperCase(), maxLabelWidth),
+                0,
+                0,
+            );
             ctx.restore();
         });
+
+        // Center hub — a flat brutalist button cap over the slice tips.
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, radius * 0.13, 0, Math.PI * 2);
+        ctx.fillStyle = palette.surface;
+        ctx.fill();
+        ctx.lineWidth = 3;
+        ctx.strokeStyle = palette.border;
+        ctx.stroke();
     };
 
     // Redraw whenever the actual set of options changes (mode switch, preset
@@ -149,12 +238,26 @@ export default function RouletteWheel({
 
         const newIndex = Math.floor(Math.random() * options.length);
         const sliceDeg = 360 / options.length;
-        // Land the pointer (fixed at the top, 12 o'clock) on the middle of
-        // the winning slice after `MIN_SPIN_TURNS` full turns.
+        // Slice angles in drawWheel are measured clockwise from the 3
+        // o'clock direction (canvas arc convention), but the pointer is
+        // drawn fixed at the top of the wheel — 12 o'clock, i.e. 270° in
+        // that same convention. Rotate so the winning slice's center lands
+        // under the pointer there, not at 0°.
+        const POINTER_ANGLE_DEG = 270;
         const targetSliceCenter = newIndex * sliceDeg + sliceDeg / 2;
-        const finalRotation = MIN_SPIN_TURNS * 360 + (360 - targetSliceCenter);
+        const targetAbsoluteRotation =
+            (((POINTER_ANGLE_DEG - targetSliceCenter) % 360) + 360) % 360;
 
         const startRotation = rotationRef.current % 360;
+        // `finalRotation` is added on top of `startRotation` (not the wheel's
+        // absolute angle), so it must first cancel out whatever rotation is
+        // already on the wheel before adding the full spin turns — otherwise
+        // rotation carried over from a previous spin throws off where the
+        // winning slice actually lands under the pointer.
+        const finalRotation =
+            MIN_SPIN_TURNS * 360 +
+            ((((targetAbsoluteRotation - startRotation) % 360) + 360) % 360);
+
         const startTime = performance.now();
 
         const animate = (now: number) => {
@@ -289,8 +392,8 @@ export default function RouletteWheel({
                 <div className="relative w-full max-w-[260px]">
                     <canvas
                         ref={canvasRef}
-                        width={320}
-                        height={320}
+                        width={CANVAS_SIZE}
+                        height={CANVAS_SIZE}
                         className="w-full aspect-square border-[3px] border-border shadow-brutal"
                     />
                     <div className="absolute -top-[2px] left-1/2 -translate-x-1/2 w-0 h-0 border-l-[10px] border-r-[10px] border-t-[16px] border-l-transparent border-r-transparent border-t-accent z-10" />
