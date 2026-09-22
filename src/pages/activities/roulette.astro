@@ -6,11 +6,11 @@ import { getCollection } from "astro:content";
 const rawBase = import.meta.env.BASE_URL;
 const base = rawBase.endsWith("/") ? rawBase : `${rawBase}/`;
 
-const dinamicasData = await getCollection("dinamicas");
-const config = dinamicasData[0]?.data;
+const activitiesData = await getCollection("activities");
+const config = activitiesData[0]?.data;
 
 if (!config) {
-    throw new Error("Dinamicas configuration not found");
+    throw new Error("Activities configuration not found");
 }
 
 const { roulette } = config;
@@ -19,7 +19,7 @@ const { roulette } = config;
 <Layout title="Chamba Lab | La Ruleta">
     <main class="max-w-xl mx-auto px-6 py-20 sm:py-28">
         <a
-            href={`${base}dinamicas`}
+            href={`${base}activities`}
             class="inline-block text-sm font-bold uppercase text-primary mb-6 hover:underline decoration-[3px] underline-offset-4"
         >
             ← Dinámicas

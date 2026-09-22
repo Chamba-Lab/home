@@ -33,8 +33,8 @@ const events = defineCollection({
     }),
 });
 
-const dinamicas = defineCollection({
-    loader: file("src/content/dinamicas.json"),
+const activities = defineCollection({
+    loader: file("src/content/activities.json"),
     schema: z.object({
         activities: z.array(
             z.object({
@@ -60,4 +60,4 @@ const dinamicas = defineCollection({
     }),
 });
 
-export const collections = { resources, events, dinamicas };
+export const collections = { resources, events, activities };

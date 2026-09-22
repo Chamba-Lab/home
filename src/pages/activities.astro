@@ -5,11 +5,11 @@ import { getCollection } from "astro:content";
 const rawBase = import.meta.env.BASE_URL;
 const base = rawBase.endsWith("/") ? rawBase : `${rawBase}/`;
 
-const dinamicasData = await getCollection("dinamicas");
-const config = dinamicasData[0]?.data;
+const activitiesData = await getCollection("activities");
+const config = activitiesData[0]?.data;
 
 if (!config) {
-    throw new Error("Dinamicas configuration not found");
+    throw new Error("Activities configuration not found");
 }
 
 const { activities } = config;
@@ -40,7 +40,7 @@ const { activities } = config;
                     activities.map((activity, i) =>
                         activity.status === "available" ? (
                             <a
-                                href={`${base}dinamicas/${activity.id}`}
+                                href={`${base}activities/${activity.id}`}
                                 class="block border-[3px] border-border bg-surface p-5 shadow-brutal transition-transform hover:translate-x-[3px] hover:translate-y-[3px] hover:shadow-none"
                             >
                                 <p class="text-xs font-bold uppercase text-primary mb-1">
