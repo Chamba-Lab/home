@@ -23,13 +23,14 @@
 *   **Runtime**: **Node.js >=22.12.0** (ver `engines` en `package.json`; el pipeline usa `lts/*`).
 
 ### Site Structure
-*   **Páginas**: `/` (hero + intro + CTA), `/recursos` (guías y plataformas curadas), `/eventos` (formatos de sesiones recurrentes).
+*   **Páginas**: `/` (hero + intro + CTA), `/recursos` (guías y plataformas curadas), `/eventos` (formatos de sesiones recurrentes), `/dinamicas` (mini actividades comunitarias — ruleta configurable).
 *   **Layout compartido**: `src/layouts/Layout.astro` monta `Header` y `Footer` (`src/components/`), inicializa el toggle de idioma y el de tema (claro/oscuro), y trae los componentes reutilizables (`DiscordCta`, `ResourceCard`, `EventItem`, `icons/*`) usados por las páginas.
 *   **i18n**: diccionario en `src/i18n/translations.ts`. El toggle traduce chrome estructural (nav, hero, CTAs, títulos de sección) vía `data-i18n`, persistido en `localStorage` (`chamba-lab-lang`). El contenido específico de cada recurso/evento no se fuerza a traducir — se marca su idioma en la propia tarjeta (ver `docs/branding_concepts.md` sobre no forzar copy).
 *   **Tema (claro/oscuro)**: lógica en `src/lib/theme.ts`, toggle en el header (ícono sol/luna). Sigue la preferencia del sistema (`prefers-color-scheme`) por defecto; un click guarda una elección explícita en `localStorage` (`chamba-lab-theme`) vía `data-theme` en `<html>`, que tiene prioridad sobre el sistema. Un script inline en el `<head>` de `Layout.astro` aplica el tema guardado antes del primer paint para evitar parpadeo.
+*   **Dinámicas (Ruleta)**: isla React (`src/components/RouletteWheel.tsx`) con dos modos. Configurable vía `src/content/dinamicas.json` — tres presets precargados (Empleabilidad, Debates Tech, Qué Aprender 2026) o modo libre donde usuarios ingresan opciones personalizadas (máx 12). Canvas 2D animado con easing, resultado mostrado en card dorada. Datos de presets editables sin tocar código React.
 *   **Próximas páginas/features (backlog)** — ver detalle de producto en `docs/project.md`:
     *   **Calendario de eventos**: exportar cada evento de `/eventos` a `.ics` y/o suscribirse (feed ICS) al calendario general de la comunidad.
-    *   **`/dinamicas`**: nueva página con mini actividades comunitarias — arranca con una ruleta configurable (ej. temas de empleabilidad a debatir, prompts de improvisación) con opciones por defecto editables.
+    *   **Más dinámicas**: extensión de `/dinamicas` con nuevas actividades (preguntas rápidas, minijuegos, etc.) más allá de la ruleta inicial.
 
 ### Backend & Data (Evolutionary)
 *   **Phase 1 (Static)**: JSON files como "base de datos" (Content Collections de Astro, `src/content.config.ts` + `src/content/*.json`). **Strict Static Site Generation (SSG)** para compatibilidad con GitHub Pages.
