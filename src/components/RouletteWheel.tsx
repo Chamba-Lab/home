@@ -19,7 +19,9 @@ export default function RouletteWheel({
     freeModePlaceholder,
     freeModeMaxOptions,
 }: RouletteWheelProps) {
-    const [mode, setMode] = useState<"free" | "preset">("free");
+    // Default to "preset" so the wheel is populated and visible immediately;
+    // "free" mode starts with zero options, which renders as an empty circle.
+    const [mode, setMode] = useState<"free" | "preset">("preset");
     const [selectedPresetId, setSelectedPresetId] = useState(
         presets[0]?.id ?? "",
     );
