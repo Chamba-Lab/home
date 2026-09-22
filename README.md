@@ -27,6 +27,20 @@ Construido para ser rápido, accesible y escalable.
 
 ---
 
+## 🧭 Estructura del sitio
+
+| Ruta | Contenido |
+| :--- | :--- |
+| `/` | Hero + intro + CTA a Discord |
+| `/resources` | Guías, plantillas y plataformas de práctica curadas |
+| `/events` | Próximos eventos y sesiones recurrentes de la comunidad |
+| `/activities` | Hub de mini actividades comunitarias (dinámicas) |
+| `/activities/roulette` | La Ruleta — dinámica interactiva con temas preestablecidos o modo libre |
+
+Rutas siempre en inglés (buenas prácticas), aunque el copy visible es en español con toggle a inglés (`ES`/`EN` en el header). El header también incluye toggle de tema claro/oscuro y colapsa a menú hamburguesa en mobile. Detalle técnico completo en [AGENTS.md](./AGENTS.md#site-structure).
+
+---
+
 ## 🚀 Comenzando
 
 ### Prerrequisitos
