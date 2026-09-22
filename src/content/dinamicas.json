@@ -1,6 +1,20 @@
 [
     {
         "id": "roulette",
+        "activities": [
+            {
+                "id": "roulette",
+                "name": "🎡 La Ruleta",
+                "description": "Gira y descubre un tema para debatir o improvisar. Modo libre o temas preestablecidos.",
+                "status": "available"
+            },
+            {
+                "id": "quick-questions",
+                "name": "⚡ Preguntas Rápidas",
+                "description": "Quiz relámpago para romper el hielo en sesiones de la comunidad.",
+                "status": "coming-soon"
+            }
+        ],
         "roulette": {
             "freeMode": {
                 "placeholder": "Escribe opciones, una por línea...",

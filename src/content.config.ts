@@ -36,6 +36,14 @@ const events = defineCollection({
 const dinamicas = defineCollection({
     loader: file("src/content/dinamicas.json"),
     schema: z.object({
+        activities: z.array(
+            z.object({
+                id: z.string(),
+                name: z.string(),
+                description: z.string(),
+                status: z.enum(["available", "coming-soon"]),
+            }),
+        ),
         roulette: z.object({
             freeMode: z.object({
                 placeholder: z.string(),
