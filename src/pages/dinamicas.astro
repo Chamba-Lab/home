@@ -1,0 +1,84 @@
+---
+import Layout from "../layouts/Layout.astro";
+import RouletteWheel from "../components/RouletteWheel";
+import { getCollection } from "astro:content";
+
+const dinamicasData = await getCollection("dinamicas");
+const config = dinamicasData[0]?.data;
+
+if (!config) {
+    throw new Error("Dinamicas configuration not found");
+}
+---
+
+<Layout title="Chamba Lab | Dinámicas">
+    <main class="max-w-3xl mx-auto px-6 py-20 sm:py-28">
+        <div class="mb-12">
+            <h1
+                class="text-4xl md:text-5xl font-display uppercase mb-4 tracking-tight text-content"
+                data-i18n="dynamicsTitle"
+            >
+                Dinámicas
+            </h1>
+            <p
+                class="text-lg text-muted leading-relaxed"
+                data-i18n="dynamicsIntro"
+            >
+                Mini actividades para la comunidad. Gira la ruleta, elige un
+                tema, debate en vivo o desafíate a ti mismo. Perfecto para
+                sesiones en Discord, eventos o simplemente para romper el hielo.
+            </p>
+        </div>
+
+        <div class="border-[3px] border-border bg-surface p-8 shadow-brutal">
+            <h2 class="text-2xl font-display uppercase mb-6 text-content">
+                🎡 La Ruleta
+            </h2>
+
+            <RouletteWheel
+                client:load
+                presets={config.roulette.presets}
+                freeModePlaceholder={config.roulette.freeMode.placeholder}
+                freeModeMaxOptions={config.roulette.freeMode.maxOptions}
+            />
+        </div>
+
+        <div class="mt-12 p-6 border-[3px] border-border bg-surface">
+            <h3 class="text-lg font-bold uppercase text-content mb-3">
+                💡 Cómo usar
+            </h3>
+            <ul class="space-y-2 text-sm text-muted">
+                <li>
+                    <strong class="text-content">Ruleta Libre:</strong> Agrega tus
+                    propias opciones (máximo 12).
+                </li>
+                <li>
+                    <strong class="text-content">Temas Preestablecidos:</strong>
+                    Elige entre empleabilidad, debates tech, o qué aprender en 2026.
+                </li>
+                <li>
+                    <strong class="text-content">Gira y descubre:</strong> El resultado
+                    aparece en la tarjeta dorada abajo.
+                </li>
+                <li>
+                    <strong class="text-content">Úsalo en equipo:</strong>
+                    Perfecta para sesiones de Discord, eventos o talleres.
+                </li>
+            </ul>
+        </div>
+
+        <div class="mt-12 text-center">
+            <p class="text-sm text-muted mb-4">
+                ¿Ideas para más dinámicas? Comparte en Discord
+            </p>
+            <a
+                href="https://discord.gg/TCuZSnfKTE"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-block px-6 py-3 border-[3px] border-border bg-primary text-content-inverse font-bold uppercase text-sm shadow-brutal transition-transform hover:translate-x-[3px] hover:translate-y-[3px] hover:shadow-none"
+            >
+                Ir a Discord
+            </a>
+        </div>
+    </main>
+</Layout>

@@ -1,0 +1,57 @@
+[
+    {
+        "id": "roulette",
+        "roulette": {
+            "freeMode": {
+                "placeholder": "Escribe opciones, una por línea...",
+                "maxOptions": 12
+            },
+            "presets": [
+                {
+                    "id": "employability",
+                    "name": "💼 Empleabilidad",
+                    "options": [
+                        "¿Cuál fue tu primer proyecto que sentiste orgullo?",
+                        "Salarios: ¿cómo negociaste el tuyo?",
+                        "Remote vs oficina: ventajas y trampas",
+                        "¿Cómo superaste el síndrome del impostor?",
+                        "Errores en tu primer trabajo y qué aprendiste",
+                        "Networking: ¿cómo conseguiste tu primer contacto en tech?",
+                        "Side projects: ¿cuánto tiempo dedicas y por qué?",
+                        "Cambio de carrera a tech: ¿cuál fue tu ruta?"
+                    ]
+                },
+                {
+                    "id": "tech-debates",
+                    "name": "⚔️ Debates Tech",
+                    "options": [
+                        "API REST vs GraphQL vs gRPC",
+                        "Microservicios vs Monolito",
+                        "TypeScript vs JavaScript",
+                        "SQL vs NoSQL: casos de uso",
+                        "Serverless vs Containers",
+                        "Monorepo vs Multirepo",
+                        "OOP vs Programación Funcional",
+                        "Testing: Unit vs Integration vs E2E (¿cuál priorizar?)"
+                    ]
+                },
+                {
+                    "id": "learning-2026",
+                    "name": "🚀 Qué Aprender en 2026",
+                    "options": [
+                        "Python + AI/ML (LangChain, TensorFlow)",
+                        "TypeScript + React/Next.js",
+                        "Rust (rendimiento y seguridad)",
+                        "Go (backends escalables)",
+                        "Kubernetes + DevOps",
+                        "AWS/GCP (cloud native)",
+                        "GraphQL + Apollo",
+                        "Astro + astro-db (fullstack islands)",
+                        "PostgreSQL (master de SQL)",
+                        "Web3/Blockchain (Solidity, smart contracts)"
+                    ]
+                }
+            ]
+        }
+    }
+]

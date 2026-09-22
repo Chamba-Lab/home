@@ -16,6 +16,9 @@ export const translations = {
         filterAll: "Todos",
         noResourcesFound:
             "No encontramos recursos que coincidan con tu búsqueda.",
+        dynamicsTitle: "Dinámicas",
+        dynamicsIntro:
+            "Mini actividades para la comunidad. Gira la ruleta, elige un tema, debate en vivo o desafíate a ti mismo. Perfecto para sesiones en Discord, eventos o simplemente para romper el hielo.",
     },
     en: {
         langToggle: "ES",
@@ -33,6 +36,9 @@ export const translations = {
         noEvents: "No events scheduled this month.",
         filterAll: "All",
         noResourcesFound: "No resources match your search.",
+        dynamicsTitle: "Dynamics",
+        dynamicsIntro:
+            "Mini activities for the community. Spin the roulette, choose a topic, debate live, or challenge yourself. Perfect for Discord sessions, events, or just breaking the ice.",
     },
 } as const;
 

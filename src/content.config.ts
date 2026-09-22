@@ -33,4 +33,23 @@ const events = defineCollection({
     }),
 });
 
-export const collections = { resources, events };
+const dinamicas = defineCollection({
+    loader: file("src/content/dinamicas.json"),
+    schema: z.object({
+        roulette: z.object({
+            freeMode: z.object({
+                placeholder: z.string(),
+                maxOptions: z.number(),
+            }),
+            presets: z.array(
+                z.object({
+                    id: z.string(),
+                    name: z.string(),
+                    options: z.array(z.string()),
+                }),
+            ),
+        }),
+    }),
+});
+
+export const collections = { resources, events, dinamicas };
