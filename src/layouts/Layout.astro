@@ -16,6 +16,23 @@ const base = rawBase.endsWith("/") ? rawBase : `${rawBase}/`;
 <html lang="es">
     <head>
         <meta charset="UTF-8" />
+        <script is:inline>
+            // Runs before first paint so an explicit theme choice applies
+            // immediately, with no flash of the OS-default theme.
+            (function () {
+                try {
+                    var stored = localStorage.getItem("chamba-lab-theme");
+                    if (stored === "light" || stored === "dark") {
+                        document.documentElement.setAttribute(
+                            "data-theme",
+                            stored,
+                        );
+                    }
+                } catch {
+                    /* ignore storage access issues (private mode, etc.) */
+                }
+            })();
+        </script>
         <meta
             name="description"
             content="Chamba Lab: comunidad tech para crecer juntos. Únete en Discord."
@@ -24,71 +41,55 @@ const base = rawBase.endsWith("/") ? rawBase : `${rawBase}/`;
         <link rel="icon" type="image/svg+xml" href={`${base}favicon.svg`} />
         <meta name="generator" content={Astro.generator} />
         <title>{title}</title>
-        <!-- Google Fonts: Inter & Plus Jakarta Sans -->
+        <!-- Google Fonts: Inter & Archivo Black -->
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
         <link
-            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap"
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Archivo+Black&display=swap"
             rel="stylesheet"
         />
     </head>
     <body
-        class="bg-gray-50 dark:bg-slate-900 text-slate-900 dark:text-slate-100 font-sans antialiased min-h-screen selection:bg-indigo-500 selection:text-white"
+        class="bg-bg text-content font-sans antialiased min-h-screen selection:bg-primary selection:text-content-inverse"
     >
         <Header />
         <slot />
         <Footer />
 
         <script>
-            const translations = {
-                es: {
-                    langToggle: "EN",
-                    navResources: "Recursos",
-                    navEvents: "Eventos",
-                    badge: "Comunidad Tech",
-                    intro: "Una comunidad para quienes construyen su carrera en tech — estudiantes, profesionales y todo lo que hay en el medio. Compartimos conocimiento, oportunidades y apoyo real para crecer juntos. Todo pasa en nuestro Discord.",
-                    cta: "Unirse a Discord",
-                    resourcesTitle: "Recursos",
-                    resourcesIntro:
-                        "Una selección de guías, plataformas de práctica y plantillas que la comunidad recomienda.",
-                    eventsTitle: "Próximos eventos",
-                    eventsIntro:
-                        "El lanzamiento y las sesiones recurrentes de la comunidad. Fechas exactas siempre confirmadas en el canal #eventos de Discord.",
-                    noEvents: "No hay eventos programados este mes.",
-                    filterAll: "Todos",
-                    noResourcesFound:
-                        "No encontramos recursos que coincidan con tu búsqueda.",
-                },
-                en: {
-                    langToggle: "ES",
-                    navResources: "Resources",
-                    navEvents: "Events",
-                    badge: "Tech Community",
-                    intro: "A community for people building their careers in tech — students, professionals, and everyone in between. We share knowledge, opportunities, and real support to grow together. It all happens in our Discord.",
-                    cta: "Join Discord",
-                    resourcesTitle: "Resources",
-                    resourcesIntro:
-                        "A curated set of guides, practice platforms, and templates the community recommends.",
-                    eventsTitle: "Upcoming events",
-                    eventsIntro:
-                        "The launch and the community's recurring sessions. Exact dates are always confirmed in the #eventos channel on Discord.",
-                    noEvents: "No events scheduled this month.",
-                    filterAll: "All",
-                    noResourcesFound: "No resources match your search.",
-                },
-            };
+            import { translations, type Lang } from "../i18n/translations";
+            import { getStoredLang, setStoredLang } from "../i18n/lang";
+            import {
+                currentTheme,
+                getStoredTheme,
+                setStoredTheme,
+                type Theme,
+            } from "../lib/theme";
 
-            type Lang = keyof typeof translations;
-
-            function getStoredLang(): Lang {
-                try {
-                    const stored = localStorage.getItem("chamba-lab-lang");
-                    if (stored === "es" || stored === "en") return stored;
-                } catch {
-                    /* ignore storage access issues (private mode, etc.) */
-                }
-                return "es";
+            function syncThemeIcons(theme: Theme) {
+                const sun = document.getElementById("theme-icon-sun");
+                const moon = document.getElementById("theme-icon-moon");
+                if (sun) sun.hidden = theme !== "dark";
+                if (moon) moon.hidden = theme === "dark";
             }
+
+            syncThemeIcons(currentTheme());
+
+            document
+                .getElementById("theme-toggle")
+                ?.addEventListener("click", () => {
+                    const next: Theme =
+                        currentTheme() === "dark" ? "light" : "dark";
+                    document.documentElement.dataset.theme = next;
+                    setStoredTheme(next);
+                    syncThemeIcons(next);
+                });
+
+            window
+                .matchMedia("(prefers-color-scheme: dark)")
+                .addEventListener("change", () => {
+                    if (!getStoredTheme()) syncThemeIcons(currentTheme());
+                });
 
             function applyLang(lang: Lang) {
                 document.documentElement.lang = lang;
@@ -135,11 +136,7 @@ const base = rawBase.endsWith("/") ? rawBase : `${rawBase}/`;
                 ?.addEventListener("click", () => {
                     currentLang = currentLang === "es" ? "en" : "es";
                     applyLang(currentLang);
-                    try {
-                        localStorage.setItem("chamba-lab-lang", currentLang);
-                    } catch {
-                        /* ignore storage access issues (private mode, etc.) */
-                    }
+                    setStoredLang(currentLang);
                 });
         </script>
     </body>

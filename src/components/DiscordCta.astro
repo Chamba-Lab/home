@@ -1,0 +1,22 @@
+---
+import DiscordIcon from "./icons/DiscordIcon.astro";
+import { DISCORD_URL } from "../lib/constants";
+
+interface Props {
+    /** data-i18n key for the label; defaults to the shared "cta" string. */
+    i18nKey?: string;
+    label?: string;
+}
+
+const { i18nKey = "cta", label = "Unirse a Discord" } = Astro.props;
+---
+
+<a
+    href={DISCORD_URL}
+    target="_blank"
+    rel="noopener noreferrer"
+    class="inline-flex items-center justify-center gap-2 px-8 py-3 border-[3px] border-border bg-primary text-content-inverse font-bold uppercase text-sm shadow-brutal transition-transform hover:translate-x-[6px] hover:translate-y-[6px] hover:shadow-none"
+>
+    <DiscordIcon />
+    <span data-i18n={i18nKey}>{label}</span>
+</a>

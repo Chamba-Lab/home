@@ -1,0 +1,65 @@
+---
+interface Props {
+    day: number;
+    monthShortEn: string;
+    monthShortEs: string;
+    titleEs: string;
+    titleEn?: string;
+    descriptionEn: string;
+    descriptionEs?: string;
+    recurrenceLabelEn?: string;
+    recurrenceLabelEs?: string;
+}
+
+const {
+    day,
+    monthShortEn,
+    monthShortEs,
+    titleEs,
+    titleEn,
+    descriptionEn,
+    descriptionEs,
+    recurrenceLabelEn,
+    recurrenceLabelEs,
+} = Astro.props;
+---
+
+<li
+    class="flex gap-4 p-4 border-[3px] border-border bg-surface shadow-brutal-sm"
+>
+    <div
+        class="shrink-0 w-14 h-14 border-[3px] border-border bg-accent text-on-accent flex flex-col items-center justify-center leading-none"
+    >
+        <span class="text-xl font-bold">{day}</span>
+        <span
+            class="text-[10px] font-bold uppercase tracking-wide mt-0.5"
+            data-i18n-en={monthShortEn}
+            data-i18n-es={monthShortEs}
+        >
+            {monthShortEs}
+        </span>
+    </div>
+    <div class="min-w-0">
+        <div class="flex items-center gap-2 mb-1">
+            <h3 class="font-bold text-content">{titleEs ?? titleEn}</h3>
+            {
+                recurrenceLabelEn && (
+                    <span
+                        class="text-[10px] font-bold uppercase tracking-wide px-2 py-0.5 border-2 border-primary text-primary"
+                        data-i18n-en={recurrenceLabelEn}
+                        data-i18n-es={recurrenceLabelEs}
+                    >
+                        {recurrenceLabelEs ?? recurrenceLabelEn}
+                    </span>
+                )
+            }
+        </div>
+        <p
+            class="text-sm text-muted leading-relaxed"
+            data-i18n-en={descriptionEn}
+            data-i18n-es={descriptionEs}
+        >
+            {descriptionEs ?? descriptionEn}
+        </p>
+    </div>
+</li>

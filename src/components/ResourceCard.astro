@@ -1,0 +1,29 @@
+---
+interface Props {
+    title: string;
+    descriptionEn: string;
+    descriptionEs?: string;
+    url: string;
+    category: string;
+}
+
+const { title, descriptionEn, descriptionEs, url, category } = Astro.props;
+---
+
+<a
+    href={url}
+    target="_blank"
+    rel="noopener noreferrer"
+    data-resource-card={category}
+    class="relative block overflow-hidden border-[3px] border-border bg-surface p-5 pt-6 shadow-brutal transition-transform hover:translate-x-[6px] hover:translate-y-[6px] hover:shadow-none"
+>
+    <span class="absolute top-0 left-0 right-0 h-1.5 bg-primary"></span>
+    <h3 class="font-bold uppercase text-content mb-2">{title}</h3>
+    <p
+        class="text-sm text-muted leading-relaxed"
+        data-i18n-en={descriptionEn}
+        data-i18n-es={descriptionEs}
+    >
+        {descriptionEs ?? descriptionEn}
+    </p>
+</a>

@@ -1,5 +1,8 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import EventItem from "../components/EventItem.astro";
+import DiscordCta from "../components/DiscordCta.astro";
+import ChevronIcon from "../components/icons/ChevronIcon.astro";
 import { getCollection } from "astro:content";
 
 const MONTHS_AHEAD = 12;
@@ -92,13 +95,13 @@ const months = Array.from({ length: MONTHS_AHEAD }, (_, i) => {
 <Layout title="Chamba Lab | Eventos">
     <main class="max-w-2xl mx-auto px-6 py-20 sm:py-28">
         <h1
-            class="text-4xl md:text-5xl font-display font-bold mb-4 tracking-tight text-slate-900 dark:text-white"
+            class="text-4xl md:text-5xl font-display uppercase mb-4 tracking-tight text-content"
             data-i18n="eventsTitle"
         >
             Próximos eventos
         </h1>
         <p
-            class="text-lg text-slate-600 dark:text-slate-400 leading-relaxed mb-10"
+            class="text-lg text-muted leading-relaxed mb-10"
             data-i18n="eventsIntro"
         >
             El lanzamiento y las sesiones recurrentes de la comunidad. Fechas
@@ -110,24 +113,13 @@ const months = Array.from({ length: MONTHS_AHEAD }, (_, i) => {
                 id="month-prev"
                 type="button"
                 aria-label="Mes anterior"
-                class="w-9 h-9 flex items-center justify-center rounded-full border border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 hover:border-indigo-300 dark:hover:border-indigo-700 disabled:opacity-30 disabled:pointer-events-none transition-colors"
+                class="w-9 h-9 flex items-center justify-center border-[3px] border-border bg-surface text-content shadow-brutal-sm transition-transform hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none disabled:opacity-30 disabled:pointer-events-none disabled:shadow-brutal-sm disabled:translate-x-0 disabled:translate-y-0"
             >
-                <svg
-                    class="w-4 h-4"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke-width="2"
-                    stroke="currentColor"
-                >
-                    <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M15.75 19.5 8.25 12l7.5-7.5"></path>
-                </svg>
+                <ChevronIcon direction="left" />
             </button>
             <span
                 id="month-label"
-                class="text-sm font-semibold uppercase tracking-wide text-slate-700 dark:text-slate-300"
+                class="text-sm font-bold uppercase tracking-wide text-content"
             >
                 {months[0].labelEs}
             </span>
@@ -135,20 +127,9 @@ const months = Array.from({ length: MONTHS_AHEAD }, (_, i) => {
                 id="month-next"
                 type="button"
                 aria-label="Mes siguiente"
-                class="w-9 h-9 flex items-center justify-center rounded-full border border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 hover:border-indigo-300 dark:hover:border-indigo-700 disabled:opacity-30 disabled:pointer-events-none transition-colors"
+                class="w-9 h-9 flex items-center justify-center border-[3px] border-border bg-surface text-content shadow-brutal-sm transition-transform hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none disabled:opacity-30 disabled:pointer-events-none disabled:shadow-brutal-sm disabled:translate-x-0 disabled:translate-y-0"
             >
-                <svg
-                    class="w-4 h-4"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke-width="2"
-                    stroke="currentColor"
-                >
-                    <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="m8.25 4.5 7.5 7.5-7.5 7.5"></path>
-                </svg>
+                <ChevronIcon direction="right" />
             </button>
         </div>
 
@@ -164,97 +145,45 @@ const months = Array.from({ length: MONTHS_AHEAD }, (_, i) => {
                     >
                         {month.occurrences.length === 0 && (
                             <li
-                                class="text-sm text-slate-500 dark:text-slate-400 py-6 text-center border border-dashed border-slate-200 dark:border-slate-700 rounded-xl"
+                                class="text-sm text-muted py-6 text-center border-[3px] border-border"
                                 data-i18n="noEvents"
                             >
                                 No hay eventos programados este mes.
                             </li>
                         )}
                         {month.occurrences.map((occurrence) => (
-                            <li class="flex gap-4 p-4 rounded-xl bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 shadow-sm">
-                                <div class="shrink-0 w-14 h-14 rounded-lg bg-indigo-600 text-white flex flex-col items-center justify-center leading-none">
-                                    <span class="text-xl font-bold">
-                                        {occurrence.date.getDate()}
-                                    </span>
-                                    <span
-                                        class="text-[10px] font-semibold uppercase tracking-wide mt-0.5"
-                                        data-i18n-en={occurrence.date
-                                            .toLocaleDateString("en-US", {
-                                                month: "short",
-                                            })
-                                            .toUpperCase()}
-                                        data-i18n-es={occurrence.date
-                                            .toLocaleDateString("es-PE", {
-                                                month: "short",
-                                            })
-                                            .toUpperCase()}
-                                    >
-                                        {occurrence.date
-                                            .toLocaleDateString("es-PE", {
-                                                month: "short",
-                                            })
-                                            .toUpperCase()}
-                                    </span>
-                                </div>
-                                <div class="min-w-0">
-                                    <div class="flex items-center gap-2 mb-1">
-                                        <h3 class="font-semibold text-slate-900 dark:text-white">
-                                            {occurrence.title.es ??
-                                                occurrence.title.en}
-                                        </h3>
-                                        {occurrence.recurrenceLabel && (
-                                            <span
-                                                class="text-[10px] font-semibold uppercase tracking-wide px-1.5 py-0.5 rounded-full bg-indigo-50 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300"
-                                                data-i18n-en={
-                                                    occurrence.recurrenceLabel
-                                                        .en
-                                                }
-                                                data-i18n-es={
-                                                    occurrence.recurrenceLabel
-                                                        .es
-                                                }
-                                            >
-                                                {occurrence.recurrenceLabel
-                                                    .es ??
-                                                    occurrence.recurrenceLabel
-                                                        .en}
-                                            </span>
-                                        )}
-                                    </div>
-                                    <p
-                                        class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed"
-                                        data-i18n-en={occurrence.description.en}
-                                        data-i18n-es={occurrence.description.es}
-                                    >
-                                        {occurrence.description.es ??
-                                            occurrence.description.en}
-                                    </p>
-                                </div>
-                            </li>
+                            <EventItem
+                                day={occurrence.date.getDate()}
+                                monthShortEn={occurrence.date
+                                    .toLocaleDateString("en-US", {
+                                        month: "short",
+                                    })
+                                    .toUpperCase()}
+                                monthShortEs={occurrence.date
+                                    .toLocaleDateString("es-PE", {
+                                        month: "short",
+                                    })
+                                    .toUpperCase()}
+                                titleEs={
+                                    occurrence.title.es ?? occurrence.title.en
+                                }
+                                titleEn={occurrence.title.en}
+                                descriptionEn={occurrence.description.en}
+                                descriptionEs={occurrence.description.es}
+                                recurrenceLabelEn={
+                                    occurrence.recurrenceLabel?.en
+                                }
+                                recurrenceLabelEs={
+                                    occurrence.recurrenceLabel?.es
+                                }
+                            />
                         ))}
                     </ol>
                 ))
             }
         </div>
 
-        <a
-            href="https://discord.gg/TCuZSnfKTE"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="inline-flex items-center justify-center gap-2 px-8 py-3 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white font-medium transition-all shadow-lg shadow-indigo-500/25"
-        >
-            <svg
-                class="w-5 h-5"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                aria-hidden="true"
-            >
-                <path
-                    d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z"
-                ></path>
-            </svg>
-            <span data-i18n="cta">Unirse a Discord</span>
-        </a>
+        <DiscordCta />
     </main>
 
     <script>
