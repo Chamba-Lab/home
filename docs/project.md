@@ -1,9 +1,9 @@
 # Chamba Lab: Connect. Inspire. Evolve.
 
-> **Status**: Definition Phase
+> **Status**: Definition & Expansion Phase  
 > **Focus**: Professional Evolution & Community Support
 
-> **MVP actual**: la landing pública es intencionalmente simple — hero, una intro breve y un botón a Discord. Los "Pilares de Acción" descritos abajo son la visión de roadmap a mediano/largo plazo, no contenido que exista hoy en el sitio. El único término del glosario cultural presente en el copy público hoy es "Chamba" (el nombre); el resto se introduce progresivamente en features concretas — ver `docs/branding_concepts.md`.
+> **Landing pública**: La landing principal presenta una arquitectura visual *Modern Dark Glassmorphism* (diseño "Landing Optimizada y Equilibrada"): Hero con iluminación radial, widget interactivo en tiempo real de Discord (tarjeta nativa moderna y conmutador a widget oficial), vitrina de recursos curados y vitrina asimétrica de eventos. Los "Pilares de Acción" descritos abajo representan la visión de roadmap a mediano/largo plazo. El término cultural activo en el copy público hoy es "Chamba" (el nombre); el resto se introduce progresivamente en features concretas — ver `docs/branding_concepts.md`.
 
 ## 🚀 Manifiesto
 **Chamba Lab** es una iniciativa comunitaria, sin fines de lucro, para potenciar el talento tech. No somos una "aceleradora comercial"; somos un grupo de estudiantes y profesionales que creen en el poder de devolver lo aprendido.
@@ -57,7 +57,7 @@ Nuestra estrategia se basa en dos columnas vertebrales que sostienen el crecimie
 
 ## 🗺️ Primeros Pasos (Bootstrap)
 
-- [ ] **Fase 1: Cimientos**: Definir plataformas (Discord/Slack/Notion) y roles iniciales.
+- [x] **Fase 1: Cimientos**: Plataforma web moderna, landing con integración de Discord, navegación bilingüe y dinámicas interactivas.
 - [ ] **Fase 2: Career Kit Beta**: Lanzar las primeras plantillas de CV y guías.
 - [ ] **Fase 3: First Minka**: Primera sesión colaborativa o hackathon interna.
 - [ ] **Fase 4: Chamba Board**: Publicación de las primeras oportunidades laborales validadas.

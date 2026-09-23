@@ -8,22 +8,76 @@ interface Props {
 }
 
 const { title, descriptionEn, descriptionEs, url, category } = Astro.props;
+
+const categoryBadges: Record<string, { label: string; class: string }> = {
+    cv: {
+        label: "CV & LinkedIn",
+        class: "border-brand-yellow/30 bg-brand-yellow/10 text-brand-yellow",
+    },
+    aprendizaje: {
+        label: "Aprendizaje",
+        class: "border-emerald-500/30 bg-emerald-500/10 text-emerald-400",
+    },
+    practica: {
+        label: "Práctica Técnica",
+        class: "border-[#5865F2]/30 bg-[#5865F2]/10 text-[#8a95ff]",
+    },
+};
+
+const badge = categoryBadges[category] || {
+    label: category,
+    class: "border-white/10 bg-slate-900 text-slate-300",
+};
 ---
 
-<a
-    href={url}
-    target="_blank"
-    rel="noopener noreferrer"
+<div
     data-resource-card={category}
-    class="relative block overflow-hidden border-[3px] border-border bg-surface p-5 pt-6 shadow-brutal transition-transform hover:translate-x-[6px] hover:translate-y-[6px] hover:shadow-none"
+    class="card-glass rounded-2xl p-6 flex flex-col justify-between group transition-all duration-300 hover:border-brand-yellow/40 hover:-translate-y-0.5 shadow-lg shadow-black/20"
 >
-    <span class="absolute top-0 left-0 right-0 h-1.5 bg-primary"></span>
-    <h3 class="font-bold uppercase text-content mb-2">{title}</h3>
-    <p
-        class="text-sm text-muted leading-relaxed"
-        data-i18n-en={descriptionEn}
-        data-i18n-es={descriptionEs}
+    <div class="flex flex-col">
+        <div class="flex items-center justify-between mb-4">
+            <span
+                class={`text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded border ${badge.class}`}
+            >
+                {badge.label}
+            </span>
+        </div>
+        <h3
+            class="font-display text-lg font-bold text-white mb-2 group-hover:text-brand-yellow transition-colors leading-snug"
+        >
+            {title}
+        </h3>
+        <p
+            class="text-sm text-slate-400 leading-relaxed"
+            data-i18n-en={descriptionEn}
+            data-i18n-es={descriptionEs}
+        >
+            {descriptionEs ?? descriptionEn}
+        </p>
+    </div>
+    <div
+        class="pt-5 mt-5 border-t border-white/10 flex items-center justify-between"
     >
-        {descriptionEs ?? descriptionEn}
-    </p>
-</a>
+        <a
+            class="inline-flex items-center gap-1.5 text-xs font-bold text-brand-yellow hover:text-white transition-colors group-hover:translate-x-0.5 transform duration-200"
+            href={url}
+            target="_blank"
+            rel="noopener noreferrer"
+        >
+            <span data-i18n="exploreResource">Explorar recurso</span>
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="w-3.5 h-3.5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+            >
+                <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+            </svg>
+        </a>
+    </div>
+</div>

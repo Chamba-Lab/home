@@ -1,141 +1,202 @@
 ---
 import { DISCORD_URL } from "../lib/constants";
-import SunIcon from "./icons/SunIcon.astro";
-import MoonIcon from "./icons/MoonIcon.astro";
+import DiscordIcon from "./icons/DiscordIcon.astro";
 import MenuIcon from "./icons/MenuIcon.astro";
 import CloseIcon from "./icons/CloseIcon.astro";
-import DiscordIcon from "./icons/DiscordIcon.astro";
+
+import PowerBoltIcon from "./icons/PowerBoltIcon.astro";
 
 const rawBase = import.meta.env.BASE_URL;
 const base = rawBase.endsWith("/") ? rawBase : `${rawBase}/`;
 ---
 
-<header class="bg-surface border-b-[3px] border-border">
+<header
+    class="sticky top-0 z-50 w-full border-b border-white/[0.08] bg-[#080D1A]/85 backdrop-blur-xl transition-all"
+>
     <div
-        class="max-w-3xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-3"
+        class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between"
     >
+        <!-- Brand Logo: Modern Power Bolt -->
         <a
             href={base}
-            class="font-display text-content shrink-0 text-sm uppercase"
+            class="flex items-center gap-3 transition-opacity hover:opacity-90 group"
         >
-            Chamba <span class="bg-accent text-on-accent px-1.5 py-0.5"
-                >Lab</span
+            <div
+                class="w-10 h-10 rounded-xl bg-gradient-to-br from-brand-yellow to-amber-500 flex items-center justify-center shadow-lg shadow-brand-yellow/20 text-slate-950 transition-transform group-hover:scale-105"
             >
+                <PowerBoltIcon class="w-6 h-6 text-slate-950" />
+            </div>
+            <div class="flex items-center gap-1.5">
+                <span
+                    class="font-display text-2xl font-extrabold tracking-tight text-white"
+                >
+                    Chamba
+                </span>
+                <span
+                    class="text-[11px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded bg-brand-yellow/15 text-brand-yellow border border-brand-yellow/30"
+                >
+                    Lab
+                </span>
+            </div>
         </a>
 
-        <!-- Desktop nav — collapses behind the hamburger below sm. -->
-        <nav
-            class="hidden sm:flex items-center gap-4 sm:gap-6 text-sm font-bold uppercase text-content"
-        >
+        <!-- Desktop Nav: Direct links to subpages as requested -->
+        <nav class="hidden md:flex items-center gap-8">
             <a
                 href={`${base}resources`}
                 data-i18n="navResources"
-                class="hover:underline decoration-[3px] underline-offset-4"
-                >Recursos</a
+                class="text-sm font-semibold text-slate-300 hover:text-white transition-colors"
             >
+                Recursos
+            </a>
             <a
                 href={`${base}events`}
                 data-i18n="navEvents"
-                class="hover:underline decoration-[3px] underline-offset-4"
-                >Eventos</a
+                class="text-sm font-semibold text-slate-300 hover:text-white transition-colors"
             >
+                Eventos
+            </a>
             <a
                 href={`${base}activities`}
                 data-i18n="navActivities"
-                class="hover:underline decoration-[3px] underline-offset-4"
-                >Dinámicas</a
+                class="text-sm font-semibold text-slate-300 hover:text-white transition-colors"
             >
+                Dinámicas
+            </a>
         </nav>
 
-        <div class="flex items-center gap-2 sm:gap-3 shrink-0">
-            <button
-                id="theme-toggle"
-                type="button"
-                class="inline-flex items-center justify-center w-8 h-8 border-[3px] border-border bg-surface text-content hover:bg-accent hover:text-on-accent transition-colors"
-                aria-label="Cambiar tema claro/oscuro"
+        <!-- Right Actions: Language Switcher + Discord CTA -->
+        <div class="hidden sm:flex items-center gap-4">
+            <!-- Segmented Pill Language Switcher -->
+            <div
+                class="flex items-center p-1 rounded-lg bg-slate-900/90 border border-white/10 text-xs font-semibold"
             >
-                <SunIcon id="theme-icon-sun" class="w-4 h-4" hidden />
-                <MoonIcon id="theme-icon-moon" class="w-4 h-4" />
-            </button>
-            <button
-                id="lang-toggle"
-                type="button"
-                class="inline-flex items-center gap-1 px-3 py-1.5 border-[3px] border-border bg-surface text-xs font-bold uppercase text-content hover:bg-accent hover:text-on-accent transition-colors"
-                aria-label="Cambiar idioma / Switch language"
-            >
-                <span data-i18n="langToggle">EN</span>
-            </button>
+                <button
+                    type="button"
+                    data-set-lang="es"
+                    class="lang-btn-es px-2.5 py-1 rounded bg-brand-yellow text-slate-950 font-bold transition-all"
+                >
+                    ES
+                </button>
+                <button
+                    type="button"
+                    data-set-lang="en"
+                    class="lang-btn-en px-2.5 py-1 rounded text-slate-400 hover:text-slate-200 transition-all"
+                >
+                    EN
+                </button>
+            </div>
+
+            <!-- Discord Button with Blurple Glow -->
             <a
                 href={DISCORD_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 border-[3px] border-border bg-primary text-content-inverse text-xs font-bold uppercase shadow-brutal-sm transition-transform hover:translate-x-[3px] hover:translate-y-[3px] hover:shadow-none"
+                class="inline-flex items-center gap-2 bg-[#5865F2] hover:bg-[#4752c4] text-white px-4 py-2.5 rounded-xl text-sm font-semibold transition-all shadow-sm hover:shadow-[0_0_20px_rgba(88,101,242,0.4)]"
             >
-                Discord
+                <DiscordIcon class="w-4 h-4" />
+                <span data-i18n="joinDiscord">Unirse a Discord</span>
             </a>
-            <button
-                id="nav-toggle"
-                type="button"
-                class="sm:hidden inline-flex items-center justify-center w-8 h-8 border-[3px] border-border bg-surface text-content hover:bg-accent hover:text-on-accent transition-colors"
-                aria-label="Abrir menú"
-                aria-expanded="false"
-                aria-controls="mobile-nav"
-            >
-                <MenuIcon id="nav-icon-open" class="w-4 h-4" />
-                <CloseIcon id="nav-icon-close" class="w-4 h-4" hidden />
-            </button>
         </div>
+
+        <!-- Mobile Hamburger Toggle -->
+        <button
+            id="mobile-toggle"
+            type="button"
+            class="md:hidden p-2.5 rounded-xl bg-slate-900 border border-white/10 text-slate-300 hover:text-white focus:outline-none"
+            aria-label="Abrir menú"
+            aria-expanded="false"
+        >
+            <MenuIcon id="menu-icon-open" class="w-5 h-5" />
+            <CloseIcon id="menu-icon-close" class="w-5 h-5" hidden />
+        </button>
     </div>
 
-    <!-- Mobile nav panel — same links/CTA as the desktop row above, just
-         stacked and only reachable below sm via the hamburger. -->
+    <!-- Mobile Drawer -->
     <div
-        id="mobile-nav"
-        class="hidden sm:hidden border-t-[3px] border-border bg-surface px-4 py-4"
+        id="mobile-menu"
+        class="hidden md:hidden border-b border-white/10 bg-[#080D1A]/95 backdrop-blur-2xl px-6 py-6"
     >
-        <nav
-            class="flex flex-col gap-1 text-sm font-bold uppercase text-content mb-4"
-        >
+        <div class="flex flex-col gap-4">
             <a
                 href={`${base}resources`}
                 data-i18n="navResources"
-                class="py-2 border-b-[3px] border-border hover:text-primary"
-                >Recursos</a
+                class="text-base font-medium text-slate-200 hover:text-brand-yellow py-1.5 transition-colors"
             >
+                Recursos
+            </a>
             <a
                 href={`${base}events`}
                 data-i18n="navEvents"
-                class="py-2 border-b-[3px] border-border hover:text-primary"
-                >Eventos</a
+                class="text-base font-medium text-slate-200 hover:text-brand-yellow py-1.5 transition-colors"
             >
+                Eventos
+            </a>
             <a
                 href={`${base}activities`}
                 data-i18n="navActivities"
-                class="py-2 hover:text-primary">Dinámicas</a
+                class="text-base font-medium text-slate-200 hover:text-brand-yellow py-1.5 transition-colors"
             >
-        </nav>
-        <a
-            href={DISCORD_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="flex items-center justify-center gap-1.5 px-3 py-2.5 border-[3px] border-border bg-primary text-content-inverse text-xs font-bold uppercase shadow-brutal-sm"
-        >
-            <DiscordIcon class="w-4 h-4" />
-            Discord
-        </a>
+                Dinámicas
+            </a>
+
+            <div
+                class="pt-4 border-t border-white/10 flex items-center justify-between"
+            >
+                <div
+                    class="flex items-center p-1 rounded-lg bg-slate-900 border border-white/10 text-xs font-semibold"
+                >
+                    <button
+                        type="button"
+                        data-set-lang="es"
+                        class="lang-btn-es px-2.5 py-1 rounded bg-brand-yellow text-slate-950 font-bold transition-all"
+                    >
+                        ES
+                    </button>
+                    <button
+                        type="button"
+                        data-set-lang="en"
+                        class="lang-btn-en px-2.5 py-1 rounded text-slate-400"
+                    >
+                        EN
+                    </button>
+                </div>
+                <a
+                    href={DISCORD_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="inline-flex items-center gap-2 bg-[#5865F2] hover:bg-[#4752c4] text-white px-4 py-2 rounded-xl text-sm font-semibold"
+                >
+                    <DiscordIcon class="w-4 h-4" />
+                    <span>Discord</span>
+                </a>
+            </div>
+        </div>
     </div>
 </header>
 
 <script>
-    const navToggle = document.getElementById("nav-toggle");
-    const mobileNav = document.getElementById("mobile-nav");
-    const iconOpen = document.getElementById("nav-icon-open");
-    const iconClose = document.getElementById("nav-icon-close");
+    const mobileToggle = document.getElementById("mobile-toggle");
+    const mobileMenu = document.getElementById("mobile-menu");
+    const iconOpen = document.getElementById("menu-icon-open");
+    const iconClose = document.getElementById("menu-icon-close");
 
-    navToggle?.addEventListener("click", () => {
-        const nowOpen = mobileNav?.classList.toggle("hidden") === false;
-        navToggle.setAttribute("aria-expanded", String(nowOpen));
-        iconOpen?.toggleAttribute("hidden", nowOpen);
-        iconClose?.toggleAttribute("hidden", !nowOpen);
-    });
+    if (mobileToggle && mobileMenu) {
+        mobileToggle.addEventListener("click", () => {
+            const isHidden = mobileMenu.classList.toggle("hidden");
+            mobileToggle.setAttribute("aria-expanded", String(!isHidden));
+            iconOpen?.toggleAttribute("hidden", !isHidden);
+            iconClose?.toggleAttribute("hidden", isHidden);
+        });
+
+        // Close on navigation link click
+        mobileMenu.querySelectorAll("a").forEach((link) => {
+            link.addEventListener("click", () => {
+                mobileMenu.classList.add("hidden");
+                mobileToggle.setAttribute("aria-expanded", "false");
+                iconOpen?.removeAttribute("hidden");
+                iconClose?.setAttribute("hidden", "");
+            });
+        });
+    }
 </script>

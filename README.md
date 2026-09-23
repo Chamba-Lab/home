@@ -18,12 +18,12 @@ Somos una comunidad tech para quienes construyen su carrera en tecnología — e
 
 ## 🛠 Tech Stack
 
-Construido para ser rápido, accesible y escalable.
+Construido para ser ultra rápido, accesible y visualmente impactante.
 
-- **Frontend**: [Astro 7.x](https://astro.build) (Optimizado para rendimiento extremo).
-- **UI Library**: [React 19+](https://reactjs.org) (Utilizado en "Islas" de interacción).
-- **Styling**: [TailwindCSS 4.x](https://tailwindcss.com), sistema de diseño neo-brutalista (bordes gruesos, sombra dura, indigo + oro) — ver [AGENTS.md](./AGENTS.md#3-design-system-neo-brutalista-indigooro).
-- **CI/CD**: GitHub Actions + `release-it` para versionado automático.
+- **Frontend**: [Astro 7.x](https://astro.build) (Optimizado para rendimiento extremo y SSG).
+- **UI Library**: [React 19+](https://reactjs.org) (Utilizado en "Islas" de interacción como la Ruleta).
+- **Styling**: [TailwindCSS 4.x](https://tailwindcss.com), sistema de diseño **Modern Dark Glassmorphism** (fondo obsidian `#080D1A`, tarjetas con `backdrop-blur`, acentos en amarillo `#FACC15` y Discord `#5865F2`) — ver [AGENTS.md](./AGENTS.md#3-design-system-modern-dark-glassmorphism-stitch-landing-optimizada-y-equilibrada).
+- **CI/CD**: GitHub Actions + `release-it` para versionado automático y despliegue a **GitHub Pages**.
 
 ---
 
@@ -31,13 +31,13 @@ Construido para ser rápido, accesible y escalable.
 
 | Ruta | Contenido |
 | :--- | :--- |
-| `/` | Hero + intro + CTA a Discord |
-| `/resources` | Guías, plantillas y plataformas de práctica curadas |
-| `/events` | Próximos eventos y sesiones recurrentes de la comunidad |
+| `/` | Landing inmersiva con Hero, widget interactivo de Discord, vitrina de recursos y eventos |
+| `/resources` | Biblioteca completa de guías, plantillas y plataformas curadas con filtros |
+| `/events` | Calendario de eventos y sesiones recurrentes con exportación a Google Calendar / iCal |
 | `/activities` | Hub de mini actividades comunitarias (dinámicas) |
 | `/activities/roulette` | La Ruleta — dinámica interactiva con temas preestablecidos o modo libre |
 
-Rutas siempre en inglés (buenas prácticas), aunque el copy visible es en español con toggle a inglés (`ES`/`EN` en el header). El header también incluye toggle de tema claro/oscuro y colapsa a menú hamburguesa en mobile. Detalle técnico completo en [AGENTS.md](./AGENTS.md#site-structure).
+Rutas siempre en inglés (buenas prácticas), con soporte bilingüe completo (`ES`/`EN` con pastilla segmentada en el header). Detalle técnico completo en [AGENTS.md](./AGENTS.md#site-structure).
 
 ---
 

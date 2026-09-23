@@ -1,8 +1,9 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import EventItem from "../components/EventItem.astro";
-import DiscordCta from "../components/DiscordCta.astro";
 import ChevronIcon from "../components/icons/ChevronIcon.astro";
+import DiscordIcon from "../components/icons/DiscordIcon.astro";
+import { DISCORD_URL } from "../lib/constants";
 import { getCollection } from "astro:content";
 
 const MONTHS_AHEAD = 12;
@@ -92,48 +93,79 @@ const months = Array.from({ length: MONTHS_AHEAD }, (_, i) => {
 });
 ---
 
-<Layout title="Chamba Lab | Eventos">
-    <main class="max-w-2xl mx-auto px-6 py-20 sm:py-28">
-        <h1
-            class="text-4xl md:text-5xl font-display uppercase mb-4 tracking-tight text-content"
-            data-i18n="eventsTitle"
-        >
-            Próximos eventos
-        </h1>
-        <p
-            class="text-lg text-muted leading-relaxed mb-10"
-            data-i18n="eventsIntro"
-        >
-            El lanzamiento y las sesiones recurrentes de la comunidad. Fechas
-            exactas siempre confirmadas en el canal #eventos de Discord.
-        </p>
+<Layout title="Chamba Lab | Calendario de Eventos y Sesiones">
+    <main class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
+        <!-- Header -->
+        <div class="max-w-3xl mb-12">
+            <div
+                class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full card-glass text-xs font-semibold text-slate-300 border border-white/10 mb-6"
+            >
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"
+                ></span>
+                <span>Calendario Comunitario</span>
+            </div>
+            <h1
+                class="font-display text-4xl sm:text-5xl font-extrabold text-white tracking-tight mb-4"
+                data-i18n="eventsTitle"
+            >
+                Próximos eventos
+            </h1>
+            <p
+                class="text-lg text-slate-300 leading-relaxed"
+                data-i18n="eventsIntro"
+            >
+                El lanzamiento y las sesiones recurrentes de la comunidad.
+                Fechas exactas siempre confirmadas en el canal #eventos de
+                Discord.
+            </p>
+        </div>
 
-        <div class="flex items-center justify-between mb-6">
+        <!-- Month Navigation Bar -->
+        <div
+            class="card-glass rounded-2xl p-4 flex items-center justify-between mb-8 border border-white/10 shadow-lg"
+        >
             <button
                 id="month-prev"
                 type="button"
                 aria-label="Mes anterior"
-                class="w-9 h-9 flex items-center justify-center border-[3px] border-border bg-surface text-content shadow-brutal-sm transition-transform hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none disabled:opacity-30 disabled:pointer-events-none disabled:shadow-brutal-sm disabled:translate-x-0 disabled:translate-y-0"
+                class="w-10 h-10 flex items-center justify-center rounded-xl bg-slate-900/90 border border-white/10 text-slate-300 hover:text-white hover:border-brand-yellow/40 transition-all disabled:opacity-25 disabled:pointer-events-none"
             >
                 <ChevronIcon direction="left" />
             </button>
+
             <span
                 id="month-label"
-                class="text-sm font-bold uppercase tracking-wide text-content"
+                class="font-display text-base sm:text-lg font-bold uppercase tracking-wider text-white flex items-center gap-2"
             >
-                {months[0].labelEs}
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="w-5 h-5 text-brand-yellow"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                >
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                    ></path>
+                </svg>
+                <span>{months[0].labelEs}</span>
             </span>
+
             <button
                 id="month-next"
                 type="button"
                 aria-label="Mes siguiente"
-                class="w-9 h-9 flex items-center justify-center border-[3px] border-border bg-surface text-content shadow-brutal-sm transition-transform hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none disabled:opacity-30 disabled:pointer-events-none disabled:shadow-brutal-sm disabled:translate-x-0 disabled:translate-y-0"
+                class="w-10 h-10 flex items-center justify-center rounded-xl bg-slate-900/90 border border-white/10 text-slate-300 hover:text-white hover:border-brand-yellow/40 transition-all disabled:opacity-25 disabled:pointer-events-none"
             >
                 <ChevronIcon direction="right" />
             </button>
         </div>
 
-        <div class="mb-12">
+        <!-- Months Sections -->
+        <div class="mb-14">
             {
                 months.map((month, i) => (
                     <ol
@@ -145,7 +177,7 @@ const months = Array.from({ length: MONTHS_AHEAD }, (_, i) => {
                     >
                         {month.occurrences.length === 0 && (
                             <li
-                                class="text-sm text-muted py-6 text-center border-[3px] border-border"
+                                class="card-glass rounded-2xl p-12 text-center text-slate-400 border border-white/10"
                                 data-i18n="noEvents"
                             >
                                 No hay eventos programados este mes.
@@ -183,7 +215,29 @@ const months = Array.from({ length: MONTHS_AHEAD }, (_, i) => {
             }
         </div>
 
-        <DiscordCta />
+        <!-- Bottom Community Discord Card -->
+        <div
+            class="card-glass rounded-2xl p-8 flex flex-col sm:flex-row items-center justify-between gap-6 border border-white/10 bg-gradient-to-br from-[#0B1120] via-slate-900/80 to-[#5865F2]/10"
+        >
+            <div class="space-y-1 text-center sm:text-left">
+                <h3 class="font-display text-xl font-bold text-white">
+                    ¿Quieres proponer un taller o sesión?
+                </h3>
+                <p class="text-sm text-slate-400">
+                    Súmate a nuestro Discord y propón temas en el canal
+                    #eventos.
+                </p>
+            </div>
+            <a
+                href={DISCORD_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-flex items-center gap-2 bg-[#5865F2] hover:bg-[#4752c4] text-white px-6 py-3 rounded-xl text-sm font-bold transition-all shadow-lg shadow-[#5865F2]/25 hover:shadow-[#5865F2]/40 shrink-0"
+            >
+                <DiscordIcon class="w-4 h-4" />
+                <span>Unirse al Discord</span>
+            </a>
+        </div>
     </main>
 
     <script>
@@ -208,7 +262,8 @@ const months = Array.from({ length: MONTHS_AHEAD }, (_, i) => {
                 const en = active.dataset.monthLabelEn;
                 const es = active.dataset.monthLabelEs;
                 const text = currentLang === "es" ? (es ?? en) : en;
-                if (text) label.textContent = text;
+                const span = label.querySelector("span");
+                if (span && text) span.textContent = text;
             }
             if (prevBtn) prevBtn.disabled = currentIndex === 0;
             if (nextBtn)

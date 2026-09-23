@@ -1,119 +1,84 @@
 @import "tailwindcss";
 
 /*
- * Design tokens — Neo-brutalista indigo/oro.
+ * Design tokens — Modern Dark Glassmorphism (Chamba Lab)
  *
- * Every color a component needs lives here as a semantic token, never as a
- * raw Tailwind palette class (indigo-600, slate-800, etc.) sprinkled across
- * markup. Rebranding or retuning contrast means editing this file only —
- * components consume `bg-primary`, `text-muted`, `border-border`, etc.,
- * which Tailwind v4 generates automatically from the `--color-*` vars below.
- *
- * Light values are the defaults; the dark media query below only overrides
- * the variables, so every utility that references them (no `dark:` prefix
- * needed) repaints for dark mode automatically. Only `--color-shadow`
- * (the hard offset-shadow color) and `--color-border` (the "ink" stroke
- * color) actually change hue between modes — everything else just shifts
- * lightness, which is what keeps light and dark feeling like the same
- * brand instead of two different sites.
+ * Dark-mode first palette rooted in deep obsidian-blue canvas,
+ * luminescent brand yellow, Discord blurple, and emerald telemetry indicators.
  */
 @theme {
-    --color-bg: #faf7f2;
-    --color-surface: #ffffff;
+    --color-brand-yellow: #facc15;
+    --color-brand-yellow-hover: #fde047;
+    --color-brand-discord: #5865f2;
+    --color-brand-discord-hover: #4752c4;
 
-    /* "Ink" — the stroke color for every border in this design. */
-    --color-border: #111111;
-    /* The hard offset-shadow color (no blur, no spread). */
-    --color-shadow: #111111;
+    /* Theme surfaces & canvas */
+    --color-bg: #080d1a;
+    --color-surface: #0b1120;
+    --color-surface-subtle: #0f172a;
+    --color-surface-card: #131e36;
+    --color-surface-border: #1e293b;
+    --color-surface-border-subtle: rgba(255, 255, 255, 0.08);
 
-    --color-primary: #4f46e5;
-    --color-primary-strong: #4338ca;
-
-    /* Flat accent block color — badges, tags, date blocks, wordmark chip. */
-    --color-accent: #ffc93c;
-    /* Text sitting on an accent block; accent is always light, so this
-       stays dark-ink in both themes. */
-    --color-on-accent: #111111;
-
-    --color-content: #111111;
-    --color-muted: #44403c;
+    /* Semantic mapping for compatibility across existing subpages */
+    --color-primary: #5865f2;
+    --color-primary-strong: #4752c4;
+    --color-accent: #facc15;
+    --color-on-accent: #020617;
+    --color-content: #e2e8f0;
+    --color-muted: #94a3b8;
     --color-content-inverse: #ffffff;
+    --color-border: rgba(255, 255, 255, 0.12);
+    --color-shadow: rgba(0, 0, 0, 0.5);
 
-    --font-sans: "Inter", system-ui, sans-serif;
-    --font-display: "Archivo Black", sans-serif;
+    /* Typography */
+    --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+    --font-display: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
 }
 
 /*
- * Dark palette, defined once. Two selectors below apply it (media query vs.
- * explicit override can't be merged into one CSS rule), but they only ever
- * reference these — never a literal hex — so the two can't drift apart.
+ * Base styles (Dark mode first)
  */
 :root {
-    --dark-bg: #111111;
-    --dark-surface: #1c1c1c;
-    --dark-border: #f5f5f5;
-    --dark-shadow: #d4a94b;
-    --dark-primary: #6366f1;
-    --dark-primary-strong: #818cf8;
-    --dark-accent: #d4a94b;
-    --dark-content: #f5f5f5;
-    --dark-muted: #b0b0b0;
-}
-
-/*
- * Dark-mode overrides. `@theme` above already registered these as Tailwind
- * utilities (bg-primary, text-muted, ...); re-assigning the plain CSS
- * variables here is enough to repaint every utility that uses them — no
- * `dark:` prefix needed anywhere in component markup.
- *
- * Two ways in: the OS preference (unless the visitor picked "light"
- * explicitly), or an explicit `data-theme="dark"` on <html> set by the
- * theme toggle (see Layout.astro) regardless of OS preference.
- */
-@media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) {
-        --color-bg: var(--dark-bg);
-        --color-surface: var(--dark-surface);
-        --color-border: var(--dark-border);
-        --color-shadow: var(--dark-shadow);
-        --color-primary: var(--dark-primary);
-        --color-primary-strong: var(--dark-primary-strong);
-        --color-accent: var(--dark-accent);
-        --color-content: var(--dark-content);
-        --color-muted: var(--dark-muted);
-    }
-}
-
-:root[data-theme="dark"] {
-    --color-bg: var(--dark-bg);
-    --color-surface: var(--dark-surface);
-    --color-border: var(--dark-border);
-    --color-shadow: var(--dark-shadow);
-    --color-primary: var(--dark-primary);
-    --color-primary-strong: var(--dark-primary-strong);
-    --color-accent: var(--dark-accent);
-    --color-content: var(--dark-content);
-    --color-muted: var(--dark-muted);
-}
-
-/* Custom Utilities */
-@layer utilities {
-    /* Hard offset shadow — no blur, no spread, the signature of this
-       design. Pair with `hover:translate-x-[Npx] hover:translate-y-[Npx]
-       hover:shadow-none` on interactive elements for the "press in" feel. */
-    .shadow-brutal {
-        box-shadow: 6px 6px 0 0 var(--color-shadow);
-    }
-    .shadow-brutal-sm {
-        box-shadow: 3px 3px 0 0 var(--color-shadow);
-    }
+    color-scheme: dark;
 }
 
 html,
-body,
-:root {
-    background-color: var(--color-bg);
-    color: var(--color-content);
+body {
+    background-color: #080d1a;
+    color: #e2e8f0;
     font-family: var(--font-sans);
-    height: 100%;
+    min-height: 100%;
+    -webkit-font-smoothing: antialiased;
+    scroll-behavior: smooth;
+}
+
+/* Custom Visual Utilities */
+@layer utilities {
+    .glow-radial {
+        background: radial-gradient(
+            circle 650px at 50% 0%,
+            rgba(250, 204, 21, 0.08),
+            transparent 70%
+        );
+    }
+
+    .card-glass {
+        background: rgba(15, 23, 42, 0.65);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .card-glass:hover {
+        border-color: rgba(250, 204, 21, 0.3);
+    }
+
+    /* Retained for backward-compat with subpages/islands like Roulette */
+    .shadow-brutal {
+        box-shadow: 4px 4px 0 0 rgba(250, 204, 21, 0.4);
+    }
+    .shadow-brutal-sm {
+        box-shadow: 2px 2px 0 0 rgba(250, 204, 21, 0.4);
+    }
 }

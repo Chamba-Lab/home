@@ -1,9 +1,100 @@
 ---
+import { DISCORD_URL } from "../lib/constants";
+import DiscordIcon from "./icons/DiscordIcon.astro";
+import PowerBoltIcon from "./icons/PowerBoltIcon.astro";
 
+const rawBase = import.meta.env.BASE_URL;
+const base = rawBase.endsWith("/") ? rawBase : `${rawBase}/`;
+const currentYear = new Date().getFullYear();
 ---
 
-<footer
-    class="mt-24 pt-8 pb-12 border-t-[3px] border-border text-center text-muted text-sm"
->
-    <p>&copy; {new Date().getFullYear()} Chamba Lab. All rights reserved.</p>
+<footer class="border-t border-white/[0.08] bg-[#050811] mt-auto py-14">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div
+            class="flex flex-col md:flex-row items-start md:items-center justify-between gap-8 pb-10 border-b border-white/[0.06]"
+        >
+            <div class="flex flex-col gap-3">
+                <a href={base} class="flex items-center gap-3 group">
+                    <div
+                        class="w-9 h-9 rounded-xl bg-gradient-to-br from-brand-yellow to-amber-500 flex items-center justify-center shadow-md shadow-brand-yellow/15 text-slate-950 transition-transform group-hover:scale-105"
+                    >
+                        <PowerBoltIcon class="w-5 h-5 text-slate-950" />
+                    </div>
+                    <span
+                        class="font-display text-xl font-extrabold tracking-tight text-white"
+                    >
+                        Chamba
+                    </span>
+                    <span
+                        class="text-[10px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded bg-brand-yellow/15 text-brand-yellow border border-brand-yellow/30"
+                    >
+                        Lab
+                    </span>
+                </a>
+                <p
+                    class="text-xs text-slate-400 max-w-sm leading-relaxed"
+                    data-i18n="footerDesc"
+                >
+                    Espacio colaborativo para impulsar carreras y compartir
+                    oportunidades reales en tecnología en LATAM y el mundo.
+                </p>
+            </div>
+
+            <!-- Clean Nav Links -->
+            <nav class="flex flex-wrap items-center gap-6 text-sm font-medium">
+                <a
+                    href={`${base}resources`}
+                    data-i18n="navResources"
+                    class="text-slate-400 hover:text-white transition-colors"
+                >
+                    Recursos
+                </a>
+                <a
+                    href={`${base}events`}
+                    data-i18n="navEvents"
+                    class="text-slate-400 hover:text-white transition-colors"
+                >
+                    Eventos
+                </a>
+                <a
+                    href={`${base}activities`}
+                    data-i18n="navActivities"
+                    class="text-slate-400 hover:text-white transition-colors"
+                >
+                    Dinámicas
+                </a>
+                <a
+                    href={DISCORD_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="text-brand-yellow hover:text-amber-300 font-semibold inline-flex items-center gap-1.5"
+                >
+                    <DiscordIcon class="w-4 h-4" />
+                    <span>Discord Server</span>
+                </a>
+            </nav>
+        </div>
+
+        <div
+            class="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500"
+        >
+            <p>
+                &copy; {currentYear} Chamba Lab. <span
+                    data-i18n="allRightsReserved"
+                    >Todos los derechos reservados.</span
+                >
+            </p>
+            <div class="flex items-center gap-4">
+                <a
+                    href={DISCORD_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="text-slate-400 hover:text-white transition-colors"
+                    aria-label="Discord"
+                >
+                    <DiscordIcon class="w-4 h-4" />
+                </a>
+            </div>
+        </div>
+    </div>
 </footer>

@@ -16,56 +16,60 @@
 
 ### Frontend (Web Platform)
 *   **Framework**: **Astro 7.x** (Rendimiento por defecto).
-*   **UI Library**: **React 19+** (Para "Islas" de interactividad: Chamba Board, Forms).
-*   **Styling**: **TailwindCSS 4.x** (Utility-first).
+*   **UI Library**: **React 19+** (Para "Islas" de interactividad: Chamba Board, Dinámicas, Forms).
+*   **Styling**: **TailwindCSS 4.x** (Utility-first con tokens en `@theme`).
 *   **Hosting**: **GitHub Pages** (Opción Principal - Costo Cero).
     *   *Alternativa*: Vercel / Netlify (Solo si se requiere SSR en el futuro).
 *   **Runtime**: **Node.js >=22.12.0** (ver `engines` en `package.json`; el pipeline usa `lts/*`).
 
 ### Site Structure
-*   **Páginas**: `/` (hero + intro + CTA), `/resources` (guías y plataformas curadas), `/events` (formatos de sesiones recurrentes), `/activities` (hub con grilla de mini actividades comunitarias) y una subruta por actividad (ej. `/activities/roulette`). Rutas siempre en inglés, aunque el copy visible siga en español.
-*   **Layout compartido**: `src/layouts/Layout.astro` monta `Header` y `Footer` (`src/components/`), inicializa el toggle de idioma y el de tema (claro/oscuro), y trae los componentes reutilizables (`DiscordCta`, `ResourceCard`, `EventItem`, `icons/*`) usados por las páginas.
-*   **Header responsive**: en `sm:` y superior, nav links + toggles + CTA de Discord van inline en una sola fila. Debajo de `sm:`, esa fila colapsa a logo + tema + idioma + botón hamburguesa (`#nav-toggle`), que despliega un panel (`#mobile-nav`) con los mismos links/CTA apilados — evita que el header ocupe 3 filas en mobile. Los links viven duplicados (desktop `<nav>` + panel mobile) pero ambos llevan `data-i18n`, así que el toggle de idioma los actualiza a la vez.
-*   **i18n**: diccionario en `src/i18n/translations.ts`. El toggle traduce chrome estructural (nav, hero, CTAs, títulos de sección) vía `data-i18n`, persistido en `localStorage` (`chamba-lab-lang`). El contenido específico de cada recurso/evento no se fuerza a traducir — se marca su idioma en la propia tarjeta (ver `docs/branding_concepts.md` sobre no forzar copy).
-*   **Tema (claro/oscuro)**: lógica en `src/lib/theme.ts`, toggle en el header (ícono sol/luna). Sigue la preferencia del sistema (`prefers-color-scheme`) por defecto; un click guarda una elección explícita en `localStorage` (`chamba-lab-theme`) vía `data-theme` en `<html>`, que tiene prioridad sobre el sistema. Un script inline en el `<head>` de `Layout.astro` aplica el tema guardado antes del primer paint para evitar parpadeo.
-*   **Dinámicas**: `/activities` es un hub que lista actividades (`activities` en `src/content/activities.json`, colección `activities`) como tarjetas; cada actividad "available" enlaza a su propia subruta (`src/pages/activities/<id>.astro`), manteniendo la isla React fuera del hub. Primera implementada: **La Ruleta** (`/activities/roulette`, id `roulette`) — isla `src/components/RouletteWheel.tsx` con dos modos (tres presets precargados: Empleabilidad, Debates Tech, Qué Aprender 2026; o modo libre con opciones personalizadas, máx 12). Canvas 2D animado con easing, colores tomados en vivo de los tokens del tema (se adapta a claro/oscuro) y texto real de cada opción en cada gajo; la rotación se persiste en un ref para no "reiniciarse" visualmente entre renders. Datos de presets editables en el JSON sin tocar código React.
-*   **Próximas páginas/features (backlog)** — ver detalle de producto en `docs/project.md`:
-    *   **Calendario de eventos**: exportar cada evento de `/events` a `.ics` y/o suscribirse (feed ICS) al calendario general de la comunidad.
-    *   **Más dinámicas**: extensión de `/activities` con nuevas actividades (preguntas rápidas, minijuegos, etc.) más allá de la ruleta inicial.
+*   **Páginas**: 
+    *   `/` (Landing inmersiva: Hero con iluminación radial, integración de widget interactivo de Discord, vitrina dinámica de recursos curados y vitrina asimétrica de eventos destacados y recurrentes).
+    *   `/resources` (Biblioteca curada de guías, plantillas y plataformas con buscador y filtros por categoría).
+    *   `/events` (Calendario de eventos fijos y recurrentes con cálculo por meses y exportación a Google Calendar / iCal).
+    *   `/activities` (Hub de dinámicas comunitarias) y subrutas por actividad (ej. `/activities/roulette`). Rutas siempre en inglés, aunque el copy visible sea en español con soporte bilingüe.
+*   **Layout compartido**: `src/layouts/Layout.astro` monta `Header` y `Footer` (`src/components/`), gestiona i18n (`ES`/`EN`), carga las fuentes (`Plus Jakarta Sans` + `Inter`) y aplica la base `class="dark bg-[#080D1A] text-slate-200"`.
+*   **Header responsive**: Sticky glassmorphism (`backdrop-blur-xl bg-[#080D1A]/85 border-b border-white/[0.08]`). Enlaces directos a `/resources`, `/events` y `/activities`. Selector de idioma en pastilla segmentada (`[ ES | EN ]`) y botón CTA de Discord con resplandor (*hover glow*). En mobile colapsa a menú desplegable con fondo desenfocado.
+*   **i18n**: Diccionario centralizado en `src/i18n/translations.ts`. El selector traduce el chrome estructural y las secciones de la landing en vivo vía `data-i18n` y atributos bilingües (`data-i18n-en` / `data-i18n-es`), persistiendo la preferencia en `localStorage` (`chamba-lab-lang`).
+*   **Tema**: Dark-mode first (`#080D1A`), garantizando una experiencia inmersiva, consistente y con alto contraste sin fluctuaciones de estilo.
+*   **Widget de Discord**: Componente `src/components/DiscordWidget.astro` que obtiene en build time los datos del servidor vía API JSON de Discord (`widget.json`), renderizando una tarjeta *glassmorphism* moderna con contador de conectados, canales activos y avatares, con selector para alternar opcionalmente al iFrame oficial.
+*   **Dinámicas**: `/activities` lista actividades comunitarias (`activities.json`). Primera dinámica activa: **La Ruleta** (`/activities/roulette`) con tres packs precargados (Empleabilidad, Debates Tech, Qué Aprender 2026) y modo libre, construida en React 19 sobre Canvas 2D.
 
 ### Backend & Data (Evolutionary)
-*   **Phase 1 (Static)**: JSON files como "base de datos" (Content Collections de Astro, `src/content.config.ts` + `src/content/*.json`). **Strict Static Site Generation (SSG)** para compatibilidad con GitHub Pages.
+*   **Phase 1 (Static)**: Archivos JSON como base de datos (`src/content.config.ts` + `src/content/*.json`). **Strict Static Site Generation (SSG)** para compatibilidad con GitHub Pages.
 *   **Phase 2 (Dynamic)**:
     *   **Logic**: Python (FastAPI) o Node.js (Hono) para scrapers/APIs ligeras.
     *   **Cloud**: AWS Lambda (Serverless) para tareas cron (ej. Scraper semanal).
 
-## 3. Design System: "Neo-brutalista Indigo/Oro"
-*Bordes gruesos, sombra dura, bloques de color plano. Tech con carácter, no una plantilla SaaS genérica.*
+## 3. Design System: "Modern Dark Glassmorphism" (Stitch: Landing Optimizada y Equilibrada)
+*Estética inmersiva para desarrolladores: superficies obsidian-blue, vidrio esmerilado, iluminación radial y acentos vibrantes.*
 
-*   **Vibe**: Alto contraste, tipografía bold en mayúsculas, cero radio de borde, sombras duras (offset, sin blur) que se "aplastan" al interactuar (hover/click). Deliberadamente distinto del look indigo+slate+sombra-suave por defecto de Tailwind.
-*   **Tokens**: todo vive en `src/styles/global.css` como variables CSS semánticas dentro de `@theme` (nunca clases de paleta cruda como `indigo-600` o `slate-800` en los componentes). Tailwind v4 genera las utilidades automáticamente (`bg-primary`, `text-muted`, `border-border`, etc.).
-    *   `--color-primary` (Electric Indigo, `#4f46e5` claro / `#6366f1` oscuro): botones y bloques de acción.
-    *   `--color-accent` (Inca Gold vívido, `#ffc93c` claro / `#d4a94b` oscuro): bloques planos — badges, chip de "Lab" en el wordmark, tags, fecha de eventos. **No usar como color de texto** sobre fondo claro (contraste insuficiente); usar `--color-on-accent` para el texto encima.
-    *   `--color-border` ("ink", el trazo de todo borde) y `--color-shadow` (el color de la sombra dura): son los únicos tokens que realmente cambian de tono entre modos — negro/negro en claro, blanco/oro en oscuro. Todo lo demás solo ajusta luminosidad, para que claro/oscuro se sientan la misma marca.
-    *   `--color-bg`, `--color-surface`, `--color-content`, `--color-muted`, `--color-content-inverse`: fondo de página, fondo de tarjeta, texto principal, texto secundario, texto sobre `primary`.
-*   **Tema**: soporta `prefers-color-scheme` y un toggle manual (`data-theme` en `<html>`, ver sección 2) — ambos casos usan los mismos tokens oscuros, nunca una paleta distinta.
-*   **Utilidades propias**: `.shadow-brutal` / `.shadow-brutal-sm` (sombra dura 6px/3px sin blur). Combinar con `hover:translate-x-[Npx] hover:translate-y-[Npx] hover:shadow-none` en elementos interactivos para el efecto de "presión".
-*   **Bordes y radio**: `border-[3px] border-border` en casi todo elemento discreto (botones, tarjetas, badges, inputs); radio de borde siempre `0` (`rounded-none`, nunca `rounded-*`).
-*   **Typography**: `Archivo Black` para títulos/display (mayúsculas), `Inter` para cuerpo de texto.
-*   **Iconography**: SVGs propios inline en `src/components/icons/` (stroke, sin relleno, `currentColor`). Evitar logos con copyright directo si no es necesario.
-*   **Referencia visual**: las 13 variantes evaluadas antes de elegir esta dirección quedaron documentadas como Artifact de diseño (canvas con artboards comparables) — pedir el link si se necesita retomar la evaluación.
+*   **Vibe**: Alto contraste, tipografía display elegante en titulares, esquinas suavemente redondeadas (`rounded-xl`, `rounded-2xl`), gradientes radiales sutiles y efectos de resplandor (*glow*) en interacción.
+*   **Tokens**: Definidos en `src/styles/global.css` dentro de `@theme` de Tailwind v4:
+    *   `--color-bg`: `#080D1A` (Fondo lienzo principal).
+    *   `--color-surface`: `#0B1120` (Superficie de paneles y contenedores).
+    *   `--color-surface-subtle`: `#0f172a`.
+    *   `--color-surface-card`: `#131e36` (Superficie de tarjetas elevadas).
+    *   `--color-brand-yellow`: `#FACC15` (Amarillo marca de alto impacto en CTAs primarios y énfasis de texto).
+    *   `--color-brand-discord`: `#5865F2` (Blurple oficial para acciones y telemetría de Discord).
+    *   `--color-border`: `rgba(255, 255, 255, 0.12)`.
+*   **Utilidades visuales clave**:
+    *   `.glow-radial`: Gradiente radial superior dorado suave que ilumina el hero.
+    *   `.card-glass`: Fondo traslúcido (`rgba(15, 23, 42, 0.65)`), desenfoque de fondo (`backdrop-filter: blur(16px)`), borde sutil `rgba(255, 255, 255, 0.08)` y transición a `border-brand-yellow/30` en hover.
+*   **Tipografía**:
+    *   Display / Títulos: **Plus Jakarta Sans** (pesos 600, 700, 800) para impacto visual limpio y moderno.
+    *   Cuerpo de texto / Lectura: **Inter** (pesos 400, 500, 600) para máxima legibilidad.
+*   **Iconografía**: SVGs limpios inline optimizados (`DiscordIcon`, flechas, menú) y Google Material Symbols Outlined.
 
 ## 4. Architecture Patterns & Governance
-*   **Static First**: Todo contenido informativo (Guías, Blogs) debe ser estático (SSG).
-*   **Islands Architecture**: Javascript solo donde es necesario (Busca de empleo, Filtros).
-*   **Privacy by Default**:
-    *   CVs compartidos públicamente deben ser anonimizados (sin teléfono/dirección).
-    *   No tracking invasivo (respetar Do Not Track).
+*   **Static First**: Todo contenido informativo (Guías, Recursos, Eventos) es estático (SSG).
+*   **Islands Architecture**: Javascript solo donde es interactivo (Dinámicas en React, switchers en componentes Astro).
+*   **Privacy by Default**: Respeto a privacidad comunitaria, sin tracking invasivo.
 
 ## 5. Development Protocol
 1.  **Atomic Commits**: Un cambio lógico = Un commit.
 2.  **Linting**: ESLint + Prettier obligatorios (`npm run lint` antes de push).
-3.  **Documentation**: Cada feature nueva actualiza este archivo.
+3.  **Documentation**: Cada feature nueva actualiza este archivo maestro.
 4.  **Conventional Commits**: Obligatorio usar prefijos estándar (`feat:`, `fix:`, `chore:`) para alimentar el changelog automático.
 
 ## 6. CI/CD Pipeline (Automated)
@@ -80,4 +84,3 @@
 ## 7. Community & Resources
 *   **Discord**: [Unirse a la Comunidad](https://discord.gg/TCuZSnfKTE) (Hub central de coordinación).
 *   **GitHub**: Repositorio principal para código y issues.
-

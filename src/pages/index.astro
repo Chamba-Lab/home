@@ -1,40 +1,516 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import DiscordCta from "../components/DiscordCta.astro";
+import DiscordWidget from "../components/DiscordWidget.astro";
+import DiscordIcon from "../components/icons/DiscordIcon.astro";
+import { DISCORD_URL } from "../lib/constants";
+import { getCollection } from "astro:content";
+
+const rawBase = import.meta.env.BASE_URL;
+const base = rawBase.endsWith("/") ? rawBase : `${rawBase}/`;
+
+// Fetch resources and events dynamically as requested
+const allResources = await getCollection("resources");
+const allEvents = await getCollection("events");
+
+// Curate representative resources (CV, Learning, Practice)
+const featuredCv =
+    allResources.find((r) => r.data.category === "cv") || allResources[0];
+const featuredLearning =
+    allResources.find((r) => r.data.category === "aprendizaje") ||
+    allResources[1];
+const featuredPractice =
+    allResources.find((r) => r.data.category === "practica") || allResources[2];
+
+const featuredResources = [
+    {
+        ...featuredCv,
+        badgeClass:
+            "border-brand-yellow/30 bg-brand-yellow/10 text-brand-yellow",
+        tagLabel: "CV & Portfolio",
+    },
+    {
+        ...featuredLearning,
+        badgeClass: "border-emerald-500/30 bg-emerald-500/10 text-emerald-400",
+        tagLabel: "Aprendizaje Tech",
+    },
+    {
+        ...featuredPractice,
+        badgeClass: "border-[#5865F2]/30 bg-[#5865F2]/10 text-[#8a95ff]",
+        tagLabel: "Práctica & Entrevistas",
+    },
+];
+
+// Curate featured events
+const upcomingEvent =
+    allEvents.find((e) => e.data.type === "fixed") || allEvents[0];
+const recurringEvent =
+    allEvents.find((e) => e.data.type === "recurring") || allEvents[1];
+
+// Helper to format date for Google Calendar
+const gcalTitle = encodeURIComponent(
+    upcomingEvent?.data.title.es || "Evento Chamba Lab",
+);
+const gcalDetails = encodeURIComponent(
+    upcomingEvent?.data.description.es ||
+        "Sesión de la comunidad tech Chamba Lab",
+);
+const gcalDate = upcomingEvent?.data.date
+    ? upcomingEvent.data.date.replace(/-/g, "")
+    : "20261021";
+const gcalUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${gcalTitle}&dates=${gcalDate}T230000Z/${gcalDate}T235900Z&details=${gcalDetails}&location=Discord`;
+
+const recGcalTitle = encodeURIComponent(
+    recurringEvent?.data.title.es || "Sesión Chamba Lab",
+);
+const recGcalDetails = encodeURIComponent(
+    recurringEvent?.data.description.es ||
+        "Sesión recurrente de la comunidad tech Chamba Lab",
+);
+const recGcalUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${recGcalTitle}&recur=RRULE:FREQ=WEEKLY&details=${recGcalDetails}&location=Discord`;
 ---
 
-<Layout title="Chamba Lab | Comunidad Tech">
-    <main
-        class="max-w-3xl mx-auto px-6 py-24 sm:py-32 flex flex-col items-center text-center"
-    >
-        <!-- Badge -->
-        <div
-            class="inline-flex items-center px-3 py-1 border-[3px] border-border bg-accent text-on-accent shadow-brutal-sm text-xs font-bold uppercase mb-6"
+<Layout title="Chamba Lab | El espacio para impulsar tu camino en tecnología">
+    <main class="flex-1">
+        <!-- ============================================================== -->
+        <!-- HERO SECTION (Stitch: Landing Optimizada y Equilibrada)       -->
+        <!-- ============================================================== -->
+        <section
+            class="relative overflow-hidden pt-12 pb-20 md:pt-20 md:pb-32 glow-radial"
         >
-            <span data-i18n="badge">Comunidad Tech</span>
-        </div>
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div
+                    class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center pt-4"
+                >
+                    <!-- Left Column: Copy & Actions -->
+                    <div
+                        class="lg:col-span-7 flex flex-col items-center lg:items-start text-center lg:text-left"
+                    >
+                        <!-- Community Badge -->
+                        <div
+                            class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full card-glass text-xs font-semibold text-slate-300 border border-white/10 mb-6"
+                        >
+                            <span
+                                class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"
+                            ></span>
+                            <span data-i18n="badge">Comunidad Tech</span>
+                        </div>
 
-        <!-- Heading -->
-        <h1
-            class="text-4xl sm:text-5xl md:text-7xl font-display uppercase mb-6 tracking-tight leading-tight text-content"
+                        <!-- Main Display Headline -->
+                        <h1
+                            class="font-display text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white mb-6 leading-[1.12]"
+                        >
+                            <span data-i18n="heroTitlePrefix"
+                                >El espacio para impulsar tu camino en</span
+                            >
+                            <span
+                                class="text-brand-yellow"
+                                data-i18n="heroTitleHighlight">tecnología</span
+                            >.
+                        </h1>
+
+                        <!-- Lead Paragraphs -->
+                        <p
+                            class="text-lg sm:text-xl text-slate-300 font-normal leading-relaxed mb-4 max-w-2xl"
+                            data-i18n="heroIntro1"
+                        >
+                            Una comunidad para quienes construyen su carrera en
+                            tech — estudiantes, profesionales y todo lo que hay
+                            en el medio.
+                        </p>
+                        <p
+                            class="text-base text-slate-400 leading-relaxed max-w-xl mb-8"
+                            data-i18n="heroIntro2"
+                        >
+                            Compartimos conocimiento, oportunidades y apoyo real
+                            para crecer juntos. Todo pasa en nuestro Discord en
+                            tiempo real.
+                        </p>
+
+                        <!-- Call to Action Buttons -->
+                        <div
+                            class="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto mb-4"
+                        >
+                            <!-- Primary CTA: Discord -->
+                            <a
+                                class="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 bg-brand-yellow hover:bg-amber-300 text-slate-950 font-bold px-7 py-3.5 rounded-xl text-base transition-all transform hover:-translate-y-0.5 shadow-lg shadow-brand-yellow/20"
+                                href={DISCORD_URL}
+                                rel="noopener noreferrer"
+                                target="_blank"
+                            >
+                                <DiscordIcon class="w-5 h-5 text-slate-950" />
+                                <span data-i18n="ctaDiscord"
+                                    >Unirse a Discord</span
+                                >
+                            </a>
+
+                            <!-- Secondary CTA: Explore Resources -->
+                            <a
+                                class="w-full sm:w-auto inline-flex items-center justify-center gap-2 card-glass hover:bg-white/[0.08] text-slate-200 font-semibold px-6 py-3.5 rounded-xl text-base transition-all border border-white/10"
+                                href="#recursos"
+                            >
+                                <span data-i18n="ctaResources"
+                                    >Ver Recursos</span
+                                >
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    class="w-4 h-4 text-slate-400"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                >
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Right Column: Discord Widget Integration -->
+                    <div
+                        class="lg:col-span-5 flex justify-center w-full lg:justify-end"
+                    >
+                        <DiscordWidget />
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================================== -->
+        <!-- RECURSOS CURADOS (Dynamic data from resources.json)            -->
+        <!-- ============================================================== -->
+        <section class="py-20 border-t border-white/[0.06]" id="recursos">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div
+                    class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4"
+                >
+                    <div>
+                        <h2
+                            class="font-display text-3xl sm:text-4xl font-extrabold text-white tracking-tight mb-2"
+                            data-i18n="resourcesSectionTitle"
+                        >
+                            Recursos Curados
+                        </h2>
+                        <p
+                            class="text-sm sm:text-base text-slate-400 max-w-xl leading-relaxed"
+                            data-i18n="resourcesSectionDesc"
+                        >
+                            Una selección de guías, plataformas de práctica y
+                            plantillas que la comunidad recomienda.
+                        </p>
+                    </div>
+
+                    <a
+                        href={`${base}resources`}
+                        class="inline-flex items-center gap-2 text-sm font-bold text-brand-yellow hover:text-amber-300 transition-colors"
+                    >
+                        <span data-i18n="viewAllResources"
+                            >Explorar todos los recursos</span
+                        >
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            class="w-4 h-4"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                        </svg>
+                    </a>
+                </div>
+
+                <!-- 3 Feature Cards Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    {
+                        featuredResources.map((res) => (
+                            <div class="card-glass rounded-2xl p-7 flex flex-col justify-between group transition-all duration-300 hover:border-brand-yellow/40 hover:-translate-y-0.5 shadow-lg shadow-black/20">
+                                <div class="flex flex-col">
+                                    <div class="flex items-center justify-between mb-4">
+                                        <span
+                                            class={`text-[11px] font-bold uppercase tracking-wider px-2.5 py-1 rounded border ${res.badgeClass}`}
+                                        >
+                                            {res.tagLabel}
+                                        </span>
+                                    </div>
+                                    <h3 class="font-display text-xl font-bold text-white mb-2 group-hover:text-brand-yellow transition-colors leading-snug">
+                                        {res.data.title}
+                                    </h3>
+                                    <p
+                                        class="text-sm text-slate-400 leading-relaxed"
+                                        data-i18n-en={res.data.description.en}
+                                        data-i18n-es={res.data.description.es}
+                                    >
+                                        {res.data.description.es}
+                                    </p>
+                                </div>
+                                <div class="pt-6 mt-6 border-t border-white/10 flex items-center justify-between">
+                                    <a
+                                        class="inline-flex items-center gap-1.5 text-xs font-bold text-brand-yellow hover:text-white transition-colors group-hover:translate-x-0.5 transform duration-200"
+                                        href={res.data.url}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                    >
+                                        <span data-i18n="exploreResource">
+                                            Explorar recurso
+                                        </span>
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            class="w-3.5 h-3.5"
+                                            fill="none"
+                                            viewBox="0 0 24 24"
+                                            stroke="currentColor"
+                                        >
+                                            <path
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                stroke-width="2"
+                                                d="M14 5l7 7m0 0l-7 7m7-7H3"
+                                            />
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                        ))
+                    }
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================================== -->
+        <!-- EVENTOS Y DINÁMICAS (Dynamic data from events.json)            -->
+        <!-- ============================================================== -->
+        <section
+            class="py-20 border-t border-white/[0.06] bg-[#090F1F]"
+            id="eventos"
         >
-            Chamba <span class="bg-accent text-on-accent px-2">Lab</span>
-        </h1>
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div
+                    class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4"
+                >
+                    <div>
+                        <h2
+                            class="font-display text-3xl sm:text-4xl font-extrabold text-white tracking-tight mb-2"
+                            data-i18n="eventsSectionTitle"
+                        >
+                            Eventos y Sesiones
+                        </h2>
+                        <p
+                            class="text-sm sm:text-base text-slate-400 max-w-xl leading-relaxed"
+                            data-i18n="eventsSectionDesc"
+                        >
+                            Workshops en vivo, simulacros técnicos y espacios de
+                            coworking para acelerar tu desarrollo.
+                        </p>
+                    </div>
 
-        <!-- Intro -->
-        <p
-            class="text-lg md:text-xl text-muted max-w-2xl leading-relaxed"
-            data-i18n="intro"
-        >
-            Una comunidad para quienes construyen su carrera en tech —
-            estudiantes, profesionales y todo lo que hay en el medio.
-            Compartimos conocimiento, oportunidades y apoyo real para crecer
-            juntos. Todo pasa en nuestro Discord.
-        </p>
+                    <a
+                        href={`${base}events`}
+                        class="inline-flex items-center gap-2 text-sm font-bold text-brand-yellow hover:text-amber-300 transition-colors"
+                    >
+                        <span data-i18n="viewAllEvents"
+                            >Ver calendario completo</span
+                        >
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            class="w-4 h-4"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                        </svg>
+                    </a>
+                </div>
 
-        <!-- CTA -->
-        <div class="mt-10">
-            <DiscordCta />
-        </div>
+                <!-- Asymmetric Events Grid: 2 cols for Featured, 1 col for Recurring -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <!-- Featured Event Card (lg:col-span-2) -->
+                    {
+                        upcomingEvent && (
+                            <div class="lg:col-span-2 card-glass rounded-2xl p-7 sm:p-8 flex flex-col justify-between relative overflow-hidden border-brand-yellow/30 shadow-2xl">
+                                <div class="relative z-10">
+                                    <div class="flex flex-wrap items-center gap-2 mb-4">
+                                        <span
+                                            class="text-[11px] uppercase tracking-wider font-bold px-2.5 py-1 rounded-full bg-brand-yellow text-slate-950"
+                                            data-i18n="nextLiveSession"
+                                        >
+                                            Próxima Sesión
+                                        </span>
+                                        <span class="text-xs text-slate-300 flex items-center gap-1.5 font-medium ml-1">
+                                            <svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                class="w-4 h-4 text-brand-yellow"
+                                                fill="none"
+                                                viewBox="0 0 24 24"
+                                                stroke="currentColor"
+                                            >
+                                                <path
+                                                    stroke-linecap="round"
+                                                    stroke-linejoin="round"
+                                                    stroke-width="2"
+                                                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                                                />
+                                            </svg>
+                                            <span>
+                                                {upcomingEvent.data.date} •
+                                                20:00 UTC
+                                            </span>
+                                        </span>
+                                    </div>
+                                    <h3
+                                        class="font-display text-2xl sm:text-3xl font-bold text-white mb-3 leading-snug"
+                                        data-i18n-en={
+                                            upcomingEvent.data.title.en
+                                        }
+                                        data-i18n-es={
+                                            upcomingEvent.data.title.es
+                                        }
+                                    >
+                                        {upcomingEvent.data.title.es ||
+                                            upcomingEvent.data.title.en}
+                                    </h3>
+                                    <p
+                                        class="text-sm sm:text-base text-slate-300 leading-relaxed mb-6 max-w-xl"
+                                        data-i18n-en={
+                                            upcomingEvent.data.description.en
+                                        }
+                                        data-i18n-es={
+                                            upcomingEvent.data.description.es
+                                        }
+                                    >
+                                        {upcomingEvent.data.description.es}
+                                    </p>
+                                </div>
+                                <div class="relative z-10 pt-6 border-t border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                                    <div class="flex flex-wrap items-center gap-2.5">
+                                        <a
+                                            class="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-200 hover:text-brand-yellow transition-colors border border-white/10 hover:border-brand-yellow/30 px-3.5 py-2 rounded-xl bg-slate-900/90"
+                                            href={gcalUrl}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            title="Añadir a Google Calendar"
+                                        >
+                                            <span data-i18n="addToGCal">
+                                                Google Calendar
+                                            </span>
+                                        </a>
+                                        <a
+                                            class="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-400 hover:text-white transition-colors border border-white/10 hover:border-white/20 px-3.5 py-2 rounded-xl bg-slate-900/40"
+                                            href={`${base}events`}
+                                            title="Ver detalles en eventos"
+                                        >
+                                            <span data-i18n="downloadIcs">
+                                                Detalles / iCal
+                                            </span>
+                                        </a>
+                                    </div>
+                                    <a
+                                        class="inline-flex items-center justify-center gap-2 bg-[#5865F2] hover:bg-[#4752c4] text-white px-5 py-2.5 rounded-xl text-xs font-bold transition-all shadow-sm hover:shadow-[0_0_20px_rgba(88,101,242,0.4)]"
+                                        href={DISCORD_URL}
+                                        rel="noopener noreferrer"
+                                        target="_blank"
+                                    >
+                                        <DiscordIcon class="w-4 h-4" />
+                                        <span data-i18n="scheduleDiscord">
+                                            Agendar en Discord
+                                        </span>
+                                    </a>
+                                </div>
+                            </div>
+                        )
+                    }
+
+                    <!-- Recurring Session Card (lg:col-span-1) -->
+                    {
+                        recurringEvent && (
+                            <div class="card-glass rounded-2xl p-7 sm:p-8 flex flex-col justify-between group transition-all duration-300 hover:border-[#8a95ff]/30">
+                                <div class="flex flex-col">
+                                    <div class="flex items-center justify-between mb-4">
+                                        <span
+                                            class="text-[11px] font-bold text-[#8a95ff] uppercase tracking-wider px-2.5 py-1 rounded bg-[#5865F2]/10 border border-[#5865F2]/20"
+                                            data-i18n="weeklySession"
+                                        >
+                                            Sesión Semanal
+                                        </span>
+                                        <span class="text-xs text-slate-400 flex items-center gap-1">
+                                            {recurringEvent.data.recurrenceLabel
+                                                ?.es || "Semanal"}
+                                        </span>
+                                    </div>
+                                    <h3
+                                        class="font-display text-xl font-bold text-white mb-3 group-hover:text-[#8a95ff] transition-colors leading-snug"
+                                        data-i18n-en={
+                                            recurringEvent.data.title.en
+                                        }
+                                        data-i18n-es={
+                                            recurringEvent.data.title.es
+                                        }
+                                    >
+                                        {recurringEvent.data.title.es ||
+                                            recurringEvent.data.title.en}
+                                    </h3>
+                                    <p
+                                        class="text-sm text-slate-400 leading-relaxed mb-6"
+                                        data-i18n-en={
+                                            recurringEvent.data.description.en
+                                        }
+                                        data-i18n-es={
+                                            recurringEvent.data.description.es
+                                        }
+                                    >
+                                        {recurringEvent.data.description.es}
+                                    </p>
+                                </div>
+                                <div class="pt-6 border-t border-white/10 flex flex-col gap-3">
+                                    <div class="flex items-center gap-2">
+                                        <a
+                                            class="flex-1 inline-flex items-center justify-center gap-1.5 text-xs font-semibold text-slate-200 hover:text-brand-yellow transition-colors border border-white/10 hover:border-brand-yellow/30 px-3 py-2 rounded-xl bg-slate-900/90"
+                                            href={recGcalUrl}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            title="Añadir a Google Calendar"
+                                        >
+                                            <span data-i18n="addToGCal">
+                                                Google Calendar
+                                            </span>
+                                        </a>
+                                        <a
+                                            class="inline-flex items-center justify-center gap-1 text-xs font-semibold text-slate-400 hover:text-white transition-colors border border-white/10 hover:border-white/20 px-3.5 py-2 rounded-xl bg-slate-900/40"
+                                            href={`${base}events`}
+                                            title="Ver detalles del evento"
+                                        >
+                                            <span data-i18n="downloadIcs">
+                                                iCal
+                                            </span>
+                                        </a>
+                                    </div>
+                                    <a
+                                        class="w-full inline-flex items-center justify-center gap-2 bg-[#5865F2] hover:bg-[#4752c4] text-white px-4 py-2.5 rounded-xl text-xs font-bold transition-all shadow-sm hover:shadow-[0_0_20px_rgba(88,101,242,0.4)]"
+                                        href={DISCORD_URL}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                    >
+                                        <DiscordIcon class="w-4 h-4" />
+                                        <span data-i18n="participateDiscord">
+                                            Participar en Discord
+                                        </span>
+                                    </a>
+                                </div>
+                            </div>
+                        )
+                    }
+                </div>
+            </div>
+        </section>
     </main>
 </Layout>

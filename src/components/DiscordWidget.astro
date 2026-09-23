@@ -1,0 +1,286 @@
+---
+import DiscordIcon from "./icons/DiscordIcon.astro";
+import { DISCORD_URL } from "../lib/constants";
+
+interface Member {
+    id: string;
+    username: string;
+    status: string;
+    avatar_url?: string;
+    channel_id?: string;
+}
+
+interface Channel {
+    id: string;
+    name: string;
+    position: number;
+}
+
+interface DiscordData {
+    id: string;
+    name: string;
+    presence_count: number;
+    channels: Channel[];
+    members: Member[];
+}
+
+let discordData: DiscordData = {
+    id: "1473927361106808832",
+    name: "Chamba Lab",
+    presence_count: 7,
+    channels: [
+        { id: "1548810529097781390", name: "🗿 General", position: 0 },
+        { id: "1548819408896397422", name: "🎮 DOTITA", position: 1 },
+        { id: "1551276099198259230", name: "🎙️ clasecitas", position: 3 },
+    ],
+    members: [
+        { id: "1", username: "Melio", status: "online" },
+        { id: "2", username: "Lued", status: "online" },
+        { id: "3", username: "Lyon", status: "online" },
+        { id: "4", username: "Yashi", status: "online" },
+        { id: "5", username: "Lolipow", status: "online" },
+    ],
+};
+
+try {
+    const res = await fetch(
+        "https://discord.com/api/guilds/1473927361106808832/widget.json",
+        { signal: AbortSignal.timeout(3000) },
+    );
+    if (res.ok) {
+        const json = await res.json();
+        discordData = {
+            id: json.id || discordData.id,
+            name: json.name || discordData.name,
+            presence_count: json.presence_count ?? discordData.presence_count,
+            channels: json.channels?.length
+                ? json.channels
+                : discordData.channels,
+            members: json.members?.length ? json.members : discordData.members,
+        };
+    }
+} catch {
+    // Graceful fallback to default values on timeout/offline
+}
+
+const onlineMembers = discordData.members.slice(0, 7);
+const channels = discordData.channels.slice(0, 4);
+---
+
+<div class="w-full max-w-[370px] flex flex-col items-center">
+    <div
+        class="w-full card-glass rounded-2xl p-5 shadow-2xl border border-white/10 relative overflow-hidden group transition-all duration-300 hover:border-brand-yellow/30 bg-[#0B1120]/85 backdrop-blur-xl"
+    >
+        <!-- Top ambient glow -->
+        <div
+            class="absolute -top-16 -right-16 w-36 h-36 bg-[#5865F2]/20 rounded-full blur-2xl pointer-events-none"
+        >
+        </div>
+
+        <!-- Mode Toggle (Modern Card vs Official Iframe) -->
+        <div
+            class="flex items-center justify-between pb-4 mb-4 border-b border-white/[0.08] relative z-10"
+        >
+            <div
+                class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#5865F2]/15 border border-[#5865F2]/30 text-[11px] font-bold text-[#8a95ff] tracking-wide"
+            >
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"
+                ></span>
+                <span data-i18n="discordLiveTag">LIVE // DISCORD</span>
+            </div>
+
+            <!-- View switch -->
+            <div
+                class="flex items-center gap-1 bg-slate-900/80 p-0.5 rounded-lg border border-white/10 text-[10px] font-semibold"
+            >
+                <button
+                    id="btn-view-modern"
+                    type="button"
+                    class="px-2 py-0.5 rounded bg-brand-yellow text-slate-950 font-bold transition-all"
+                    data-i18n="discordWidgetTabModern"
+                >
+                    Vista Moderna
+                </button>
+                <button
+                    id="btn-view-official"
+                    type="button"
+                    class="px-2 py-0.5 rounded text-slate-400 hover:text-white transition-all"
+                    data-i18n="discordWidgetTabOfficial"
+                >
+                    Oficial
+                </button>
+            </div>
+        </div>
+
+        <!-- VIEW A: Modern Glass Card -->
+        <div id="discord-view-modern" class="flex flex-col gap-4 relative z-10">
+            <!-- Server Header -->
+            <div class="flex items-center gap-3">
+                <div
+                    class="w-11 h-11 rounded-xl bg-[#5865F2] flex items-center justify-center text-white shadow-md shadow-[#5865F2]/30 shrink-0"
+                >
+                    <DiscordIcon class="w-6 h-6" />
+                </div>
+                <div class="flex flex-col min-w-0">
+                    <h3
+                        class="font-display text-base font-extrabold text-white truncate leading-tight"
+                    >
+                        {discordData.name}
+                    </h3>
+                    <p
+                        class="text-xs text-emerald-400 flex items-center gap-1.5 font-medium mt-0.5"
+                    >
+                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"
+                        ></span>
+                        <span>{discordData.presence_count}</span>
+                        <span data-i18n="discordOnline">miembros en línea</span>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Active Channels -->
+            <div class="space-y-1.5 pt-2 border-t border-white/[0.06]">
+                <span
+                    class="text-[11px] font-bold uppercase tracking-wider text-slate-400 block"
+                    data-i18n="discordChannels"
+                >
+                    Canales de voz y estudio
+                </span>
+                <div class="flex flex-wrap gap-1.5">
+                    {
+                        channels.map((ch) => (
+                            <span class="inline-flex items-center text-xs px-2.5 py-1 rounded-md bg-slate-900/90 text-slate-300 border border-white/5 font-mono">
+                                {ch.name}
+                            </span>
+                        ))
+                    }
+                </div>
+            </div>
+
+            <!-- Online Members List -->
+            <div class="space-y-2 pt-2 border-t border-white/[0.06]">
+                <div
+                    class="flex items-center justify-between text-[11px] text-slate-400 font-semibold uppercase tracking-wider"
+                >
+                    <span>En Sala</span>
+                    <span class="text-emerald-400">● Conectados</span>
+                </div>
+                <div
+                    class="grid grid-cols-1 gap-1.5 max-h-36 overflow-y-auto pr-1"
+                >
+                    {
+                        onlineMembers.map((member) => (
+                            <div class="flex items-center justify-between px-2.5 py-1.5 rounded-lg bg-slate-900/60 border border-white/5 hover:border-white/15 transition-colors">
+                                <div class="flex items-center gap-2 min-w-0">
+                                    <div class="relative shrink-0">
+                                        {member.avatar_url ? (
+                                            <img
+                                                src={member.avatar_url}
+                                                alt={member.username}
+                                                class="w-6 h-6 rounded-full object-cover"
+                                                loading="lazy"
+                                            />
+                                        ) : (
+                                            <div class="w-6 h-6 rounded-full bg-[#5865F2]/40 text-[10px] text-white font-bold flex items-center justify-center">
+                                                {member.username
+                                                    .charAt(0)
+                                                    .toUpperCase()}
+                                            </div>
+                                        )}
+                                        <span
+                                            class={`absolute -bottom-0.5 -right-0.5 w-2 h-2 rounded-full border border-[#0B1120] ${
+                                                member.status === "dnd"
+                                                    ? "bg-rose-500"
+                                                    : "bg-emerald-400"
+                                            }`}
+                                        />
+                                    </div>
+                                    <span class="text-xs font-medium text-slate-200 truncate">
+                                        {member.username}
+                                    </span>
+                                </div>
+                                <span class="text-[10px] text-slate-400 font-mono">
+                                    {member.status === "dnd"
+                                        ? "ocupado"
+                                        : "activo"}
+                                </span>
+                            </div>
+                        ))
+                    }
+                </div>
+            </div>
+
+            <!-- Join Server CTA Button -->
+            <a
+                href={DISCORD_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="w-full inline-flex items-center justify-center gap-2 bg-[#5865F2] hover:bg-[#4752c4] text-white py-3 rounded-xl text-sm font-bold shadow-lg shadow-[#5865F2]/25 hover:shadow-[#5865F2]/40 transition-all transform hover:-translate-y-0.5 mt-1"
+            >
+                <DiscordIcon class="w-4 h-4" />
+                <span data-i18n="discordJoin">Unirse a la Comunidad</span>
+            </a>
+        </div>
+
+        <!-- VIEW B: Official Discord Iframe Widget -->
+        <div
+            id="discord-view-official"
+            class="hidden flex-col items-center relative z-10"
+        >
+            <iframe
+                src="https://discord.com/widget?id=1473927361106808832&theme=dark"
+                width="310"
+                height="400"
+                allowtransparency="true"
+                frameborder="0"
+                sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"
+                class="w-full rounded-xl bg-transparent"
+                title="Discord Server Widget"
+                loading="lazy"></iframe>
+        </div>
+    </div>
+</div>
+
+<script>
+    const btnModern = document.getElementById("btn-view-modern");
+    const btnOfficial = document.getElementById("btn-view-official");
+    const viewModern = document.getElementById("discord-view-modern");
+    const viewOfficial = document.getElementById("discord-view-official");
+
+    function setView(mode: "modern" | "official") {
+        if (mode === "modern") {
+            viewModern?.classList.remove("hidden");
+            viewOfficial?.classList.add("hidden");
+            btnModern?.classList.add(
+                "bg-brand-yellow",
+                "text-slate-950",
+                "font-bold",
+            );
+            btnModern?.classList.remove("text-slate-400");
+            btnOfficial?.classList.remove(
+                "bg-brand-yellow",
+                "text-slate-950",
+                "font-bold",
+            );
+            btnOfficial?.classList.add("text-slate-400");
+        } else {
+            viewModern?.classList.add("hidden");
+            viewOfficial?.classList.remove("hidden");
+            btnOfficial?.classList.add(
+                "bg-brand-yellow",
+                "text-slate-950",
+                "font-bold",
+            );
+            btnOfficial?.classList.remove("text-slate-400");
+            btnModern?.classList.remove(
+                "bg-brand-yellow",
+                "text-slate-950",
+                "font-bold",
+            );
+            btnModern?.classList.add("text-slate-400");
+        }
+    }
+
+    btnModern?.addEventListener("click", () => setView("modern"));
+    btnOfficial?.addEventListener("click", () => setView("official"));
+</script>
