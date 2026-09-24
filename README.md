@@ -22,7 +22,7 @@ Construido para ser ultra rápido, accesible y visualmente impactante.
 
 - **Frontend**: [Astro 7.x](https://astro.build) (Optimizado para rendimiento extremo y SSG).
 - **UI Library**: [React 19+](https://reactjs.org) (Utilizado en "Islas" de interacción como la Ruleta).
-- **Styling**: [TailwindCSS 4.x](https://tailwindcss.com), sistema de diseño **Modern Dark Glassmorphism** (fondo obsidian `#080D1A`, tarjetas con `backdrop-blur`, acentos en amarillo `#FACC15` y Discord `#5865F2`) — ver [AGENTS.md](./AGENTS.md#3-design-system-modern-dark-glassmorphism-stitch-landing-optimizada-y-equilibrada).
+- **Styling**: [TailwindCSS 4.x](https://tailwindcss.com), sistema de diseño **Modern Dark Glassmorphism** (fondo obsidian `#080D1A`, tarjetas con `backdrop-blur`, acentos en amarillo `#FACC15` y Discord `#5865F2`) — especificación completa en [DESIGN.md](./DESIGN.md) y arquitectura en [AGENTS.md](./AGENTS.md).
 - **CI/CD**: GitHub Actions + `release-it` para versionado automático y despliegue a **GitHub Pages**.
 
 ---
@@ -35,7 +35,7 @@ Construido para ser ultra rápido, accesible y visualmente impactante.
 | `/resources` | Biblioteca completa de guías, plantillas y plataformas curadas con filtros |
 | `/events` | Calendario de eventos y sesiones recurrentes con exportación a Google Calendar / iCal |
 | `/activities` | Hub de mini actividades comunitarias (dinámicas) |
-| `/activities/roulette` | La Ruleta — dinámica interactiva con temas preestablecidos o modo libre |
+| `/activities/roulette` | La Ruleta — dinámica interactiva con 6 packs temáticos (72 preguntas) o modo libre (hasta 24 opciones), Canvas 2D radial, tooltips flotantes, audio sintetizado y confeti |
 
 Rutas siempre en inglés (buenas prácticas), con soporte bilingüe completo (`ES`/`EN` con pastilla segmentada en el header). Detalle técnico completo en [AGENTS.md](./AGENTS.md#site-structure).
 

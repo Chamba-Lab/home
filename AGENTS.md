@@ -33,7 +33,7 @@
 *   **i18n**: Diccionario centralizado en `src/i18n/translations.ts`. El selector traduce el chrome estructural y las secciones de la landing en vivo vía `data-i18n` y atributos bilingües (`data-i18n-en` / `data-i18n-es`), persistiendo la preferencia en `localStorage` (`chamba-lab-lang`).
 *   **Tema**: Dark-mode first (`#080D1A`), garantizando una experiencia inmersiva, consistente y con alto contraste sin fluctuaciones de estilo.
 *   **Widget de Discord**: Componente `src/components/DiscordWidget.astro` que obtiene en build time los datos del servidor vía API JSON de Discord (`widget.json`), renderizando una tarjeta *glassmorphism* moderna con contador de conectados, canales activos y avatares, con selector para alternar opcionalmente al iFrame oficial.
-*   **Dinámicas**: `/activities` lista actividades comunitarias (`activities.json`). Primera dinámica activa: **La Ruleta** (`/activities/roulette`) con tres packs precargados (Empleabilidad, Debates Tech, Qué Aprender 2026) y modo libre, construida en React 19 sobre Canvas 2D.
+*   **Dinámicas**: `/activities` lista actividades comunitarias (`activities.json`). Primera dinámica activa: **La Ruleta** (`/activities/roulette`) con 6 packs precargados (72 preguntas de empleabilidad, arquitectura, tendencias, dilemas de producción, IA y rompehielos) y modo libre (hasta 24 opciones), construida en React 19 sobre Canvas 2D adaptativo con tooltips flotantes en hover, física de aguja (*needle wobble*), sintetizador de audio con Web Audio API y confeti dinámico.
 
 ### Backend & Data (Evolutionary)
 *   **Phase 1 (Static)**: Archivos JSON como base de datos (`src/content.config.ts` + `src/content/*.json`). **Strict Static Site Generation (SSG)** para compatibilidad con GitHub Pages.
@@ -42,7 +42,7 @@
     *   **Cloud**: AWS Lambda (Serverless) para tareas cron (ej. Scraper semanal).
 
 ## 3. Design System: "Modern Dark Glassmorphism" (Stitch: Landing Optimizada y Equilibrada)
-*Estética inmersiva para desarrolladores: superficies obsidian-blue, vidrio esmerilado, iluminación radial y acentos vibrantes.*
+*Estética inmersiva para desarrolladores: superficies obsidian-blue, vidrio esmerilado, iluminación radial y acentos vibrantes. Ver especificación exhaustiva en [DESIGN.md](./DESIGN.md).*
 
 *   **Vibe**: Alto contraste, tipografía display elegante en titulares, esquinas suavemente redondeadas (`rounded-xl`, `rounded-2xl`), gradientes radiales sutiles y efectos de resplandor (*glow*) en interacción.
 *   **Tokens**: Definidos en `src/styles/global.css` dentro de `@theme` de Tailwind v4:

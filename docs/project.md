@@ -49,10 +49,11 @@ Nuestra estrategia se basa en dos columnas vertebrales que sostienen el crecimie
     *   Networking mixers.
     *   Exportar cada evento a calendario personal (`.ics`) o suscribirse al calendario general de la comunidad (feed ICS siempre actualizado).
 5.  **Dinámicas**:
-    *   Mini actividades para la comunidad, comenzando con una **ruleta configurable** (✅ implementada).
-    *   Modo libre: usuarios aportan opciones personalizadas (máx 12).
-    *   Modo preestablecido: tres packs temáticos precargados (Empleabilidad, Debates Tech, Qué Aprender 2026).
-    *   Canvas 2D animado con resultado destacado en tarjeta.
+    *   Mini actividades para la comunidad, comenzando con **La Ruleta** (✅ implementada en `/activities/roulette`).
+    *   Modo preestablecido: 6 packs temáticos precargados (Empleabilidad, Debates Tech, Qué Aprender 2026, Dilemas de Producción, IA & Futuro del Dev, Rompehielos & Cultura Dev) con 72 preguntas en total.
+    *   Modo libre: soporte ampliado para hasta 24 opciones personalizadas.
+    *   Canvas 2D adaptativo con distribución radial para textos largos, tooltips flotantes en hover, física de aguja (*needle wobble*), sintetizador de audio con Web Audio API y confeti.
+    *   Diseño bajo el estándar *Modern Dark Glassmorphism* documentado en [`DESIGN.md`](../DESIGN.md).
     *   Próximo: agregar más actividades (preguntas rápidas, minijuegos, etc.).
 
 ## 🗺️ Primeros Pasos (Bootstrap)
