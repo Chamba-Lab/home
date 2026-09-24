@@ -27,25 +27,24 @@ interface DiscordData {
 let discordData: DiscordData = {
     id: "1473927361106808832",
     name: "Chamba Lab",
-    presence_count: 7,
+    presence_count: 5,
     channels: [
+        { id: "1551276099198259230", name: "🎙️ clasecitas", position: 1 },
         { id: "1548810529097781390", name: "🗿 General", position: 0 },
-        { id: "1548819408896397422", name: "🎮 DOTITA", position: 1 },
-        { id: "1551276099198259230", name: "🎙️ clasecitas", position: 3 },
     ],
     members: [
-        { id: "1", username: "Melio", status: "online" },
-        { id: "2", username: "Lued", status: "online" },
-        { id: "3", username: "Lyon", status: "online" },
-        { id: "4", username: "Yashi", status: "online" },
-        { id: "5", username: "Lolipow", status: "online" },
+        { id: "1", username: "Melio 🎅🏿", status: "online" },
+        { id: "2", username: "Lolipow", status: "online" },
+        { id: "3", username: "Whitte", status: "idle" },
+        { id: "4", username: "Jockie Music", status: "online" },
+        { id: "5", username: "a...", status: "online" },
     ],
 };
 
 try {
     const res = await fetch(
         "https://discord.com/api/guilds/1473927361106808832/widget.json",
-        { signal: AbortSignal.timeout(3000) },
+        { signal: AbortSignal.timeout(3500) },
     );
     if (res.ok) {
         const json = await res.json();
@@ -56,7 +55,7 @@ try {
             channels: json.channels?.length
                 ? json.channels
                 : discordData.channels,
-            members: json.members?.length ? json.members : discordData.members,
+            members: json.members || [],
         };
     }
 } catch {
@@ -123,6 +122,7 @@ const channels = discordData.channels.slice(0, 4);
                 </div>
                 <div class="flex flex-col min-w-0">
                     <h3
+                        id="discord-server-name"
                         class="font-display text-base font-extrabold text-white truncate leading-tight"
                     >
                         {discordData.name}
@@ -132,7 +132,9 @@ const channels = discordData.channels.slice(0, 4);
                     >
                         <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"
                         ></span>
-                        <span>{discordData.presence_count}</span>
+                        <span id="discord-presence-count"
+                            >{discordData.presence_count}</span
+                        >
                         <span data-i18n="discordOnline">miembros en línea</span>
                     </p>
                 </div>
@@ -146,7 +148,7 @@ const channels = discordData.channels.slice(0, 4);
                 >
                     Canales de voz y estudio
                 </span>
-                <div class="flex flex-wrap gap-1.5">
+                <div id="discord-channels-list" class="flex flex-wrap gap-1.5">
                     {
                         channels.map((ch) => (
                             <span class="inline-flex items-center text-xs px-2.5 py-1 rounded-md bg-slate-900/90 text-slate-300 border border-white/5 font-mono">
@@ -166,46 +168,58 @@ const channels = discordData.channels.slice(0, 4);
                     <span class="text-emerald-400">● Conectados</span>
                 </div>
                 <div
+                    id="discord-members-list"
                     class="grid grid-cols-1 gap-1.5 max-h-36 overflow-y-auto pr-1"
                 >
                     {
-                        onlineMembers.map((member) => (
-                            <div class="flex items-center justify-between px-2.5 py-1.5 rounded-lg bg-slate-900/60 border border-white/5 hover:border-white/15 transition-colors">
-                                <div class="flex items-center gap-2 min-w-0">
-                                    <div class="relative shrink-0">
-                                        {member.avatar_url ? (
-                                            <img
-                                                src={member.avatar_url}
-                                                alt={member.username}
-                                                class="w-6 h-6 rounded-full object-cover"
-                                                loading="lazy"
+                        onlineMembers.length > 0 ? (
+                            onlineMembers.map((member) => (
+                                <div class="flex items-center justify-between px-2.5 py-1.5 rounded-lg bg-slate-900/60 border border-white/5 hover:border-white/15 transition-colors">
+                                    <div class="flex items-center gap-2 min-w-0">
+                                        <div class="relative shrink-0">
+                                            {member.avatar_url ? (
+                                                <img
+                                                    src={member.avatar_url}
+                                                    alt={member.username}
+                                                    class="w-6 h-6 rounded-full object-cover"
+                                                    loading="lazy"
+                                                />
+                                            ) : (
+                                                <div class="w-6 h-6 rounded-full bg-[#5865F2]/40 text-[10px] text-white font-bold flex items-center justify-center">
+                                                    {member.username
+                                                        .charAt(0)
+                                                        .toUpperCase()}
+                                                </div>
+                                            )}
+                                            <span
+                                                class={`absolute -bottom-0.5 -right-0.5 w-2 h-2 rounded-full border border-[#0B1120] ${
+                                                    member.status === "dnd"
+                                                        ? "bg-rose-500"
+                                                        : member.status ===
+                                                            "idle"
+                                                          ? "bg-amber-400"
+                                                          : "bg-emerald-400"
+                                                }`}
                                             />
-                                        ) : (
-                                            <div class="w-6 h-6 rounded-full bg-[#5865F2]/40 text-[10px] text-white font-bold flex items-center justify-center">
-                                                {member.username
-                                                    .charAt(0)
-                                                    .toUpperCase()}
-                                            </div>
-                                        )}
-                                        <span
-                                            class={`absolute -bottom-0.5 -right-0.5 w-2 h-2 rounded-full border border-[#0B1120] ${
-                                                member.status === "dnd"
-                                                    ? "bg-rose-500"
-                                                    : "bg-emerald-400"
-                                            }`}
-                                        />
+                                        </div>
+                                        <span class="text-xs font-medium text-slate-200 truncate">
+                                            {member.username}
+                                        </span>
                                     </div>
-                                    <span class="text-xs font-medium text-slate-200 truncate">
-                                        {member.username}
+                                    <span class="text-[10px] text-slate-400 font-mono">
+                                        {member.status === "dnd"
+                                            ? "ocupado"
+                                            : member.status === "idle"
+                                              ? "ausente"
+                                              : "activo"}
                                     </span>
                                 </div>
-                                <span class="text-[10px] text-slate-400 font-mono">
-                                    {member.status === "dnd"
-                                        ? "ocupado"
-                                        : "activo"}
-                                </span>
-                            </div>
-                        ))
+                            ))
+                        ) : (
+                            <p class="text-xs text-slate-400 py-2 text-center">
+                                Conectando con Discord...
+                            </p>
+                        )
                     }
                 </div>
             </div>
@@ -283,4 +297,160 @@ const channels = discordData.channels.slice(0, 4);
 
     btnModern?.addEventListener("click", () => setView("modern"));
     btnOfficial?.addEventListener("click", () => setView("official"));
+
+    // --- Progressive Client-Side Live Hydration ---
+    interface MemberApi {
+        id: string;
+        username: string;
+        status: string;
+        avatar_url?: string;
+        channel_id?: string;
+    }
+
+    interface ChannelApi {
+        id: string;
+        name: string;
+        position: number;
+    }
+
+    interface DiscordApiResponse {
+        id: string;
+        name: string;
+        presence_count: number;
+        channels?: ChannelApi[];
+        members?: MemberApi[];
+    }
+
+    const DISCORD_WIDGET_API =
+        "https://discord.com/api/guilds/1473927361106808832/widget.json";
+
+    async function refreshDiscordData() {
+        try {
+            const res = await fetch(DISCORD_WIDGET_API);
+            if (!res.ok) return;
+            const data: DiscordApiResponse = await res.json();
+
+            // 1. Update server name
+            const serverNameEl = document.getElementById("discord-server-name");
+            if (serverNameEl && data.name) {
+                serverNameEl.textContent = data.name;
+            }
+
+            // 2. Update presence count
+            const countEl = document.getElementById("discord-presence-count");
+            if (countEl && typeof data.presence_count === "number") {
+                countEl.textContent = String(data.presence_count);
+            }
+
+            // 3. Update voice/study channels
+            const channelsContainer = document.getElementById(
+                "discord-channels-list",
+            );
+            if (
+                channelsContainer &&
+                data.channels &&
+                data.channels.length > 0
+            ) {
+                channelsContainer.innerHTML = "";
+                data.channels.slice(0, 4).forEach((ch) => {
+                    const span = document.createElement("span");
+                    span.className =
+                        "inline-flex items-center text-xs px-2.5 py-1 rounded-md bg-slate-900/90 text-slate-300 border border-white/5 font-mono";
+                    span.textContent = ch.name;
+                    channelsContainer.appendChild(span);
+                });
+            }
+
+            // 4. Update online members list
+            const membersContainer = document.getElementById(
+                "discord-members-list",
+            );
+            if (membersContainer && data.members) {
+                membersContainer.innerHTML = "";
+                const activeMembers = data.members.slice(0, 7);
+
+                if (activeMembers.length === 0) {
+                    const emptyMsg = document.createElement("p");
+                    emptyMsg.className =
+                        "text-xs text-slate-400 py-2 text-center";
+                    emptyMsg.textContent =
+                        "No hay miembros en sala en este momento.";
+                    membersContainer.appendChild(emptyMsg);
+                } else {
+                    activeMembers.forEach((member) => {
+                        const row = document.createElement("div");
+                        row.className =
+                            "flex items-center justify-between px-2.5 py-1.5 rounded-lg bg-slate-900/60 border border-white/5 hover:border-white/15 transition-colors";
+
+                        const left = document.createElement("div");
+                        left.className = "flex items-center gap-2 min-w-0";
+
+                        const avatarWrap = document.createElement("div");
+                        avatarWrap.className = "relative shrink-0";
+
+                        if (member.avatar_url) {
+                            const img = document.createElement("img");
+                            img.src = member.avatar_url;
+                            img.alt = member.username;
+                            img.className = "w-6 h-6 rounded-full object-cover";
+                            img.loading = "lazy";
+                            avatarWrap.appendChild(img);
+                        } else {
+                            const initialDiv = document.createElement("div");
+                            initialDiv.className =
+                                "w-6 h-6 rounded-full bg-[#5865F2]/40 text-[10px] text-white font-bold flex items-center justify-center";
+                            initialDiv.textContent = (member.username || "?")
+                                .charAt(0)
+                                .toUpperCase();
+                            avatarWrap.appendChild(initialDiv);
+                        }
+
+                        const statusDot = document.createElement("span");
+                        const statusColor =
+                            member.status === "dnd"
+                                ? "bg-rose-500"
+                                : member.status === "idle"
+                                  ? "bg-amber-400"
+                                  : "bg-emerald-400";
+                        statusDot.className = `absolute -bottom-0.5 -right-0.5 w-2 h-2 rounded-full border border-[#0B1120] ${statusColor}`;
+                        avatarWrap.appendChild(statusDot);
+
+                        const nameSpan = document.createElement("span");
+                        nameSpan.className =
+                            "text-xs font-medium text-slate-200 truncate";
+                        nameSpan.textContent = member.username;
+
+                        left.appendChild(avatarWrap);
+                        left.appendChild(nameSpan);
+
+                        const statusSpan = document.createElement("span");
+                        statusSpan.className =
+                            "text-[10px] text-slate-400 font-mono";
+                        statusSpan.textContent =
+                            member.status === "dnd"
+                                ? "ocupado"
+                                : member.status === "idle"
+                                  ? "ausente"
+                                  : "activo";
+
+                        row.appendChild(left);
+                        row.appendChild(statusSpan);
+                        membersContainer.appendChild(row);
+                    });
+                }
+            }
+        } catch {
+            // Silently retain SSG HTML if offline or blocked
+        }
+    }
+
+    // Refresh immediately on page load
+    refreshDiscordData();
+
+    // Periodically refresh every 60s if the tab is visible
+    setInterval(() => {
+        if (document.visibilityState === "visible") {
+            refreshDiscordData();
+        }
+    }, 60000);
 </script>
