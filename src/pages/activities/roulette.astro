@@ -16,47 +16,62 @@ if (!config) {
 const { roulette } = config;
 ---
 
-<Layout title="Chamba Lab | La Ruleta">
-    <main class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
-        <!-- Back Link -->
-        <a
-            href={`${base}activities`}
-            class="inline-flex items-center gap-1.5 text-xs font-bold text-slate-300 hover:text-brand-yellow transition-colors card-glass border border-white/10 px-3.5 py-2 rounded-xl mb-8"
+<Layout title="Chamba Lab | La Ruleta de la Comunidad">
+    <main
+        class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20 relative"
+    >
+        <!-- Top Ambient Glow -->
+        <div
+            class="absolute top-0 left-1/2 -translate-x-1/2 w-96 h-96 bg-brand-yellow/5 rounded-full blur-3xl pointer-events-none -z-10"
         >
-            <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="w-3.5 h-3.5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-            >
-                <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
-            </svg>
-            <span>Volver a Dinámicas</span>
-        </a>
-
-        <!-- Header -->
-        <div class="mb-8">
-            <span
-                class="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded bg-brand-yellow/10 border border-brand-yellow/30 text-brand-yellow inline-block mb-3"
-            >
-                Dinámica 01 • Rompehielos
-            </span>
-            <h1
-                class="font-display text-3xl sm:text-4xl font-extrabold text-white tracking-tight"
-            >
-                🎡 La Ruleta
-            </h1>
         </div>
 
-        <!-- Wheel Island Card -->
-        <div
-            class="card-glass rounded-2xl p-6 sm:p-8 border border-white/10 shadow-2xl mb-10 bg-[#0B1120]/80"
-        >
+        <!-- Back Link & Breadcrumb -->
+        <div class="flex items-center justify-between mb-8">
+            <a
+                href={`${base}activities`}
+                class="inline-flex items-center gap-2 text-xs font-bold text-slate-300 hover:text-brand-yellow transition-all card-glass border border-white/10 px-4 py-2.5 rounded-xl hover:-translate-x-0.5"
+            >
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="w-4 h-4"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                >
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                </svg>
+                <span>Volver a Dinámicas</span>
+            </a>
+
+            <span
+                class="text-[11px] font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-brand-yellow/10 border border-brand-yellow/30 text-brand-yellow hidden sm:inline-block"
+            >
+                Dinámica 01 • Rompehielos Tech
+            </span>
+        </div>
+
+        <!-- Page Header -->
+        <div class="max-w-3xl mb-10">
+            <h1
+                class="font-display text-3xl sm:text-5xl font-extrabold text-white tracking-tight mb-3 flex items-center gap-3"
+            >
+                <span>🎡</span>
+                <span>La Ruleta de la Comunidad</span>
+            </h1>
+            <p class="text-sm sm:text-base text-slate-300 leading-relaxed">
+                Descubre temas de conversación, dilemas de arquitectura o
+                desafíos técnicos para debatir en vivo. Perfecto para dinamizar
+                canales de voz en Discord o practicar improvisación técnica.
+            </p>
+        </div>
+
+        <!-- Wheel Interactive Island -->
+        <div class="mb-12">
             <RouletteWheel
                 client:load
                 presets={roulette.presets}
@@ -65,42 +80,61 @@ const { roulette } = config;
             />
         </div>
 
-        <!-- Help & Instructions Card -->
+        <!-- How to Use / Discord Moderation Tips -->
         <div
-            class="card-glass rounded-2xl p-6 sm:p-8 border border-white/10 bg-slate-900/60"
+            class="card-glass rounded-2xl p-6 sm:p-8 border border-white/10 bg-[#0B1120]/70"
         >
             <h2
-                class="font-display text-base font-bold uppercase tracking-wide text-white mb-4 flex items-center gap-2"
+                class="font-display text-lg font-bold text-white mb-4 flex items-center gap-2.5"
             >
-                <span>💡</span>
-                <span>Cómo usar esta dinámica</span>
+                <span class="text-brand-yellow">💡</span>
+                <span>Cómo usar esta dinámica en Discord</span>
             </h2>
-            <ul class="space-y-3 text-sm text-slate-300">
-                <li class="flex items-start gap-2">
-                    <span class="text-brand-yellow font-bold">•</span>
-                    <span>
-                        <strong class="text-white">Ruleta Libre:</strong> Agrega tus
-                        propias opciones personalizadas (hasta 12 alternativas).
-                    </span>
-                </li>
-                <li class="flex items-start gap-2">
-                    <span class="text-brand-yellow font-bold">•</span>
-                    <span>
-                        <strong class="text-white"
-                            >Temas Preestablecidos:</strong
-                        >
-                        Elige entre preguntas de Empleabilidad, Debates Tech o Qué
-                        Aprender en 2026.
-                    </span>
-                </li>
-                <li class="flex items-start gap-2">
-                    <span class="text-brand-yellow font-bold">•</span>
-                    <span>
-                        <strong class="text-white">Gira y comparte:</strong> Ideal
-                        para abrir debates en llamadas de Discord y romper el hielo.
-                    </span>
-                </li>
-            </ul>
+            <div
+                class="grid grid-cols-1 md:grid-cols-3 gap-6 text-sm text-slate-300"
+            >
+                <div
+                    class="p-4 rounded-xl bg-slate-900/50 border border-white/5 space-y-1.5"
+                >
+                    <div
+                        class="font-bold text-white text-xs uppercase tracking-wider text-brand-yellow"
+                    >
+                        01. Selecciona o Personaliza
+                    </div>
+                    <p class="text-xs text-slate-400 leading-relaxed">
+                        Elige uno de los packs temáticos (Empleabilidad, Debates
+                        Tech, 2026) o escribe preguntas personalizadas en Ruleta
+                        Libre.
+                    </p>
+                </div>
+                <div
+                    class="p-4 rounded-xl bg-slate-900/50 border border-white/5 space-y-1.5"
+                >
+                    <div
+                        class="font-bold text-white text-xs uppercase tracking-wider text-brand-yellow"
+                    >
+                        02. Gira y Comparte
+                    </div>
+                    <p class="text-xs text-slate-400 leading-relaxed">
+                        Presiona Girar y usa el botón "Copiar pregunta" para
+                        pegar el debate directamente en el canal de texto de la
+                        sesión.
+                    </p>
+                </div>
+                <div
+                    class="p-4 rounded-xl bg-slate-900/50 border border-white/5 space-y-1.5"
+                >
+                    <div
+                        class="font-bold text-white text-xs uppercase tracking-wider text-brand-yellow"
+                    >
+                        03. Debate en Comunidad
+                    </div>
+                    <p class="text-xs text-slate-400 leading-relaxed">
+                        Dale 2 minutos a cada participante para exponer su punto
+                        de vista o anécdota. ¡Ideal para romper el hielo!
+                    </p>
+                </div>
+            </div>
         </div>
     </main>
 </Layout>
