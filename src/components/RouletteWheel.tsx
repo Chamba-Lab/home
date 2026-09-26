@@ -6,6 +6,15 @@ interface RouletteWheelProps {
     freeModeMaxOptions: number;
 }
 
+interface WinnerResult {
+    text: string;
+    optionNumber: number;
+    totalAtSpin: number;
+    isRetired: boolean;
+    presetId?: string;
+    isCustom?: boolean;
+}
+
 const SPIN_DURATION_MS = 4000;
 const MIN_SPIN_TURNS = 7;
 const CANVAS_SIZE = 380;
@@ -147,12 +156,25 @@ export default function RouletteWheel({
     const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
     const [copied, setCopied] = useState(false);
     const [soundEnabled, setSoundEnabled] = useState(true);
+    const [autoRemove, setAutoRemove] = useState(true);
     const [needleWobble, setNeedleWobble] = useState(false);
+    const [winnerResult, setWinnerResult] = useState<WinnerResult | null>(null);
+
+    // Active session state for retired options (in-memory only, resets on page reload)
+    const [drawnByPreset, setDrawnByPreset] = useState<
+        Record<string, string[]>
+    >({});
+    const [drawnFreeOptions, setDrawnFreeOptions] = useState<string[]>([]);
+    const [presetOptionsOverride, setPresetOptionsOverride] = useState<
+        string[] | null
+    >(null);
 
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const confettiCanvasRef = useRef<HTMLCanvasElement>(null);
     const animationFrameRef = useRef<number | null>(null);
     const confettiFrameRef = useRef<number | null>(null);
+    const retireTimerRef = useRef<number | null>(null);
+    const pendingRetireRef = useRef<string | null>(null);
     const rotationRef = useRef(0);
     const lastPegRef = useRef<number>(-1);
     const soundFxRef = useRef<SoundFx>(new SoundFx());
@@ -163,27 +185,112 @@ export default function RouletteWheel({
     }, [soundEnabled]);
 
     const currentPreset = presets.find((p) => p.id === selectedPresetId);
-    const customOptions = customInput
+
+    const currentDrawn =
+        mode === "preset"
+            ? (drawnByPreset[selectedPresetId] ?? [])
+            : drawnFreeOptions;
+
+    const basePresetOptions =
+        presetOptionsOverride ?? currentPreset?.options ?? [];
+
+    const allCustomOptions = customInput
         .split("\n")
         .map((line) => line.trim())
         .filter(Boolean)
         .slice(0, freeModeMaxOptions);
 
-    const [presetOptionsOverride, setPresetOptionsOverride] = useState<
-        string[] | null
-    >(null);
-
     const options =
         mode === "preset"
-            ? (presetOptionsOverride ?? currentPreset?.options ?? [])
-            : customOptions;
+            ? basePresetOptions.filter((opt) => !currentDrawn.includes(opt))
+            : allCustomOptions.filter((opt) => !currentDrawn.includes(opt));
+
     const optionsKey = options.join("|");
+
+    // Retire an option for the active session
+    const retireOption = (text: string) => {
+        if (mode === "preset") {
+            setDrawnByPreset((prev) => {
+                const list = prev[selectedPresetId] ?? [];
+                if (list.includes(text)) return prev;
+                return { ...prev, [selectedPresetId]: [...list, text] };
+            });
+            setPresetOptionsOverride((prev) =>
+                prev ? prev.filter((o) => o !== text) : null,
+            );
+        } else {
+            setDrawnFreeOptions((prev) =>
+                prev.includes(text) ? prev : [...prev, text],
+            );
+        }
+    };
+
+    // Return a retired option back to the active wheel
+    const returnOption = (text: string) => {
+        if (pendingRetireRef.current === text) {
+            if (retireTimerRef.current !== null) {
+                clearTimeout(retireTimerRef.current);
+                retireTimerRef.current = null;
+            }
+            pendingRetireRef.current = null;
+        }
+
+        if (winnerResult?.text === text) {
+            setWinnerResult((prev) =>
+                prev ? { ...prev, isRetired: false } : null,
+            );
+        }
+
+        if (mode === "preset") {
+            setDrawnByPreset((prev) => {
+                const list = prev[selectedPresetId] ?? [];
+                return {
+                    ...prev,
+                    [selectedPresetId]: list.filter((o) => o !== text),
+                };
+            });
+        } else {
+            setDrawnFreeOptions((prev) => prev.filter((o) => o !== text));
+        }
+    };
+
+    // Reset drawn options for the current mode/preset
+    const resetDrawnForCurrent = () => {
+        if (retireTimerRef.current !== null) {
+            clearTimeout(retireTimerRef.current);
+            retireTimerRef.current = null;
+        }
+        pendingRetireRef.current = null;
+        setSelectedIndex(null);
+
+        if (mode === "preset") {
+            setDrawnByPreset((prev) => ({
+                ...prev,
+                [selectedPresetId]: [],
+            }));
+            setPresetOptionsOverride(null);
+        } else {
+            setDrawnFreeOptions([]);
+        }
+
+        if (winnerResult) {
+            setWinnerResult((prev) =>
+                prev ? { ...prev, isRetired: false } : null,
+            );
+        }
+    };
 
     // Reset override on preset change
     const selectPreset = (presetId: string) => {
         if (spinning || presetId === selectedPresetId) return;
+        if (retireTimerRef.current !== null) {
+            clearTimeout(retireTimerRef.current);
+            retireTimerRef.current = null;
+        }
+        pendingRetireRef.current = null;
         setSelectedPresetId(presetId);
         setPresetOptionsOverride(null);
+        setSelectedIndex(null);
     };
 
     const shuffleOptions = () => {
@@ -311,8 +418,35 @@ export default function RouletteWheel({
             ctx.font = "600 13px Inter, sans-serif";
             ctx.textAlign = "center";
             ctx.textBaseline = "middle";
-            ctx.fillText("Agrega al menos", centerX, centerY - 10);
-            ctx.fillText("2 opciones para girar", centerX, centerY + 10);
+
+            if (currentDrawn.length > 0) {
+                if (optionsList.length === 1) {
+                    ctx.fillText(
+                        "Queda 1 opción disponible",
+                        centerX,
+                        centerY - 12,
+                    );
+                    ctx.fillStyle = "#FACC15";
+                    ctx.font = "600 11px Inter, sans-serif";
+                    ctx.fillText(
+                        "Restablece para girar",
+                        centerX,
+                        centerY + 12,
+                    );
+                } else {
+                    ctx.fillText("¡Todas sorteadas!", centerX, centerY - 12);
+                    ctx.fillStyle = "#FACC15";
+                    ctx.font = "600 11px Inter, sans-serif";
+                    ctx.fillText(
+                        "Restablece para volver a girar",
+                        centerX,
+                        centerY + 12,
+                    );
+                }
+            } else {
+                ctx.fillText("Agrega al menos", centerX, centerY - 10);
+                ctx.fillText("2 opciones para girar", centerX, centerY + 10);
+            }
             return;
         }
 
@@ -438,7 +572,7 @@ export default function RouletteWheel({
         ctx.fillStyle = "#131e36";
         ctx.fill();
 
-        // Center Power Bolt icon (⚡)
+        // Center Power Bolt icon
         const boltScale = radius * 0.055;
         ctx.save();
         ctx.translate(centerX, centerY);
@@ -478,10 +612,24 @@ export default function RouletteWheel({
             if (confettiFrameRef.current !== null) {
                 cancelAnimationFrame(confettiFrameRef.current);
             }
+            if (retireTimerRef.current !== null) {
+                clearTimeout(retireTimerRef.current);
+            }
         };
     }, []);
 
     const spinRoulette = () => {
+        // If a retire timer was pending from the previous spin, flush it immediately before next spin
+        if (retireTimerRef.current !== null) {
+            clearTimeout(retireTimerRef.current);
+            retireTimerRef.current = null;
+        }
+        if (pendingRetireRef.current) {
+            const textToRetire = pendingRetireRef.current;
+            pendingRetireRef.current = null;
+            retireOption(textToRetire);
+        }
+
         if (options.length < 2 || spinning) return;
         setSpinning(true);
         setSelectedIndex(null);
@@ -490,6 +638,7 @@ export default function RouletteWheel({
         lastPegRef.current = -1;
 
         const newIndex = Math.floor(Math.random() * options.length);
+        const winningText = options[newIndex];
         const sliceDeg = 360 / options.length;
         const POINTER_ANGLE_DEG = 270; // 12 o'clock top pointer
         const targetSliceCenter = newIndex * sliceDeg + sliceDeg / 2;
@@ -529,8 +678,26 @@ export default function RouletteWheel({
                 animationFrameRef.current = null;
                 setSpinning(false);
                 setSelectedIndex(newIndex);
+                setWinnerResult({
+                    text: winningText,
+                    optionNumber: newIndex + 1,
+                    totalAtSpin: options.length,
+                    isRetired: autoRemove,
+                    presetId: selectedPresetId,
+                    isCustom: mode === "free",
+                });
                 soundFxRef.current.playWin();
                 fireConfetti();
+
+                if (autoRemove) {
+                    pendingRetireRef.current = winningText;
+                    retireTimerRef.current = window.setTimeout(() => {
+                        retireOption(winningText);
+                        pendingRetireRef.current = null;
+                        retireTimerRef.current = null;
+                        setSelectedIndex(null);
+                    }, 1100);
+                }
             }
         };
 
@@ -569,8 +736,8 @@ export default function RouletteWheel({
     };
 
     const copyToClipboard = () => {
-        if (selectedIndex === null || !options[selectedIndex]) return;
-        const text = `🎡 **Ruleta Chamba Lab**: "${options[selectedIndex]}"`;
+        if (!winnerResult?.text) return;
+        const text = `🎡 **Ruleta Chamba Lab**: "${winnerResult.text}"`;
         navigator.clipboard.writeText(text).then(() => {
             setCopied(true);
             setTimeout(() => setCopied(false), 2500);
@@ -591,20 +758,46 @@ export default function RouletteWheel({
                     {/* Ambient Stage Glow */}
                     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-brand-yellow/10 rounded-full blur-3xl pointer-events-none" />
 
-                    {/* Stage Header Controls: Peg Count & Sound Toggle */}
-                    <div className="w-full flex items-center justify-between pb-3 mb-2 border-b border-white/[0.08] relative z-10 text-xs">
-                        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-900/90 border border-white/10 text-slate-300 font-semibold">
+                    {/* Stage Header Controls: Peg Count, Auto-Remove & Sound Toggle */}
+                    <div className="w-full flex items-center justify-between pb-3 mb-2 border-b border-white/[0.08] relative z-10 text-xs gap-2">
+                        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-900/90 border border-white/10 text-slate-300 font-semibold truncate">
                             <span
-                                className={`w-2 h-2 rounded-full ${spinning ? "bg-brand-yellow animate-ping" : "bg-emerald-400"}`}
+                                className={`w-2 h-2 rounded-full shrink-0 ${spinning ? "bg-brand-yellow animate-ping" : "bg-emerald-400"}`}
                             />
-                            <span>
+                            <span className="truncate">
                                 {spinning
                                     ? "Girando..."
-                                    : `${options.length} opciones en rueda`}
+                                    : currentDrawn.length > 0
+                                      ? `${options.length} disponibles • ${currentDrawn.length} sorteadas`
+                                      : `${options.length} opciones en rueda`}
                             </span>
                         </div>
 
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-1.5 shrink-0">
+                            {/* Auto-remove toggle */}
+                            <button
+                                type="button"
+                                onClick={() => setAutoRemove(!autoRemove)}
+                                disabled={spinning}
+                                title={
+                                    autoRemove
+                                        ? "Retiro automático activado: las opciones sorteadas se van retirando de la ruleta"
+                                        : "Retiro automático desactivado: las opciones permanecen en la ruleta"
+                                }
+                                className={`px-2 py-1 rounded-lg border text-xs font-semibold flex items-center gap-1 transition-all ${
+                                    autoRemove
+                                        ? "bg-brand-yellow/15 text-brand-yellow border-brand-yellow/40"
+                                        : "bg-slate-950/70 text-slate-500 border-white/10"
+                                }`}
+                            >
+                                <span className="text-[10px]">🎯</span>
+                                <span className="hidden sm:inline text-[11px]">
+                                    {autoRemove
+                                        ? "Auto-retirar"
+                                        : "Sin retirar"}
+                                </span>
+                            </button>
+
                             {/* Standard Shuffle button with clean intersecting arrows icon */}
                             <button
                                 type="button"
@@ -633,7 +826,7 @@ export default function RouletteWheel({
                             <button
                                 type="button"
                                 onClick={() => setSoundEnabled(!soundEnabled)}
-                                className={`px-2.5 py-1 rounded-lg border text-xs font-semibold flex items-center gap-1 transition-all ${
+                                className={`px-2 py-1 rounded-lg border text-xs font-semibold flex items-center gap-1 transition-all ${
                                     soundEnabled
                                         ? "bg-slate-900/90 text-brand-yellow border-brand-yellow/30"
                                         : "bg-slate-950/70 text-slate-500 border-white/10"
@@ -769,66 +962,120 @@ export default function RouletteWheel({
                             </>
                         )}
                     </button>
+
+                    {/* Reset button when options are exhausted */}
+                    {options.length < 2 && currentDrawn.length > 0 && (
+                        <button
+                            type="button"
+                            onClick={resetDrawnForCurrent}
+                            className="w-full mt-2.5 py-2.5 px-4 rounded-xl text-xs font-bold text-brand-yellow bg-brand-yellow/10 hover:bg-brand-yellow/20 border border-brand-yellow/30 transition-all flex items-center justify-center gap-2"
+                        >
+                            <span>🔄</span>
+                            <span>
+                                Restablecer opciones sorteadas (
+                                {currentDrawn.length})
+                            </span>
+                        </button>
+                    )}
                 </div>
             </div>
 
             {/* RIGHT COLUMN: Mode Selector, Presets & Live Result */}
             <div className="flex-1 w-full space-y-6">
                 {/* Result Card (Celebratory reveal when wheel finishes) */}
-                {selectedIndex !== null &&
-                    !spinning &&
-                    options[selectedIndex] && (
-                        <div className="card-glass rounded-2xl p-6 sm:p-7 border border-brand-yellow/50 bg-gradient-to-br from-brand-yellow/15 via-[#0B1120] to-[#5865F2]/10 shadow-2xl relative overflow-hidden animate-fade-in">
-                            <div className="flex items-center justify-between mb-3">
-                                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-brand-yellow text-slate-950 text-xs font-black tracking-wide uppercase shadow-sm">
-                                    <span>🎉</span>
-                                    <span>Tema Seleccionado</span>
-                                </span>
-                                <span className="text-xs text-brand-yellow/80 font-mono">
-                                    Opción #{selectedIndex + 1} de{" "}
-                                    {options.length}
-                                </span>
+                {winnerResult && !spinning && (
+                    <div className="card-glass rounded-2xl p-6 sm:p-7 border border-brand-yellow/50 bg-gradient-to-br from-brand-yellow/15 via-[#0B1120] to-[#5865F2]/10 shadow-2xl relative overflow-hidden animate-fade-in">
+                        <div className="flex items-center justify-between gap-2 mb-3">
+                            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-brand-yellow text-slate-950 text-xs font-black tracking-wide uppercase shadow-sm">
+                                <span>🎉</span>
+                                <span>Tema Seleccionado</span>
+                            </span>
+                            <div className="flex items-center gap-2">
+                                {winnerResult.isRetired ? (
+                                    <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
+                                        <span>✓</span>
+                                        <span>Retirada de la ruleta</span>
+                                    </span>
+                                ) : (
+                                    <span className="text-xs text-brand-yellow/80 font-mono">
+                                        Opción #{winnerResult.optionNumber} de{" "}
+                                        {winnerResult.totalAtSpin}
+                                    </span>
+                                )}
                             </div>
+                        </div>
 
-                            <p className="font-display text-xl sm:text-2xl font-extrabold text-white leading-relaxed my-4">
-                                “{options[selectedIndex]}”
-                            </p>
+                        <p className="font-display text-xl sm:text-2xl font-extrabold text-white leading-relaxed my-4">
+                            “{winnerResult.text}”
+                        </p>
 
-                            <div className="flex flex-wrap items-center gap-3 pt-4 border-t border-white/10">
-                                <button
-                                    type="button"
-                                    onClick={copyToClipboard}
-                                    className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-900/80 hover:bg-slate-800 text-white text-xs font-bold border border-white/15 hover:border-brand-yellow/40 transition-all shadow-md"
-                                >
-                                    {copied ? (
-                                        <>
-                                            <span className="text-emerald-400">
-                                                ✓
-                                            </span>
-                                            <span className="text-emerald-300">
-                                                ¡Copiado para Discord!
-                                            </span>
-                                        </>
-                                    ) : (
-                                        <>
-                                            <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                className="w-4 h-4 text-brand-yellow"
-                                                fill="none"
-                                                viewBox="0 0 24 24"
-                                                stroke="currentColor"
-                                                strokeWidth="2"
-                                            >
-                                                <path
-                                                    strokeLinecap="round"
-                                                    strokeLinejoin="round"
-                                                    d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"
-                                                />
-                                            </svg>
-                                            <span>Copiar pregunta</span>
-                                        </>
-                                    )}
-                                </button>
+                        <p className="text-xs text-slate-400 font-medium mb-4">
+                            {options.length >= 2 ? (
+                                <span>
+                                    Quedan{" "}
+                                    <strong className="text-brand-yellow">
+                                        {options.length}
+                                    </strong>{" "}
+                                    opciones en la ruleta para la siguiente
+                                    ronda.
+                                </span>
+                            ) : options.length === 1 ? (
+                                <span>
+                                    Queda solo{" "}
+                                    <strong className="text-brand-yellow">
+                                        1 opción
+                                    </strong>{" "}
+                                    por sortear en este paquete.
+                                </span>
+                            ) : (
+                                <span>
+                                    🎉{" "}
+                                    <strong className="text-emerald-400">
+                                        ¡Completado!
+                                    </strong>{" "}
+                                    Se han sorteado todas las opciones de este
+                                    paquete en esta sesión.
+                                </span>
+                            )}
+                        </p>
+
+                        <div className="flex flex-wrap items-center gap-3 pt-4 border-t border-white/10">
+                            <button
+                                type="button"
+                                onClick={copyToClipboard}
+                                className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-900/80 hover:bg-slate-800 text-white text-xs font-bold border border-white/15 hover:border-brand-yellow/40 transition-all shadow-md"
+                            >
+                                {copied ? (
+                                    <>
+                                        <span className="text-emerald-400">
+                                            ✓
+                                        </span>
+                                        <span className="text-emerald-300">
+                                            ¡Copiado para Discord!
+                                        </span>
+                                    </>
+                                ) : (
+                                    <>
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            className="w-4 h-4 text-brand-yellow"
+                                            fill="none"
+                                            viewBox="0 0 24 24"
+                                            stroke="currentColor"
+                                            strokeWidth="2"
+                                        >
+                                            <path
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                                d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"
+                                            />
+                                        </svg>
+                                        <span>Copiar pregunta</span>
+                                    </>
+                                )}
+                            </button>
+
+                            {options.length >= 2 ? (
                                 <button
                                     type="button"
                                     onClick={spinRoulette}
@@ -837,9 +1084,33 @@ export default function RouletteWheel({
                                     <span>Girar de nuevo</span>
                                     <span>↻</span>
                                 </button>
-                            </div>
+                            ) : (
+                                <button
+                                    type="button"
+                                    onClick={resetDrawnForCurrent}
+                                    className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-brand-yellow text-slate-950 text-xs font-extrabold hover:bg-amber-300 transition-all shadow-md"
+                                >
+                                    <span>Restablecer opciones</span>
+                                    <span>🔄</span>
+                                </button>
+                            )}
+
+                            {winnerResult.isRetired && (
+                                <button
+                                    type="button"
+                                    onClick={() =>
+                                        returnOption(winnerResult.text)
+                                    }
+                                    className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-slate-900/60 hover:bg-slate-800 text-slate-400 hover:text-white text-xs font-medium border border-white/10 transition-all"
+                                    title="Devolver esta opción a la ruleta"
+                                >
+                                    <span>↺</span>
+                                    <span>Conservar en la ruleta</span>
+                                </button>
+                            )}
                         </div>
-                    )}
+                    </div>
+                )}
 
                 {/* Mode Selector Tabs */}
                 <div className="card-glass rounded-2xl p-6 sm:p-7 border border-white/10 bg-[#0B1120]/80">
@@ -884,6 +1155,9 @@ export default function RouletteWheel({
                                     {presets.map((preset) => {
                                         const isSelected =
                                             selectedPresetId === preset.id;
+                                        const presetDrawnCount = (
+                                            drawnByPreset[preset.id] ?? []
+                                        ).length;
                                         return (
                                             <button
                                                 type="button"
@@ -909,8 +1183,9 @@ export default function RouletteWheel({
                                                     {preset.name}
                                                 </span>
                                                 <span className="text-[11px] text-slate-400 font-mono">
-                                                    {preset.options.length}{" "}
-                                                    preguntas
+                                                    {presetDrawnCount > 0
+                                                        ? `${preset.options.length - presetDrawnCount} / ${preset.options.length} disp.`
+                                                        : `${preset.options.length} preguntas`}
                                                 </span>
                                             </button>
                                         );
@@ -921,68 +1196,158 @@ export default function RouletteWheel({
                             {/* Preset Options Preview with Full Text and Tooltips */}
                             {currentPreset && (
                                 <div className="pt-4 border-t border-white/[0.08]">
-                                    <div className="flex items-center justify-between mb-3">
+                                    <div className="flex items-center justify-between mb-3 flex-wrap gap-2">
                                         <span className="text-xs font-bold uppercase tracking-wider text-slate-400">
-                                            Preguntas en este paquete (
-                                            {options.length})
+                                            Preguntas disponibles (
+                                            {options.length} /{" "}
+                                            {currentPreset.options.length})
                                         </span>
-                                        <button
-                                            type="button"
-                                            onClick={shuffleOptions}
-                                            disabled={spinning}
-                                            className="text-xs text-brand-yellow hover:text-amber-300 inline-flex items-center gap-1.5 font-semibold transition-colors"
-                                            title="Mezclar aleatoriamente el orden de las preguntas"
-                                        >
-                                            <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                className="w-3.5 h-3.5"
-                                                fill="none"
-                                                viewBox="0 0 24 24"
-                                                stroke="currentColor"
-                                                strokeWidth="2"
+                                        <div className="flex items-center gap-2">
+                                            {currentDrawn.length > 0 && (
+                                                <button
+                                                    type="button"
+                                                    onClick={
+                                                        resetDrawnForCurrent
+                                                    }
+                                                    disabled={spinning}
+                                                    className="text-xs text-slate-400 hover:text-brand-yellow inline-flex items-center gap-1 font-semibold transition-colors"
+                                                    title="Restablecer todas las preguntas sorteadas de este paquete"
+                                                >
+                                                    <span>🔄</span>
+                                                    <span>
+                                                        Restablecer (
+                                                        {currentDrawn.length})
+                                                    </span>
+                                                </button>
+                                            )}
+                                            <button
+                                                type="button"
+                                                onClick={shuffleOptions}
+                                                disabled={
+                                                    spinning ||
+                                                    options.length < 2
+                                                }
+                                                className="text-xs text-brand-yellow hover:text-amber-300 inline-flex items-center gap-1.5 font-semibold transition-colors disabled:opacity-40"
+                                                title="Mezclar aleatoriamente el orden de las preguntas"
                                             >
-                                                <path
-                                                    strokeLinecap="round"
-                                                    strokeLinejoin="round"
-                                                    d="M16 3h5v5M4 20L21 3M21 16v5h-5M15 15l6 6M4 4l5 5"
-                                                />
-                                            </svg>
-                                            <span>Mezclar orden</span>
-                                        </button>
+                                                <svg
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    className="w-3.5 h-3.5"
+                                                    fill="none"
+                                                    viewBox="0 0 24 24"
+                                                    stroke="currentColor"
+                                                    strokeWidth="2"
+                                                >
+                                                    <path
+                                                        strokeLinecap="round"
+                                                        strokeLinejoin="round"
+                                                        d="M16 3h5v5M4 20L21 3M21 16v5h-5M15 15l6 6M4 4l5 5"
+                                                    />
+                                                </svg>
+                                                <span>Mezclar orden</span>
+                                            </button>
+                                        </div>
                                     </div>
-                                    <div className="max-h-64 overflow-y-auto pr-1 space-y-2 custom-scrollbar">
-                                        {options.map((opt, i) => (
-                                            <div
-                                                key={i}
-                                                onMouseEnter={() =>
-                                                    setHoveredIndex(i)
-                                                }
-                                                onMouseLeave={() =>
-                                                    setHoveredIndex(null)
-                                                }
-                                                title={opt}
-                                                className={`p-2.5 rounded-xl text-xs flex items-start gap-2.5 transition-all cursor-default group ${
-                                                    i === selectedIndex &&
-                                                    !spinning
-                                                        ? "bg-brand-yellow/20 border border-brand-yellow/40 text-brand-yellow font-bold"
-                                                        : i === hoveredIndex &&
-                                                            !spinning
-                                                          ? "bg-slate-900/90 border border-brand-yellow/30 text-white"
-                                                          : "bg-slate-900/60 border border-white/5 text-slate-300 hover:border-white/15"
-                                                }`}
+
+                                    {options.length > 0 ? (
+                                        <div className="max-h-64 overflow-y-auto pr-1 space-y-2 custom-scrollbar">
+                                            {options.map((opt, i) => (
+                                                <div
+                                                    key={i}
+                                                    onMouseEnter={() =>
+                                                        setHoveredIndex(i)
+                                                    }
+                                                    onMouseLeave={() =>
+                                                        setHoveredIndex(null)
+                                                    }
+                                                    title={opt}
+                                                    className={`p-2.5 rounded-xl text-xs flex items-start gap-2.5 transition-all cursor-default group ${
+                                                        i === selectedIndex &&
+                                                        !spinning
+                                                            ? "bg-brand-yellow/20 border border-brand-yellow/40 text-brand-yellow font-bold"
+                                                            : i ===
+                                                                    hoveredIndex &&
+                                                                !spinning
+                                                              ? "bg-slate-900/90 border border-brand-yellow/30 text-white"
+                                                              : "bg-slate-900/60 border border-white/5 text-slate-300 hover:border-white/15"
+                                                    }`}
+                                                >
+                                                    <span className="w-5 h-5 rounded-md bg-white/5 text-[10px] font-mono flex items-center justify-center shrink-0 text-slate-400 group-hover:text-brand-yellow mt-0.5">
+                                                        {String(i + 1).padStart(
+                                                            2,
+                                                            "0",
+                                                        )}
+                                                    </span>
+                                                    <p className="leading-relaxed break-words flex-1 text-xs">
+                                                        {opt}
+                                                    </p>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    ) : (
+                                        <div className="p-5 rounded-xl bg-slate-950/60 border border-emerald-500/20 text-center space-y-3">
+                                            <span className="text-2xl">🎉</span>
+                                            <p className="text-xs text-slate-300">
+                                                ¡Has sorteado todas las
+                                                preguntas de este paquete en
+                                                esta sesión!
+                                            </p>
+                                            <button
+                                                type="button"
+                                                onClick={resetDrawnForCurrent}
+                                                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-brand-yellow text-slate-950 text-xs font-bold hover:bg-amber-300 transition-all shadow-md"
                                             >
-                                                <span className="w-5 h-5 rounded-md bg-white/5 text-[10px] font-mono flex items-center justify-center shrink-0 text-slate-400 group-hover:text-brand-yellow mt-0.5">
-                                                    {String(i + 1).padStart(
-                                                        2,
-                                                        "0",
-                                                    )}
+                                                <span>
+                                                    Restablecer preguntas
                                                 </span>
-                                                <p className="leading-relaxed break-words flex-1 text-xs">
-                                                    {opt}
-                                                </p>
+                                                <span>🔄</span>
+                                            </button>
+                                        </div>
+                                    )}
+
+                                    {/* Drawn Questions Section */}
+                                    {currentDrawn.length > 0 && (
+                                        <div className="pt-3 mt-3 border-t border-white/[0.08]">
+                                            <div className="flex items-center justify-between mb-2">
+                                                <span className="text-[11px] font-bold uppercase tracking-wider text-slate-500">
+                                                    Sorteadas en esta sesión (
+                                                    {currentDrawn.length})
+                                                </span>
+                                                <span className="text-[10px] text-slate-500 font-mono">
+                                                    Se restablecen al recargar
+                                                    la página
+                                                </span>
                                             </div>
-                                        ))}
-                                    </div>
+                                            <div className="space-y-1.5 max-h-36 overflow-y-auto pr-1 custom-scrollbar">
+                                                {currentDrawn.map((opt, i) => (
+                                                    <div
+                                                        key={i}
+                                                        className="p-2 rounded-lg bg-slate-950/40 border border-white/5 text-slate-400 text-xs flex items-center justify-between gap-2 group hover:border-white/10 transition-colors"
+                                                    >
+                                                        <span className="w-4 h-4 rounded-full bg-emerald-500/10 text-emerald-400 text-[10px] flex items-center justify-center shrink-0">
+                                                            ✓
+                                                        </span>
+                                                        <span className="line-through truncate flex-1 text-[11px]">
+                                                            {opt}
+                                                        </span>
+                                                        <button
+                                                            type="button"
+                                                            onClick={() =>
+                                                                returnOption(
+                                                                    opt,
+                                                                )
+                                                            }
+                                                            disabled={spinning}
+                                                            className="text-[10px] text-slate-400 hover:text-brand-yellow shrink-0 px-2 py-0.5 rounded bg-white/5 hover:bg-white/10 transition-colors"
+                                                            title="Reincorporar a la ruleta"
+                                                        >
+                                                            + Reincorporar
+                                                        </button>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    )}
                                 </div>
                             )}
                         </div>
@@ -993,8 +1358,10 @@ export default function RouletteWheel({
                                     Tus preguntas u opciones (una por línea)
                                 </label>
                                 <span className="text-xs font-mono text-brand-yellow font-bold">
-                                    {customOptions.length} /{" "}
-                                    {freeModeMaxOptions} opciones
+                                    {options.length} disponibles{" "}
+                                    {drawnFreeOptions.length > 0 &&
+                                        `• ${drawnFreeOptions.length} sorteadas`}{" "}
+                                    / {allCustomOptions.length} total
                                 </span>
                             </div>
 
@@ -1004,11 +1371,11 @@ export default function RouletteWheel({
                                 placeholder={freeModePlaceholder}
                                 maxLength={1200}
                                 disabled={spinning}
-                                rows={7}
+                                rows={6}
                                 className="w-full px-4 py-3 rounded-xl border border-white/10 bg-slate-950/80 text-white placeholder-slate-500 font-mono text-xs sm:text-sm resize-none focus:outline-none focus:border-brand-yellow/50 focus:ring-1 focus:ring-brand-yellow/30 disabled:opacity-60 transition-colors"
                             />
 
-                            <div className="flex items-center justify-between text-xs pt-1">
+                            <div className="flex items-center justify-between text-xs pt-1 flex-wrap gap-2">
                                 <button
                                     type="button"
                                     onClick={loadExampleCustom}
@@ -1018,17 +1385,71 @@ export default function RouletteWheel({
                                     <span>✨</span>
                                     <span>Cargar tema de ejemplo</span>
                                 </button>
-                                {customInput && (
-                                    <button
-                                        type="button"
-                                        onClick={() => setCustomInput("")}
-                                        disabled={spinning}
-                                        className="text-slate-400 hover:text-rose-400 font-semibold"
-                                    >
-                                        Limpiar texto
-                                    </button>
-                                )}
+                                <div className="flex items-center gap-3">
+                                    {drawnFreeOptions.length > 0 && (
+                                        <button
+                                            type="button"
+                                            onClick={resetDrawnForCurrent}
+                                            disabled={spinning}
+                                            className="text-brand-yellow hover:underline font-semibold inline-flex items-center gap-1"
+                                        >
+                                            <span>🔄</span>
+                                            <span>Restablecer sorteadas</span>
+                                        </button>
+                                    )}
+                                    {customInput && (
+                                        <button
+                                            type="button"
+                                            onClick={() => {
+                                                setCustomInput("");
+                                                setDrawnFreeOptions([]);
+                                            }}
+                                            disabled={spinning}
+                                            className="text-slate-400 hover:text-rose-400 font-semibold"
+                                        >
+                                            Limpiar texto
+                                        </button>
+                                    )}
+                                </div>
                             </div>
+
+                            {/* Free mode drawn items list */}
+                            {drawnFreeOptions.length > 0 && (
+                                <div className="pt-3 mt-3 border-t border-white/[0.08]">
+                                    <div className="flex items-center justify-between mb-2">
+                                        <span className="text-[11px] font-bold uppercase tracking-wider text-slate-500">
+                                            Sorteadas en esta sesión (
+                                            {drawnFreeOptions.length})
+                                        </span>
+                                    </div>
+                                    <div className="space-y-1.5 max-h-36 overflow-y-auto pr-1 custom-scrollbar">
+                                        {drawnFreeOptions.map((opt, i) => (
+                                            <div
+                                                key={i}
+                                                className="p-2 rounded-lg bg-slate-950/40 border border-white/5 text-slate-400 text-xs flex items-center justify-between gap-2 group hover:border-white/10 transition-colors"
+                                            >
+                                                <span className="w-4 h-4 rounded-full bg-emerald-500/10 text-emerald-400 text-[10px] flex items-center justify-center shrink-0">
+                                                    ✓
+                                                </span>
+                                                <span className="line-through truncate flex-1 text-[11px]">
+                                                    {opt}
+                                                </span>
+                                                <button
+                                                    type="button"
+                                                    onClick={() =>
+                                                        returnOption(opt)
+                                                    }
+                                                    disabled={spinning}
+                                                    className="text-[10px] text-slate-400 hover:text-brand-yellow shrink-0 px-2 py-0.5 rounded bg-white/5 hover:bg-white/10 transition-colors"
+                                                    title="Reincorporar a la ruleta"
+                                                >
+                                                    + Reincorporar
+                                                </button>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
                         </div>
                     )}
                 </div>
