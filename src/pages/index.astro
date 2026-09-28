@@ -4,6 +4,11 @@ import DiscordWidget from "../components/DiscordWidget.astro";
 import DiscordIcon from "../components/icons/DiscordIcon.astro";
 import { DISCORD_URL } from "../lib/constants";
 import { getCollection } from "astro:content";
+import {
+    buildGoogleCalendarUrl,
+    buildIcsDataUri,
+    formatTimeDisplay,
+} from "../lib/calendar";
 
 const rawBase = import.meta.env.BASE_URL;
 const base = rawBase.endsWith("/") ? rawBase : `${rawBase}/`;
@@ -46,27 +51,65 @@ const upcomingEvent =
 const recurringEvent =
     allEvents.find((e) => e.data.type === "recurring") || allEvents[1];
 
-// Helper to format date for Google Calendar
-const gcalTitle = encodeURIComponent(
-    upcomingEvent?.data.title.es || "Evento Chamba Lab",
-);
-const gcalDetails = encodeURIComponent(
-    upcomingEvent?.data.description.es ||
-        "Sesión de la comunidad tech Chamba Lab",
-);
-const gcalDate = upcomingEvent?.data.date
-    ? upcomingEvent.data.date.replace(/-/g, "")
-    : "20261021";
-const gcalUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${gcalTitle}&dates=${gcalDate}T230000Z/${gcalDate}T235900Z&details=${gcalDetails}&location=Discord`;
+const gcalUrl = upcomingEvent
+    ? buildGoogleCalendarUrl({
+          id: upcomingEvent.data.id || upcomingEvent.id,
+          title: upcomingEvent.data.title.es || upcomingEvent.data.title.en,
+          description:
+              upcomingEvent.data.description.es ||
+              upcomingEvent.data.description.en,
+          date: upcomingEvent.data.date,
+          startTime: upcomingEvent.data.startTime,
+          endTime: upcomingEvent.data.endTime,
+          timezone: upcomingEvent.data.timezone,
+      })
+    : "#";
 
-const recGcalTitle = encodeURIComponent(
-    recurringEvent?.data.title.es || "Sesión Chamba Lab",
-);
-const recGcalDetails = encodeURIComponent(
-    recurringEvent?.data.description.es ||
-        "Sesión recurrente de la comunidad tech Chamba Lab",
-);
-const recGcalUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${recGcalTitle}&recur=RRULE:FREQ=WEEKLY&details=${recGcalDetails}&location=Discord`;
+const icsUrl = upcomingEvent
+    ? buildIcsDataUri({
+          id: upcomingEvent.data.id || upcomingEvent.id,
+          title: upcomingEvent.data.title.es || upcomingEvent.data.title.en,
+          description:
+              upcomingEvent.data.description.es ||
+              upcomingEvent.data.description.en,
+          date: upcomingEvent.data.date,
+          startTime: upcomingEvent.data.startTime,
+          endTime: upcomingEvent.data.endTime,
+          timezone: upcomingEvent.data.timezone,
+      })
+    : "#";
+
+const recGcalUrl = recurringEvent
+    ? buildGoogleCalendarUrl({
+          id: recurringEvent.data.id || recurringEvent.id,
+          title: recurringEvent.data.title.es || recurringEvent.data.title.en,
+          description:
+              recurringEvent.data.description.es ||
+              recurringEvent.data.description.en,
+          date: recurringEvent.data.startDate,
+          startTime: recurringEvent.data.startTime,
+          endTime: recurringEvent.data.endTime,
+          timezone: recurringEvent.data.timezone,
+          recurring: true,
+          weekday: recurringEvent.data.weekday,
+      })
+    : "#";
+
+const recIcsUrl = recurringEvent
+    ? buildIcsDataUri({
+          id: recurringEvent.data.id || recurringEvent.id,
+          title: recurringEvent.data.title.es || recurringEvent.data.title.en,
+          description:
+              recurringEvent.data.description.es ||
+              recurringEvent.data.description.en,
+          date: recurringEvent.data.startDate,
+          startTime: recurringEvent.data.startTime,
+          endTime: recurringEvent.data.endTime,
+          timezone: recurringEvent.data.timezone,
+          recurring: true,
+          weekday: recurringEvent.data.weekday,
+      })
+    : "#";
 ---
 
 <Layout title="Chamba Lab | El espacio para impulsar tu camino en tecnología">
@@ -101,29 +144,21 @@ const recGcalUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&
                         >
                             <span data-i18n="heroTitlePrefix"
                                 >El espacio para impulsar tu camino en</span
-                            >
+                            >{" "}
                             <span
                                 class="text-brand-yellow"
                                 data-i18n="heroTitleHighlight">tecnología</span
                             >.
                         </h1>
 
-                        <!-- Lead Paragraphs -->
+                        <!-- Lead Subtitle (Clean 2-level hierarchy) -->
                         <p
-                            class="text-lg sm:text-xl text-slate-300 font-normal leading-relaxed mb-4 max-w-2xl"
-                            data-i18n="heroIntro1"
+                            class="text-lg sm:text-xl text-slate-300 font-normal leading-relaxed mb-8 max-w-2xl"
+                            data-i18n="heroSubtitle"
                         >
-                            Una comunidad para quienes construyen su carrera en
-                            tech — estudiantes, profesionales y todo lo que hay
-                            en el medio.
-                        </p>
-                        <p
-                            class="text-base text-slate-400 leading-relaxed max-w-xl mb-8"
-                            data-i18n="heroIntro2"
-                        >
-                            Compartimos conocimiento, oportunidades y apoyo real
-                            para crecer juntos. Todo pasa en nuestro Discord en
-                            tiempo real.
+                            Una comunidad abierta para compartir conocimiento,
+                            oportunidades laborales y crecer juntos. Todo en
+                            tiempo real en nuestro Discord.
                         </p>
 
                         <!-- Call to Action Buttons -->
@@ -362,8 +397,14 @@ const recGcalUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&
                                                 />
                                             </svg>
                                             <span>
-                                                {upcomingEvent.data.date} •
-                                                20:00 UTC
+                                                {upcomingEvent.data.date} •{" "}
+                                                {formatTimeDisplay(
+                                                    upcomingEvent.data
+                                                        .startTime,
+                                                    upcomingEvent.data.endTime,
+                                                    upcomingEvent.data.timezone,
+                                                    "es",
+                                                )}
                                             </span>
                                         </span>
                                     </div>
@@ -405,12 +446,27 @@ const recGcalUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&
                                             </span>
                                         </a>
                                         <a
-                                            class="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-400 hover:text-white transition-colors border border-white/10 hover:border-white/20 px-3.5 py-2 rounded-xl bg-slate-900/40"
-                                            href={`${base}events`}
-                                            title="Ver detalles en eventos"
+                                            class="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-300 hover:text-white transition-colors border border-white/10 hover:border-white/20 px-3.5 py-2 rounded-xl bg-slate-900/50"
+                                            href={icsUrl}
+                                            download={`${upcomingEvent.data.id || "evento"}.ics`}
+                                            title="Descargar archivo iCal (.ics)"
                                         >
+                                            <svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                class="w-3.5 h-3.5 text-slate-400"
+                                                fill="none"
+                                                viewBox="0 0 24 24"
+                                                stroke="currentColor"
+                                            >
+                                                <path
+                                                    stroke-linecap="round"
+                                                    stroke-linejoin="round"
+                                                    stroke-width="2"
+                                                    d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+                                                />
+                                            </svg>
                                             <span data-i18n="downloadIcs">
-                                                Detalles / iCal
+                                                iCal
                                             </span>
                                         </a>
                                     </div>
@@ -445,6 +501,21 @@ const recGcalUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&
                                         <span class="text-xs text-slate-400 flex items-center gap-1">
                                             {recurringEvent.data.recurrenceLabel
                                                 ?.es || "Semanal"}
+                                            {recurringEvent.data.startTime && (
+                                                <span>
+                                                    {" "}
+                                                    •{" "}
+                                                    {formatTimeDisplay(
+                                                        recurringEvent.data
+                                                            .startTime,
+                                                        recurringEvent.data
+                                                            .endTime,
+                                                        recurringEvent.data
+                                                            .timezone,
+                                                        "es",
+                                                    )}
+                                                </span>
+                                            )}
                                         </span>
                                     </div>
                                     <h3
@@ -485,10 +556,25 @@ const recGcalUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&
                                             </span>
                                         </a>
                                         <a
-                                            class="inline-flex items-center justify-center gap-1 text-xs font-semibold text-slate-400 hover:text-white transition-colors border border-white/10 hover:border-white/20 px-3.5 py-2 rounded-xl bg-slate-900/40"
-                                            href={`${base}events`}
-                                            title="Ver detalles del evento"
+                                            class="inline-flex items-center justify-center gap-1.5 text-xs font-semibold text-slate-300 hover:text-white transition-colors border border-white/10 hover:border-white/20 px-3 py-2 rounded-xl bg-slate-900/50"
+                                            href={recIcsUrl}
+                                            download={`${recurringEvent.data.id || "sesion-recurrente"}.ics`}
+                                            title="Descargar archivo iCal (.ics)"
                                         >
+                                            <svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                class="w-3.5 h-3.5 text-slate-400"
+                                                fill="none"
+                                                viewBox="0 0 24 24"
+                                                stroke="currentColor"
+                                            >
+                                                <path
+                                                    stroke-linecap="round"
+                                                    stroke-linejoin="round"
+                                                    stroke-width="2"
+                                                    d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+                                                />
+                                            </svg>
                                             <span data-i18n="downloadIcs">
                                                 iCal
                                             </span>

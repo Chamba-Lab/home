@@ -26,7 +26,7 @@
 *   **Páginas**: 
     *   `/` (Landing inmersiva: Hero con iluminación radial, integración de widget interactivo de Discord, vitrina dinámica de recursos curados y vitrina asimétrica de eventos destacados y recurrentes).
     *   `/resources` (Biblioteca curada de guías, plantillas y plataformas con buscador y filtros por categoría).
-    *   `/events` (Calendario de eventos fijos y recurrentes con cálculo por meses y exportación a Google Calendar / iCal).
+    *   `/events` (Calendario de eventos fijos y recurrentes con cálculo por meses, zona horaria comunitaria UTC-5, y exportación funcional a Google Calendar e iCal `.ics` generados con RFC 5545).
     *   `/activities` (Hub de dinámicas comunitarias) y subrutas por actividad (ej. `/activities/roulette`). Rutas siempre en inglés, aunque el copy visible sea en español con soporte bilingüe.
 *   **Layout compartido**: `src/layouts/Layout.astro` monta `Header` y `Footer` (`src/components/`), gestiona i18n (`ES`/`EN`), carga las fuentes (`Plus Jakarta Sans` + `Inter`) y aplica la base `class="dark bg-[#080D1A] text-slate-200"`.
 *   **Header responsive**: Sticky glassmorphism (`backdrop-blur-xl bg-[#080D1A]/85 border-b border-white/[0.08]`). Enlaces directos a `/resources`, `/events` y `/activities`. Selector de idioma en pastilla segmentada (`[ ES | EN ]`) y botón CTA de Discord con resplandor (*hover glow*). En mobile colapsa a menú desplegable con fondo desenfocado.

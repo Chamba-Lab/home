@@ -26,7 +26,13 @@ function capitalize(s: string) {
 type I18nText = { en: string; es?: string };
 
 interface Occurrence {
+    id: string;
     date: Date;
+    dateIso: string;
+    startTime?: string;
+    endTime?: string;
+    timezone?: string;
+    isRecurring?: boolean;
     title: I18nText;
     description: I18nText;
     recurrenceLabel?: I18nText;
@@ -40,11 +46,19 @@ const months = Array.from({ length: MONTHS_AHEAD }, (_, i) => {
     const occurrences: Occurrence[] = [];
 
     for (const event of events) {
+        const eventId = event.data.id || event.id;
         if (event.data.type === "fixed" && event.data.date) {
-            const date = new Date(`${event.data.date}T00:00:00`);
+            const [y, m, d] = event.data.date.split("-").map(Number);
+            const date = new Date(y, m - 1, d);
             if (date >= monthStart && date <= monthEnd) {
                 occurrences.push({
+                    id: eventId,
                     date,
+                    dateIso: event.data.date,
+                    startTime: event.data.startTime,
+                    endTime: event.data.endTime,
+                    timezone: event.data.timezone,
+                    isRecurring: false,
                     title: event.data.title,
                     description: event.data.description,
                 });
@@ -54,7 +68,8 @@ const months = Array.from({ length: MONTHS_AHEAD }, (_, i) => {
             event.data.startDate &&
             event.data.weekday !== undefined
         ) {
-            const start = new Date(`${event.data.startDate}T00:00:00`);
+            const [sy, sm, sd] = event.data.startDate.split("-").map(Number);
+            const start = new Date(sy, sm - 1, sd);
             const rangeStart = start > monthStart ? start : monthStart;
             const cursor = new Date(rangeStart);
             cursor.setDate(
@@ -62,8 +77,15 @@ const months = Array.from({ length: MONTHS_AHEAD }, (_, i) => {
                     ((event.data.weekday - cursor.getDay() + 7) % 7),
             );
             while (cursor <= monthEnd) {
+                const curDateIso = `${cursor.getFullYear()}-${String(cursor.getMonth() + 1).padStart(2, "0")}-${String(cursor.getDate()).padStart(2, "0")}`;
                 occurrences.push({
+                    id: `${eventId}-${curDateIso}`,
                     date: new Date(cursor),
+                    dateIso: curDateIso,
+                    startTime: event.data.startTime,
+                    endTime: event.data.endTime,
+                    timezone: event.data.timezone,
+                    isRecurring: true,
                     title: event.data.title,
                     description: event.data.description,
                     recurrenceLabel: event.data.recurrenceLabel,
@@ -185,6 +207,7 @@ const months = Array.from({ length: MONTHS_AHEAD }, (_, i) => {
                         )}
                         {month.occurrences.map((occurrence) => (
                             <EventItem
+                                id={occurrence.id}
                                 day={occurrence.date.getDate()}
                                 monthShortEn={occurrence.date
                                     .toLocaleDateString("en-US", {
@@ -208,6 +231,11 @@ const months = Array.from({ length: MONTHS_AHEAD }, (_, i) => {
                                 recurrenceLabelEs={
                                     occurrence.recurrenceLabel?.es
                                 }
+                                dateIso={occurrence.dateIso}
+                                startTime={occurrence.startTime}
+                                endTime={occurrence.endTime}
+                                timezone={occurrence.timezone}
+                                isRecurring={occurrence.isRecurring}
                             />
                         ))}
                     </ol>

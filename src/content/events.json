@@ -10,7 +10,10 @@
             "es": "El equipo fundador se reúne para definir el rumbo de la comunidad, roles y próximos pasos."
         },
         "type": "fixed",
-        "date": "2026-09-27"
+        "date": "2026-09-27",
+        "startTime": "18:00",
+        "endTime": "20:00",
+        "timezone": "UTC-5"
     },
     {
         "id": "launch",
@@ -23,7 +26,10 @@
             "es": "El evento inaugural de Chamba Lab: presentamos la comunidad, cómo funciona y qué viene después."
         },
         "type": "fixed",
-        "date": "2026-10-21"
+        "date": "2026-10-21",
+        "startTime": "19:00",
+        "endTime": "20:30",
+        "timezone": "UTC-5"
     },
     {
         "id": "code-coffee",
@@ -40,6 +46,9 @@
         "recurrenceLabel": {
             "en": "Every Friday",
             "es": "Todos los viernes"
-        }
+        },
+        "startTime": "20:00",
+        "endTime": "22:00",
+        "timezone": "UTC-5"
     }
 ]

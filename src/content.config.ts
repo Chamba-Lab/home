@@ -30,6 +30,10 @@ const events = defineCollection({
         weekday: z.number().min(0).max(6).optional(),
         startDate: z.string().optional(),
         recurrenceLabel: i18nText.optional(),
+        // Optional time fields (HH:mm format, e.g. "19:00")
+        startTime: z.string().optional(),
+        endTime: z.string().optional(),
+        timezone: z.string().default("UTC-5"),
     }),
 });
 

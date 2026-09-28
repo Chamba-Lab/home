@@ -8,10 +8,11 @@ export const translations = {
         badge: "Comunidad Tech",
         heroTitlePrefix: "El espacio para impulsar tu camino en",
         heroTitleHighlight: "tecnología",
+        heroSubtitle:
+            "Una comunidad abierta para compartir conocimiento, oportunidades laborales y crecer juntos. Todo en tiempo real en nuestro Discord.",
         heroIntro1:
-            "Una comunidad para quienes construyen su carrera en tech — estudiantes, profesionales y todo lo que hay en el medio.",
-        heroIntro2:
-            "Compartimos conocimiento, oportunidades y apoyo real para crecer juntos. Todo pasa en nuestro Discord en tiempo real.",
+            "Una comunidad abierta para compartir conocimiento, oportunidades laborales y crecer juntos.",
+        heroIntro2: "Todo pasa en nuestro Discord en tiempo real.",
         ctaDiscord: "Unirse a Discord",
         ctaResources: "Ver Recursos",
 
@@ -71,10 +72,11 @@ export const translations = {
         badge: "Tech Community",
         heroTitlePrefix: "The space to empower your path in",
         heroTitleHighlight: "tech",
+        heroSubtitle:
+            "An open community to share knowledge, job opportunities, and grow together. All happening live on our Discord.",
         heroIntro1:
-            "A community for anyone building their career in tech — students, professionals, and everyone in between.",
-        heroIntro2:
-            "We share knowledge, opportunities, and genuine support to grow together. It all happens live on our Discord.",
+            "An open community to share knowledge, job opportunities, and grow together.",
+        heroIntro2: "All happening live on our Discord.",
         ctaDiscord: "Join Discord",
         ctaResources: "Explore Resources",
 

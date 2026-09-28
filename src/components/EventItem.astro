@@ -1,8 +1,14 @@
 ---
 import { DISCORD_URL } from "../lib/constants";
 import DiscordIcon from "./icons/DiscordIcon.astro";
+import {
+    buildGoogleCalendarUrl,
+    buildIcsDataUri,
+    formatTimeDisplay,
+} from "../lib/calendar";
 
 interface Props {
+    id?: string;
     day: number;
     monthShortEn: string;
     monthShortEs: string;
@@ -12,9 +18,15 @@ interface Props {
     descriptionEs?: string;
     recurrenceLabelEn?: string;
     recurrenceLabelEs?: string;
+    dateIso?: string;
+    startTime?: string;
+    endTime?: string;
+    timezone?: string;
+    isRecurring?: boolean;
 }
 
 const {
+    id = "evento",
     day,
     monthShortEn,
     monthShortEs,
@@ -24,13 +36,40 @@ const {
     descriptionEs,
     recurrenceLabelEn,
     recurrenceLabelEs,
+    dateIso,
+    startTime,
+    endTime,
+    timezone = "UTC-5",
+    isRecurring = false,
 } = Astro.props;
 
-const gcalTitle = encodeURIComponent(titleEs || titleEn || "Evento Chamba Lab");
-const gcalDetails = encodeURIComponent(
-    descriptionEs || descriptionEn || "Sesión de la comunidad tech Chamba Lab",
-);
-const gcalUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${gcalTitle}&details=${gcalDetails}&location=Discord`;
+const title = titleEs || titleEn || "Evento Chamba Lab";
+const description =
+    descriptionEs || descriptionEn || "Sesión de la comunidad tech Chamba Lab";
+
+const gcalUrl = buildGoogleCalendarUrl({
+    id,
+    title,
+    description,
+    date: dateIso,
+    startTime,
+    endTime,
+    timezone,
+    recurring: isRecurring,
+});
+
+const icsUrl = buildIcsDataUri({
+    id,
+    title,
+    description,
+    date: dateIso,
+    startTime,
+    endTime,
+    timezone,
+    recurring: isRecurring,
+});
+
+const timeDisplay = formatTimeDisplay(startTime, endTime, timezone, "es");
 ---
 
 <li
@@ -68,6 +107,26 @@ const gcalUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&tex
                         </span>
                     )
                 }
+                <!-- Time & Timezone Badge -->
+                <span
+                    class="inline-flex items-center gap-1 text-[11px] font-semibold text-brand-yellow/90 bg-brand-yellow/10 border border-brand-yellow/20 px-2 py-0.5 rounded-md"
+                >
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="w-3 h-3 text-brand-yellow"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                        ></path>
+                    </svg>
+                    <span>{timeDisplay}</span>
+                </span>
             </div>
             <p
                 class="text-sm text-slate-400 leading-relaxed max-w-xl"
@@ -79,16 +138,16 @@ const gcalUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&tex
         </div>
     </div>
 
-    <!-- Right: Actions (Google Calendar & Discord) -->
+    <!-- Right: Actions (Google Calendar, iCal & Discord) -->
     <div
-        class="flex items-center gap-2.5 shrink-0 self-end md:self-center pt-2 md:pt-0"
+        class="flex flex-wrap items-center gap-2 shrink-0 self-end md:self-center pt-2 md:pt-0"
     >
         <a
             href={gcalUrl}
             target="_blank"
             rel="noopener noreferrer"
             title="Añadir a Google Calendar"
-            class="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-300 hover:text-brand-yellow transition-colors border border-white/10 hover:border-brand-yellow/30 px-3.5 py-2 rounded-xl bg-slate-900/80"
+            class="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-300 hover:text-brand-yellow transition-colors border border-white/10 hover:border-brand-yellow/30 px-3 py-2 rounded-xl bg-slate-900/80"
         >
             <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -105,6 +164,29 @@ const gcalUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&tex
                 ></path>
             </svg>
             <span data-i18n="addToGCal">Google Calendar</span>
+        </a>
+
+        <a
+            href={icsUrl}
+            download={`${id}.ics`}
+            title="Descargar archivo iCal (.ics)"
+            class="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-300 hover:text-white transition-colors border border-white/10 hover:border-white/20 px-3 py-2 rounded-xl bg-slate-900/50"
+        >
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="w-3.5 h-3.5 text-slate-400"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+            >
+                <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+                ></path>
+            </svg>
+            <span data-i18n="downloadIcs">iCal</span>
         </a>
 
         <a
