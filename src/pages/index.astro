@@ -393,31 +393,62 @@ const recIcsUrl = recurringEvent
                         recurringEvent && (
                             <div class="card-glass rounded-2xl p-7 sm:p-8 flex flex-col justify-between group transition-all duration-300 hover:border-[#8a95ff]/30">
                                 <div class="flex flex-col">
-                                    <div class="flex items-center justify-between mb-4">
+                                    <div class="flex flex-wrap items-center gap-2 mb-4">
                                         <span
-                                            class="text-[11px] font-bold text-[#8a95ff] uppercase tracking-wider px-2.5 py-1 rounded bg-[#5865F2]/10 border border-[#5865F2]/20"
+                                            class="text-[11px] font-bold text-[#8a95ff] uppercase tracking-wider px-2.5 py-1 rounded-full bg-[#5865F2]/15 border border-[#5865F2]/30 whitespace-nowrap shrink-0"
                                             data-i18n="weeklySession"
                                         >
                                             Sesión Semanal
                                         </span>
-                                        <span class="text-xs text-slate-400 flex items-center gap-1">
-                                            {recurringEvent.data.recurrenceLabel
-                                                ?.es || "Semanal"}
-                                            {recurringEvent.data.startTime && (
-                                                <span>
-                                                    {" "}
-                                                    •{" "}
-                                                    {formatTimeDisplay(
+                                        <span class="text-xs text-slate-300 flex items-center gap-1.5 font-medium">
+                                            <svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                class="w-4 h-4 text-[#8a95ff] shrink-0"
+                                                fill="none"
+                                                viewBox="0 0 24 24"
+                                                stroke="currentColor"
+                                            >
+                                                <path
+                                                    stroke-linecap="round"
+                                                    stroke-linejoin="round"
+                                                    stroke-width="2"
+                                                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                                                />
+                                            </svg>
+                                            <span>
+                                                <span
+                                                    data-i18n-en={
                                                         recurringEvent.data
-                                                            .startTime,
+                                                            .recurrenceLabel
+                                                            ?.en || "Weekly"
+                                                    }
+                                                    data-i18n-es={
                                                         recurringEvent.data
-                                                            .endTime,
-                                                        recurringEvent.data
-                                                            .timezone,
-                                                        "es",
-                                                    )}
+                                                            .recurrenceLabel
+                                                            ?.es || "Semanal"
+                                                    }
+                                                >
+                                                    {recurringEvent.data
+                                                        .recurrenceLabel?.es ||
+                                                        "Semanal"}
                                                 </span>
-                                            )}
+                                                {recurringEvent.data
+                                                    .startTime && (
+                                                    <span>
+                                                        {" "}
+                                                        •{" "}
+                                                        {formatTimeDisplay(
+                                                            recurringEvent.data
+                                                                .startTime,
+                                                            recurringEvent.data
+                                                                .endTime,
+                                                            recurringEvent.data
+                                                                .timezone,
+                                                            "es",
+                                                        )}
+                                                    </span>
+                                                )}
+                                            </span>
                                         </span>
                                     </div>
                                     <h3
