@@ -50,7 +50,7 @@ Nuestra estrategia se basa en dos columnas vertebrales que se integran en el cic
 ## 🗺️ Roadmap de Evolución
 
 ### Fase 1: Pulido Estructural, i18n & Ecosistema (En Curso)
-- [ ] **Reorganización del Landing Page**: Ajustar flujo narrativo (Hero & Discord ➔ Ecosistema Comunitario ➔ Eventos y Sesiones ➔ Recursos Curados).
+- [x] **Reorganización del Landing Page**: Ajustar flujo narrativo (Hero & Discord ➔ Ecosistema Comunitario ➔ Eventos y Sesiones ➔ Recursos Curados).
 - [ ] **SEO & Social Share Cards**: Implementación de Open Graph y Twitter Cards con imagen de previsualización oficial (*Modern Dark Glassmorphism*).
 - [ ] **Internacionalización (i18n) Completa**: Traducción bilingüe exhaustiva en ruleta, dinámicas y textos pendientes.
 - [ ] **Modularización de Datos**: Desacoplar presets de preguntas de la ruleta del catálogo general `content/activities.json`.

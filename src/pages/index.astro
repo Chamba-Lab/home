@@ -220,110 +220,6 @@ const recIcsUrl = recurringEvent
         <CommunityEcosystem client:visible />
 
         <!-- ============================================================== -->
-        <!-- RECURSOS CURADOS (Dynamic data from resources.json)            -->
-        <!-- ============================================================== -->
-        <section class="py-20 border-t border-white/[0.06]" id="recursos">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div
-                    class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4"
-                >
-                    <div>
-                        <h2
-                            class="font-display text-3xl sm:text-4xl font-extrabold text-white tracking-tight mb-2"
-                            data-i18n="resourcesSectionTitle"
-                        >
-                            Recursos Curados
-                        </h2>
-                        <p
-                            class="text-sm sm:text-base text-slate-400 max-w-xl leading-relaxed"
-                            data-i18n="resourcesSectionDesc"
-                        >
-                            Una selección de guías, plataformas de práctica y
-                            plantillas que la comunidad recomienda.
-                        </p>
-                    </div>
-
-                    <a
-                        href={`${base}resources`}
-                        class="inline-flex items-center gap-2 text-sm font-bold text-brand-yellow hover:text-amber-300 transition-colors"
-                    >
-                        <span data-i18n="viewAllResources"
-                            >Explorar todos los recursos</span
-                        >
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            class="w-4 h-4"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                        >
-                            <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                stroke-width="2"
-                                d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
-                        </svg>
-                    </a>
-                </div>
-
-                <!-- 3 Feature Cards Grid -->
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    {
-                        featuredResources.map((res) => (
-                            <div class="card-glass rounded-2xl p-7 flex flex-col justify-between group transition-all duration-300 hover:border-brand-yellow/40 hover:-translate-y-0.5 shadow-lg shadow-black/20">
-                                <div class="flex flex-col">
-                                    <div class="flex items-center justify-between mb-4">
-                                        <span
-                                            class={`text-[11px] font-bold uppercase tracking-wider px-2.5 py-1 rounded border ${res.badgeClass}`}
-                                        >
-                                            {res.tagLabel}
-                                        </span>
-                                    </div>
-                                    <h3 class="font-display text-xl font-bold text-white mb-2 group-hover:text-brand-yellow transition-colors leading-snug">
-                                        {res.data.title}
-                                    </h3>
-                                    <p
-                                        class="text-sm text-slate-400 leading-relaxed"
-                                        data-i18n-en={res.data.description.en}
-                                        data-i18n-es={res.data.description.es}
-                                    >
-                                        {res.data.description.es}
-                                    </p>
-                                </div>
-                                <div class="pt-6 mt-6 border-t border-white/10 flex items-center justify-between">
-                                    <a
-                                        class="inline-flex items-center gap-1.5 text-xs font-bold text-brand-yellow hover:text-white transition-colors group-hover:translate-x-0.5 transform duration-200"
-                                        href={res.data.url}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                    >
-                                        <span data-i18n="exploreResource">
-                                            Explorar recurso
-                                        </span>
-                                        <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            class="w-3.5 h-3.5"
-                                            fill="none"
-                                            viewBox="0 0 24 24"
-                                            stroke="currentColor"
-                                        >
-                                            <path
-                                                stroke-linecap="round"
-                                                stroke-linejoin="round"
-                                                stroke-width="2"
-                                                d="M14 5l7 7m0 0l-7 7m7-7H3"
-                                            />
-                                        </svg>
-                                    </a>
-                                </div>
-                            </div>
-                        ))
-                    }
-                </div>
-            </div>
-        </section>
-
-        <!-- ============================================================== -->
         <!-- EVENTOS Y DINÁMICAS (Dynamic data from events.json)            -->
         <!-- ============================================================== -->
         <section
@@ -600,6 +496,109 @@ const recIcsUrl = recurringEvent
                                 </div>
                             </div>
                         )
+                    }
+                </div>
+            </div>
+        </section>
+        <!-- ============================================================== -->
+        <!-- RECURSOS CURADOS (Dynamic data from resources.json)            -->
+        <!-- ============================================================== -->
+        <section class="py-20 border-t border-white/[0.06]" id="recursos">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div
+                    class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4"
+                >
+                    <div>
+                        <h2
+                            class="font-display text-3xl sm:text-4xl font-extrabold text-white tracking-tight mb-2"
+                            data-i18n="resourcesSectionTitle"
+                        >
+                            Recursos Curados
+                        </h2>
+                        <p
+                            class="text-sm sm:text-base text-slate-400 max-w-xl leading-relaxed"
+                            data-i18n="resourcesSectionDesc"
+                        >
+                            Una selección de guías, plataformas de práctica y
+                            plantillas que la comunidad recomienda.
+                        </p>
+                    </div>
+
+                    <a
+                        href={`${base}resources`}
+                        class="inline-flex items-center gap-2 text-sm font-bold text-brand-yellow hover:text-amber-300 transition-colors"
+                    >
+                        <span data-i18n="viewAllResources"
+                            >Explorar todos los recursos</span
+                        >
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            class="w-4 h-4"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                        </svg>
+                    </a>
+                </div>
+
+                <!-- 3 Feature Cards Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    {
+                        featuredResources.map((res) => (
+                            <div class="card-glass rounded-2xl p-7 flex flex-col justify-between group transition-all duration-300 hover:border-brand-yellow/40 hover:-translate-y-0.5 shadow-lg shadow-black/20">
+                                <div class="flex flex-col">
+                                    <div class="flex items-center justify-between mb-4">
+                                        <span
+                                            class={`text-[11px] font-bold uppercase tracking-wider px-2.5 py-1 rounded border ${res.badgeClass}`}
+                                        >
+                                            {res.tagLabel}
+                                        </span>
+                                    </div>
+                                    <h3 class="font-display text-xl font-bold text-white mb-2 group-hover:text-brand-yellow transition-colors leading-snug">
+                                        {res.data.title}
+                                    </h3>
+                                    <p
+                                        class="text-sm text-slate-400 leading-relaxed"
+                                        data-i18n-en={res.data.description.en}
+                                        data-i18n-es={res.data.description.es}
+                                    >
+                                        {res.data.description.es}
+                                    </p>
+                                </div>
+                                <div class="pt-6 mt-6 border-t border-white/10 flex items-center justify-between">
+                                    <a
+                                        class="inline-flex items-center gap-1.5 text-xs font-bold text-brand-yellow hover:text-white transition-colors group-hover:translate-x-0.5 transform duration-200"
+                                        href={res.data.url}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                    >
+                                        <span data-i18n="exploreResource">
+                                            Explorar recurso
+                                        </span>
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            class="w-3.5 h-3.5"
+                                            fill="none"
+                                            viewBox="0 0 24 24"
+                                            stroke="currentColor"
+                                        >
+                                            <path
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                stroke-width="2"
+                                                d="M14 5l7 7m0 0l-7 7m7-7H3"
+                                            />
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                        ))
                     }
                 </div>
             </div>
