@@ -46,7 +46,7 @@ const months = Array.from({ length: MONTHS_AHEAD }, (_, i) => {
     const occurrences: Occurrence[] = [];
 
     for (const event of events) {
-        const eventId = event.data.id || event.id;
+        const eventId = event.id;
         if (event.data.type === "fixed" && event.data.date) {
             const [y, m, d] = event.data.date.split("-").map(Number);
             const date = new Date(y, m - 1, d);
@@ -115,7 +115,10 @@ const months = Array.from({ length: MONTHS_AHEAD }, (_, i) => {
 });
 ---
 
-<Layout title="Chamba Lab | Calendario de Eventos y Sesiones">
+<Layout
+    title="Chamba Lab | Calendario de Eventos y Sesiones"
+    description="Workshops en vivo, simulacros técnicos y espacios de coworking para acelerar tu desarrollo en tecnología. Horarios y enlaces a Google Calendar e iCal."
+>
     <main class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
         <!-- Header -->
         <div class="max-w-3xl mb-12">
