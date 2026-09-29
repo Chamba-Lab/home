@@ -21,7 +21,7 @@ Somos una comunidad tech para quienes construyen su carrera en tecnología — e
 Construido para ser ultra rápido, accesible y visualmente impactante.
 
 - **Frontend**: [Astro 7.x](https://astro.build) (Optimizado para rendimiento extremo y SSG).
-- **UI Library**: [React 19+](https://reactjs.org) (Utilizado en "Islas" de interacción como la Ruleta).
+- **UI Library**: [React 19+](https://reactjs.org) (Utilizado en "Islas" de interacción como el Ecosistema Comunitario y La Ruleta).
 - **Styling**: [TailwindCSS 4.x](https://tailwindcss.com), sistema de diseño **Modern Dark Glassmorphism** (fondo obsidian `#080D1A`, tarjetas con `backdrop-blur`, acentos en amarillo `#FACC15` y Discord `#5865F2`) — especificación completa en [DESIGN.md](./DESIGN.md) y arquitectura en [AGENTS.md](./AGENTS.md).
 - **CI/CD**: GitHub Actions + `release-it` para versionado automático y despliegue a **GitHub Pages**.
 
@@ -31,7 +31,7 @@ Construido para ser ultra rápido, accesible y visualmente impactante.
 
 | Ruta | Contenido |
 | :--- | :--- |
-| `/` | Landing inmersiva con Hero, widget interactivo de Discord, vitrina de recursos y eventos |
+| `/` | Landing inmersiva con Hero, widget interactivo de Discord, diagrama interactivo del Ecosistema Comunitario (perfiles e interacciones), vitrina de recursos y eventos |
 | `/resources` | Biblioteca completa de guías, plantillas y plataformas curadas con filtros |
 | `/events` | Calendario de eventos y sesiones recurrentes con exportación a Google Calendar / iCal |
 | `/activities` | Hub de mini actividades comunitarias (dinámicas) |
@@ -91,7 +91,7 @@ Al realizar un push a la rama `master`, el sistema activa:
 
 ## 🤝 Comunidad y Contribución
 
-¡Nadie crece solo! Las contribuciones son el motor de Chamba Lab.
+Avanzar por cuenta propia tiene mérito; en comunidad multiplicas tus posibilidades. Las contribuciones son el motor de Chamba Lab.
 
 - **Guía del Colaborador**: Revisa nuestro archivo [AGENTS.md](./AGENTS.md) para entender el sistema de diseño y flujos.
 - **Discord**: [Escríbenos en la comunidad](https://discord.gg/TCuZSnfKTE).

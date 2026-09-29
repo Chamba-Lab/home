@@ -13,4 +13,5 @@ export default defineConfig({
     vite: {
         plugins: [tailwindcss()],
     },
+    // Chamba Lab community platform configuration
 });

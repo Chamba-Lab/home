@@ -6,7 +6,7 @@
 *   **Type**: Community-Led Tech Platform (Non-Profit).
 *   **Mission**: Democratizar el acceso a oportunidades laborales en tech, conectando a quienes están construyendo su carrera con quienes ya tienen camino recorrido.
 *   **Core Values**:
-    *   *Comunidad*: Nadie crece solo.
+    *   *Comunidad*: Avanzar por cuenta propia tiene mérito; en comunidad multiplicas tus posibilidades.
     *   *Práctico*: Recursos y apoyo real, no solo teoría.
     *   *Privacidad*: Datos protegidos por diseño.
 *   **Nota de marca**: "Chamba" es el único término del glosario cultural activo hoy (es el nombre). El resto (Trome, Pilas, Yapa, etc.) se introduce progresivamente en features concretas, no como copy genérico — ver `docs/branding_concepts.md`.
@@ -16,7 +16,7 @@
 
 ### Frontend (Web Platform)
 *   **Framework**: **Astro 7.x** (Rendimiento por defecto).
-*   **UI Library**: **React 19+** (Para "Islas" de interactividad: Chamba Board, Dinámicas, Forms).
+*   **UI Library**: **React 19+** (Para "Islas" de interactividad: Ecosistema Comunitario, Dinámicas como La Ruleta, Chamba Board).
 *   **Styling**: **TailwindCSS 4.x** (Utility-first con tokens en `@theme`).
 *   **Hosting**: **GitHub Pages** (Opción Principal - Costo Cero).
     *   *Alternativa*: Vercel / Netlify (Solo si se requiere SSR en el futuro).
@@ -24,7 +24,7 @@
 
 ### Site Structure
 *   **Páginas**: 
-    *   `/` (Landing inmersiva: Hero con iluminación radial, integración de widget interactivo de Discord, vitrina dinámica de recursos curados y vitrina asimétrica de eventos destacados y recurrentes).
+    *   `/` (Landing inmersiva: Hero con iluminación radial, integración de widget interactivo de Discord, diagrama interactivo del Ecosistema Chamba Lab con vista dual adaptativa: canvas SVG horizontal simétrico en desktop y stepper interactivo vertical en mobile con acordeón fluido y ticker dinámico, vitrina de recursos curados y vitrina de eventos con exportación a calendarios).
     *   `/resources` (Biblioteca curada de guías, plantillas y plataformas con buscador y filtros por categoría).
     *   `/events` (Calendario de eventos fijos y recurrentes con cálculo por meses, zona horaria comunitaria UTC-5, y exportación funcional a Google Calendar e iCal `.ics` generados con RFC 5545).
     *   `/activities` (Hub de dinámicas comunitarias) y subrutas por actividad (ej. `/activities/roulette`). Rutas siempre en inglés, aunque el copy visible sea en español con soporte bilingüe.
@@ -33,6 +33,13 @@
 *   **i18n**: Diccionario centralizado en `src/i18n/translations.ts`. El selector traduce el chrome estructural y las secciones de la landing en vivo vía `data-i18n` y atributos bilingües (`data-i18n-en` / `data-i18n-es`), persistiendo la preferencia en `localStorage` (`chamba-lab-lang`).
 *   **Tema**: Dark-mode first (`#080D1A`), garantizando una experiencia inmersiva, consistente y con alto contraste sin fluctuaciones de estilo.
 *   **Widget de Discord**: Componente `src/components/DiscordWidget.astro` que obtiene en build time los datos del servidor vía API JSON de Discord (`widget.json`), renderizando una tarjeta *glassmorphism* moderna con contador de conectados, canales activos y avatares, con selector para alternar opcionalmente al iFrame oficial.
+*   **Ecosistema Comunitario (`src/components/CommunityEcosystem.tsx`)**: Diagrama interactivo del ciclo colaborativo continuo con vista dual adaptativa (desktop SVG horizontal simétrico y mobile stepper interactivo vertical). Modela los perfiles de la comunidad y sus interacciones formativas:
+    *   **Perfiles**:
+        *   `Early Career` (*Trainee & Junior*): Estudiantes, autodidactas y profesionales que inician. Espacio para recibir feedback de código/CV, acceder a convocatorias iniciales y resolver dudas técnicas en un entorno seguro y libre de juicios.
+        *   `Mid & Senior` (*Profesionales en actividad*): Desarrolladores con experiencia laboral comprobada. Punto de encuentro para networking horizontal regional, debates de arquitectura/producción y mentoría abierta y sin fricciones.
+    *   **Interacciones**:
+        *   `Advising & Preparación`: Apoyo práctico entre pares (revisión comunitaria de CV/LinkedIn/GitHub, difusión de convocatorias reales, revisión de código de proyectos personales y simulacros de entrevistas técnicas / *Mock Interviews* con feedback en vivo).
+        *   `Continuous Growing`: Crecimiento profesional continuo y ciclo de retorno (networking con líderes regionales, conversaciones sobre arquitectura y diseño de sistemas, actualización técnica y cierre del ciclo guiando a la siguiente generación).
 *   **Dinámicas**: `/activities` lista actividades comunitarias (`activities.json`). Primera dinámica activa: **La Ruleta** (`/activities/roulette`) con 6 packs precargados (72 preguntas de empleabilidad, arquitectura, tendencias, dilemas de producción, IA y rompehielos) y modo libre (hasta 24 opciones), construida en React 19 sobre Canvas 2D adaptativo con tooltips flotantes en hover, física de aguja (*needle wobble*), sintetizador de audio con Web Audio API, confeti dinámico y retiro progresivo de opciones sorteadas en la sesión activa (con opciones de reincorporación y restablecimiento).
 
 ### Backend & Data (Evolutionary)

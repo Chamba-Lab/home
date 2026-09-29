@@ -151,6 +151,17 @@ Cargada de forma optimizada vía Google Fonts en `src/layouts/Layout.astro`.
     - Tooltip flotante _dark glass_ con posicionamiento trigonométrico que revela el texto íntegro al hacer hover sobre cualquier sector.
     - Audio sintetizado en Web Audio API (ticks percutivos al rozar las clavijas y acorde pentatónico triunfal al aterrizar).
     - Partículas de confeti dinámicas en canvas superpuesto.
+- **Ecosistema Comunitario (`CommunityEcosystem.tsx`)**:
+    - **Arquitectura Adaptativa Dual**:
+        - **Desktop ($\ge 768\text{px}$)**: Canvas SVG horizontal simétrico (`viewBox="0 0 880 340"` con centro en $Y=170$).
+            - _Nodos de Perfil_ (Círculos $R=65$ con anillos orbitales $R=74$): `Early Career` ($X=180$) y `Mid & Senior` ($X=490$).
+            - _Nodos de Interacción_ (Rombos $48\times 48$ rotados $45^\circ$): `Advising` ($X=335, Y=62$, vértice de apoyo triangular simétrico) y `Growing` ($X=720, Y=170$, bucle de evolución continua con retorno inferior).
+            - _Interacción y Foco_: Sistema de atenuación selectiva (`opacity-25` vs `opacity-100`) con tarjeta inspectora flotante de alto contraste que despliega objetivos y actividades clave.
+            - _Ticker Dinámico de Actividades_: Transiciones suaves de opacidad (`duration-300`) que alternan progresivamente 5 actividades reales en cada rombo.
+        - **Mobile ($< 768\text{px}$)**: Stepper vertical interactivo pensado para navegación táctil con el pulgar.
+            - Tarjetas colapsables `.card-glass` con acordeón fluido y micro-conectores direccionales entre etapas (`▼`).
+            - Badges de previsualización en vivo con pulsación sutil (`animate-pulse`) para las actividades en rotación.
+            - Pastilla de cierre de ciclo continuo: `↺ Ciclo continuo: en comunidad multiplicamos posibilidades`.
 - **Discord Widget (`DiscordWidget.astro` + API Fetch)**:
     - Consumo directo en cliente de la API oficial con _graceful fallback_ estático.
     - Avatares de miembros conectados, canales activos y botón rápido de acceso.
