@@ -6,14 +6,14 @@ import { getCollection } from "astro:content";
 const rawBase = import.meta.env.BASE_URL;
 const base = rawBase.endsWith("/") ? rawBase : `${rawBase}/`;
 
-const activitiesData = await getCollection("activities");
-const config = activitiesData[0]?.data;
+const rouletteData = await getCollection("roulette");
+const config = rouletteData[0]?.data;
 
 if (!config) {
-    throw new Error("Activities configuration not found");
+    throw new Error("Roulette configuration not found");
 }
 
-const { roulette } = config;
+const { freeMode, presets } = config;
 ---
 
 <Layout
@@ -48,11 +48,12 @@ const { roulette } = config;
                         stroke-width="2"
                         d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
                 </svg>
-                <span>Volver a Dinámicas</span>
+                <span data-i18n="rouletteBack">Volver a Dinámicas</span>
             </a>
 
             <span
                 class="text-[11px] font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-brand-yellow/10 border border-brand-yellow/30 text-brand-yellow hidden sm:inline-block"
+                data-i18n="rouletteBadge"
             >
                 Dinámica 01 • Rompehielos Tech
             </span>
@@ -64,9 +65,12 @@ const { roulette } = config;
                 class="font-display text-3xl sm:text-5xl font-extrabold text-white tracking-tight mb-3 flex items-center gap-3"
             >
                 <span>🎡</span>
-                <span>La Ruleta de la Comunidad</span>
+                <span data-i18n="rouletteTitle">La Ruleta de la Comunidad</span>
             </h1>
-            <p class="text-sm sm:text-base text-slate-300 leading-relaxed">
+            <p
+                class="text-sm sm:text-base text-slate-300 leading-relaxed"
+                data-i18n="rouletteDesc"
+            >
                 Descubre temas de conversación, dilemas de arquitectura o
                 desafíos técnicos para debatir en vivo. Perfecto para dinamizar
                 canales de voz en Discord o practicar improvisación técnica.
@@ -77,9 +81,9 @@ const { roulette } = config;
         <div class="mb-12">
             <RouletteWheel
                 client:load
-                presets={roulette.presets}
-                freeModePlaceholder={roulette.freeMode.placeholder}
-                freeModeMaxOptions={roulette.freeMode.maxOptions}
+                presets={presets}
+                freeModePlaceholder={freeMode.placeholder}
+                freeModeMaxOptions={freeMode.maxOptions}
             />
         </div>
 
@@ -91,7 +95,9 @@ const { roulette } = config;
                 class="font-display text-lg font-bold text-white mb-4 flex items-center gap-2.5"
             >
                 <span class="text-brand-yellow">💡</span>
-                <span>Cómo usar esta dinámica en Discord</span>
+                <span data-i18n="rouletteHowToTitle">
+                    Cómo usar esta dinámica en Discord
+                </span>
             </h2>
             <div
                 class="grid grid-cols-1 md:grid-cols-3 gap-6 text-sm text-slate-300"
@@ -101,10 +107,14 @@ const { roulette } = config;
                 >
                     <div
                         class="font-bold text-white text-xs uppercase tracking-wider text-brand-yellow"
+                        data-i18n="rouletteStep1Title"
                     >
                         01. Selecciona o Personaliza
                     </div>
-                    <p class="text-xs text-slate-400 leading-relaxed">
+                    <p
+                        class="text-xs text-slate-400 leading-relaxed"
+                        data-i18n="rouletteStep1Desc"
+                    >
                         Elige uno de los packs temáticos (Empleabilidad, Debates
                         Tech, 2026) o escribe preguntas personalizadas en Ruleta
                         Libre.
@@ -115,10 +125,14 @@ const { roulette } = config;
                 >
                     <div
                         class="font-bold text-white text-xs uppercase tracking-wider text-brand-yellow"
+                        data-i18n="rouletteStep2Title"
                     >
                         02. Gira y Comparte
                     </div>
-                    <p class="text-xs text-slate-400 leading-relaxed">
+                    <p
+                        class="text-xs text-slate-400 leading-relaxed"
+                        data-i18n="rouletteStep2Desc"
+                    >
                         Presiona Girar y usa el botón "Copiar pregunta" para
                         pegar el debate directamente en el canal de texto de la
                         sesión.
@@ -129,10 +143,14 @@ const { roulette } = config;
                 >
                     <div
                         class="font-bold text-white text-xs uppercase tracking-wider text-brand-yellow"
+                        data-i18n="rouletteStep3Title"
                     >
                         03. Debate en Comunidad
                     </div>
-                    <p class="text-xs text-slate-400 leading-relaxed">
+                    <p
+                        class="text-xs text-slate-400 leading-relaxed"
+                        data-i18n="rouletteStep3Desc"
+                    >
                         Dale 2 minutos a cada participante para exponer su punto
                         de vista o anécdota. ¡Ideal para romper el hielo!
                     </p>

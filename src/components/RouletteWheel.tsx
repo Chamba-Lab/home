@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { ROULETTE_I18N } from "../i18n/roulette";
 
 interface RouletteWheelProps {
     presets: Array<{ id: string; name: string; options: string[] }>;
@@ -146,6 +147,34 @@ export default function RouletteWheel({
     freeModePlaceholder,
     freeModeMaxOptions,
 }: RouletteWheelProps) {
+    const [lang, setLang] = useState<"es" | "en">("es");
+
+    useEffect(() => {
+        if (typeof window !== "undefined") {
+            const stored = localStorage.getItem("chamba-lab-lang") as
+                "es" | "en" | null;
+            if (stored === "es" || stored === "en") {
+                setLang(stored);
+            }
+        }
+
+        const handleLangChange = (e: Event) => {
+            const detail = (e as CustomEvent<{ lang: "es" | "en" }>).detail;
+            if (
+                detail?.lang &&
+                (detail.lang === "es" || detail.lang === "en")
+            ) {
+                setLang(detail.lang);
+            }
+        };
+
+        document.addEventListener("chamba-lab:lang", handleLangChange);
+        return () =>
+            document.removeEventListener("chamba-lab:lang", handleLangChange);
+    }, []);
+
+    const t = ROULETTE_I18N[lang];
+
     const [mode, setMode] = useState<"preset" | "free">("preset");
     const [selectedPresetId, setSelectedPresetId] = useState(
         presets[0]?.id ?? "",
@@ -421,31 +450,19 @@ export default function RouletteWheel({
 
             if (currentDrawn.length > 0) {
                 if (optionsList.length === 1) {
-                    ctx.fillText(
-                        "Queda 1 opción disponible",
-                        centerX,
-                        centerY - 12,
-                    );
+                    ctx.fillText(t.remainingOne, centerX, centerY - 12);
                     ctx.fillStyle = "#FACC15";
                     ctx.font = "600 11px Inter, sans-serif";
-                    ctx.fillText(
-                        "Restablece para girar",
-                        centerX,
-                        centerY + 12,
-                    );
+                    ctx.fillText(t.resetToSpin, centerX, centerY + 12);
                 } else {
-                    ctx.fillText("¡Todas sorteadas!", centerX, centerY - 12);
+                    ctx.fillText(t.allDrawnTitle, centerX, centerY - 12);
                     ctx.fillStyle = "#FACC15";
                     ctx.font = "600 11px Inter, sans-serif";
-                    ctx.fillText(
-                        "Restablece para volver a girar",
-                        centerX,
-                        centerY + 12,
-                    );
+                    ctx.fillText(t.allDrawnSubtitle, centerX, centerY + 12);
                 }
             } else {
-                ctx.fillText("Agrega al menos", centerX, centerY - 10);
-                ctx.fillText("2 opciones para girar", centerX, centerY + 10);
+                ctx.fillText(t.addAtLeast, centerX, centerY - 10);
+                ctx.fillText(t.twoOptionsToSpin, centerX, centerY + 10);
             }
             return;
         }
@@ -602,7 +619,7 @@ export default function RouletteWheel({
         if (spinning) return;
         drawWheel(options, rotationRef.current);
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [selectedIndex, hoveredIndex]);
+    }, [selectedIndex, hoveredIndex, lang]);
 
     useEffect(() => {
         return () => {
@@ -745,9 +762,7 @@ export default function RouletteWheel({
     };
 
     const loadExampleCustom = () => {
-        setCustomInput(
-            "¿Cuál es tu lenguaje de programación favorito?\n¿Qué proyecto te gustaría crear este año?\n¿Cuál fue el bug más difícil que resolviste?\n¿Qué consejo le darías a tu yo junior?\n¿Framework favorito y por qué?\n¿Libro, curso o canal tech que recomiendes?\n¿Prefieres trabajar remoto o presencial?\n¿Cuál ha sido tu peor entrevista técnica?",
-        );
+        setCustomInput(t.sampleCustomInput);
     };
 
     return (
@@ -766,10 +781,13 @@ export default function RouletteWheel({
                             />
                             <span className="truncate">
                                 {spinning
-                                    ? "Girando..."
+                                    ? t.spinning
                                     : currentDrawn.length > 0
-                                      ? `${options.length} disponibles • ${currentDrawn.length} sorteadas`
-                                      : `${options.length} opciones en rueda`}
+                                      ? t.headerAvailableDrawn(
+                                            options.length,
+                                            currentDrawn.length,
+                                        )
+                                      : t.headerOptionsInWheel(options.length)}
                             </span>
                         </div>
 
@@ -781,8 +799,8 @@ export default function RouletteWheel({
                                 disabled={spinning}
                                 title={
                                     autoRemove
-                                        ? "Retiro automático activado: las opciones sorteadas se van retirando de la ruleta"
-                                        : "Retiro automático desactivado: las opciones permanecen en la ruleta"
+                                        ? t.autoRemoveTitleOn
+                                        : t.autoRemoveTitleOff
                                 }
                                 className={`px-2 py-1 rounded-lg border text-xs font-semibold flex items-center gap-1 transition-all ${
                                     autoRemove
@@ -792,9 +810,7 @@ export default function RouletteWheel({
                             >
                                 <span className="text-[10px]">🎯</span>
                                 <span className="hidden sm:inline text-[11px]">
-                                    {autoRemove
-                                        ? "Auto-retirar"
-                                        : "Sin retirar"}
+                                    {autoRemove ? t.autoRemove : t.noRemove}
                                 </span>
                             </button>
 
@@ -803,7 +819,7 @@ export default function RouletteWheel({
                                 type="button"
                                 onClick={shuffleOptions}
                                 disabled={spinning || options.length < 2}
-                                title="Mezclar aleatoriamente el orden de las opciones"
+                                title={t.shuffleTitle}
                                 className="p-1.5 rounded-lg bg-slate-900/80 hover:bg-slate-800 text-slate-300 hover:text-brand-yellow border border-white/10 transition-all disabled:opacity-40 flex items-center justify-center"
                             >
                                 <svg
@@ -834,7 +850,7 @@ export default function RouletteWheel({
                             >
                                 <span>{soundEnabled ? "🔊" : "🔇"}</span>
                                 <span className="hidden sm:inline">
-                                    {soundEnabled ? "Sonido" : "Mute"}
+                                    {soundEnabled ? t.sound : t.mute}
                                 </span>
                             </button>
                         </div>
@@ -887,7 +903,7 @@ export default function RouletteWheel({
                             onClick={spinRoulette}
                             onMouseMove={handleCanvasMouseMove}
                             onMouseLeave={handleCanvasMouseLeave}
-                            title="Haz clic para girar la ruleta"
+                            title={t.clickToSpin}
                         />
 
                         {/* Floating Tooltip when hovering over a slice on desktop */}
@@ -908,7 +924,7 @@ export default function RouletteWheel({
                     </div>
 
                     <p className="text-[11px] text-slate-400 mt-1 mb-2 font-medium">
-                        Haz clic en la rueda o en el botón para girar
+                        {t.hintSpin}
                     </p>
 
                     {/* Primary Spin Button */}
@@ -940,7 +956,7 @@ export default function RouletteWheel({
                                         d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                                     />
                                 </svg>
-                                <span>GIRANDO RULETA...</span>
+                                <span>{t.spinningButton}</span>
                             </>
                         ) : (
                             <>
@@ -958,7 +974,7 @@ export default function RouletteWheel({
                                         d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
                                     />
                                 </svg>
-                                <span>¡GIRAR LA RULETA!</span>
+                                <span>{t.spinButton}</span>
                             </>
                         )}
                     </button>
@@ -972,8 +988,7 @@ export default function RouletteWheel({
                         >
                             <span>🔄</span>
                             <span>
-                                Restablecer opciones sorteadas (
-                                {currentDrawn.length})
+                                {t.resetDrawnCount(currentDrawn.length)}
                             </span>
                         </button>
                     )}
@@ -988,18 +1003,20 @@ export default function RouletteWheel({
                         <div className="flex items-center justify-between gap-2 mb-3">
                             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-brand-yellow text-slate-950 text-xs font-black tracking-wide uppercase shadow-sm">
                                 <span>🎉</span>
-                                <span>Tema Seleccionado</span>
+                                <span>{t.topicSelected}</span>
                             </span>
                             <div className="flex items-center gap-2">
                                 {winnerResult.isRetired ? (
                                     <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
                                         <span>✓</span>
-                                        <span>Retirada de la ruleta</span>
+                                        <span>{t.removedFromWheel}</span>
                                     </span>
                                 ) : (
                                     <span className="text-xs text-brand-yellow/80 font-mono">
-                                        Opción #{winnerResult.optionNumber} de{" "}
-                                        {winnerResult.totalAtSpin}
+                                        {t.optionOfTotal(
+                                            winnerResult.optionNumber,
+                                            winnerResult.totalAtSpin,
+                                        )}
                                     </span>
                                 )}
                             </div>
@@ -1011,31 +1028,11 @@ export default function RouletteWheel({
 
                         <p className="text-xs text-slate-400 font-medium mb-4">
                             {options.length >= 2 ? (
-                                <span>
-                                    Quedan{" "}
-                                    <strong className="text-brand-yellow">
-                                        {options.length}
-                                    </strong>{" "}
-                                    opciones en la ruleta para la siguiente
-                                    ronda.
-                                </span>
+                                <span>{t.remainingPlural(options.length)}</span>
                             ) : options.length === 1 ? (
-                                <span>
-                                    Queda solo{" "}
-                                    <strong className="text-brand-yellow">
-                                        1 opción
-                                    </strong>{" "}
-                                    por sortear en este paquete.
-                                </span>
+                                <span>{t.remainingSingular}</span>
                             ) : (
-                                <span>
-                                    🎉{" "}
-                                    <strong className="text-emerald-400">
-                                        ¡Completado!
-                                    </strong>{" "}
-                                    Se han sorteado todas las opciones de este
-                                    paquete en esta sesión.
-                                </span>
+                                <span>🎉 {t.completedAll}</span>
                             )}
                         </p>
 
@@ -1051,7 +1048,7 @@ export default function RouletteWheel({
                                             ✓
                                         </span>
                                         <span className="text-emerald-300">
-                                            ¡Copiado para Discord!
+                                            {t.copiedNotice}
                                         </span>
                                     </>
                                 ) : (
@@ -1070,7 +1067,7 @@ export default function RouletteWheel({
                                                 d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"
                                             />
                                         </svg>
-                                        <span>Copiar pregunta</span>
+                                        <span>{t.copyButton}</span>
                                     </>
                                 )}
                             </button>
@@ -1081,7 +1078,7 @@ export default function RouletteWheel({
                                     onClick={spinRoulette}
                                     className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-brand-yellow/15 hover:bg-brand-yellow/25 text-brand-yellow text-xs font-bold border border-brand-yellow/30 transition-all"
                                 >
-                                    <span>Girar de nuevo</span>
+                                    <span>{t.spinAgain}</span>
                                     <span>↻</span>
                                 </button>
                             ) : (
@@ -1090,7 +1087,7 @@ export default function RouletteWheel({
                                     onClick={resetDrawnForCurrent}
                                     className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-brand-yellow text-slate-950 text-xs font-extrabold hover:bg-amber-300 transition-all shadow-md"
                                 >
-                                    <span>Restablecer opciones</span>
+                                    <span>{t.resetOptions}</span>
                                     <span>🔄</span>
                                 </button>
                             )}
@@ -1105,7 +1102,7 @@ export default function RouletteWheel({
                                     title="Devolver esta opción a la ruleta"
                                 >
                                     <span>↺</span>
-                                    <span>Conservar en la ruleta</span>
+                                    <span>{t.keepInWheel}</span>
                                 </button>
                             )}
                         </div>
@@ -1126,7 +1123,7 @@ export default function RouletteWheel({
                             }`}
                         >
                             <span>🎯</span>
-                            <span>Temas de Debate ({presets.length})</span>
+                            <span>{t.tabDebates(presets.length)}</span>
                         </button>
                         <button
                             type="button"
@@ -1139,7 +1136,7 @@ export default function RouletteWheel({
                             }`}
                         >
                             <span>✍️</span>
-                            <span>Ruleta Libre</span>
+                            <span>{t.tabFree}</span>
                         </button>
                     </div>
 
@@ -1148,8 +1145,7 @@ export default function RouletteWheel({
                         <div className="space-y-5">
                             <div>
                                 <label className="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-3">
-                                    Selecciona un paquete temático (
-                                    {presets.length} disponibles)
+                                    {t.selectThemePack(presets.length)}
                                 </label>
                                 <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3">
                                     {presets.map((preset) => {
@@ -1180,12 +1176,22 @@ export default function RouletteWheel({
                                                             : "text-white"
                                                     }`}
                                                 >
-                                                    {preset.name}
+                                                    {t.presetNames[preset.id] ||
+                                                        preset.name}
                                                 </span>
                                                 <span className="text-[11px] text-slate-400 font-mono">
                                                     {presetDrawnCount > 0
-                                                        ? `${preset.options.length - presetDrawnCount} / ${preset.options.length} disp.`
-                                                        : `${preset.options.length} preguntas`}
+                                                        ? t.questionsDisp(
+                                                              preset.options
+                                                                  .length -
+                                                                  presetDrawnCount,
+                                                              preset.options
+                                                                  .length,
+                                                          )
+                                                        : t.questionsCount(
+                                                              preset.options
+                                                                  .length,
+                                                          )}
                                                 </span>
                                             </button>
                                         );
@@ -1198,9 +1204,10 @@ export default function RouletteWheel({
                                 <div className="pt-4 border-t border-white/[0.08]">
                                     <div className="flex items-center justify-between mb-3 flex-wrap gap-2">
                                         <span className="text-xs font-bold uppercase tracking-wider text-slate-400">
-                                            Preguntas disponibles (
-                                            {options.length} /{" "}
-                                            {currentPreset.options.length})
+                                            {t.availableQuestions(
+                                                options.length,
+                                                currentPreset.options.length,
+                                            )}
                                         </span>
                                         <div className="flex items-center gap-2">
                                             {currentDrawn.length > 0 && (
@@ -1215,8 +1222,9 @@ export default function RouletteWheel({
                                                 >
                                                     <span>🔄</span>
                                                     <span>
-                                                        Restablecer (
-                                                        {currentDrawn.length})
+                                                        {t.resetShort(
+                                                            currentDrawn.length,
+                                                        )}
                                                     </span>
                                                 </button>
                                             )}
@@ -1244,7 +1252,7 @@ export default function RouletteWheel({
                                                         d="M16 3h5v5M4 20L21 3M21 16v5h-5M15 15l6 6M4 4l5 5"
                                                     />
                                                 </svg>
-                                                <span>Mezclar orden</span>
+                                                <span>{t.shuffleOrder}</span>
                                             </button>
                                         </div>
                                     </div>
@@ -1288,18 +1296,14 @@ export default function RouletteWheel({
                                         <div className="p-5 rounded-xl bg-slate-950/60 border border-emerald-500/20 text-center space-y-3">
                                             <span className="text-2xl">🎉</span>
                                             <p className="text-xs text-slate-300">
-                                                ¡Has sorteado todas las
-                                                preguntas de este paquete en
-                                                esta sesión!
+                                                {t.allQuestionsDrawnSession}
                                             </p>
                                             <button
                                                 type="button"
                                                 onClick={resetDrawnForCurrent}
                                                 className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-brand-yellow text-slate-950 text-xs font-bold hover:bg-amber-300 transition-all shadow-md"
                                             >
-                                                <span>
-                                                    Restablecer preguntas
-                                                </span>
+                                                <span>{t.resetQuestions}</span>
                                                 <span>🔄</span>
                                             </button>
                                         </div>
@@ -1310,12 +1314,12 @@ export default function RouletteWheel({
                                         <div className="pt-3 mt-3 border-t border-white/[0.08]">
                                             <div className="flex items-center justify-between mb-2">
                                                 <span className="text-[11px] font-bold uppercase tracking-wider text-slate-500">
-                                                    Sorteadas en esta sesión (
-                                                    {currentDrawn.length})
+                                                    {t.drawnThisSession(
+                                                        currentDrawn.length,
+                                                    )}
                                                 </span>
                                                 <span className="text-[10px] text-slate-500 font-mono">
-                                                    Se restablecen al recargar
-                                                    la página
+                                                    {t.resetOnReload}
                                                 </span>
                                             </div>
                                             <div className="space-y-1.5 max-h-36 overflow-y-auto pr-1 custom-scrollbar">
@@ -1341,7 +1345,7 @@ export default function RouletteWheel({
                                                             className="text-[10px] text-slate-400 hover:text-brand-yellow shrink-0 px-2 py-0.5 rounded bg-white/5 hover:bg-white/10 transition-colors"
                                                             title="Reincorporar a la ruleta"
                                                         >
-                                                            + Reincorporar
+                                                            {t.returnOption}
                                                         </button>
                                                     </div>
                                                 ))}
@@ -1355,20 +1359,25 @@ export default function RouletteWheel({
                         <div className="space-y-4">
                             <div className="flex items-center justify-between">
                                 <label className="block text-xs font-bold uppercase tracking-wider text-slate-400">
-                                    Tus preguntas u opciones (una por línea)
+                                    {t.yourOptions}
                                 </label>
                                 <span className="text-xs font-mono text-brand-yellow font-bold">
-                                    {options.length} disponibles{" "}
-                                    {drawnFreeOptions.length > 0 &&
-                                        `• ${drawnFreeOptions.length} sorteadas`}{" "}
-                                    / {allCustomOptions.length} total
+                                    {t.freeModeStats(
+                                        options.length,
+                                        drawnFreeOptions.length,
+                                        allCustomOptions.length,
+                                    )}
                                 </span>
                             </div>
 
                             <textarea
                                 value={customInput}
                                 onChange={(e) => setCustomInput(e.target.value)}
-                                placeholder={freeModePlaceholder}
+                                placeholder={
+                                    lang === "es"
+                                        ? freeModePlaceholder
+                                        : "Write options, one per line (up to 24)..."
+                                }
                                 maxLength={1200}
                                 disabled={spinning}
                                 rows={6}
@@ -1383,7 +1392,7 @@ export default function RouletteWheel({
                                     className="text-brand-yellow hover:underline font-semibold inline-flex items-center gap-1"
                                 >
                                     <span>✨</span>
-                                    <span>Cargar tema de ejemplo</span>
+                                    <span>{t.loadSample}</span>
                                 </button>
                                 <div className="flex items-center gap-3">
                                     {drawnFreeOptions.length > 0 && (
@@ -1394,7 +1403,7 @@ export default function RouletteWheel({
                                             className="text-brand-yellow hover:underline font-semibold inline-flex items-center gap-1"
                                         >
                                             <span>🔄</span>
-                                            <span>Restablecer sorteadas</span>
+                                            <span>{t.resetDrawn}</span>
                                         </button>
                                     )}
                                     {customInput && (
@@ -1407,7 +1416,7 @@ export default function RouletteWheel({
                                             disabled={spinning}
                                             className="text-slate-400 hover:text-rose-400 font-semibold"
                                         >
-                                            Limpiar texto
+                                            {t.clearText}
                                         </button>
                                     )}
                                 </div>
@@ -1418,8 +1427,9 @@ export default function RouletteWheel({
                                 <div className="pt-3 mt-3 border-t border-white/[0.08]">
                                     <div className="flex items-center justify-between mb-2">
                                         <span className="text-[11px] font-bold uppercase tracking-wider text-slate-500">
-                                            Sorteadas en esta sesión (
-                                            {drawnFreeOptions.length})
+                                            {t.drawnThisSession(
+                                                drawnFreeOptions.length,
+                                            )}
                                         </span>
                                     </div>
                                     <div className="space-y-1.5 max-h-36 overflow-y-auto pr-1 custom-scrollbar">

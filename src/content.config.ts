@@ -40,28 +40,27 @@ const events = defineCollection({
 const activities = defineCollection({
     loader: file("src/content/activities.json"),
     schema: z.object({
-        activities: z.array(
-            z.object({
-                id: z.string(),
-                name: z.string(),
-                description: z.string(),
-                status: z.enum(["available", "coming-soon"]),
-            }),
-        ),
-        roulette: z.object({
-            freeMode: z.object({
-                placeholder: z.string(),
-                maxOptions: z.number(),
-            }),
-            presets: z.array(
-                z.object({
-                    id: z.string(),
-                    name: z.string(),
-                    options: z.array(z.string()),
-                }),
-            ),
-        }),
+        name: z.string(),
+        description: z.string(),
+        status: z.enum(["available", "coming-soon"]),
     }),
 });
 
-export const collections = { resources, events, activities };
+const roulette = defineCollection({
+    loader: file("src/content/roulette.json"),
+    schema: z.object({
+        freeMode: z.object({
+            placeholder: z.string(),
+            maxOptions: z.number(),
+        }),
+        presets: z.array(
+            z.object({
+                id: z.string(),
+                name: z.string(),
+                options: z.array(z.string()),
+            }),
+        ),
+    }),
+});
+
+export const collections = { resources, events, activities, roulette };

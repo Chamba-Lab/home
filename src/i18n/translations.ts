@@ -57,6 +57,32 @@ export const translations = {
         dynamicsTitle: "Dinámicas",
         dynamicsIntro:
             "Mini actividades para la comunidad. Gira la ruleta, elige un tema, debate en vivo o desafíate a ti mismo. Perfecto para sesiones en Discord, eventos o simplemente para romper el hielo.",
+        dynamicsBadge: "Dinámicas Comunitarias",
+        dynamicsActive: "Activa",
+        dynamicsTry: "Probar dinámica",
+        dynamicsComingSoon: "Próximamente",
+        dynamicsInDev: "En desarrollo para la comunidad",
+        dynamicsSuggestTitle: "¿Tienes ideas para más dinámicas o juegos?",
+        dynamicsSuggestDesc:
+            "Comparte tus propuestas y feedback en la comunidad de Discord.",
+        dynamicsSuggestCta: "Ir a Discord",
+
+        // Roulette Page
+        rouletteBack: "Volver a Dinámicas",
+        rouletteBadge: "Dinámica 01 • Rompehielos Tech",
+        rouletteTitle: "La Ruleta de la Comunidad",
+        rouletteDesc:
+            "Descubre temas de conversación, dilemas de arquitectura o desafíos técnicos para debatir en vivo. Perfecto para dinamizar canales de voz en Discord o practicar improvisación técnica.",
+        rouletteHowToTitle: "Cómo usar esta dinámica en Discord",
+        rouletteStep1Title: "01. Selecciona o Personaliza",
+        rouletteStep1Desc:
+            "Elige uno de los packs temáticos (Empleabilidad, Debates Tech, 2026) o escribe preguntas personalizadas en Ruleta Libre.",
+        rouletteStep2Title: "02. Gira y Comparte",
+        rouletteStep2Desc:
+            "Presiona Girar y usa el botón 'Copiar pregunta' para pegar el debate directamente en el canal de texto de la sesión.",
+        rouletteStep3Title: "03. Debate en Comunidad",
+        rouletteStep3Desc:
+            "Dale 2 minutos a cada participante para exponer su punto de vista o anécdota. ¡Ideal para romper el hielo!",
 
         // Footer
         footerDesc:
@@ -120,6 +146,32 @@ export const translations = {
         dynamicsTitle: "Dynamics",
         dynamicsIntro:
             "Mini activities for the community. Spin the roulette, choose a topic, debate live, or challenge yourself. Perfect for Discord sessions, events, or just breaking the ice.",
+        dynamicsBadge: "Community Dynamics",
+        dynamicsActive: "Active",
+        dynamicsTry: "Try dynamic",
+        dynamicsComingSoon: "Coming soon",
+        dynamicsInDev: "In development for the community",
+        dynamicsSuggestTitle: "Have ideas for more dynamics or games?",
+        dynamicsSuggestDesc:
+            "Share your proposals and feedback in the Discord community.",
+        dynamicsSuggestCta: "Go to Discord",
+
+        // Roulette Page
+        rouletteBack: "Back to Dynamics",
+        rouletteBadge: "Dynamic 01 • Tech Icebreaker",
+        rouletteTitle: "Community Roulette",
+        rouletteDesc:
+            "Discover discussion topics, architectural dilemmas, or technical challenges to debate live. Perfect for livening up Discord voice channels or practicing technical improvisation.",
+        rouletteHowToTitle: "How to use this dynamic on Discord",
+        rouletteStep1Title: "01. Select or Customize",
+        rouletteStep1Desc:
+            "Choose one of the theme packs (Employability, Tech Debates, 2026) or write custom questions in Free Roulette.",
+        rouletteStep2Title: "02. Spin and Share",
+        rouletteStep2Desc:
+            "Press Spin and use the 'Copy question' button to paste the debate directly into the session's text channel.",
+        rouletteStep3Title: "03. Community Debate",
+        rouletteStep3Desc:
+            "Give each participant 2 minutes to share their viewpoint or story. Perfect for breaking the ice!",
 
         // Footer
         footerDesc:
