@@ -3,12 +3,12 @@
 > **Status**: Definition & Expansion Phase  
 > **Focus**: Professional Evolution & Community Support
 
-> **Landing pública**: La landing principal presenta una arquitectura visual *Modern Dark Glassmorphism* (diseño "Landing Optimizada y Equilibrada"): Hero con iluminación radial, widget interactivo en tiempo real de Discord (tarjeta nativa moderna y conmutador a widget oficial), diagrama interactivo del Ecosistema Comunitario (perfiles *Early Career* y *Mid & Senior* con interacciones formativas *Advising* y *Continuous Growing* en vista dual SVG desktop y stepper mobile), vitrina de recursos curados y vitrina asimétrica de eventos. Los "Pilares de Acción" descritos abajo representan la visión de roadmap a mediano/largo plazo y se articulan directamente a través de dicho ecosistema. El término cultural activo en el copy público hoy es "Chamba" (el nombre); el resto se introduce progresivamente en features concretas — ver `docs/branding_concepts.md`.
+> **Landing pública**: La landing principal presenta una arquitectura visual *Modern Dark Glassmorphism* (diseño "Landing Optimizada y Equilibrada"): Hero con iluminación radial, widget interactivo en tiempo real de Discord (tarjeta nativa moderna y conmutador a widget oficial), diagrama interactivo del Ecosistema Comunitario (perfiles *Early Career* y *Mid & Senior* con interacciones formativas *Advising* y *Continuous Growing* en vista dual SVG desktop y stepper mobile), vitrina asimétrica de eventos y vitrina de recursos curados. Los "Pilares de Acción" descritos abajo representan la visión de roadmap a mediano/largo plazo y se articulan directamente a través de dicho ecosistema. El término cultural activo en el copy público hoy es "Chamba" (el nombre); el resto se introduce progresivamente en features concretas — ver `docs/branding_concepts.md`.
 
 ## 🚀 Manifiesto
 **Chamba Lab** es una iniciativa comunitaria, sin fines de lucro, para potenciar el talento tech. No somos una "aceleradora comercial"; somos un grupo de estudiantes y profesionales que creen en el poder de compartir conocimiento y tender puentes.
 
-Nuestro objetivo es simple: **avanzar por cuenta propia tiene mérito; en comunidad multiplicas tus posibilidades.** Conectamos a quienes inician con quienes ya tienen camino recorrido, creando un espacio horizontal para aprender, recibir feedback sincero, debatir sobre retos reales y abrir nuevas oportunidades. *(Ayni y Minka siguen siendo valores internos que inspiran esta filosofía, aunque no son parte del vocabulario de cara al usuario por ahora — ver `docs/branding_concepts.md`.)*
+Nuestro objetivo es simple: **avanzar por cuenta propia tiene mérito; en comunidad multiplicas tus posibilidades.** Conectamos a quienes inician con quienes ya tienen camino recorrido, creando un espacio horizontal para aprender, recibir feedback sincero, debatir sobre retos reales y abrir nuevas oportunidades.
 
 ## 🏛️ Pilares de Acción
 
@@ -47,9 +47,20 @@ Nuestra estrategia se basa en dos columnas vertebrales que se integran en el cic
     *   Diseño bajo el estándar *Modern Dark Glassmorphism* documentado en [`DESIGN.md`](../DESIGN.md).
     *   Próximo: agregar más actividades (preguntas rápidas, minijuegos, etc.).
 
-## 🗺️ Primeros Pasos (Bootstrap)
+## 🗺️ Roadmap de Evolución
 
-- [x] **Fase 1: Cimientos**: Plataforma web moderna, landing con integración de Discord, navegación bilingüe y dinámicas interactivas.
-- [ ] **Fase 2: Career Kit Beta**: Lanzar las primeras plantillas de CV y guías.
-- [ ] **Fase 3: First Minka**: Primera sesión colaborativa o hackathon interna.
-- [ ] **Fase 4: Chamba Board**: Publicación de las primeras oportunidades laborales validadas.
+### Fase 1: Pulido Estructural, i18n & Ecosistema (En Curso)
+- [ ] **Reorganización del Landing Page**: Ajustar flujo narrativo (Hero & Discord ➔ Ecosistema Comunitario ➔ Eventos y Sesiones ➔ Recursos Curados).
+- [ ] **SEO & Social Share Cards**: Implementación de Open Graph y Twitter Cards con imagen de previsualización oficial (*Modern Dark Glassmorphism*).
+- [ ] **Internacionalización (i18n) Completa**: Traducción bilingüe exhaustiva en ruleta, dinámicas y textos pendientes.
+- [ ] **Modularización de Datos**: Desacoplar presets de preguntas de la ruleta del catálogo general `content/activities.json`.
+
+### Fase 2: Expansión de Valor, Dinámicas & Calidad
+- [ ] **Career Kit Beta**: Primeras plantillas de CV Tech ATS-friendly, checklists de perfil (LinkedIn/GitHub) y rúbricas de Mock Interviews.
+- [ ] **Segunda Dinámica: "⚡ Preguntas Rápidas"**: Quick Quiz con temporizador en `/activities/quick-questions` para stages de Discord.
+- [ ] **Módulo de Contribución Comunitaria**: Plantillas de issues y canales guiados para proponer recursos y eventos comunitarios.
+- [ ] **Suite de Tests Automatizados (Vitest)**: Cobertura de pruebas unitarias para utilidades de calendario (UTC-5, RFC 5545 `.ics`) y lógica de dinámicas.
+
+### Fase 3: Plataforma Operativa de Empleabilidad
+- [ ] **Evolución de Recursos**: De directorio estático a herramienta práctica operativa (guías comunitarias, salarios, prospección).
+- [ ] **Chamba Board**: Publicación y recomendación de oportunidades laborales validadas y sin spam.

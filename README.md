@@ -31,7 +31,7 @@ Construido para ser ultra rápido, accesible y visualmente impactante.
 
 | Ruta | Contenido |
 | :--- | :--- |
-| `/` | Landing inmersiva con Hero, widget interactivo de Discord, diagrama interactivo del Ecosistema Comunitario (perfiles e interacciones), vitrina de recursos y eventos |
+| `/` | Landing inmersiva con Hero, widget interactivo de Discord, diagrama interactivo del Ecosistema Comunitario (perfiles e interacciones), vitrina de eventos y vitrina de recursos |
 | `/resources` | Biblioteca completa de guías, plantillas y plataformas curadas con filtros |
 | `/events` | Calendario de eventos y sesiones recurrentes con exportación a Google Calendar / iCal |
 | `/activities` | Hub de mini actividades comunitarias (dinámicas) |

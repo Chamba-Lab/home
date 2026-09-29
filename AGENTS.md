@@ -24,7 +24,7 @@
 
 ### Site Structure
 *   **Páginas**: 
-    *   `/` (Landing inmersiva: Hero con iluminación radial, integración de widget interactivo de Discord, diagrama interactivo del Ecosistema Chamba Lab con vista dual adaptativa: canvas SVG horizontal simétrico en desktop y stepper interactivo vertical en mobile con acordeón fluido y ticker dinámico, vitrina de recursos curados y vitrina de eventos con exportación a calendarios).
+    *   `/` (Landing inmersiva: Hero con iluminación radial, integración de widget interactivo de Discord, diagrama interactivo del Ecosistema Chamba Lab con vista dual adaptativa: canvas SVG horizontal simétrico en desktop y stepper interactivo vertical en mobile con acordeón fluido y ticker dinámico, vitrina asimétrica de eventos con exportación a calendarios y vitrina de recursos curados).
     *   `/resources` (Biblioteca curada de guías, plantillas y plataformas con buscador y filtros por categoría).
     *   `/events` (Calendario de eventos fijos y recurrentes con cálculo por meses, zona horaria comunitaria UTC-5, y exportación funcional a Google Calendar e iCal `.ics` generados con RFC 5545).
     *   `/activities` (Hub de dinámicas comunitarias) y subrutas por actividad (ej. `/activities/roulette`). Rutas siempre en inglés, aunque el copy visible sea en español con soporte bilingüe.
