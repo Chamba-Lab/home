@@ -76,7 +76,7 @@ export const translations = {
         rouletteHowToTitle: "Cómo usar esta dinámica en Discord",
         rouletteStep1Title: "01. Selecciona o Personaliza",
         rouletteStep1Desc:
-            "Elige uno de los packs temáticos (Empleabilidad, Debates Tech, 2026) o escribe preguntas personalizadas en Ruleta Libre.",
+            "Elige uno de los packs temáticos (Empleabilidad, Debates Tech, Roadmap 2026) o escribe preguntas personalizadas en Ruleta Libre.",
         rouletteStep2Title: "02. Gira y Comparte",
         rouletteStep2Desc:
             "Presiona Girar y usa el botón 'Copiar pregunta' para pegar el debate directamente en el canal de texto de la sesión.",
@@ -165,7 +165,7 @@ export const translations = {
         rouletteHowToTitle: "How to use this dynamic on Discord",
         rouletteStep1Title: "01. Select or Customize",
         rouletteStep1Desc:
-            "Choose one of the theme packs (Employability, Tech Debates, 2026) or write custom questions in Free Roulette.",
+            "Choose one of the theme packs (Employability, Tech Debates, 2026 Roadmaps) or write custom questions in Free Roulette.",
         rouletteStep2Title: "02. Spin and Share",
         rouletteStep2Desc:
             "Press Spin and use the 'Copy question' button to paste the debate directly into the session's text channel.",

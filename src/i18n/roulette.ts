@@ -82,7 +82,8 @@ export const ROULETTE_I18N = {
         presetNames: {
             employability: "💼 Empleabilidad & Carrera",
             "tech-debates": "⚔️ Debates Tech & Arquitectura",
-            "learning-2026": "🚀 Qué Aprender en 2026",
+            "learning-early-career": "🌱 Qué Aprender en 2026 (Early Career)",
+            "learning-mid-senior": "🚀 Qué Aprender en 2026 (Mid & Senior)",
             "production-dilemmas": "🔥 Dilemas de Producción",
             "ai-dev-future": "🤖 IA & Futuro del Dev",
             "icebreaker-culture": "⚡ Rompehielos & Cultura Dev",
@@ -169,7 +170,8 @@ export const ROULETTE_I18N = {
         presetNames: {
             employability: "💼 Employability & Career",
             "tech-debates": "⚔️ Tech Debates & Architecture",
-            "learning-2026": "🚀 What to Learn in 2026",
+            "learning-early-career": "🌱 What to Learn in 2026 (Early Career)",
+            "learning-mid-senior": "🚀 What to Learn in 2026 (Mid & Senior)",
             "production-dilemmas": "🔥 Production Dilemmas",
             "ai-dev-future": "🤖 AI & Future of Dev",
             "icebreaker-culture": "⚡ Icebreakers & Dev Culture",
