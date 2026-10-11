@@ -1,7 +1,7 @@
 ---
 import { DISCORD_URL } from "../lib/constants";
 import DiscordIcon from "./icons/DiscordIcon.astro";
-import PowerBoltIcon from "./icons/PowerBoltIcon.astro";
+import tile from "../assets/brand/chamba-tile.svg";
 
 const rawBase = import.meta.env.BASE_URL;
 const base = rawBase.endsWith("/") ? rawBase : `${rawBase}/`;
@@ -15,11 +15,13 @@ const currentYear = new Date().getFullYear();
         >
             <div class="flex flex-col gap-3">
                 <a href={base} class="flex items-center gap-3 group">
-                    <div
-                        class="w-9 h-9 rounded-xl bg-gradient-to-br from-brand-yellow to-amber-500 flex items-center justify-center shadow-md shadow-brand-yellow/15 text-slate-950 transition-transform group-hover:scale-105"
-                    >
-                        <PowerBoltIcon class="w-5 h-5 text-slate-950" />
-                    </div>
+                    <img
+                        src={tile.src}
+                        alt=""
+                        width="36"
+                        height="36"
+                        class="w-9 h-9 rounded-xl shadow-md shadow-brand-yellow/15 transition-transform group-hover:scale-105"
+                    />
                     <span
                         class="font-display text-xl font-extrabold tracking-tight text-white"
                     >

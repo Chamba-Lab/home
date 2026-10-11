@@ -4,28 +4,30 @@ import DiscordIcon from "./icons/DiscordIcon.astro";
 import MenuIcon from "./icons/MenuIcon.astro";
 import CloseIcon from "./icons/CloseIcon.astro";
 
-import PowerBoltIcon from "./icons/PowerBoltIcon.astro";
+import tile from "../assets/brand/chamba-tile.svg";
 
 const rawBase = import.meta.env.BASE_URL;
 const base = rawBase.endsWith("/") ? rawBase : `${rawBase}/`;
 ---
 
 <header
-    class="sticky top-0 z-50 w-full border-b border-white/[0.08] bg-[#080D1A]/85 backdrop-blur-xl transition-all"
+    class="sticky top-0 z-50 w-full border-b border-white/[0.08] bg-bg/85 backdrop-blur-xl transition-all"
 >
     <div
         class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between"
     >
-        <!-- Brand Logo: Modern Power Bolt -->
+        <!-- Brand Logo: mascot tile -->
         <a
             href={base}
             class="flex items-center gap-3 transition-opacity hover:opacity-90 group"
         >
-            <div
-                class="w-10 h-10 rounded-xl bg-gradient-to-br from-brand-yellow to-amber-500 flex items-center justify-center shadow-lg shadow-brand-yellow/20 text-slate-950 transition-transform group-hover:scale-105"
-            >
-                <PowerBoltIcon class="w-6 h-6 text-slate-950" />
-            </div>
+            <img
+                src={tile.src}
+                alt=""
+                width="40"
+                height="40"
+                class="w-10 h-10 rounded-xl shadow-lg shadow-brand-yellow/20 transition-transform group-hover:scale-105"
+            />
             <div class="flex items-center gap-1.5">
                 <span
                     class="font-display text-2xl font-extrabold tracking-tight text-white"
@@ -92,7 +94,7 @@ const base = rawBase.endsWith("/") ? rawBase : `${rawBase}/`;
                 href={DISCORD_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                class="inline-flex items-center gap-2 bg-[#5865F2] hover:bg-[#4752c4] text-white px-4 py-2.5 rounded-xl text-sm font-semibold transition-all shadow-sm hover:shadow-[0_0_20px_rgba(88,101,242,0.4)]"
+                class="inline-flex items-center gap-2 bg-brand-discord hover:bg-brand-discord-hover text-white px-4 py-2.5 rounded-xl text-sm font-semibold transition-all shadow-sm hover:shadow-[0_0_20px_rgba(88,101,242,0.4)]"
             >
                 <DiscordIcon class="w-4 h-4" />
                 <span data-i18n="joinDiscord">Unirse a Discord</span>
@@ -115,7 +117,7 @@ const base = rawBase.endsWith("/") ? rawBase : `${rawBase}/`;
     <!-- Mobile Drawer -->
     <div
         id="mobile-menu"
-        class="hidden md:hidden border-b border-white/10 bg-[#080D1A]/95 backdrop-blur-2xl px-6 py-6"
+        class="hidden md:hidden border-b border-white/10 bg-bg/95 backdrop-blur-2xl px-6 py-6"
     >
         <div class="flex flex-col gap-4">
             <a
@@ -165,7 +167,7 @@ const base = rawBase.endsWith("/") ? rawBase : `${rawBase}/`;
                     href={DISCORD_URL}
                     target="_blank"
                     rel="noopener noreferrer"
-                    class="inline-flex items-center gap-2 bg-[#5865F2] hover:bg-[#4752c4] text-white px-4 py-2 rounded-xl text-sm font-semibold"
+                    class="inline-flex items-center gap-2 bg-brand-discord hover:bg-brand-discord-hover text-white px-4 py-2 rounded-xl text-sm font-semibold"
                 >
                     <DiscordIcon class="w-4 h-4" />
                     <span>Discord</span>
