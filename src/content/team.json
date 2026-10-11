@@ -1,0 +1,37 @@
+[
+    {
+        "id": "abel",
+        "name": "Abel Llontop",
+        "role": {
+            "en": "Community & events",
+            "es": "Comunidad y eventos"
+        },
+        "avatar": "AbelLLontop.jpg",
+        "github": "https://github.com/AbelLLontop",
+        "portfolio": "https://www.abelitolll.com/",
+        "linkedin": "https://www.linkedin.com/in/abelllontopmeza/"
+    },
+    {
+        "id": "antonio",
+        "name": "Antonio García",
+        "role": {
+            "en": "Brand identity & design",
+            "es": "Identidad de marca y diseño"
+        },
+        "avatar": "AntonioPow24.jpg",
+        "github": "https://github.com/AntonioPow24",
+        "linkedin": "https://www.linkedin.com/in/antoniogarciaromero/"
+    },
+    {
+        "id": "melio",
+        "name": "Melio Díaz",
+        "role": {
+            "en": "Site & platform development",
+            "es": "Desarrollo del sitio y plataforma"
+        },
+        "avatar": "MeloDev2111.jpg",
+        "github": "https://github.com/MeloDev2111",
+        "portfolio": "https://www.meliodiaz.com/",
+        "linkedin": "https://www.linkedin.com/in/melio-diaz-diaz/"
+    }
+]

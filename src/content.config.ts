@@ -37,6 +37,20 @@ const events = defineCollection({
     }),
 });
 
+const team = defineCollection({
+    loader: file("src/content/team.json"),
+    schema: z.object({
+        name: z.string(),
+        role: i18nText,
+        // File name inside src/assets/team/
+        avatar: z.string(),
+        github: z.string().url(),
+        // Optional: omitted links are simply not rendered.
+        portfolio: z.string().url().optional(),
+        linkedin: z.string().url().optional(),
+    }),
+});
+
 const activities = defineCollection({
     loader: file("src/content/activities.json"),
     schema: z.object({
@@ -63,4 +77,4 @@ const roulette = defineCollection({
     }),
 });
 
-export const collections = { resources, events, activities, roulette };
+export const collections = { resources, events, team, activities, roulette };

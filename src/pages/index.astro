@@ -2,6 +2,7 @@
 import Layout from "../layouts/Layout.astro";
 import DiscordWidget from "../components/DiscordWidget.astro";
 import CommunityEcosystem from "../components/CommunityEcosystem";
+import TeamSection from "../components/TeamSection.astro";
 import DiscordIcon from "../components/icons/DiscordIcon.astro";
 import { DISCORD_URL } from "../lib/constants";
 import { getCollection } from "astro:content";
@@ -613,5 +614,6 @@ const recIcsUrl = recurringEvent
                 </div>
             </div>
         </section>
+        <TeamSection />
     </main>
 </Layout>

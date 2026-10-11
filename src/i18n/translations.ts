@@ -34,6 +34,12 @@ export const translations = {
         exploreResource: "Explorar recurso",
         viewAllResources: "Explorar todos los recursos",
 
+        // Team Section
+        teamBadge: "Equipo organizador",
+        teamTitle: "Quienes hacen Chamba Lab",
+        teamDesc:
+            "Voluntarios que sostienen la comunidad. Sin fines de lucro, con ganas.",
+
         // Events Section
         eventsSectionTitle: "Eventos y Sesiones",
         eventsSectionDesc:
@@ -120,6 +126,12 @@ export const translations = {
             "A curated set of guides, practice platforms, and templates the community recommends.",
         exploreResource: "Explore resource",
         viewAllResources: "Explore all resources",
+
+        // Team Section
+        teamBadge: "Organizing team",
+        teamTitle: "Meet the team",
+        teamDesc:
+            "Volunteers who keep the community going. Non-profit, run on enthusiasm.",
 
         // Events Section
         eventsSectionTitle: "Events & Sessions",

@@ -60,6 +60,7 @@ Nuestra estrategia se basa en dos columnas vertebrales que se integran en el cic
 ### Fase 2: Expansión de Valor, Dinámicas & Calidad
 - [ ] **Career Kit Beta**: Primeras plantillas de CV Tech ATS-friendly, checklists de perfil (LinkedIn/GitHub) y rúbricas de Mock Interviews.
 - [ ] **Segunda Dinámica: "⚡ Preguntas Rápidas"**: Quick Quiz con temporizador en `/activities/quick-questions` para stages de Discord.
+- [x] **Sección de Equipo Organizador**: Tarjetas del equipo en la landing (`#equipo`) con avatar, rol y enlaces a GitHub, portfolio y LinkedIn; datos en `content/team.json`.
 - [ ] **Módulo de Contribución Comunitaria**: Plantillas de issues y canales guiados para proponer recursos y eventos comunitarios.
 - [ ] **Suite de Tests Automatizados (Vitest)**: Cobertura de pruebas unitarias para utilidades de calendario (UTC-5, RFC 5545 `.ics`) y lógica de dinámicas.
 
