@@ -22,7 +22,7 @@ const base = rawBase.endsWith("/") ? rawBase : `${rawBase}/`;
 
 const siteUrl = Astro.site ?? "https://chamba-lab.github.io";
 const canonicalUrl = new URL(Astro.url.pathname, siteUrl);
-const defaultImage = `${base}og-image.jpg`;
+const defaultImage = `${base}og-image.png`;
 const ogImageUrl = new URL(image || defaultImage, siteUrl);
 ---
 
@@ -37,7 +37,10 @@ const ogImageUrl = new URL(image || defaultImage, siteUrl);
         <meta name="generator" content={Astro.generator} />
         <meta name="theme-color" content="#080D1A" />
         <link rel="canonical" href={canonicalUrl.href} />
+        <link rel="icon" href={`${base}favicon.ico`} sizes="48x48" />
         <link rel="icon" type="image/svg+xml" href={`${base}favicon.svg`} />
+        <link rel="apple-touch-icon" href={`${base}apple-touch-icon.png`} />
+        <link rel="manifest" href={`${base}site.webmanifest`} />
 
         <!-- Open Graph / Facebook / Discord / LinkedIn -->
         <meta property="og:type" content={type} />
@@ -46,11 +49,11 @@ const ogImageUrl = new URL(image || defaultImage, siteUrl);
         <meta property="og:title" content={title} />
         <meta property="og:description" content={description} />
         <meta property="og:image" content={ogImageUrl.href} />
-        <meta property="og:image:width" content="1376" />
-        <meta property="og:image:height" content="768" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
         <meta
             property="og:image:alt"
-            content="Chamba Lab | Connect. Inspire. Evolve. - Tech Community"
+            content="Chamba Lab · Connect. Inspire. Evolve."
         />
         <meta property="og:locale" content="es_PE" />
         <meta property="og:locale:alternate" content="en_US" />
@@ -63,7 +66,7 @@ const ogImageUrl = new URL(image || defaultImage, siteUrl);
         <meta name="twitter:image" content={ogImageUrl.href} />
         <meta
             name="twitter:image:alt"
-            content="Chamba Lab | Connect. Inspire. Evolve. - Tech Community"
+            content="Chamba Lab · Connect. Inspire. Evolve."
         />
 
         <!-- Google Fonts: Inter & Plus Jakarta Sans & Material Symbols -->
@@ -79,7 +82,7 @@ const ogImageUrl = new URL(image || defaultImage, siteUrl);
         />
     </head>
     <body
-        class="min-h-screen flex flex-col bg-[#080D1A] text-slate-200 selection:bg-brand-yellow selection:text-slate-950"
+        class="min-h-screen flex flex-col bg-bg text-slate-200 selection:bg-brand-yellow selection:text-slate-950"
     >
         <Header />
         <slot />

@@ -1,6 +1,6 @@
 # Chamba Lab 🚀
 
-![Chamba Lab Hero Banner](https://raw.githubusercontent.com/Chamba-Lab/home/master/public/banner.png)
+![Chamba Lab Hero Banner](https://raw.githubusercontent.com/Chamba-Lab/home/master/public/og-image.png)
 
 > **Community-Led Tech Platform**  
 > *Democratizando el acceso a oportunidades laborales en tech.*
