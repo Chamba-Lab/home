@@ -929,7 +929,7 @@ export default function CommunityEcosystem() {
                                         fontSize="11"
                                         fontWeight="700"
                                     >
-                                        SSr a más
+                                        {isEs ? "SSr a más" : "Mid to Senior+"}
                                     </text>
                                 </g>
 

@@ -53,6 +53,11 @@ export const translations = {
         downloadIcs: "iCal",
         viewAllEvents: "Ver calendario completo de eventos",
         noEvents: "No hay eventos programados este mes.",
+        eventsBadge: "Calendario Comunitario",
+        eventsProposeTitle: "¿Quieres proponer un taller o sesión?",
+        eventsProposeDesc:
+            "Súmate a nuestro Discord y propón temas en el canal #eventos.",
+        eventsJoinDiscord: "Unirse al Discord",
 
         filterAll: "Todos",
         noResourcesFound:
@@ -146,6 +151,11 @@ export const translations = {
         downloadIcs: "iCal",
         viewAllEvents: "View full events calendar",
         noEvents: "No events scheduled this month.",
+        eventsBadge: "Community Calendar",
+        eventsProposeTitle: "Want to propose a workshop or session?",
+        eventsProposeDesc:
+            "Join our Discord and suggest topics in the #events channel.",
+        eventsJoinDiscord: "Join Discord",
 
         filterAll: "All",
         noResourcesFound: "No resources match your search.",

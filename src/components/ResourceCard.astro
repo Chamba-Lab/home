@@ -9,23 +9,30 @@ interface Props {
 
 const { title, descriptionEn, descriptionEs, url, category } = Astro.props;
 
-const categoryBadges: Record<string, { label: string; class: string }> = {
+const categoryBadges: Record<
+    string,
+    { label: string; labelEn: string; class: string }
+> = {
     cv: {
         label: "CV & LinkedIn",
+        labelEn: "CV & LinkedIn",
         class: "border-brand-yellow/30 bg-brand-yellow/10 text-brand-yellow",
     },
     aprendizaje: {
         label: "Aprendizaje",
+        labelEn: "Learning",
         class: "border-emerald-500/30 bg-emerald-500/10 text-emerald-400",
     },
     practica: {
         label: "Práctica Técnica",
+        labelEn: "Technical Practice",
         class: "border-brand-discord/30 bg-brand-discord/10 text-[#8a95ff]",
     },
 };
 
 const badge = categoryBadges[category] || {
     label: category,
+    labelEn: category,
     class: "border-white/10 bg-slate-900 text-slate-300",
 };
 ---
@@ -38,6 +45,8 @@ const badge = categoryBadges[category] || {
         <div class="flex items-center justify-between mb-4">
             <span
                 class={`text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded border ${badge.class}`}
+                data-i18n-es={badge.label}
+                data-i18n-en={badge.labelEn}
             >
                 {badge.label}
             </span>

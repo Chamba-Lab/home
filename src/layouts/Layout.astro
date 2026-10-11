@@ -161,6 +161,23 @@ const ogImageUrl = new URL(image || defaultImage, siteUrl);
                             (lang === "es" ? esText : enText) || "";
                     });
 
+                // Bilingual attributes (alt, aria-label, title)
+                for (const attr of ["alt", "aria-label", "title"]) {
+                    document
+                        .querySelectorAll<HTMLElement>(`[data-i18n-${attr}-en]`)
+                        .forEach((el) => {
+                            const enText = el.getAttribute(
+                                `data-i18n-${attr}-en`,
+                            );
+                            const esText = el.getAttribute(
+                                `data-i18n-${attr}-es`,
+                            );
+                            const text =
+                                lang === "es" ? (esText ?? enText) : enText;
+                            if (text) el.setAttribute(attr, text);
+                        });
+                }
+
                 // Inline bilingual data
                 document
                     .querySelectorAll<HTMLElement>("[data-i18n-en]")
