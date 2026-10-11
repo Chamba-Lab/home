@@ -41,7 +41,7 @@ Nuestra estrategia se basa en dos columnas vertebrales que se integran en el cic
     *   Acceso a consejos de desarrolladores con experiencia laboral y oportunidad de devolver apoyo guiando a quienes recién inician.
 5.  **Dinámicas & Eventos**:
     *   Mini actividades comunitarias interactivas (comenzando con **La Ruleta** en `/activities/roulette`) y calendario de sesiones con exportación a Google Calendar / iCal (`/events`).
-    *   Modo preestablecido: 6 packs temáticos precargados (Empleabilidad, Debates Tech, Qué Aprender 2026, Dilemas de Producción, IA & Futuro del Dev, Rompehielos & Cultura Dev) con 72 preguntas en total.
+    *   Modo preestablecido: 7 packs temáticos precargados (Empleabilidad, Debates Tech, Qué Aprender 2026 para Early Career y para Mid & Senior, Dilemas de Producción, IA & Futuro del Dev, Rompehielos & Cultura Dev) con 96 preguntas en total.
     *   Modo libre: soporte ampliado para hasta 24 opciones personalizadas.
     *   Canvas 2D adaptativo con distribución radial para textos largos, tooltips flotantes en hover, física de aguja (*needle wobble*), sintetizador de audio con Web Audio API y confeti.
     *   Diseño bajo el estándar *Modern Dark Glassmorphism* documentado en [`DESIGN.md`](../DESIGN.md).
@@ -51,9 +51,11 @@ Nuestra estrategia se basa en dos columnas vertebrales que se integran en el cic
 
 ### Fase 1: Pulido Estructural, i18n & Ecosistema (Completada)
 - [x] **Reorganización del Landing Page**: Ajustar flujo narrativo (Hero & Discord ➔ Ecosistema Comunitario ➔ Eventos y Sesiones ➔ Recursos Curados).
-- [x] **SEO & Social Share Cards**: Implementación de Open Graph y Twitter Cards con imagen de previsualización oficial (*Modern Dark Glassmorphism*).
+- [x] **SEO & Social Share Cards**: Implementación de Open Graph y Twitter Cards con imagen de previsualización oficial (1200×630, mascota con contorno *sticker* sobre fondo obsidian).
 - [x] **Internacionalización (i18n) Completa**: Traducción bilingüe exhaustiva en ruleta, dinámicas y textos pendientes.
 - [x] **Modularización de Datos**: Desacoplar presets de preguntas de la ruleta del catálogo general `content/activities.json` hacia `content/roulette.json`.
+
+- [x] **Identidad de marca (mascota)**: Logo, favicon, manifest, imagen OG y banner del README con la mascota; tokens `brand-cream` y `brand-yellow-deep`; scripts `brand:optimize` y `brand:og`. Reglas en [`DESIGN.md`](../DESIGN.md) §6.1.
 
 ### Fase 2: Expansión de Valor, Dinámicas & Calidad
 - [ ] **Career Kit Beta**: Primeras plantillas de CV Tech ATS-friendly, checklists de perfil (LinkedIn/GitHub) y rúbricas de Mock Interviews.

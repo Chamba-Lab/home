@@ -58,6 +58,8 @@
     *   `--color-surface-subtle`: `#0f172a`.
     *   `--color-surface-card`: `#131e36` (Superficie de tarjetas elevadas).
     *   `--color-brand-yellow`: `#FACC15` (Amarillo marca de alto impacto en CTAs primarios y énfasis de texto).
+    *   `--color-brand-yellow-deep`: `#A16207` (Texto amarillo sobre fondos claros, 4.51:1).
+    *   `--color-brand-cream`: `#FCF6E8` (Crema de la mascota: fondo sobre claro, avatar alternativo).
     *   `--color-brand-discord`: `#5865F2` (Blurple oficial para acciones y telemetría de Discord).
     *   `--color-border`: `rgba(255, 255, 255, 0.12)`.
 *   **Utilidades visuales clave**:

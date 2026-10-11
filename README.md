@@ -35,7 +35,7 @@ Construido para ser ultra rápido, accesible y visualmente impactante.
 | `/resources` | Biblioteca completa de guías, plantillas y plataformas curadas con filtros |
 | `/events` | Calendario de eventos y sesiones recurrentes con exportación a Google Calendar / iCal |
 | `/activities` | Hub de mini actividades comunitarias (dinámicas) |
-| `/activities/roulette` | La Ruleta — dinámica interactiva con 6 packs temáticos (72 preguntas) o modo libre (hasta 24 opciones), Canvas 2D radial, tooltips flotantes, audio sintetizado y confeti |
+| `/activities/roulette` | La Ruleta — dinámica interactiva con 7 packs temáticos (96 preguntas) o modo libre (hasta 24 opciones), Canvas 2D radial, tooltips flotantes, audio sintetizado y confeti |
 
 Rutas siempre en inglés (buenas prácticas), con soporte bilingüe completo (`ES`/`EN` con pastilla segmentada en el header). Detalle técnico completo en [AGENTS.md](./AGENTS.md#site-structure).
 
@@ -79,7 +79,12 @@ Utilizamos un pipeline automatizado para asegurar la calidad y facilitar el crec
 | `npm run lint` | Valida el código con ESLint y Prettier |
 | `npm run lint:fix` | **Corrige automáticamente** problemas de estilo y lint |
 | `npm run test` | Ejecuta las pruebas unitarias con Vitest |
+| `npm run brand:optimize` | Optimiza los SVG de marca (`src/assets/brand/`) con svgo |
+| `npm run brand:og` | Regenera `public/og-image.png` (1200×630) desde `brand/og.svg` con los colores de los tokens |
 | `npm run release` | Proceso de lanzamiento y versionado (Conventional Commits) |
+
+### Identidad de marca
+La mascota (mapache/gato con taza de café) es el logo de Chamba Lab. Los SVG maestros viven en `src/assets/brand/`, la plantilla OG y los avatares de Discord en `brand/`, y los favicons y el manifest en `public/`. Reglas de uso (fondos permitidos, tamaños mínimos) en [DESIGN.md §6.1](./DESIGN.md).
 
 ### Despliegue Automático
 Al realizar un push a la rama `master`, el sistema activa:
