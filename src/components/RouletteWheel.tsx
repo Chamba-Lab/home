@@ -769,7 +769,7 @@ export default function RouletteWheel({
         <div className="flex flex-col lg:flex-row gap-8 lg:gap-10 items-start">
             {/* LEFT COLUMN: Roulette Stage */}
             <div className="w-full lg:w-[440px] flex flex-col items-center shrink-0">
-                <div className="w-full card-glass rounded-3xl p-6 sm:p-7 border border-white/10 shadow-2xl relative overflow-hidden flex flex-col items-center bg-[#0B1120]/90 backdrop-blur-xl">
+                <div className="w-full card-glass rounded-3xl p-6 sm:p-7 border border-white/10 shadow-2xl relative overflow-hidden flex flex-col items-center bg-surface/90 backdrop-blur-xl">
                     {/* Ambient Stage Glow */}
                     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-brand-yellow/10 rounded-full blur-3xl pointer-events-none" />
 
@@ -911,7 +911,7 @@ export default function RouletteWheel({
                             !spinning &&
                             options[hoveredIndex] && (
                                 <div className="absolute -bottom-2 left-2 right-2 z-30 pointer-events-none transition-all duration-200 animate-fade-in">
-                                    <div className="card-glass rounded-xl p-3 border border-brand-yellow/60 bg-[#080D1A]/95 backdrop-blur-xl shadow-2xl flex items-start gap-2.5">
+                                    <div className="card-glass rounded-xl p-3 border border-brand-yellow/60 bg-bg/95 backdrop-blur-xl shadow-2xl flex items-start gap-2.5">
                                         <span className="w-5 h-5 rounded-md bg-brand-yellow text-slate-950 font-bold text-[10px] flex items-center justify-center shrink-0 mt-0.5 shadow-sm">
                                             #{hoveredIndex + 1}
                                         </span>
@@ -999,7 +999,7 @@ export default function RouletteWheel({
             <div className="flex-1 w-full space-y-6">
                 {/* Result Card (Celebratory reveal when wheel finishes) */}
                 {winnerResult && !spinning && (
-                    <div className="card-glass rounded-2xl p-6 sm:p-7 border border-brand-yellow/50 bg-gradient-to-br from-brand-yellow/15 via-[#0B1120] to-[#5865F2]/10 shadow-2xl relative overflow-hidden animate-fade-in">
+                    <div className="card-glass rounded-2xl p-6 sm:p-7 border border-brand-yellow/50 bg-gradient-to-br from-brand-yellow/15 via-surface to-brand-discord/10 shadow-2xl relative overflow-hidden animate-fade-in">
                         <div className="flex items-center justify-between gap-2 mb-3">
                             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-brand-yellow text-slate-950 text-xs font-black tracking-wide uppercase shadow-sm">
                                 <span>🎉</span>
@@ -1110,7 +1110,7 @@ export default function RouletteWheel({
                 )}
 
                 {/* Mode Selector Tabs */}
-                <div className="card-glass rounded-2xl p-6 sm:p-7 border border-white/10 bg-[#0B1120]/80">
+                <div className="card-glass rounded-2xl p-6 sm:p-7 border border-white/10 bg-surface/80">
                     <div className="flex items-center gap-2 p-1 rounded-xl bg-slate-950/70 border border-white/10 mb-6 max-w-md">
                         <button
                             type="button"

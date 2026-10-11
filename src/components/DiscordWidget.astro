@@ -68,11 +68,11 @@ const channels = discordData.channels.slice(0, 4);
 
 <div class="w-full max-w-[370px] flex flex-col items-center">
     <div
-        class="w-full card-glass rounded-2xl p-5 shadow-2xl border border-white/10 relative overflow-hidden group transition-all duration-300 hover:border-brand-yellow/30 bg-[#0B1120]/85 backdrop-blur-xl"
+        class="w-full card-glass rounded-2xl p-5 shadow-2xl border border-white/10 relative overflow-hidden group transition-all duration-300 hover:border-brand-yellow/30 bg-surface/85 backdrop-blur-xl"
     >
         <!-- Top ambient glow -->
         <div
-            class="absolute -top-16 -right-16 w-36 h-36 bg-[#5865F2]/20 rounded-full blur-2xl pointer-events-none"
+            class="absolute -top-16 -right-16 w-36 h-36 bg-brand-discord/20 rounded-full blur-2xl pointer-events-none"
         >
         </div>
 
@@ -81,7 +81,7 @@ const channels = discordData.channels.slice(0, 4);
             class="flex items-center justify-between pb-4 mb-4 border-b border-white/[0.08] relative z-10"
         >
             <div
-                class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#5865F2]/15 border border-[#5865F2]/30 text-[11px] font-bold text-[#8a95ff] tracking-wide"
+                class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-brand-discord/15 border border-brand-discord/30 text-[11px] font-bold text-[#8a95ff] tracking-wide"
             >
                 <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"
                 ></span>
@@ -116,7 +116,7 @@ const channels = discordData.channels.slice(0, 4);
             <!-- Server Header -->
             <div class="flex items-center gap-3">
                 <div
-                    class="w-11 h-11 rounded-xl bg-[#5865F2] flex items-center justify-center text-white shadow-md shadow-[#5865F2]/30 shrink-0"
+                    class="w-11 h-11 rounded-xl bg-brand-discord flex items-center justify-center text-white shadow-md shadow-brand-discord/30 shrink-0"
                 >
                     <DiscordIcon class="w-6 h-6" />
                 </div>
@@ -185,14 +185,14 @@ const channels = discordData.channels.slice(0, 4);
                                                     loading="lazy"
                                                 />
                                             ) : (
-                                                <div class="w-6 h-6 rounded-full bg-[#5865F2]/40 text-[10px] text-white font-bold flex items-center justify-center">
+                                                <div class="w-6 h-6 rounded-full bg-brand-discord/40 text-[10px] text-white font-bold flex items-center justify-center">
                                                     {member.username
                                                         .charAt(0)
                                                         .toUpperCase()}
                                                 </div>
                                             )}
                                             <span
-                                                class={`absolute -bottom-0.5 -right-0.5 w-2 h-2 rounded-full border border-[#0B1120] ${
+                                                class={`absolute -bottom-0.5 -right-0.5 w-2 h-2 rounded-full border border-surface ${
                                                     member.status === "dnd"
                                                         ? "bg-rose-500"
                                                         : member.status ===
@@ -229,7 +229,7 @@ const channels = discordData.channels.slice(0, 4);
                 href={DISCORD_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                class="w-full inline-flex items-center justify-center gap-2 bg-[#5865F2] hover:bg-[#4752c4] text-white py-3 rounded-xl text-sm font-bold shadow-lg shadow-[#5865F2]/25 hover:shadow-[#5865F2]/40 transition-all transform hover:-translate-y-0.5 mt-1"
+                class="w-full inline-flex items-center justify-center gap-2 bg-brand-discord hover:bg-brand-discord-hover text-white py-3 rounded-xl text-sm font-bold shadow-lg shadow-brand-discord/25 hover:shadow-brand-discord/40 transition-all transform hover:-translate-y-0.5 mt-1"
             >
                 <DiscordIcon class="w-4 h-4" />
                 <span data-i18n="discordJoin">Unirse a la Comunidad</span>
@@ -398,7 +398,7 @@ const channels = discordData.channels.slice(0, 4);
                         } else {
                             const initialDiv = document.createElement("div");
                             initialDiv.className =
-                                "w-6 h-6 rounded-full bg-[#5865F2]/40 text-[10px] text-white font-bold flex items-center justify-center";
+                                "w-6 h-6 rounded-full bg-brand-discord/40 text-[10px] text-white font-bold flex items-center justify-center";
                             initialDiv.textContent = (member.username || "?")
                                 .charAt(0)
                                 .toUpperCase();
@@ -412,7 +412,7 @@ const channels = discordData.channels.slice(0, 4);
                                 : member.status === "idle"
                                   ? "bg-amber-400"
                                   : "bg-emerald-400";
-                        statusDot.className = `absolute -bottom-0.5 -right-0.5 w-2 h-2 rounded-full border border-[#0B1120] ${statusColor}`;
+                        statusDot.className = `absolute -bottom-0.5 -right-0.5 w-2 h-2 rounded-full border border-surface ${statusColor}`;
                         avatarWrap.appendChild(statusDot);
 
                         const nameSpan = document.createElement("span");

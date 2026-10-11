@@ -224,7 +224,7 @@ export default function CommunityEcosystem() {
             key: "senior",
             icon: "⚡",
             accentColor: "text-[#818CF8]",
-            borderActive: "border-[#818CF8]/80 shadow-[#5865F2]/20",
+            borderActive: "border-[#818CF8]/80 shadow-brand-discord/20",
         },
         {
             key: "growing",
@@ -242,7 +242,7 @@ export default function CommunityEcosystem() {
         >
             {/* Background lighting */}
             <div className="absolute top-1/2 left-1/3 -translate-y-1/2 w-96 h-96 bg-brand-yellow/[0.04] rounded-full blur-3xl pointer-events-none" />
-            <div className="absolute top-1/2 right-1/4 -translate-y-1/2 w-96 h-96 bg-[#5865F2]/[0.08] rounded-full blur-3xl pointer-events-none" />
+            <div className="absolute top-1/2 right-1/4 -translate-y-1/2 w-96 h-96 bg-brand-discord/[0.08] rounded-full blur-3xl pointer-events-none" />
 
             <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                 {/* Section Header */}
