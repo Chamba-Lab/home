@@ -43,6 +43,8 @@ Los tokens base están configurados en `src/styles/global.css` dentro de `@theme
 | ----------------------------- | ----------- | ---------------------------------------------------------------------------- |
 | `--color-brand-yellow`        | `#FACC15`   | Amarillo marca primario: CTAs principales, énfasis, agujas y estados activos |
 | `--color-brand-yellow-hover`  | `#FDE047`   | Estado hover de botones primarios y enlaces destacados                       |
+| `--color-brand-yellow-deep`   | `#A16207`   | Texto amarillo sobre fondos claros (contraste 4.51:1)                        |
+| `--color-brand-cream`         | `#FCF6E8`   | Fondo crema para la mascota sobre claro y avatar alternativo                 |
 | `--color-brand-discord`       | `#5865F2`   | Blurple oficial de Discord: widgets, CTAs de comunidad y telemetría          |
 | `--color-brand-discord-hover` | `#4752C4`   | Estado hover para acciones de Discord                                        |
 
@@ -52,7 +54,8 @@ Los tokens base están configurados en `src/styles/global.css` dentro de `@theme
 | ------------------------- | --------------------------- | ----------------------------------------------------- |
 | `--color-content`         | `#E2E8F0`                   | Texto principal de lectura (alto contraste)           |
 | `--color-muted`           | `#94A3B8`                   | Subtítulos, metadatos, etiquetas secundarias          |
-| `--color-content-inverse` | `#020617`                   | Texto sobre superficies luminosas o botones amarillos |
+| `--color-content-inverse` | `#FFFFFF`                   | Texto sobre superficies de acento (ej. botón blurple) |
+| `--color-on-accent`       | `#020617`                   | Texto sobre superficies luminosas o botones amarillos |
 | `--color-border`          | `rgba(255, 255, 255, 0.12)` | Borde estándar para tarjetas y divisores              |
 | Status: Online            | `#34D399` / `#10B981`       | Puntos de presencia y estados activos de servidor     |
 | Status: Alert             | `#F59E0B`                   | Badges de advertencia o eventos en vivo               |
@@ -122,8 +125,8 @@ Cargada de forma optimizada vía Google Fonts en `src/layouts/Layout.astro`.
 
 ### 5.1 Sticky Header & Navigation
 
-- **Barra Superior**: `sticky top-0 z-50 backdrop-blur-xl bg-[#080D1A]/85 border-b border-white/[0.08]`.
-- **Logo**: Isotipo Power Bolt estilizado (`⚡`) en SVG con gradiente dorado + wordmark display.
+- **Barra Superior**: `sticky top-0 z-50 backdrop-blur-xl bg-bg/85 border-b border-white/[0.08]`.
+- **Logo**: `chamba-tile.svg` (mascota sobre tile amarillo, 40px en header / 36px en footer, `rounded-xl`) + wordmark display "Chamba" + píldora "Lab".
 - **Segmented Language Switcher**: Pastilla redondeada (`rounded-full bg-slate-900/80 border border-white/10 p-0.5 text-xs`) con botones `ES` / `EN` toggleables y almacenamiento en `localStorage`.
 - **Discord Action Button**: Botón compacto con resplandor blurple al interactuar.
 
@@ -177,8 +180,33 @@ Cargada de forma optimizada vía Google Fonts en `src/layouts/Layout.astro`.
     - Hero / Features: `w-8 h-8` a `w-12 h-12` envueltos en contenedores esmerilados con resplandor suave.
 - **Símbolos Clave**:
     - _Shuffle_: Flechas bidireccionales cruzadas estándar (`M16 3h5v5M4 20L21 3M21 16v5h-5M15 15l6 6M4 4l5 5`).
-    - _Power Bolt_: Rayo de energía característico de Chamba Lab.
+    - _Mascota_: ver §6.1 (reglas de uso de la marca).
     - _Discord_: Logomarca oficial SVG monocromática o en blurple.
+
+---
+
+### 6.1 Identidad de marca: la mascota
+
+Mapache/gato peludo con taza de café y expresión _grumpy_. Masters en `src/assets/brand/` (`chamba-mark`, `-awake`, `-mono` con `currentColor`, `-sticker`, `chamba-tile`, `chamba-lockup-dark`, `chamba-lockup-light`). Se conservan los `id` de capa (`body`, `face`, `sheen`) para tematizar con CSS. Avatares 1024 de Discord/GitHub en `brand/discord/` (solo referencia).
+
+**Reglas de uso**
+
+- La mascota **nunca** va directo sobre `#080D1A` (el cuerpo es del mismo color y desaparece). Usar:
+    - tile amarillo (`#FACC15`) — por defecto en header, footer y favicon;
+    - versión _sticker_ (contorno amarillo) sobre fondos oscuros — es la que usa la imagen OG y el banner del README;
+    - fondo crema (`#FCF6E8`) sobre fondos claros.
+- Lockup: `chamba-lockup-dark.svg` sobre fondos oscuros, `chamba-lockup-light.svg` sobre claros.
+- Discord / GitHub org: avatar amarillo 1024 (alternativa crema). Se recorta en círculo; la mascota está centrada con margen.
+- Tamaños mínimos: tile 24px (UI), mascota sola 32px; por debajo de eso usar el favicon (16/32/48).
+- Texto amarillo sobre fondo claro: `--color-brand-yellow-deep`, no `brand-yellow`.
+
+**Favicon e iconos** (`public/`, referenciados en `Layout.astro` respetando `base`): `favicon.ico` (16/32/48), `favicon.svg`, `apple-touch-icon.png` (180), `icon-192.png`, `icon-512.png` y `site.webmanifest` (`theme_color` y `background_color` `#080D1A`).
+
+**Mantenimiento**
+
+- Optimizar SVG: `npm run brand:optimize` (svgo con `svgo.config.cjs`: `cleanupIds:false`, `floatPrecision:1`, `multipass`).
+- Regenerar la imagen OG: `npm run brand:og`. Renderiza `brand/og.svg` (SVG válido por sí solo; el script sustituye sus hex de marca por los valores vigentes de los tokens) a `public/og-image.png` (1200×630) leyendo los colores de los tokens de `global.css`. Si cambia un token, correr el script y commitear el PNG.
+- `scripts/trace.py` vectoriza los PNG originales de `brand/source/` (requiere `potrace`, `numpy`, `Pillow`).
 
 ---
 

@@ -28,7 +28,7 @@
     *   `/resources` (Biblioteca curada de guías, plantillas y plataformas con buscador y filtros por categoría).
     *   `/events` (Calendario de eventos fijos y recurrentes con cálculo por meses, zona horaria comunitaria UTC-5, y exportación funcional a Google Calendar e iCal `.ics` generados con RFC 5545).
     *   `/activities` (Hub de dinámicas comunitarias) y subrutas por actividad (ej. `/activities/roulette`). Rutas siempre en inglés, aunque el copy visible sea en español con soporte bilingüe.
-*   **Layout compartido**: `src/layouts/Layout.astro` monta `Header` y `Footer` (`src/components/`), gestiona i18n (`ES`/`EN`), carga las fuentes (`Plus Jakarta Sans` + `Inter`) y aplica la base `class="dark bg-[#080D1A] text-slate-200"`.
+*   **Layout compartido**: `src/layouts/Layout.astro` monta `Header` y `Footer` (`src/components/`), gestiona i18n (`ES`/`EN`), carga las fuentes (`Plus Jakarta Sans` + `Inter`) y aplica la base `class="dark bg-bg text-slate-200"`.
 *   **Header responsive**: Sticky glassmorphism (`backdrop-blur-xl bg-[#080D1A]/85 border-b border-white/[0.08]`). Enlaces directos a `/resources`, `/events` y `/activities`. Selector de idioma en pastilla segmentada (`[ ES | EN ]`) y botón CTA de Discord con resplandor (*hover glow*). En mobile colapsa a menú desplegable con fondo desenfocado.
 *   **i18n**: Diccionario centralizado en `src/i18n/translations.ts`. El selector traduce el chrome estructural y las secciones de la landing en vivo vía `data-i18n` y atributos bilingües (`data-i18n-en` / `data-i18n-es`), persistiendo la preferencia en `localStorage` (`chamba-lab-lang`).
 *   **Tema**: Dark-mode first (`#080D1A`), garantizando una experiencia inmersiva, consistente y con alto contraste sin fluctuaciones de estilo.
@@ -66,6 +66,11 @@
 *   **Tipografía**:
     *   Display / Títulos: **Plus Jakarta Sans** (pesos 600, 700, 800) para impacto visual limpio y moderno.
     *   Cuerpo de texto / Lectura: **Inter** (pesos 400, 500, 600) para máxima legibilidad.
+*   **Identidad / Mascota**: Logo = mascota (mapache/gato con taza de café, *grumpy*). Masters SVG en `src/assets/brand/` (el header y el footer usan `chamba-tile.svg`); `brand/og.svg` es la plantilla de la imagen OG y `brand/discord/` guarda los avatares 1024. Nunca colocar la mascota directo sobre `#080D1A`: usar tile amarillo, sticker o fondo crema (`--color-brand-cream`). Reglas completas, tamaños mínimos y favicon en [DESIGN.md §6.1](./DESIGN.md).
+    *   `npm run brand:optimize`: optimiza los SVG con svgo (`svgo.config.cjs`, conserva los `id` de capa).
+    *   `npm run brand:og`: regenera `public/og-image.png` (1200x630) desde `brand/og.svg` con los colores de los tokens.
+    *   Iconos de sitio en `public/`: `favicon.ico`, `favicon.svg`, `apple-touch-icon.png`, `icon-192.png`, `icon-512.png`, `site.webmanifest`.
+*   **ICS**: el `UID` de cada evento es `<id>@chambalab.org` (`src/lib/calendar.ts`). `chambalab.org` es solo un namespace para el identificador, no un dominio que el sitio sirva; debe mantenerse estable para que los clientes de calendario actualicen en vez de duplicar eventos.
 *   **Iconografía**: SVGs limpios inline optimizados (`DiscordIcon`, flechas, menú) y Google Material Symbols Outlined.
 
 ## 4. Architecture Patterns & Governance
