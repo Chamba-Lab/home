@@ -2,7 +2,12 @@
 import { Image } from "astro:assets";
 import DiscordIcon from "./icons/DiscordIcon.astro";
 import serverAvatar from "../../brand/discord/avatar-cream-1024.png";
-import { DISCORD_URL } from "../lib/constants";
+import {
+    DISCORD_GUILD_ID,
+    DISCORD_URL,
+    DISCORD_WIDGET_API,
+    DISCORD_WIDGET_IFRAME,
+} from "../lib/constants";
 
 interface Member {
     id: string;
@@ -27,7 +32,7 @@ interface DiscordData {
 }
 
 let discordData: DiscordData = {
-    id: "1473927361106808832",
+    id: DISCORD_GUILD_ID,
     name: "Chamba Lab",
     presence_count: 5,
     channels: [
@@ -44,10 +49,9 @@ let discordData: DiscordData = {
 };
 
 try {
-    const res = await fetch(
-        "https://discord.com/api/guilds/1473927361106808832/widget.json",
-        { signal: AbortSignal.timeout(3500) },
-    );
+    const res = await fetch(DISCORD_WIDGET_API, {
+        signal: AbortSignal.timeout(3500),
+    });
     if (res.ok) {
         const json = await res.json();
         discordData = {
@@ -246,7 +250,7 @@ const channels = discordData.channels.slice(0, 4);
             class="hidden flex-col items-center relative z-10"
         >
             <iframe
-                src="https://discord.com/widget?id=1473927361106808832&theme=dark"
+                src={DISCORD_WIDGET_IFRAME}
                 width="310"
                 height="400"
                 allowtransparency="true"
@@ -260,6 +264,8 @@ const channels = discordData.channels.slice(0, 4);
 </div>
 
 <script>
+    import { DISCORD_WIDGET_API } from "../lib/constants";
+
     const btnModern = document.getElementById("btn-view-modern");
     const btnOfficial = document.getElementById("btn-view-official");
     const viewModern = document.getElementById("discord-view-modern");
@@ -324,9 +330,6 @@ const channels = discordData.channels.slice(0, 4);
         channels?: ChannelApi[];
         members?: MemberApi[];
     }
-
-    const DISCORD_WIDGET_API =
-        "https://discord.com/api/guilds/1473927361106808832/widget.json";
 
     async function refreshDiscordData() {
         try {
