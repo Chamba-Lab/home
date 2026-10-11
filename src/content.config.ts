@@ -41,6 +41,8 @@ const team = defineCollection({
     loader: file("src/content/team.json"),
     schema: z.object({
         name: z.string(),
+        // Display order in the team section (ascending).
+        order: z.number(),
         role: i18nText,
         // File name inside src/assets/team/
         avatar: z.string(),

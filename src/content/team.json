@@ -1,19 +1,21 @@
 [
     {
-        "id": "abel",
-        "name": "Abel Llontop",
+        "id": "melio",
+        "name": "Melio Díaz",
+        "order": 1,
         "role": {
-            "en": "Community & events",
-            "es": "Comunidad y eventos"
+            "en": "Site & platform development",
+            "es": "Desarrollo del sitio y plataforma"
         },
-        "avatar": "AbelLLontop.jpg",
-        "github": "https://github.com/AbelLLontop",
-        "portfolio": "https://www.abelitolll.com/",
-        "linkedin": "https://www.linkedin.com/in/abelllontopmeza/"
+        "avatar": "MeloDev2111.jpg",
+        "github": "https://github.com/MeloDev2111",
+        "portfolio": "https://www.meliodiaz.com/",
+        "linkedin": "https://www.linkedin.com/in/melio-diaz-diaz/"
     },
     {
         "id": "antonio",
         "name": "Antonio García",
+        "order": 2,
         "role": {
             "en": "Brand identity & design",
             "es": "Identidad de marca y diseño"
@@ -23,15 +25,16 @@
         "linkedin": "https://www.linkedin.com/in/antoniogarciaromero/"
     },
     {
-        "id": "melio",
-        "name": "Melio Díaz",
+        "id": "abel",
+        "name": "Abel Llontop",
+        "order": 3,
         "role": {
-            "en": "Site & platform development",
-            "es": "Desarrollo del sitio y plataforma"
+            "en": "Community & events",
+            "es": "Comunidad y eventos"
         },
-        "avatar": "MeloDev2111.jpg",
-        "github": "https://github.com/MeloDev2111",
-        "portfolio": "https://www.meliodiaz.com/",
-        "linkedin": "https://www.linkedin.com/in/melio-diaz-diaz/"
+        "avatar": "AbelLLontop.jpg",
+        "github": "https://github.com/AbelLLontop",
+        "portfolio": "https://www.abelitolll.com/",
+        "linkedin": "https://www.linkedin.com/in/abelllontopmeza/"
     }
 ]

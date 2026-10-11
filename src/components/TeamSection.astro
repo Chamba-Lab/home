@@ -12,17 +12,19 @@ const avatars = import.meta.glob<{ default: ImageMetadata }>(
     { eager: true },
 );
 
-const members = (await getCollection("team")).map((member) => ({
-    ...member.data,
-    id: member.id,
-    avatarSrc: avatars[`../assets/team/${member.data.avatar}`]?.default,
-}));
+const members = (await getCollection("team"))
+    .sort((a, b) => a.data.order - b.data.order)
+    .map((member) => ({
+        ...member.data,
+        id: member.id,
+        avatarSrc: avatars[`../assets/team/${member.data.avatar}`]?.default,
+    }));
 
 const linkClass =
     "w-9 h-9 inline-flex items-center justify-center rounded-lg bg-slate-900/80 border border-white/10 text-slate-300 hover:text-brand-yellow hover:border-brand-yellow/40 transition-all";
 ---
 
-<section class="py-20 border-t border-white/[0.06]" id="equipo">
+<section class="py-20 border-t border-white/[0.06]" id="team">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="mb-12 max-w-2xl">
             <span
@@ -54,6 +56,8 @@ const linkClass =
                             <Image
                                 src={member.avatarSrc}
                                 alt={`Foto de ${member.name}`}
+                                data-i18n-alt-en={`Photo of ${member.name}`}
+                                data-i18n-alt-es={`Foto de ${member.name}`}
                                 width={192}
                                 height={192}
                                 class="w-24 h-24 rounded-full object-cover border-2 border-brand-yellow/40"
