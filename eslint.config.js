@@ -18,6 +18,16 @@ export default [
         },
     },
     {
+        files: ["scripts/**/*.mjs"],
+        languageOptions: {
+            globals: {
+                URL: "readonly",
+                Buffer: "readonly",
+                console: "readonly",
+            },
+        },
+    },
+    {
         ignores: [
             "dist/**/*",
             ".astro/**/*",

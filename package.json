@@ -16,7 +16,9 @@
         "changelog": "auto-changelog -p",
         "lint": "eslint . && prettier --check .",
         "lint:fix": "eslint . --fix && prettier --write .",
-        "test": "vitest run"
+        "test": "vitest run",
+        "brand:optimize": "svgo -f src/assets/brand --config svgo.config.cjs",
+        "brand:og": "node scripts/build-og.mjs"
     },
     "dependencies": {
         "@astrojs/react": "^6.0.6",
@@ -42,6 +44,8 @@
         "prettier": "^3.8.1",
         "prettier-plugin-astro": "^0.14.1",
         "release-it": "^19.2.4",
+        "sharp": "^0.35.5",
+        "svgo": "^4.1.0",
         "typescript": "^5.9.3",
         "vitest": "^4.0.18"
     },
