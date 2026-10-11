@@ -166,6 +166,7 @@ Cargada de forma optimizada vía Google Fonts en `src/layouts/Layout.astro`.
             - Badges de previsualización en vivo con pulsación sutil (`animate-pulse`) para las actividades en rotación.
             - Pastilla de cierre de ciclo continuo: `↺ Ciclo continuo: en comunidad multiplicamos posibilidades`.
 - **Discord Widget (`DiscordWidget.astro` + API Fetch)**:
+    - Cabecera con el avatar crema del server (`brand/discord/avatar-cream-1024.png`) en `rounded-xl`, el mismo que usa el server de Discord.
     - Consumo directo en cliente de la API oficial con _graceful fallback_ estático.
     - Avatares de miembros conectados, canales activos y botón rápido de acceso.
 
