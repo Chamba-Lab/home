@@ -38,9 +38,31 @@ interface Occurrence {
     recurrenceLabel?: I18nText;
 }
 
-const firstMonth = startOfMonth(new Date());
+const currentMonth = startOfMonth(new Date());
 
-const months = Array.from({ length: MONTHS_AHEAD }, (_, i) => {
+function monthsBetween(from: Date, to: Date) {
+    return (
+        (to.getFullYear() - from.getFullYear()) * 12 +
+        (to.getMonth() - from.getMonth())
+    );
+}
+
+// El calendario arranca en el mes del primer evento registrado (aunque ya
+// haya pasado) para que el historial siga siendo navegable.
+const earliestMonth = events.reduce((earliest, event) => {
+    const iso =
+        event.data.type === "fixed" ? event.data.date : event.data.startDate;
+    if (!iso) return earliest;
+    const [y, m] = iso.split("-").map(Number);
+    const month = new Date(y, m - 1, 1);
+    return month < earliest ? month : earliest;
+}, currentMonth);
+
+const firstMonth = earliestMonth;
+const initialIndex = monthsBetween(firstMonth, currentMonth);
+const totalMonths = initialIndex + MONTHS_AHEAD;
+
+const months = Array.from({ length: totalMonths }, (_, i) => {
     const monthStart = addMonths(firstMonth, i);
     const monthEnd = endOfMonth(monthStart);
     const occurrences: Occurrence[] = [];
@@ -98,6 +120,7 @@ const months = Array.from({ length: MONTHS_AHEAD }, (_, i) => {
     occurrences.sort((a, b) => a.date.getTime() - b.date.getTime());
 
     return {
+        key: `${monthStart.getFullYear()}-${String(monthStart.getMonth() + 1).padStart(2, "0")}`,
         labelEn: capitalize(
             monthStart.toLocaleDateString("en-US", {
                 month: "long",
@@ -176,7 +199,7 @@ const months = Array.from({ length: MONTHS_AHEAD }, (_, i) => {
                         d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
                     ></path>
                 </svg>
-                <span>{months[0].labelEs}</span>
+                <span>{months[initialIndex].labelEs}</span>
             </span>
 
             <button
@@ -190,14 +213,15 @@ const months = Array.from({ length: MONTHS_AHEAD }, (_, i) => {
         </div>
 
         <!-- Months Sections -->
-        <div class="mb-14">
+        <div class="mb-14" data-initial-index={initialIndex}>
             {
                 months.map((month, i) => (
                     <ol
                         data-month-index={i}
+                        data-month-key={month.key}
                         data-month-label-en={month.labelEn}
                         data-month-label-es={month.labelEs}
-                        hidden={i !== 0}
+                        hidden={i !== initialIndex}
                         class="space-y-4"
                     >
                         {month.occurrences.length === 0 && (
@@ -281,7 +305,24 @@ const months = Array.from({ length: MONTHS_AHEAD }, (_, i) => {
             document.querySelector<HTMLButtonElement>("#month-next");
         const label = document.querySelector<HTMLElement>("#month-label");
 
-        let currentIndex = 0;
+        const container = sections[0]?.parentElement;
+        const serverIndex = Number(container?.dataset.initialIndex ?? 0);
+        const now = new Date();
+        const todayKey = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
+        const todayIso = `${todayKey}-${String(now.getDate()).padStart(2, "0")}`;
+        // El build es estático: el mes actual real se resuelve en el cliente.
+        const todayIndex = sections.findIndex(
+            (section) => section.dataset.monthKey === todayKey,
+        );
+        let currentIndex = todayIndex >= 0 ? todayIndex : serverIndex;
+
+        // Eventos pasados atenuados (el navegador conoce la fecha de hoy).
+        document
+            .querySelectorAll<HTMLElement>("[data-date-iso]")
+            .forEach((item) => {
+                const iso = item.dataset.dateIso;
+                if (iso && iso < todayIso) item.classList.add("opacity-60");
+            });
         let currentLang: "es" | "en" = "es";
 
         function render() {
