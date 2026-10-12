@@ -4,8 +4,8 @@
         "name": "Melio Díaz",
         "order": 1,
         "role": {
-            "en": "Site & platform development",
-            "es": "Desarrollo del sitio y plataforma"
+            "en": "Founder",
+            "es": "Fundador"
         },
         "avatar": "MeloDev2111.jpg",
         "github": "https://github.com/MeloDev2111",
@@ -17,8 +17,8 @@
         "name": "Antonio García",
         "order": 2,
         "role": {
-            "en": "Brand identity & design",
-            "es": "Identidad de marca y diseño"
+            "en": "Core team",
+            "es": "Equipo base"
         },
         "avatar": "AntonioPow24.jpg",
         "github": "https://github.com/AntonioPow24",
@@ -29,8 +29,8 @@
         "name": "Abel Llontop",
         "order": 3,
         "role": {
-            "en": "Community & events",
-            "es": "Comunidad y eventos"
+            "en": "Core team",
+            "es": "Equipo base"
         },
         "avatar": "AbelLLontop.jpg",
         "github": "https://github.com/AbelLLontop",
