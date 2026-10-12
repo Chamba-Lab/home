@@ -35,7 +35,7 @@ export const translations = {
         viewAllResources: "Explorar todos los recursos",
 
         // Team Section
-        teamBadge: "Equipo organizador",
+        teamBadge: "Equipo",
         teamTitle: "Quienes hacen Chamba Lab",
         teamDesc:
             "Voluntarios que sostienen la comunidad. Sin fines de lucro, con ganas.",
@@ -133,7 +133,7 @@ export const translations = {
         viewAllResources: "Explore all resources",
 
         // Team Section
-        teamBadge: "Organizing team",
+        teamBadge: "Team",
         teamTitle: "Meet the team",
         teamDesc:
             "Volunteers who keep the community going. Non-profit, run on enthusiasm.",

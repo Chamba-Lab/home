@@ -5,7 +5,7 @@
         "order": 1,
         "role": {
             "en": "Founder",
-            "es": "Fundador"
+            "es": "Founder"
         },
         "avatar": "MeloDev2111.jpg",
         "github": "https://github.com/MeloDev2111",
@@ -17,8 +17,8 @@
         "name": "Antonio García",
         "order": 2,
         "role": {
-            "en": "Core team",
-            "es": "Equipo base"
+            "en": "Core contributor",
+            "es": "Core contributor"
         },
         "avatar": "AntonioPow24.jpg",
         "github": "https://github.com/AntonioPow24",
@@ -29,8 +29,8 @@
         "name": "Abel Llontop",
         "order": 3,
         "role": {
-            "en": "Core team",
-            "es": "Equipo base"
+            "en": "Core contributor",
+            "es": "Core contributor"
         },
         "avatar": "AbelLLontop.jpg",
         "github": "https://github.com/AbelLLontop",
