@@ -5,7 +5,7 @@
 
 ### Bug Fixes
 
-* complete i18n coverage and use english section anchors ([1763059](https://github.com/Chamba-Lab/home/commit/1763059744895da7d9dd891bc38aa02d4ffe93a5)), closes [recursos/#eventos](https://github.com/Chamba-Lab/home/issues/eventos)
+* complete i18n coverage and use english section anchors ([1763059](https://github.com/Chamba-Lab/home/commit/1763059744895da7d9dd891bc38aa02d4ffe93a5))
 * show past events in the calendar ([08120d0](https://github.com/Chamba-Lab/home/commit/08120d017d580c39566d0765bad0c6be7e2cae81))
 
 
