@@ -76,7 +76,7 @@
     *   `npm run brand:og`: regenera `public/og-image.png` (1200x630) desde `brand/og.svg` con los colores de los tokens.
     *   Iconos de sitio en `public/`: `favicon.ico`, `favicon.svg`, `apple-touch-icon.png`, `icon-192.png`, `icon-512.png`, `site.webmanifest`.
 *   **ICS**: el `UID` de cada evento es `<id>@chambalab.org` (`src/lib/calendar.ts`). `chambalab.org` es solo un namespace para el identificador, no un dominio que el sitio sirva; debe mantenerse estable para que los clientes de calendario actualicen en vez de duplicar eventos.
-*   **Iconografía**: SVGs limpios inline optimizados (`DiscordIcon`, flechas, menú) y Google Material Symbols Outlined.
+*   **Iconografía**: SVGs limpios inline optimizados (`DiscordIcon`, `GithubIcon`, flechas, menú), sin fuentes de iconos externas.
 
 ## 4. Architecture Patterns & Governance
 *   **Static First**: Todo contenido informativo (Guías, Recursos, Eventos) es estático (SSG).
