@@ -1,3 +1,3 @@
-# Revisión por defecto: se solicita a esta persona como revisora en cada PR.
-# Con la regla "Require review from Code Owners" activa, su aprobación es obligatoria.
-* @MeloDev2111
+# Revisión por defecto: se solicita al equipo Admins (con acceso de escritura al repo) como revisor en cada PR.
+# La aprobación obligatoria la define el ruleset de master, no este archivo.
+* @Chamba-Lab/admins
