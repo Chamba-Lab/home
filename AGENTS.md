@@ -96,6 +96,7 @@
 *   **Tools**:
     *   `release-it`: Gestión de versiones y git tags.
     *   `auto-changelog`: Generación de historial de cambios.
+    *   GitHub App **Chamba Lab CD Bot** (`RELEASE_APP_ID` como variable y `RELEASE_APP_PRIVATE_KEY` como secreto del repo): el workflow genera con ella un token de corta vida para que `release-it` pueda hacer push del commit de release y del tag a `master`. Debe estar en la lista de bypass del ruleset de `master`.
 *   **Stages**:
     *   `Lint & Test` → `Release` → `Build` → `Deploy (GitHub Pages)`.
 

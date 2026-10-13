@@ -5,8 +5,10 @@ on:
         branches:
             - master
 
+# El push del release a master lo hace la GitHub App "Chamba Lab CD Bot" (token
+# generado abajo), que está en la lista de bypass de la protección de master.
 permissions:
-    contents: write
+    contents: read
     pages: write
     id-token: write
 
@@ -19,11 +21,19 @@ jobs:
             cancel-in-progress: true
 
         steps:
+            - name: Generate release token
+              id: app-token
+              uses: actions/create-github-app-token@v3.2.0
+              with:
+                  app-id: ${{ vars.RELEASE_APP_ID }}
+                  private-key: ${{ secrets.RELEASE_APP_PRIVATE_KEY }}
+                  permission-contents: write
+
             - name: Checkout
               uses: actions/checkout@v7
               with:
                   fetch-depth: 0
-                  token: ${{ secrets.GH_PAT || secrets.GITHUB_TOKEN }}
+                  token: ${{ steps.app-token.outputs.token }}
 
             - name: Setup Node.js
               uses: actions/setup-node@v7
@@ -46,7 +56,7 @@ jobs:
 
             - name: Automated Version Release
               env:
-                  GITHUB_TOKEN: ${{ secrets.GH_PAT || secrets.GITHUB_TOKEN }}
+                  GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
               run: |
                   npm run release -- --ci --no-git.requireCleanWorkingDir --git.commitMessage="chore: release v\${version} [skip ci]"
 
