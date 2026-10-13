@@ -1,0 +1,37 @@
+name: Reportar un bug
+description: Algo no funciona como debería en el sitio.
+title: "fix: "
+labels: ["bug"]
+body:
+    - type: textarea
+      id: what
+      attributes:
+          label: ¿Qué pasó?
+          description: Describe el problema y qué esperabas que ocurriera.
+      validations:
+          required: true
+    - type: textarea
+      id: steps
+      attributes:
+          label: Pasos para reproducirlo
+          placeholder: |
+              1. Ir a /events
+              2. Pulsar "Google Calendar"
+              3. ...
+      validations:
+          required: true
+    - type: input
+      id: url
+      attributes:
+          label: Página afectada
+          placeholder: https://chamba-lab.github.io/home/events
+    - type: input
+      id: env
+      attributes:
+          label: Navegador y dispositivo
+          placeholder: Chrome en Android, Safari en iPhone, Firefox en Windows...
+    - type: textarea
+      id: shots
+      attributes:
+          label: Capturas o grabación
+          description: Arrastra aquí imágenes si ayudan a entender el problema.

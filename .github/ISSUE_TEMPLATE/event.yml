@@ -1,0 +1,47 @@
+name: Proponer un evento
+description: Propón una sesión, taller o actividad para la comunidad.
+title: "feat: add event "
+labels: ["event"]
+body:
+    - type: input
+      id: title
+      attributes:
+          label: Nombre del evento
+      validations:
+          required: true
+    - type: textarea
+      id: description
+      attributes:
+          label: ¿De qué trata y a quién va dirigido?
+          description: Objetivo, formato (charla, taller, mock interview...) y nivel esperado.
+      validations:
+          required: true
+    - type: dropdown
+      id: type
+      attributes:
+          label: Frecuencia
+          options:
+              - Una sola vez
+              - Recurrente semanal
+      validations:
+          required: true
+    - type: input
+      id: when
+      attributes:
+          label: Fecha y hora propuestas
+          description: Usamos la zona horaria comunitaria UTC-5.
+          placeholder: "Jueves 22 de octubre, 19:00 a 20:30 (UTC-5)"
+      validations:
+          required: true
+    - type: input
+      id: host
+      attributes:
+          label: ¿Quién lo dirige?
+          description: Tu nombre o el de la persona invitada, y un enlace de perfil si lo hay.
+    - type: checkboxes
+      id: checks
+      attributes:
+          label: Antes de enviar
+          options:
+              - label: Me comprometo a coordinarlo con el equipo en Discord
+                required: true

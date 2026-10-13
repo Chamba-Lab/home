@@ -89,6 +89,7 @@
 2.  **Linting**: ESLint + Prettier obligatorios (`npm run lint` antes de push).
 3.  **Documentation**: Cada feature nueva actualiza este archivo maestro.
 4.  **Conventional Commits**: Obligatorio usar prefijos estándar (`feat:`, `fix:`, `chore:`) para alimentar el changelog automático.
+5.  **Colaboración**: guía completa en [CONTRIBUTING.md](./CONTRIBUTING.md) y normas en [CODE_OF_CONDUCT.md](./CODE_OF_CONDUCT.md). Cambios por rama (`feat/…`, `fix/…`, `docs/…`, `chore/…`) y Pull Request a `master`; plantilla de PR, plantillas de issues (bug, recurso, evento) y `CODEOWNERS` viven en `.github/`. `.gitattributes` fija finales de línea LF.
 
 ## 6. CI/CD Pipeline (Automated)
 *   **Provider**: GitHub Actions.

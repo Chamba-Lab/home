@@ -99,7 +99,9 @@ Al realizar un push a la rama `master`, el sistema activa:
 
 Avanzar por cuenta propia tiene mérito; en comunidad multiplicas tus posibilidades. Las contribuciones son el motor de Chamba Lab.
 
-- **Guía del Colaborador**: Revisa nuestro archivo [AGENTS.md](./AGENTS.md) para entender el sistema de diseño y flujos.
+- **Cómo contribuir**: lee [CONTRIBUTING.md](./CONTRIBUTING.md) (flujo de ramas, Conventional Commits, checklist de PR) y nuestro [Código de Conducta](./CODE_OF_CONDUCT.md).
+- **Ideas y bugs**: abre un issue con las plantillas para proponer recursos, eventos o reportar errores.
+- **Arquitectura y diseño**: [AGENTS.md](./AGENTS.md) y [DESIGN.md](./DESIGN.md).
 - **Discord**: [Escríbenos en la comunidad](https://discord.gg/TCuZSnfKTE).
 
 ---
