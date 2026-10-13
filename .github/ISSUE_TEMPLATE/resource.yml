@@ -1,0 +1,46 @@
+name: Proponer un recurso
+description: Sugiere una guía, plantilla o plataforma para la biblioteca curada.
+title: "feat: add resource "
+labels: ["resource"]
+body:
+    - type: input
+      id: title
+      attributes:
+          label: Nombre del recurso
+      validations:
+          required: true
+    - type: input
+      id: url
+      attributes:
+          label: Enlace
+          placeholder: https://
+      validations:
+          required: true
+    - type: dropdown
+      id: category
+      attributes:
+          label: Categoría
+          options:
+              - CV y portafolio (cv)
+              - Aprendizaje (aprendizaje)
+              - Práctica y entrevistas (practica)
+      validations:
+          required: true
+    - type: textarea
+      id: description
+      attributes:
+          label: ¿Qué es y por qué es útil?
+          description: Una o dos frases pensadas para alguien que está empezando. Si puedes, inclúyelas en español e inglés.
+      validations:
+          required: true
+    - type: checkboxes
+      id: checks
+      attributes:
+          label: Antes de enviar
+          options:
+              - label: El recurso es gratuito o tiene un plan gratuito útil
+                required: true
+              - label: El enlace funciona y el contenido está vigente
+                required: true
+              - label: Lo conozco o lo he usado (no es publicidad)
+                required: true
