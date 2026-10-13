@@ -80,6 +80,7 @@ Utilizamos un pipeline automatizado para asegurar la calidad y facilitar el crec
 | `npm run lint:fix` | **Corrige automáticamente** problemas de estilo y lint |
 | `npm run test` | Ejecuta las pruebas unitarias con Vitest |
 | `npm run brand:optimize` | Optimiza los SVG de marca (`src/assets/brand/`) con svgo |
+| `npm run team:optimize` | Optimiza los logos SVG del equipo (`src/assets/team/logos/`) con svgo |
 | `npm run brand:og` | Regenera `public/og-image.png` (1200×630) desde `brand/og.svg` con los colores de los tokens |
 | `npm run release` | Proceso de lanzamiento y versionado (Conventional Commits) |
 
