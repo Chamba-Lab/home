@@ -11,6 +11,11 @@ const avatars = import.meta.glob<{ default: ImageMetadata }>(
     "../assets/team/*.jpg",
     { eager: true },
 );
+const svgAvatars = import.meta.glob<string>("../assets/team/*.svg", {
+    eager: true,
+    query: "?url",
+    import: "default",
+});
 
 const members = (await getCollection("team"))
     .sort((a, b) => a.data.order - b.data.order)
@@ -18,6 +23,7 @@ const members = (await getCollection("team"))
         ...member.data,
         id: member.id,
         avatarSrc: avatars[`../assets/team/${member.data.avatar}`]?.default,
+        avatarSvgSrc: svgAvatars[`../assets/team/${member.data.avatar}`],
     }));
 
 const linkClass =
@@ -60,6 +66,16 @@ const linkClass =
                                 data-i18n-alt-es={`Foto de ${member.name}`}
                                 width={192}
                                 height={192}
+                                class="w-24 h-24 rounded-full object-cover border-2 border-brand-yellow/40"
+                            />
+                        ) : member.avatarSvgSrc ? (
+                            <img
+                                src={member.avatarSvgSrc}
+                                alt={`Foto de ${member.name}`}
+                                data-i18n-alt-en={`Photo of ${member.name}`}
+                                data-i18n-alt-es={`Foto de ${member.name}`}
+                                width="192"
+                                height="192"
                                 class="w-24 h-24 rounded-full object-cover border-2 border-brand-yellow/40"
                             />
                         ) : (
