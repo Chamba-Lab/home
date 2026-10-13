@@ -11,7 +11,8 @@ const avatars = import.meta.glob<{ default: ImageMetadata }>(
     "../assets/team/*.jpg",
     { eager: true },
 );
-const svgAvatars = import.meta.glob<string>("../assets/team/*.svg", {
+// Logos personales opcionales (reemplazan el globo del enlace al portfolio).
+const logos = import.meta.glob<string>("../assets/team/logos/*", {
     eager: true,
     query: "?url",
     import: "default",
@@ -23,7 +24,9 @@ const members = (await getCollection("team"))
         ...member.data,
         id: member.id,
         avatarSrc: avatars[`../assets/team/${member.data.avatar}`]?.default,
-        avatarSvgSrc: svgAvatars[`../assets/team/${member.data.avatar}`],
+        logoSrc: member.data.logo
+            ? logos[`../assets/team/logos/${member.data.logo}`]
+            : undefined,
     }));
 
 const linkClass =
@@ -68,16 +71,6 @@ const linkClass =
                                 height={192}
                                 class="w-24 h-24 rounded-full object-cover border-2 border-brand-yellow/40"
                             />
-                        ) : member.avatarSvgSrc ? (
-                            <img
-                                src={member.avatarSvgSrc}
-                                alt={`Foto de ${member.name}`}
-                                data-i18n-alt-en={`Photo of ${member.name}`}
-                                data-i18n-alt-es={`Foto de ${member.name}`}
-                                width="192"
-                                height="192"
-                                class="w-24 h-24 rounded-full object-cover border-2 border-brand-yellow/40"
-                            />
                         ) : (
                             <div
                                 class="w-24 h-24 rounded-full bg-brand-yellow text-slate-950 flex items-center justify-center font-display text-3xl font-extrabold"
@@ -118,7 +111,18 @@ const linkClass =
                                     aria-label={`${member.name} - Portfolio`}
                                     title="Portfolio"
                                 >
-                                    <GlobeIcon class="w-4 h-4" />
+                                    {member.logoSrc ? (
+                                        <img
+                                            src={member.logoSrc}
+                                            alt=""
+                                            width="20"
+                                            height="20"
+                                            loading="lazy"
+                                            class="w-5 h-5 object-contain"
+                                        />
+                                    ) : (
+                                        <GlobeIcon class="w-4 h-4" />
+                                    )}
                                 </a>
                             )}
                             {member.linkedin && (

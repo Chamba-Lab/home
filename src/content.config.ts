@@ -44,11 +44,14 @@ const team = defineCollection({
         // Display order in the team section (ascending).
         order: z.number(),
         role: i18nText,
-        // File name inside src/assets/team/
+        // Profile photo: file name inside src/assets/team/
         avatar: z.string(),
         github: z.string().url(),
         // Optional: omitted links are simply not rendered.
         portfolio: z.string().url().optional(),
+        // Optional personal logo (.svg/.png/.jpg) inside src/assets/team/logos/.
+        // Replaces the globe icon of the portfolio link; without it the globe stays.
+        logo: z.string().optional(),
         linkedin: z.string().url().optional(),
     }),
 });

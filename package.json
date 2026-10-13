@@ -18,6 +18,7 @@
         "lint:fix": "eslint . --fix && prettier --write .",
         "test": "vitest run",
         "brand:optimize": "svgo -f src/assets/brand --config svgo.config.cjs",
+        "team:optimize": "svgo -f src/assets/team/logos --config svgo.config.cjs",
         "brand:og": "node scripts/build-og.mjs"
     },
     "dependencies": {
