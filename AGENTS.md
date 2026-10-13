@@ -92,7 +92,7 @@
 
 ## 6. CI/CD Pipeline (Automated)
 *   **Provider**: GitHub Actions.
-*   **Trigger**: Push to `master`.
+*   **Trigger**: Push to `master` (release y despliegue). En cada Pull Request hacia `master` corre `.github/workflows/pr-checks.yml` con los checks `Lint, Test & Build` y `PR title (Conventional Commits)`, que son los candidatos a *required status checks* de la protección de `master`.
 *   **Tools**:
     *   `release-it`: Gestión de versiones y git tags.
     *   `auto-changelog`: Generación de historial de cambios.
