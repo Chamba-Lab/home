@@ -61,7 +61,7 @@ Nuestra estrategia se basa en dos columnas vertebrales que se integran en el cic
 - [ ] **Career Kit Beta**: Primeras plantillas de CV Tech ATS-friendly, checklists de perfil (LinkedIn/GitHub) y rúbricas de Mock Interviews.
 - [ ] **Segunda Dinámica: "⚡ Preguntas Rápidas"**: Quick Quiz con temporizador en `/activities/quick-questions` para stages de Discord.
 - [x] **Sección de Equipo**: Tarjetas del equipo en la landing (`#team`) con foto, rol y enlaces a GitHub, portfolio (con logo personal opcional en lugar del globo) y LinkedIn; datos en `content/team.json`.
-- [ ] **Módulo de Contribución Comunitaria**: Plantillas de issues y canales guiados para proponer recursos y eventos comunitarios.
+- [ ] **Módulo de Contribución Comunitaria**: Plantillas de issues y canales guiados para proponer recursos y eventos comunitarios. _Base lista: `CONTRIBUTING.md`, `CODE_OF_CONDUCT.md`, plantillas de issues/PR y `CODEOWNERS`; falta el flujo guiado desde el sitio._
 - [ ] **Suite de Tests Automatizados (Vitest)**: Cobertura de pruebas unitarias para utilidades de calendario (UTC-5, RFC 5545 `.ics`) y lógica de dinámicas.
 
 ### Fase 3: Plataforma Operativa de Empleabilidad
