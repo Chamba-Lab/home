@@ -40,7 +40,7 @@ El sitio queda en `http://localhost:4321/home/`. La arquitectura, el sistema de 
     npm run test
     npm run build
     ```
-5. **Abre un Pull Request hacia `master`** y completa la plantilla. Si cambia la interfaz, adjunta una captura.
+5. **Abre un Pull Request hacia `master`** y completa la plantilla. Si cambia la interfaz, adjunta una captura. En cada PR corre automáticamente el workflow **PR Checks** (lint, tests, build y validación del título): debe quedar en verde para fusionar.
 6. **Espera revisión.** Una persona del equipo revisa; responde a los comentarios con nuevos commits en la misma rama.
 
 No hagas push directo a `master`: ahí corre el pipeline que versiona y publica el sitio.
