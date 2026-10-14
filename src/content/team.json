@@ -38,5 +38,13 @@
         "tier": "contributor",
         "avatar": "CKoldo.jpg",
         "github": "https://github.com/CKoldo"
+    },
+    {
+        "id": "takeshi",
+        "name": "Takeshi",
+        "order": 5,
+        "tier": "contributor",
+        "avatar": "RaulTakeshiLlanosRodriguez.jpg",
+        "github": "https://github.com/RaulTakeshiLlanosRodriguez"
     }
 ]
