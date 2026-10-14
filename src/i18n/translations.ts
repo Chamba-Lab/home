@@ -19,6 +19,7 @@ export const translations = {
         // Discord Card
         discordLiveTag: "LIVE // DISCORD",
         discordOnline: "miembros en línea",
+        discordInVoice: "en voz",
         discordChannels: "Canales de voz y estudio",
         discordJoin: "Unirse a la Comunidad",
         discordWidgetTabModern: "Vista Moderna",
@@ -137,6 +138,7 @@ export const translations = {
         // Discord Card
         discordLiveTag: "LIVE // DISCORD",
         discordOnline: "members online",
+        discordInVoice: "in voice",
         discordChannels: "Voice & study channels",
         discordJoin: "Join Community",
         discordWidgetTabModern: "Modern View",
