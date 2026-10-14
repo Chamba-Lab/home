@@ -5,6 +5,8 @@ import TeamMemberCard from "../components/TeamMemberCard.astro";
 import { DISCORD_URL, GITHUB_URL } from "../lib/constants";
 import { getTeamMembers } from "../lib/team";
 
+// Miembros visibles antes de "Ver más".
+const MEMBERS_VISIBLE = 24;
 const requestUrl = `${GITHUB_URL}/issues/new?template=team-member.yml`;
 const members = await getTeamMembers();
 const founders = members.filter(
@@ -36,7 +38,7 @@ const communityMembers = members.filter((m) => m.tier === "member");
             </p>
         </div>
 
-        <!-- Fundadores: tarjetas grandes -->
+        <!-- Fundadores: tarjetas medianas con aro dorado -->
         <section class="mb-16" aria-labelledby="founders-heading">
             <h2
                 id="founders-heading"
@@ -50,7 +52,7 @@ const communityMembers = members.filter((m) => m.tier === "member");
             </ul>
         </section>
 
-        <!-- Core team: tarjetas grandes, solo si hay -->
+        <!-- Core team: mismo tamaño que fundadores, aro neutro; solo si hay -->
         {
             core.length > 0 && (
                 <section class="mb-16" aria-labelledby="core-heading">
@@ -76,7 +78,7 @@ const communityMembers = members.filter((m) => m.tier === "member");
             )
         }
 
-        <!-- Contributors: filas compactas que escalan a muchas personas -->
+        <!-- Contributors: filas con avatar, nombre y enlaces -->
         <section class="mb-16" aria-labelledby="contributors-heading">
             <h2
                 id="contributors-heading"
@@ -94,9 +96,9 @@ const communityMembers = members.filter((m) => m.tier === "member");
             </p>
             {
                 contributors.length > 0 ? (
-                    <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                    <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                         {contributors.map((m) => (
-                            <TeamMemberCard member={m} variant="compact" />
+                            <TeamMemberCard member={m} variant="row" />
                         ))}
                     </ul>
                 ) : (
@@ -120,20 +122,68 @@ const communityMembers = members.filter((m) => m.tier === "member");
             >
                 Miembros de la comunidad
             </h2>
-            <p class="text-sm text-slate-400 mb-6" data-i18n="teamMembersDesc">
+            <p class="text-sm text-slate-400" data-i18n="teamMembersDesc">
                 Quienes participan en Discord, dan y piden feedback y hacen
                 crecer el ciclo. Aparecen aquí solo si lo piden.
             </p>
             {
                 communityMembers.length > 0 && (
-                    <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                        {communityMembers.map((m) => (
-                            <TeamMemberCard member={m} variant="compact" />
-                        ))}
-                    </ul>
+                    <>
+                        {/* Sin JS se ven todos en orden; con JS se baraja en cada visita y se recorta a `data-limit`. */}
+                        <ul
+                            id="members-wall"
+                            data-limit={MEMBERS_VISIBLE}
+                            class="flex flex-wrap gap-3 pt-8"
+                        >
+                            {communityMembers.map((m) => (
+                                <TeamMemberCard member={m} variant="chip" />
+                            ))}
+                        </ul>
+                        <button
+                            id="members-more"
+                            type="button"
+                            hidden
+                            class="mt-6 inline-flex items-center gap-2 rounded-xl border border-white/10 bg-slate-900/80 px-5 py-2.5 text-sm font-bold text-brand-yellow hover:border-brand-yellow/40 transition-all"
+                        >
+                            <span data-i18n="teamMembersMore">
+                                Ver más miembros
+                            </span>
+                            <span id="members-more-count" />
+                        </button>
+                    </>
                 )
             }
         </section>
+
+        <script is:inline>
+            (function () {
+                var wall = document.getElementById("members-wall");
+                if (!wall) return;
+                var limit = Number(wall.dataset.limit);
+                var items = Array.prototype.slice.call(wall.children);
+                for (var i = items.length - 1; i > 0; i--) {
+                    var j = Math.floor(Math.random() * (i + 1));
+                    var tmp = items[i];
+                    items[i] = items[j];
+                    items[j] = tmp;
+                }
+                items.forEach(function (el, idx) {
+                    wall.appendChild(el);
+                    if (idx >= limit) el.hidden = true;
+                });
+                var button = document.getElementById("members-more");
+                if (items.length <= limit || !button) return;
+                document.getElementById("members-more-count").textContent =
+                    "(" + (items.length - limit) + ")";
+                button.hidden = false;
+                button.addEventListener("click", function () {
+                    items.forEach(function (el) {
+                        el.hidden = false;
+                    });
+                    button.hidden = true;
+                });
+            })();
+        </script>
 
         <div
             class="card-glass rounded-2xl p-8 flex flex-col sm:flex-row items-center justify-between gap-6 border border-white/10 bg-gradient-to-br from-surface via-slate-900/80 to-brand-discord/10"

@@ -54,6 +54,7 @@ export const translations = {
         teamMembersTitle: "Miembros de la comunidad",
         teamMembersDesc:
             "Quienes participan en Discord, dan y piden feedback y hacen crecer el ciclo. Aparecen aquí solo si lo piden.",
+        teamMembersMore: "Ver más miembros",
         teamRequestTitle: "¿Quieres aparecer aquí?",
         teamRequestDesc:
             "Pide aparecer como miembro o contributor con un issue en GitHub. Es opcional: tu privacidad va primero.",
@@ -172,6 +173,7 @@ export const translations = {
         teamMembersTitle: "Community members",
         teamMembersDesc:
             "Everyone who takes part on Discord, gives and asks for feedback, and keeps the cycle going. They appear here only if they ask.",
+        teamMembersMore: "Show more members",
         teamRequestTitle: "Want to be listed here?",
         teamRequestDesc:
             "Ask to appear as a member or contributor with a GitHub issue. It's optional: your privacy comes first.",
