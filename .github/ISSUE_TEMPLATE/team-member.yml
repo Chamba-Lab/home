@@ -42,15 +42,6 @@ body:
               - Contributor
       validations:
           required: true
-    - type: dropdown
-      id: profile
-      attributes:
-          label: Perfil (opcional)
-          description: Se muestra como una insignia junto a tu nombre.
-          options:
-              - Early Career
-              - Mid
-              - Senior
     - type: textarea
       id: contribution
       attributes:

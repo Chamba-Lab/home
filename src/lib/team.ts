@@ -19,12 +19,6 @@ export const TIER_LABEL: Record<Tier, { en: string; es: string }> = {
     member: { en: "Community member", es: "Miembro de la comunidad" },
 };
 
-export const PROFILE_LABEL = {
-    "early-career": "Early Career",
-    mid: "Mid",
-    senior: "Senior",
-} as const;
-
 // Avatares locales (descargados de GitHub una vez): no se piden a terceros en cada visita.
 const avatars = import.meta.glob<{ default: ImageMetadata }>(
     "../assets/team/*.jpg",

@@ -86,7 +86,7 @@ Edita `src/content/events.json`. Los eventos son `fixed` (con `date`) o `recurri
 
 ### Sumarte al equipo
 
-Solicita tu lugar con la plantilla de issue **Pedir aparecer en la página del equipo** (solo Miembro de la comunidad o Contributor); al aceptarse, se agrega tu tarjeta (o puedes hacerlo tú en un PR). Los títulos públicos son `founder`, `cofounder`, `core`, `contributor` y `member`; los tres primeros son por invitación y no se piden por issue. Opcionalmente añade `profile` (`early-career`, `mid` o `senior`). Agrega tu entrada en `src/content/team.json` con el campo `tier` y tu foto de perfil en `src/assets/team/` (`.jpg`). Opcionalmente puedes sumar un logo personal (`.svg`, `.png` o `.jpg`) en `src/assets/team/logos/` y referenciarlo en el campo `logo`: reemplaza el icono del globo en el enlace a tu portfolio. Para SVG, ejecuta `npm run team:optimize`.
+Solicita tu lugar con la plantilla de issue **Pedir aparecer en la página del equipo** (solo Miembro de la comunidad o Contributor); al aceptarse, se agrega tu tarjeta (o puedes hacerlo tú en un PR). Los títulos públicos son `founder`, `cofounder`, `core`, `contributor` y `member`; los tres primeros son por invitación y no se piden por issue.. Agrega tu entrada en `src/content/team.json` con el campo `tier` y tu foto de perfil en `src/assets/team/` (`.jpg`). Opcionalmente puedes sumar un logo personal (`.svg`, `.png` o `.jpg`) en `src/assets/team/logos/` y referenciarlo en el campo `logo`: reemplaza el icono del globo en el enlace a tu portfolio. Para SVG, ejecuta `npm run team:optimize`.
 
 ## Revisión y fusión
 
