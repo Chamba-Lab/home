@@ -1,0 +1,60 @@
+name: Sumarme o proponer a alguien al equipo
+description: Pide aparecer en la página /team como Contributor, o propón a otra persona que ya aporta.
+title: "feat: add team member "
+labels: ["team"]
+body:
+    - type: markdown
+      attributes:
+          value: |
+              La página **/team** lista a quienes aportan de forma continua (código, ideas, feedback, apoyo en actividades). Los títulos de **Founder**, **Co-founder** y **Core team** son por invitación; aquí se solicita **Contributor**.
+              No listamos a los miembros de la comunidad: si participas en Discord ya eres parte, sin necesidad de aparecer en el sitio.
+    - type: input
+      id: name
+      attributes:
+          label: Nombre público
+          description: Tal como quieres que aparezca en la tarjeta.
+      validations:
+          required: true
+    - type: input
+      id: github
+      attributes:
+          label: Perfil de GitHub
+          description: De ahí tomamos tu foto (se guarda en el repo, no se pide a terceros en cada visita).
+          placeholder: https://github.com/usuario
+      validations:
+          required: true
+    - type: input
+      id: portfolio
+      attributes:
+          label: Portfolio (opcional)
+          placeholder: https://
+    - type: input
+      id: linkedin
+      attributes:
+          label: LinkedIn (opcional)
+          placeholder: https://www.linkedin.com/in/usuario
+    - type: textarea
+      id: contribution
+      attributes:
+          label: ¿Cómo aportas a la comunidad?
+          description: Pull requests, ideas, feedback a otras personas, apoyo en sesiones o eventos. Enlaza lo que puedas.
+      validations:
+          required: true
+    - type: dropdown
+      id: proposer
+      attributes:
+          label: ¿Quién envía esta solicitud?
+          options:
+              - Soy la persona que quiere aparecer
+              - Propongo a otra persona (ya me dio su permiso)
+      validations:
+          required: true
+    - type: checkboxes
+      id: checks
+      attributes:
+          label: Antes de enviar
+          options:
+              - label: La persona acepta que su nombre, foto de GitHub y los enlaces indicados sean públicos en el sitio
+                required: true
+              - label: Ya participa en la comunidad de Discord
+                required: true

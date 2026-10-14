@@ -6,13 +6,13 @@ Al participar aceptas nuestro [Código de Conducta](./CODE_OF_CONDUCT.md). Si al
 
 ## Formas de contribuir
 
-| Quiero...                                        | Qué hacer                                                                               |
-| :----------------------------------------------- | :-------------------------------------------------------------------------------------- |
-| Sugerir un recurso (guía, plantilla, plataforma) | Abre un issue con la plantilla **Proponer un recurso**                                  |
-| Proponer un evento o sesión                      | Abre un issue con la plantilla **Proponer un evento**                                   |
-| Reportar un error                                | Abre un issue con la plantilla **Reportar un bug**                                      |
-| Corregir o mejorar el sitio                      | Crea una rama (o un fork) y abre un Pull Request (ver abajo)                            |
-| Sumarme al equipo                                | Pregunta en Discord; al aceptarse, añadimos tu tarjeta ([ver cómo](#sumarte-al-equipo)) |
+| Quiero...                                        | Qué hacer                                                                                                  |
+| :----------------------------------------------- | :--------------------------------------------------------------------------------------------------------- |
+| Sugerir un recurso (guía, plantilla, plataforma) | Abre un issue con la plantilla **Proponer un recurso**                                                     |
+| Proponer un evento o sesión                      | Abre un issue con la plantilla **Proponer un evento**                                                      |
+| Reportar un error                                | Abre un issue con la plantilla **Reportar un bug**                                                         |
+| Corregir o mejorar el sitio                      | Crea una rama (o un fork) y abre un Pull Request (ver abajo)                                               |
+| Sumarme al equipo (Contributor)                  | Abre un issue con la plantilla **Sumarme o proponer a alguien al equipo** ([ver cómo](#sumarte-al-equipo)) |
 
 No necesitas permiso previo para arreglar un bug evidente o un typo. Para cambios grandes (nueva sección, nueva dinámica, cambios de diseño), abre primero un issue o consulta en Discord para no duplicar esfuerzo.
 
@@ -43,7 +43,7 @@ El sitio queda en `http://localhost:4321/home/`. La arquitectura, el sistema de 
 5. **Abre un Pull Request hacia `master`** y completa la plantilla. Si cambia la interfaz, adjunta una captura. En cada PR corre automáticamente el workflow **PR Checks** (lint, tests, build y validación del título): debe quedar en verde para fusionar.
 6. **Espera revisión.** Una persona del equipo revisa; responde a los comentarios con nuevos commits en la misma rama.
 
-No hagas push directo a `master`: ahí corre el pipeline que versiona y publica el sitio.
+**Nunca hagas push directo a `master`** (está protegida, también para el equipo y para los agentes de IA): todo cambio va en una rama y entra por Pull Request. Ahí corre el pipeline que versiona y publica el sitio.
 
 ## Commits y título del PR
 
@@ -86,7 +86,7 @@ Edita `src/content/events.json`. Los eventos son `fixed` (con `date`) o `recurri
 
 ### Sumarte al equipo
 
-Agrega tu entrada en `src/content/team.json` y tu foto de perfil en `src/assets/team/` (`.jpg`). Opcionalmente puedes sumar un logo personal (`.svg`, `.png` o `.jpg`) en `src/assets/team/logos/` y referenciarlo en el campo `logo`: reemplaza el icono del globo en el enlace a tu portfolio. Para SVG, ejecuta `npm run team:optimize`.
+Solicita tu lugar con la plantilla de issue **Sumarme o proponer a alguien al equipo**; al aceptarse, se agrega tu tarjeta (o puedes hacerlo tú en un PR). Los títulos públicos son `founder`, `cofounder`, `core` y `contributor`; los tres primeros son por invitación. Agrega tu entrada en `src/content/team.json` con el campo `tier` y tu foto de perfil en `src/assets/team/` (`.jpg`). Opcionalmente puedes sumar un logo personal (`.svg`, `.png` o `.jpg`) en `src/assets/team/logos/` y referenciarlo en el campo `logo`: reemplaza el icono del globo en el enlace a tu portfolio. Para SVG, ejecuta `npm run team:optimize`.
 
 ## Revisión y fusión
 
