@@ -19,7 +19,7 @@ body:
       id: github
       attributes:
           label: Perfil de GitHub
-          description: Tu foto se muestra directamente desde tu avatar de GitHub: si lo cambias allá, cambia en el sitio.
+          description: Tu foto se muestra directamente desde tu avatar de GitHub. Si lo cambias allá, cambia también en el sitio.
           placeholder: https://github.com/usuario
       validations:
           required: true
