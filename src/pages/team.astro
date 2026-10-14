@@ -83,46 +83,47 @@ const communityMembers = members.filter((m) => m.tier === "member");
         }
 
         <!-- Miembros: muro opcional, solo quien lo pide -->
-        <section class="mb-16" aria-labelledby="members-heading">
-            <h2
-                id="members-heading"
-                class="font-display text-2xl font-bold text-white mb-1"
-                data-i18n="teamMembersTitle"
-            >
-                Miembros de la comunidad
-            </h2>
-            <p class="text-sm text-slate-400" data-i18n="teamMembersDesc">
-                Quienes participan en Discord, dan y piden feedback y hacen
-                crecer el ciclo. Aparecen aquí solo si lo piden.
-            </p>
-            {
-                communityMembers.length > 0 && (
-                    <>
-                        {/* Sin JS se ven todos en orden; con JS se baraja en cada visita y se recorta a `data-limit`. */}
-                        <ul
-                            id="members-wall"
-                            data-limit={MEMBERS_VISIBLE}
-                            class="flex flex-wrap gap-3 pt-8"
-                        >
-                            {communityMembers.map((m) => (
-                                <TeamMemberCard member={m} variant="chip" />
-                            ))}
-                        </ul>
-                        <button
-                            id="members-more"
-                            type="button"
-                            hidden
-                            class="mt-6 inline-flex items-center gap-2 rounded-xl border border-white/10 bg-slate-900/80 px-5 py-2.5 text-sm font-bold text-brand-yellow hover:border-brand-yellow/40 transition-all"
-                        >
-                            <span data-i18n="teamMembersMore">
-                                Ver más miembros
-                            </span>
-                            <span id="members-more-count" />
-                        </button>
-                    </>
-                )
-            }
-        </section>
+        {
+            communityMembers.length > 0 && (
+                <section class="mb-16" aria-labelledby="members-heading">
+                    <h2
+                        id="members-heading"
+                        class="font-display text-2xl font-bold text-white mb-1"
+                        data-i18n="teamMembersTitle"
+                    >
+                        Miembros de la comunidad
+                    </h2>
+                    <p
+                        class="text-sm text-slate-400"
+                        data-i18n="teamMembersDesc"
+                    >
+                        Quienes participan en Discord, dan y piden feedback y
+                        hacen crecer el ciclo. Aparecen aquí solo si lo piden.
+                    </p>
+                    {/* Sin JS se ven todos en orden; con JS se baraja en cada visita y se recorta a `data-limit`. */}
+                    <ul
+                        id="members-wall"
+                        data-limit={MEMBERS_VISIBLE}
+                        class="flex flex-wrap gap-3 pt-8"
+                    >
+                        {communityMembers.map((m) => (
+                            <TeamMemberCard member={m} variant="chip" />
+                        ))}
+                    </ul>
+                    <button
+                        id="members-more"
+                        type="button"
+                        hidden
+                        class="mt-6 inline-flex items-center gap-2 rounded-xl border border-white/10 bg-slate-900/80 px-5 py-2.5 text-sm font-bold text-brand-yellow hover:border-brand-yellow/40 transition-all"
+                    >
+                        <span data-i18n="teamMembersMore">
+                            Ver más miembros
+                        </span>
+                        <span id="members-more-count" />
+                    </button>
+                </section>
+            )
+        }
 
         <script is:inline>
             (function () {
