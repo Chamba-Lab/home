@@ -1,0 +1,120 @@
+---
+import { Image } from "astro:assets";
+import { TIER_LABEL, type TeamMember } from "../lib/team";
+import GithubIcon from "./icons/GithubIcon.astro";
+import GlobeIcon from "./icons/GlobeIcon.astro";
+import LinkedinIcon from "./icons/LinkedinIcon.astro";
+
+interface Props {
+    member: TeamMember;
+    // "full": tarjeta centrada con avatar grande (fundadores y core team).
+    // "compact": fila densa para escalar a muchos contributors.
+    variant?: "full" | "compact";
+}
+
+const { member, variant = "full" } = Astro.props;
+const title = TIER_LABEL[member.tier];
+const compact = variant === "compact";
+
+const linkClass =
+    "w-9 h-9 inline-flex items-center justify-center rounded-lg bg-slate-900/80 border border-white/10 text-slate-300 hover:text-brand-yellow hover:border-brand-yellow/40 transition-all";
+const avatarSize = compact ? "w-14 h-14" : "w-24 h-24";
+---
+
+<li
+    class:list={[
+        "card-glass rounded-2xl border border-white/10 hover:-translate-y-0.5 transition-all duration-300",
+        compact
+            ? "p-4 flex items-center gap-4"
+            : "p-6 flex flex-col items-center text-center gap-4",
+    ]}
+>
+    {
+        member.avatarSrc ? (
+            <Image
+                src={member.avatarSrc}
+                alt={`Foto de ${member.name}`}
+                data-i18n-alt-en={`Photo of ${member.name}`}
+                data-i18n-alt-es={`Foto de ${member.name}`}
+                width={compact ? 112 : 192}
+                height={compact ? 112 : 192}
+                class={`${avatarSize} shrink-0 rounded-full object-cover border-2 border-brand-yellow/40`}
+            />
+        ) : (
+            <div
+                class={`${avatarSize} shrink-0 rounded-full bg-brand-yellow text-slate-950 flex items-center justify-center font-display ${compact ? "text-xl" : "text-3xl"} font-extrabold`}
+                aria-hidden="true"
+            >
+                {member.name.charAt(0)}
+            </div>
+        )
+    }
+    <div class:list={["space-y-1", compact && "min-w-0 flex-1"]}>
+        <h3
+            class:list={[
+                "font-display font-bold text-white",
+                compact ? "text-base truncate" : "text-lg",
+            ]}
+        >
+            {member.name}
+        </h3>
+        <p
+            class="text-sm text-slate-400"
+            data-i18n-en={title.en}
+            data-i18n-es={title.es}
+        >
+            {title.es}
+        </p>
+    </div>
+    <div class:list={["flex items-center gap-2", !compact && "mt-auto"]}>
+        <a
+            href={member.github}
+            target="_blank"
+            rel="noopener noreferrer"
+            class={linkClass}
+            aria-label={`${member.name} - GitHub`}
+            title="GitHub"
+        >
+            <GithubIcon class="w-4 h-4" />
+        </a>
+        {
+            member.portfolio && (
+                <a
+                    href={member.portfolio}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class={linkClass}
+                    aria-label={`${member.name} - Portfolio`}
+                    title="Portfolio"
+                >
+                    {member.logoSrc ? (
+                        <img
+                            src={member.logoSrc}
+                            alt=""
+                            width="20"
+                            height="20"
+                            loading="lazy"
+                            class="w-5 h-5 object-contain"
+                        />
+                    ) : (
+                        <GlobeIcon class="w-4 h-4" />
+                    )}
+                </a>
+            )
+        }
+        {
+            member.linkedin && (
+                <a
+                    href={member.linkedin}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class={linkClass}
+                    aria-label={`${member.name} - LinkedIn`}
+                    title="LinkedIn"
+                >
+                    <LinkedinIcon class="w-4 h-4" />
+                </a>
+            )
+        }
+    </div>
+</li>

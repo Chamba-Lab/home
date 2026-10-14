@@ -41,9 +41,10 @@ const team = defineCollection({
     loader: file("src/content/team.json"),
     schema: z.object({
         name: z.string(),
-        // Display order in the team section (ascending).
+        // Display order within its tier (ascending).
         order: z.number(),
-        role: i18nText,
+        // Public title (site, LinkedIn, social). Independent of Discord roles.
+        tier: z.enum(["founder", "cofounder", "core", "contributor"]),
         // Profile photo: file name inside src/assets/team/
         avatar: z.string(),
         github: z.string().url(),

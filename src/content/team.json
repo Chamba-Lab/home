@@ -3,10 +3,7 @@
         "id": "melio",
         "name": "Melio Díaz",
         "order": 1,
-        "role": {
-            "en": "Founder",
-            "es": "Founder"
-        },
+        "tier": "founder",
         "avatar": "MeloDev2111.jpg",
         "github": "https://github.com/MeloDev2111",
         "portfolio": "https://www.meliodiaz.com/",
@@ -16,10 +13,7 @@
         "id": "antonio",
         "name": "Antonio García",
         "order": 2,
-        "role": {
-            "en": "Core contributor",
-            "es": "Core contributor"
-        },
+        "tier": "cofounder",
         "avatar": "AntonioPow24.jpg",
         "github": "https://github.com/AntonioPow24",
         "portfolio": "https://bunny-records.vercel.app/es",
@@ -30,14 +24,19 @@
         "id": "abel",
         "name": "Abel Llontop",
         "order": 3,
-        "role": {
-            "en": "Core contributor",
-            "es": "Core contributor"
-        },
+        "tier": "cofounder",
         "avatar": "AbelLLontop.jpg",
         "github": "https://github.com/AbelLLontop",
         "portfolio": "https://www.abelitolll.com/",
         "logo": "abel.svg",
         "linkedin": "https://www.linkedin.com/in/abelllontopmeza/"
+    },
+    {
+        "id": "ckoldo",
+        "name": "Lued",
+        "order": 4,
+        "tier": "contributor",
+        "avatar": "CKoldo.jpg",
+        "github": "https://github.com/CKoldo"
     }
 ]

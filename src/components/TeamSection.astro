@@ -1,36 +1,14 @@
 ---
-import type { ImageMetadata } from "astro";
-import { Image } from "astro:assets";
-import { getCollection } from "astro:content";
-import GithubIcon from "./icons/GithubIcon.astro";
-import GlobeIcon from "./icons/GlobeIcon.astro";
-import LinkedinIcon from "./icons/LinkedinIcon.astro";
+import { getTeamMembers } from "../lib/team";
+import TeamMemberCard from "./TeamMemberCard.astro";
 
-// Avatares locales (descargados de GitHub una vez): no se piden a terceros en cada visita.
-const avatars = import.meta.glob<{ default: ImageMetadata }>(
-    "../assets/team/*.jpg",
-    { eager: true },
+const rawBase = import.meta.env.BASE_URL;
+const base = rawBase.endsWith("/") ? rawBase : `${rawBase}/`;
+
+// El home muestra solo al equipo fundador; el resto vive en /team y escala ahí.
+const founders = (await getTeamMembers()).filter(
+    (m) => m.tier === "founder" || m.tier === "cofounder",
 );
-// Logos personales opcionales (reemplazan el globo del enlace al portfolio).
-const logos = import.meta.glob<string>("../assets/team/logos/*", {
-    eager: true,
-    query: "?url",
-    import: "default",
-});
-
-const members = (await getCollection("team"))
-    .sort((a, b) => a.data.order - b.data.order)
-    .map((member) => ({
-        ...member.data,
-        id: member.id,
-        avatarSrc: avatars[`../assets/team/${member.data.avatar}`]?.default,
-        logoSrc: member.data.logo
-            ? logos[`../assets/team/logos/${member.data.logo}`]
-            : undefined,
-    }));
-
-const linkClass =
-    "w-9 h-9 inline-flex items-center justify-center rounded-lg bg-slate-900/80 border border-white/10 text-slate-300 hover:text-brand-yellow hover:border-brand-yellow/40 transition-all";
 ---
 
 <section class="py-20 border-t border-white/[0.06]" id="team">
@@ -58,89 +36,29 @@ const linkClass =
         </div>
 
         <ul class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {
-                members.map((member) => (
-                    <li class="card-glass rounded-2xl p-6 flex flex-col items-center text-center gap-4 border border-white/10 hover:-translate-y-0.5 transition-all duration-300">
-                        {member.avatarSrc ? (
-                            <Image
-                                src={member.avatarSrc}
-                                alt={`Foto de ${member.name}`}
-                                data-i18n-alt-en={`Photo of ${member.name}`}
-                                data-i18n-alt-es={`Foto de ${member.name}`}
-                                width={192}
-                                height={192}
-                                class="w-24 h-24 rounded-full object-cover border-2 border-brand-yellow/40"
-                            />
-                        ) : (
-                            <div
-                                class="w-24 h-24 rounded-full bg-brand-yellow text-slate-950 flex items-center justify-center font-display text-3xl font-extrabold"
-                                aria-hidden="true"
-                            >
-                                {member.name.charAt(0)}
-                            </div>
-                        )}
-                        <div class="space-y-1">
-                            <h3 class="font-display text-lg font-bold text-white">
-                                {member.name}
-                            </h3>
-                            <p
-                                class="text-sm text-slate-400"
-                                data-i18n-en={member.role.en}
-                                data-i18n-es={member.role.es ?? member.role.en}
-                            >
-                                {member.role.es ?? member.role.en}
-                            </p>
-                        </div>
-                        <div class="flex items-center gap-2 mt-auto">
-                            <a
-                                href={member.github}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                class={linkClass}
-                                aria-label={`${member.name} - GitHub`}
-                                title="GitHub"
-                            >
-                                <GithubIcon class="w-4 h-4" />
-                            </a>
-                            {member.portfolio && (
-                                <a
-                                    href={member.portfolio}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    class={linkClass}
-                                    aria-label={`${member.name} - Portfolio`}
-                                    title="Portfolio"
-                                >
-                                    {member.logoSrc ? (
-                                        <img
-                                            src={member.logoSrc}
-                                            alt=""
-                                            width="20"
-                                            height="20"
-                                            loading="lazy"
-                                            class="w-5 h-5 object-contain"
-                                        />
-                                    ) : (
-                                        <GlobeIcon class="w-4 h-4" />
-                                    )}
-                                </a>
-                            )}
-                            {member.linkedin && (
-                                <a
-                                    href={member.linkedin}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    class={linkClass}
-                                    aria-label={`${member.name} - LinkedIn`}
-                                    title="LinkedIn"
-                                >
-                                    <LinkedinIcon class="w-4 h-4" />
-                                </a>
-                            )}
-                        </div>
-                    </li>
-                ))
-            }
+            {founders.map((member) => <TeamMemberCard member={member} />)}
         </ul>
+
+        <div class="mt-10">
+            <a
+                href={`${base}team`}
+                class="inline-flex items-center gap-2 text-sm font-bold text-brand-yellow hover:text-amber-300 transition-colors"
+            >
+                <span data-i18n="viewFullTeam">Conoce a todo el equipo</span>
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="w-4 h-4"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                >
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                </svg>
+            </a>
+        </div>
     </div>
 </section>

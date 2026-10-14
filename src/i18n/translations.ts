@@ -39,6 +39,22 @@ export const translations = {
         teamTitle: "Quienes hacen Chamba Lab",
         teamDesc:
             "Voluntarios que sostienen la comunidad. Sin fines de lucro, con ganas.",
+        viewFullTeam: "Conoce a todo el equipo",
+        teamPageTitle: "El equipo de Chamba Lab",
+        teamPageIntro:
+            "Personas que dedican su tiempo a sostener la comunidad. Sin fines de lucro, con ganas.",
+        teamFoundersTitle: "Fundadores",
+        teamCoreTitle: "Core team",
+        teamCoreDesc: "El círculo cercano que opera la comunidad día a día.",
+        teamContributorsTitle: "Contributors",
+        teamContributorsDesc:
+            "Quienes aportan de forma continua: web, ideas, feedback y apoyo en actividades.",
+        teamEmptyContributors:
+            "Aún no hay contributors. El primer lugar puede ser el tuyo.",
+        teamMembersTitle: "Y tú, miembro de la comunidad",
+        teamMembersDesc:
+            "Quienes participan en Discord, dan y piden feedback y hacen crecer el ciclo. No listamos miembros: tu privacidad va primero.",
+        teamJoinCta: "Unirme a la comunidad",
 
         // Events Section
         eventsSectionTitle: "Eventos y Sesiones",
@@ -137,6 +153,22 @@ export const translations = {
         teamTitle: "Meet the team",
         teamDesc:
             "Volunteers who keep the community going. Non-profit, run on enthusiasm.",
+        viewFullTeam: "Meet the whole team",
+        teamPageTitle: "The Chamba Lab team",
+        teamPageIntro:
+            "People who give their time to keep the community going. Non-profit, run on enthusiasm.",
+        teamFoundersTitle: "Founders",
+        teamCoreTitle: "Core team",
+        teamCoreDesc: "The close circle that runs the community day to day.",
+        teamContributorsTitle: "Contributors",
+        teamContributorsDesc:
+            "People who contribute consistently: web, ideas, feedback and activity support.",
+        teamEmptyContributors:
+            "No contributors yet. The first spot could be yours.",
+        teamMembersTitle: "And you, community member",
+        teamMembersDesc:
+            "Everyone who takes part on Discord, gives and asks for feedback, and keeps the cycle going. We don't list members: your privacy comes first.",
+        teamJoinCta: "Join the community",
 
         // Events Section
         eventsSectionTitle: "Events & Sessions",

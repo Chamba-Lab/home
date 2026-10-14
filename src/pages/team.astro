@@ -1,0 +1,140 @@
+---
+import Layout from "../layouts/Layout.astro";
+import DiscordIcon from "../components/icons/DiscordIcon.astro";
+import TeamMemberCard from "../components/TeamMemberCard.astro";
+import { DISCORD_URL } from "../lib/constants";
+import { getTeamMembers } from "../lib/team";
+
+const members = await getTeamMembers();
+const founders = members.filter(
+    (m) => m.tier === "founder" || m.tier === "cofounder",
+);
+const core = members.filter((m) => m.tier === "core");
+const contributors = members.filter((m) => m.tier === "contributor");
+---
+
+<Layout
+    title="Chamba Lab | Equipo"
+    description="Las personas que sostienen Chamba Lab: fundadores, core team y contributors de la comunidad."
+>
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
+        <div class="max-w-3xl mb-16">
+            <h1
+                class="font-display text-4xl sm:text-5xl font-extrabold text-white tracking-tight mb-4"
+                data-i18n="teamPageTitle"
+            >
+                El equipo de Chamba Lab
+            </h1>
+            <p
+                class="text-lg text-slate-300 leading-relaxed"
+                data-i18n="teamPageIntro"
+            >
+                Personas que dedican su tiempo a sostener la comunidad. Sin
+                fines de lucro, con ganas.
+            </p>
+        </div>
+
+        <!-- Fundadores: tarjetas grandes -->
+        <section class="mb-16" aria-labelledby="founders-heading">
+            <h2
+                id="founders-heading"
+                class="font-display text-2xl font-bold text-white mb-6"
+                data-i18n="teamFoundersTitle"
+            >
+                Fundadores
+            </h2>
+            <ul class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {founders.map((m) => <TeamMemberCard member={m} />)}
+            </ul>
+        </section>
+
+        <!-- Core team: tarjetas grandes, solo si hay -->
+        {
+            core.length > 0 && (
+                <section class="mb-16" aria-labelledby="core-heading">
+                    <h2
+                        id="core-heading"
+                        class="font-display text-2xl font-bold text-white mb-1"
+                        data-i18n="teamCoreTitle"
+                    >
+                        Core team
+                    </h2>
+                    <p
+                        class="text-sm text-slate-400 mb-6"
+                        data-i18n="teamCoreDesc"
+                    >
+                        El círculo cercano que opera la comunidad día a día.
+                    </p>
+                    <ul class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        {core.map((m) => (
+                            <TeamMemberCard member={m} />
+                        ))}
+                    </ul>
+                </section>
+            )
+        }
+
+        <!-- Contributors: filas compactas que escalan a muchas personas -->
+        <section class="mb-16" aria-labelledby="contributors-heading">
+            <h2
+                id="contributors-heading"
+                class="font-display text-2xl font-bold text-white mb-1"
+                data-i18n="teamContributorsTitle"
+            >
+                Contributors
+            </h2>
+            <p
+                class="text-sm text-slate-400 mb-6"
+                data-i18n="teamContributorsDesc"
+            >
+                Quienes aportan de forma continua: web, ideas, feedback y apoyo
+                en actividades.
+            </p>
+            {
+                contributors.length > 0 ? (
+                    <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                        {contributors.map((m) => (
+                            <TeamMemberCard member={m} variant="compact" />
+                        ))}
+                    </ul>
+                ) : (
+                    <p
+                        class="card-glass rounded-2xl border border-dashed border-white/15 p-6 text-sm text-slate-400"
+                        data-i18n="teamEmptyContributors"
+                    >
+                        Aún no hay contributors. El primer lugar puede ser el
+                        tuyo.
+                    </p>
+                )
+            }
+        </section>
+
+        <!-- Miembros: no se listan, se invita -->
+        <div
+            class="card-glass rounded-2xl p-8 flex flex-col sm:flex-row items-center justify-between gap-6 border border-white/10 bg-gradient-to-br from-surface via-slate-900/80 to-brand-discord/10"
+        >
+            <div class="space-y-1 text-center sm:text-left max-w-xl">
+                <h3
+                    class="font-display text-xl font-bold text-white"
+                    data-i18n="teamMembersTitle"
+                >
+                    Y tú, miembro de la comunidad
+                </h3>
+                <p class="text-sm text-slate-400" data-i18n="teamMembersDesc">
+                    Quienes participan en Discord, dan y piden feedback y hacen
+                    crecer el ciclo. No listamos miembros: tu privacidad va
+                    primero.
+                </p>
+            </div>
+            <a
+                href={DISCORD_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-flex items-center gap-2 bg-brand-discord hover:bg-brand-discord-hover text-white px-6 py-3 rounded-xl text-sm font-bold transition-all shadow-lg shadow-brand-discord/25 hover:shadow-brand-discord/40 shrink-0"
+            >
+                <DiscordIcon class="w-4 h-4" />
+                <span data-i18n="teamJoinCta">Unirme a la comunidad</span>
+            </a>
+        </div>
+    </main>
+</Layout>
