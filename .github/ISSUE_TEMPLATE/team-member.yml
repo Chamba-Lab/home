@@ -19,7 +19,7 @@ body:
       id: github
       attributes:
           label: Perfil de GitHub
-          description: De ahí tomamos tu foto (se guarda en el repo, no se pide a terceros en cada visita).
+          description: Tu foto se muestra directamente desde tu avatar de GitHub: si lo cambias allá, cambia en el sitio.
           placeholder: https://github.com/usuario
       validations:
           required: true

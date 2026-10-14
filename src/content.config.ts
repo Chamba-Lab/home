@@ -45,8 +45,9 @@ const team = defineCollection({
         order: z.number(),
         // Public title (site, LinkedIn, social). Independent of Discord roles.
         tier: z.enum(["founder", "cofounder", "core", "contributor", "member"]),
-        // Profile photo: file name inside src/assets/team/
-        avatar: z.string(),
+        // Own profile photo: file name inside src/assets/team/ (founders).
+        // Omitted: the browser loads the GitHub avatar of `github` at runtime.
+        avatar: z.string().optional(),
         github: z.string().url(),
         // Optional: omitted links are simply not rendered.
         portfolio: z.string().url().optional(),

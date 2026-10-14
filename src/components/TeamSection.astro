@@ -1,5 +1,5 @@
 ---
-import { Image } from "astro:assets";
+import TeamAvatar from "./TeamAvatar.astro";
 import { getTeamMembers } from "../lib/team";
 import TeamMemberCard from "./TeamMemberCard.astro";
 
@@ -74,20 +74,12 @@ const STACK_VISIBLE = 14;
                                     hidden={i >= STACK_VISIBLE}
                                     class="relative block"
                                 >
-                                    {m.avatarSrc ? (
-                                        <Image
-                                            src={m.avatarSrc}
-                                            alt=""
-                                            width={80}
-                                            height={80}
-                                            loading="lazy"
-                                            class="w-10 h-10 rounded-full object-cover border-2 border-bg group-hover:border-brand-yellow/60 transition-colors"
-                                        />
-                                    ) : (
-                                        <span class="w-10 h-10 rounded-full bg-brand-yellow text-slate-950 border-2 border-bg flex items-center justify-center font-display text-sm font-extrabold">
-                                            {m.name.charAt(0)}
-                                        </span>
-                                    )}
+                                    <TeamAvatar
+                                        member={m}
+                                        px={40}
+                                        textClass="text-sm"
+                                        class="block w-10 h-10 rounded-full border-2 border-bg group-hover:border-brand-yellow/60 transition-colors"
+                                    />
                                 </li>
                             ))}
                         </ul>

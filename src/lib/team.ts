@@ -19,7 +19,7 @@ export const TIER_LABEL: Record<Tier, { en: string; es: string }> = {
     member: { en: "Community member", es: "Miembro de la comunidad" },
 };
 
-// Avatares locales (descargados de GitHub una vez): no se piden a terceros en cada visita.
+// Fotos propias locales (fundadores). El resto usa su avatar de GitHub en el navegador.
 const avatars = import.meta.glob<{ default: ImageMetadata }>(
     "../assets/team/*.jpg",
     { eager: true },
@@ -31,12 +31,25 @@ const logos = import.meta.glob<string>("../assets/team/logos/*", {
     import: "default",
 });
 
+// Avatar público de GitHub (redirige al avatar actual de la cuenta).
+export function githubAvatarUrl(user: string, size: number) {
+    return `https://github.com/${encodeURIComponent(user)}.png?size=${size}`;
+}
+
+// "https://github.com/usuario" -> "usuario"
+function githubUserOf(url: string) {
+    return new URL(url).pathname.split("/").filter(Boolean)[0];
+}
+
 export async function getTeamMembers() {
     return (await getCollection("team"))
         .map((member) => ({
             ...member.data,
             id: member.id,
-            avatarSrc: avatars[`../assets/team/${member.data.avatar}`]?.default,
+            githubUser: githubUserOf(member.data.github),
+            avatarSrc: member.data.avatar
+                ? avatars[`../assets/team/${member.data.avatar}`]?.default
+                : undefined,
             logoSrc: member.data.logo
                 ? logos[`../assets/team/logos/${member.data.logo}`]
                 : undefined,

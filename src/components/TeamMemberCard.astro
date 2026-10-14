@@ -1,6 +1,6 @@
 ---
-import { Image } from "astro:assets";
 import { TIER_LABEL, type TeamMember } from "../lib/team";
+import TeamAvatar from "./TeamAvatar.astro";
 import GithubIcon from "./icons/GithubIcon.astro";
 import GlobeIcon from "./icons/GlobeIcon.astro";
 import LinkedinIcon from "./icons/LinkedinIcon.astro";
@@ -20,11 +20,11 @@ const founding = member.tier === "founder" || member.tier === "cofounder";
 const linkClass =
     "w-9 h-9 inline-flex items-center justify-center rounded-lg bg-slate-900/80 border border-white/10 text-slate-300 hover:text-brand-yellow hover:border-brand-yellow/40 transition-all";
 
-// Tamaño del avatar (px de origen = 2x el mostrado, para pantallas retina).
+// Tamaño mostrado del avatar en px (TeamAvatar lo pide al doble, para retina).
 const avatar = {
-    full: { box: "w-20 h-20", px: 160, text: "text-2xl" },
-    row: { box: "w-16 h-16", px: 128, text: "text-xl" },
-    chip: { box: "w-12 h-12", px: 96, text: "text-base" },
+    full: { box: "w-20 h-20", px: 80, text: "text-2xl" },
+    row: { box: "w-16 h-16", px: 64, text: "text-xl" },
+    chip: { box: "w-12 h-12", px: 48, text: "text-base" },
 }[variant];
 // Fundadores con aro dorado marcado y resplandor; el resto, más sutil.
 const ring = founding
@@ -32,7 +32,7 @@ const ring = founding
     : variant === "full"
       ? "border-white/25"
       : "border-brand-yellow/30";
-const avatarClass = `${avatar.box} shrink-0 rounded-full object-cover border-2 ${ring}`;
+const avatarClass = `${avatar.box} shrink-0 rounded-full border-2 ${ring}`;
 const chipHover =
     "transition-all duration-200 group-hover:border-brand-yellow group-hover:scale-110";
 ---
@@ -47,23 +47,12 @@ const chipHover =
                 aria-label={`${member.name} - GitHub`}
                 class="block rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-yellow"
             >
-                {member.avatarSrc ? (
-                    <Image
-                        src={member.avatarSrc}
-                        alt=""
-                        width={avatar.px}
-                        height={avatar.px}
-                        loading="lazy"
-                        class={`${avatarClass} ${chipHover}`}
-                    />
-                ) : (
-                    <div
-                        class={`${avatarClass} ${chipHover} bg-brand-yellow text-slate-950 flex items-center justify-center font-display ${avatar.text} font-extrabold`}
-                        aria-hidden="true"
-                    >
-                        {member.name.charAt(0)}
-                    </div>
-                )}
+                <TeamAvatar
+                    member={member}
+                    px={avatar.px}
+                    textClass={avatar.text}
+                    class={`${avatarClass} ${chipHover}`}
+                />
             </a>
             <span
                 role="tooltip"
@@ -82,24 +71,13 @@ const chipHover =
                     : "p-5 flex flex-col items-center text-center gap-3",
             ]}
         >
-            {member.avatarSrc ? (
-                <Image
-                    src={member.avatarSrc}
-                    alt={`Foto de ${member.name}`}
-                    data-i18n-alt-en={`Photo of ${member.name}`}
-                    data-i18n-alt-es={`Foto de ${member.name}`}
-                    width={avatar.px}
-                    height={avatar.px}
-                    class={avatarClass}
-                />
-            ) : (
-                <div
-                    class={`${avatarClass} bg-brand-yellow text-slate-950 flex items-center justify-center font-display ${avatar.text} font-extrabold`}
-                    aria-hidden="true"
-                >
-                    {member.name.charAt(0)}
-                </div>
-            )}
+            <TeamAvatar
+                member={member}
+                px={avatar.px}
+                textClass={avatar.text}
+                labelled
+                class={avatarClass}
+            />
             <div
                 class:list={[
                     "space-y-0.5",
