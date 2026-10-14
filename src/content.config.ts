@@ -44,7 +44,9 @@ const team = defineCollection({
         // Display order within its tier (ascending).
         order: z.number(),
         // Public title (site, LinkedIn, social). Independent of Discord roles.
-        tier: z.enum(["founder", "cofounder", "core", "contributor"]),
+        tier: z.enum(["founder", "cofounder", "core", "contributor", "member"]),
+        // Optional career profile (same as the Discord Onboarding); shown as a badge.
+        profile: z.enum(["early-career", "mid", "senior"]).optional(),
         // Profile photo: file name inside src/assets/team/
         avatar: z.string(),
         github: z.string().url(),

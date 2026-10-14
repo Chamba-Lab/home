@@ -42,8 +42,8 @@
     {
         "id": "takeshi",
         "name": "Takeshi",
-        "order": 5,
-        "tier": "contributor",
+        "order": 1,
+        "tier": "member",
         "avatar": "RaulTakeshiLlanosRodriguez.jpg",
         "github": "https://github.com/RaulTakeshiLlanosRodriguez"
     }

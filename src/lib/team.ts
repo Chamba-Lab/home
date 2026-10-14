@@ -2,7 +2,13 @@ import type { ImageMetadata } from "astro";
 import { getCollection } from "astro:content";
 
 // Títulos públicos (sitio, LinkedIn y redes). Independientes de los roles de Discord.
-export const TIERS = ["founder", "cofounder", "core", "contributor"] as const;
+export const TIERS = [
+    "founder",
+    "cofounder",
+    "core",
+    "contributor",
+    "member",
+] as const;
 export type Tier = (typeof TIERS)[number];
 
 export const TIER_LABEL: Record<Tier, { en: string; es: string }> = {
@@ -10,7 +16,14 @@ export const TIER_LABEL: Record<Tier, { en: string; es: string }> = {
     cofounder: { en: "Co-founder", es: "Co-founder" },
     core: { en: "Core team", es: "Core team" },
     contributor: { en: "Contributor", es: "Contributor" },
+    member: { en: "Community member", es: "Miembro de la comunidad" },
 };
+
+export const PROFILE_LABEL = {
+    "early-career": "Early Career",
+    mid: "Mid",
+    senior: "Senior",
+} as const;
 
 // Avatares locales (descargados de GitHub una vez): no se piden a terceros en cada visita.
 const avatars = import.meta.glob<{ default: ImageMetadata }>(

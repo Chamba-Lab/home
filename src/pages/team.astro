@@ -2,15 +2,17 @@
 import Layout from "../layouts/Layout.astro";
 import DiscordIcon from "../components/icons/DiscordIcon.astro";
 import TeamMemberCard from "../components/TeamMemberCard.astro";
-import { DISCORD_URL } from "../lib/constants";
+import { DISCORD_URL, GITHUB_URL } from "../lib/constants";
 import { getTeamMembers } from "../lib/team";
 
+const requestUrl = `${GITHUB_URL}/issues/new?template=team-member.yml`;
 const members = await getTeamMembers();
 const founders = members.filter(
     (m) => m.tier === "founder" || m.tier === "cofounder",
 );
 const core = members.filter((m) => m.tier === "core");
 const contributors = members.filter((m) => m.tier === "contributor");
+const communityMembers = members.filter((m) => m.tier === "member");
 ---
 
 <Layout
@@ -109,32 +111,64 @@ const contributors = members.filter((m) => m.tier === "contributor");
             }
         </section>
 
-        <!-- Miembros: no se listan, se invita -->
+        <!-- Miembros: muro opcional, solo quien lo pide -->
+        <section class="mb-16" aria-labelledby="members-heading">
+            <h2
+                id="members-heading"
+                class="font-display text-2xl font-bold text-white mb-1"
+                data-i18n="teamMembersTitle"
+            >
+                Miembros de la comunidad
+            </h2>
+            <p class="text-sm text-slate-400 mb-6" data-i18n="teamMembersDesc">
+                Quienes participan en Discord, dan y piden feedback y hacen
+                crecer el ciclo. Aparecen aquí solo si lo piden.
+            </p>
+            {
+                communityMembers.length > 0 && (
+                    <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                        {communityMembers.map((m) => (
+                            <TeamMemberCard member={m} variant="compact" />
+                        ))}
+                    </ul>
+                )
+            }
+        </section>
+
         <div
             class="card-glass rounded-2xl p-8 flex flex-col sm:flex-row items-center justify-between gap-6 border border-white/10 bg-gradient-to-br from-surface via-slate-900/80 to-brand-discord/10"
         >
             <div class="space-y-1 text-center sm:text-left max-w-xl">
                 <h3
                     class="font-display text-xl font-bold text-white"
-                    data-i18n="teamMembersTitle"
+                    data-i18n="teamRequestTitle"
                 >
-                    Y tú, miembro de la comunidad
+                    ¿Quieres aparecer aquí?
                 </h3>
-                <p class="text-sm text-slate-400" data-i18n="teamMembersDesc">
-                    Quienes participan en Discord, dan y piden feedback y hacen
-                    crecer el ciclo. No listamos miembros: tu privacidad va
-                    primero.
+                <p class="text-sm text-slate-400" data-i18n="teamRequestDesc">
+                    Pide aparecer como miembro o contributor con un issue en
+                    GitHub. Es opcional: tu privacidad va primero.
                 </p>
             </div>
-            <a
-                href={DISCORD_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                class="inline-flex items-center gap-2 bg-brand-discord hover:bg-brand-discord-hover text-white px-6 py-3 rounded-xl text-sm font-bold transition-all shadow-lg shadow-brand-discord/25 hover:shadow-brand-discord/40 shrink-0"
-            >
-                <DiscordIcon class="w-4 h-4" />
-                <span data-i18n="teamJoinCta">Unirme a la comunidad</span>
-            </a>
+            <div class="flex flex-col sm:flex-row gap-3 shrink-0">
+                <a
+                    href={requestUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="inline-flex items-center justify-center gap-2 bg-brand-yellow hover:bg-amber-300 text-slate-950 px-6 py-3 rounded-xl text-sm font-bold transition-all"
+                >
+                    <span data-i18n="teamRequestCta">Pedir aparecer</span>
+                </a>
+                <a
+                    href={DISCORD_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="inline-flex items-center gap-2 bg-brand-discord hover:bg-brand-discord-hover text-white px-6 py-3 rounded-xl text-sm font-bold transition-all shadow-lg shadow-brand-discord/25 hover:shadow-brand-discord/40 shrink-0"
+                >
+                    <DiscordIcon class="w-4 h-4" />
+                    <span data-i18n="teamJoinCta">Unirme a la comunidad</span>
+                </a>
+            </div>
         </div>
     </main>
 </Layout>

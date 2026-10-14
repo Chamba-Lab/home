@@ -1,6 +1,6 @@
 ---
 import { Image } from "astro:assets";
-import { TIER_LABEL, type TeamMember } from "../lib/team";
+import { PROFILE_LABEL, TIER_LABEL, type TeamMember } from "../lib/team";
 import GithubIcon from "./icons/GithubIcon.astro";
 import GlobeIcon from "./icons/GlobeIcon.astro";
 import LinkedinIcon from "./icons/LinkedinIcon.astro";
@@ -58,12 +58,17 @@ const avatarSize = compact ? "w-14 h-14" : "w-24 h-24";
         >
             {member.name}
         </h3>
-        <p
-            class="text-sm text-slate-400"
-            data-i18n-en={title.en}
-            data-i18n-es={title.es}
-        >
-            {title.es}
+        <p class="text-sm text-slate-400">
+            <span data-i18n-en={title.en} data-i18n-es={title.es}>
+                {title.es}
+            </span>
+            {
+                member.profile && (
+                    <span class="ml-1 text-[10px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded bg-brand-yellow/10 border border-brand-yellow/30 text-brand-yellow">
+                        {PROFILE_LABEL[member.profile]}
+                    </span>
+                )
+            }
         </p>
     </div>
     <div class:list={["flex items-center gap-2", !compact && "mt-auto"]}>

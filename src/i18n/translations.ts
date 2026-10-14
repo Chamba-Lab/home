@@ -51,9 +51,13 @@ export const translations = {
             "Quienes aportan de forma continua: web, ideas, feedback y apoyo en actividades.",
         teamEmptyContributors:
             "Aún no hay contributors. El primer lugar puede ser el tuyo.",
-        teamMembersTitle: "Y tú, miembro de la comunidad",
+        teamMembersTitle: "Miembros de la comunidad",
         teamMembersDesc:
-            "Quienes participan en Discord, dan y piden feedback y hacen crecer el ciclo. No listamos miembros: tu privacidad va primero.",
+            "Quienes participan en Discord, dan y piden feedback y hacen crecer el ciclo. Aparecen aquí solo si lo piden.",
+        teamRequestTitle: "¿Quieres aparecer aquí?",
+        teamRequestDesc:
+            "Pide aparecer como miembro o contributor con un issue en GitHub. Es opcional: tu privacidad va primero.",
+        teamRequestCta: "Pedir aparecer",
         teamJoinCta: "Unirme a la comunidad",
 
         // Events Section
@@ -165,9 +169,13 @@ export const translations = {
             "People who contribute consistently: web, ideas, feedback and activity support.",
         teamEmptyContributors:
             "No contributors yet. The first spot could be yours.",
-        teamMembersTitle: "And you, community member",
+        teamMembersTitle: "Community members",
         teamMembersDesc:
-            "Everyone who takes part on Discord, gives and asks for feedback, and keeps the cycle going. We don't list members: your privacy comes first.",
+            "Everyone who takes part on Discord, gives and asks for feedback, and keeps the cycle going. They appear here only if they ask.",
+        teamRequestTitle: "Want to be listed here?",
+        teamRequestDesc:
+            "Ask to appear as a member or contributor with a GitHub issue. It's optional: your privacy comes first.",
+        teamRequestCta: "Request a spot",
         teamJoinCta: "Join the community",
 
         // Events Section
