@@ -40,6 +40,7 @@ export const translations = {
         teamDesc:
             "Voluntarios que sostienen la comunidad. Sin fines de lucro, con ganas.",
         viewFullTeam: "Conoce a todo el equipo",
+        teamStackLabel: "Contributors y miembros de la comunidad",
         teamPageTitle: "El equipo de Chamba Lab",
         teamPageIntro:
             "Personas que dedican su tiempo a sostener la comunidad. Sin fines de lucro, con ganas.",
@@ -157,6 +158,7 @@ export const translations = {
         teamDesc:
             "Volunteers who keep the community going. Non-profit, run on enthusiasm.",
         viewFullTeam: "Meet the whole team",
+        teamStackLabel: "Contributors and community members",
         teamPageTitle: "The Chamba Lab team",
         teamPageIntro:
             "People who give their time to keep the community going. Non-profit, run on enthusiasm.",

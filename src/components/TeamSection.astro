@@ -1,14 +1,23 @@
 ---
+import { Image } from "astro:assets";
 import { getTeamMembers } from "../lib/team";
 import TeamMemberCard from "./TeamMemberCard.astro";
 
 const rawBase = import.meta.env.BASE_URL;
 const base = rawBase.endsWith("/") ? rawBase : `${rawBase}/`;
 
-// El home muestra solo al equipo fundador; el resto vive en /team y escala ahí.
-const founders = (await getTeamMembers()).filter(
-    (m) => m.tier === "founder" || m.tier === "cofounder",
-);
+// El home muestra al equipo fundador y una pila de avatares del resto
+// (core team, contributors y miembros); el detalle vive en /team.
+const everyone = await getTeamMembers();
+const isFounding = (tier: string) => tier === "founder" || tier === "cofounder";
+const founders = everyone.filter((m) => isFounding(m.tier));
+// Core team y contributors primero, luego miembros (el cliente baraja cada grupo).
+const others = everyone.filter((m) => !isFounding(m.tier));
+const crew = others.filter((m) => m.tier !== "member");
+const rest = others.filter((m) => m.tier === "member");
+const stack = [...crew, ...rest];
+// Avatares visibles en pantallas anchas; en móvil el cliente muestra menos.
+const STACK_VISIBLE = 14;
 ---
 
 <section class="py-20 border-t border-white/[0.06]" id="team">
@@ -39,7 +48,65 @@ const founders = (await getTeamMembers()).filter(
             {founders.map((member) => <TeamMemberCard member={member} />)}
         </ul>
 
-        <div class="mt-10">
+        <div
+            class="mt-10 flex flex-wrap items-center justify-between gap-x-6 gap-y-4"
+        >
+            {
+                stack.length > 0 && (
+                    <a
+                        href={`${base}team`}
+                        id="team-stack"
+                        data-visible={STACK_VISIBLE}
+                        class="group inline-flex items-center gap-3"
+                        aria-label="Conoce a todo el equipo"
+                        data-i18n-aria-label-es="Conoce a todo el equipo"
+                        data-i18n-aria-label-en="Meet the whole team"
+                    >
+                        <ul
+                            class="flex items-center -space-x-3"
+                            aria-hidden="true"
+                        >
+                            {stack.map((m, i) => (
+                                <li
+                                    data-group={
+                                        m.tier === "member" ? "member" : "crew"
+                                    }
+                                    hidden={i >= STACK_VISIBLE}
+                                    class="relative block"
+                                >
+                                    {m.avatarSrc ? (
+                                        <Image
+                                            src={m.avatarSrc}
+                                            alt=""
+                                            width={80}
+                                            height={80}
+                                            loading="lazy"
+                                            class="w-10 h-10 rounded-full object-cover border-2 border-bg group-hover:border-brand-yellow/60 transition-colors"
+                                        />
+                                    ) : (
+                                        <span class="w-10 h-10 rounded-full bg-brand-yellow text-slate-950 border-2 border-bg flex items-center justify-center font-display text-sm font-extrabold">
+                                            {m.name.charAt(0)}
+                                        </span>
+                                    )}
+                                </li>
+                            ))}
+                        </ul>
+                        <span
+                            id="team-stack-more"
+                            class="inline-flex items-center rounded-full border border-white/10 bg-slate-900/80 px-3 py-1.5 text-xs font-bold text-slate-200"
+                            hidden={stack.length <= STACK_VISIBLE}
+                        >
+                            +{stack.length - STACK_VISIBLE}
+                        </span>
+                        <span
+                            class="text-sm text-slate-400 group-hover:text-slate-200 transition-colors"
+                            data-i18n="teamStackLabel"
+                        >
+                            Contributors y miembros de la comunidad
+                        </span>
+                    </a>
+                )
+            }
             <a
                 href={`${base}team`}
                 class="inline-flex items-center gap-2 text-sm font-bold text-brand-yellow hover:text-amber-300 transition-colors"
@@ -60,5 +127,48 @@ const founders = (await getTeamMembers()).filter(
                 </svg>
             </a>
         </div>
+        <script is:inline>
+            (function () {
+                var link = document.getElementById("team-stack");
+                if (!link) return;
+                var list = link.querySelector("ul");
+                var more = document.getElementById("team-stack-more");
+                function shuffle(arr) {
+                    for (var i = arr.length - 1; i > 0; i--) {
+                        var j = Math.floor(Math.random() * (i + 1));
+                        var tmp = arr[i];
+                        arr[i] = arr[j];
+                        arr[j] = tmp;
+                    }
+                    return arr;
+                }
+                var items = Array.prototype.slice.call(list.children);
+                var crew = shuffle(
+                    items.filter(function (el) {
+                        return el.dataset.group === "crew";
+                    }),
+                );
+                var members = shuffle(
+                    items.filter(function (el) {
+                        return el.dataset.group === "member";
+                    }),
+                );
+                var all = crew.concat(members);
+                // Menos avatares en móvil para que la pila no desborde.
+                var max = window.matchMedia("(min-width: 640px)").matches
+                    ? Number(link.dataset.visible)
+                    : 8;
+                all.forEach(function (el, idx) {
+                    list.appendChild(el);
+                    el.hidden = idx >= max;
+                });
+                if (all.length > max) {
+                    more.textContent = "+" + (all.length - max);
+                    more.hidden = false;
+                } else {
+                    more.hidden = true;
+                }
+            })();
+        </script>
     </div>
 </section>

@@ -107,6 +107,7 @@ const chipHover =
                 ]}
             >
                 <h3
+                    title={variant === "row" ? member.name : undefined}
                     class:list={[
                         "font-display font-bold text-white text-base",
                         variant === "row" && "truncate",
