@@ -7,15 +7,13 @@ import LinkedinIcon from "./icons/LinkedinIcon.astro";
 
 interface Props {
     member: TeamMember;
-    // "full": tarjeta centrada con avatar y enlaces (fundadores y core team).
-    // "row": fila con avatar, nombre y enlaces (contributors).
+    // "full": tarjeta centrada con avatar y enlaces (fundadores, core team y contributors: mismo diseño).
     // "chip": solo avatar, enlaza a GitHub (miembros; escala a muchas personas).
-    variant?: "full" | "row" | "chip";
+    variant?: "full" | "chip";
 }
 
 const { member, variant = "full" } = Astro.props;
 const title = TIER_LABEL[member.tier];
-const founding = member.tier === "founder" || member.tier === "cofounder";
 
 const linkClass =
     "w-9 h-9 inline-flex items-center justify-center rounded-lg bg-slate-900/80 border border-white/10 text-slate-300 hover:text-brand-yellow hover:border-brand-yellow/40 transition-all";
@@ -23,18 +21,11 @@ const linkClass =
 // Tamaño mostrado del avatar en px (TeamAvatar lo pide al doble, para retina).
 const avatar = {
     full: { box: "w-20 h-20", px: 80, text: "text-2xl" },
-    row: { box: "w-16 h-16", px: 64, text: "text-xl" },
     chip: { box: "w-12 h-12", px: 48, text: "text-base" },
 }[variant];
-// Fundadores con aro dorado marcado y resplandor; el resto, más sutil.
-const ring = founding
-    ? "border-brand-yellow/70 shadow-[0_0_18px_rgba(250,204,21,0.18)]"
-    : variant === "full"
-      ? "border-white/25"
-      : "border-brand-yellow/30";
-const avatarClass = `${avatar.box} shrink-0 rounded-full border-2 ${ring}`;
+const avatarClass = `${avatar.box} shrink-0 rounded-full border-2 border-white/25`;
 const chipHover =
-    "transition-all duration-200 group-hover:border-brand-yellow group-hover:scale-110";
+    "transition-all duration-200 group-hover:border-white/60 group-hover:scale-110";
 ---
 
 {
@@ -66,9 +57,7 @@ const chipHover =
         <li
             class:list={[
                 "card-glass rounded-2xl border border-white/10 hover:-translate-y-0.5 transition-all duration-300",
-                variant === "row"
-                    ? "p-4 flex items-center gap-4"
-                    : "p-5 flex flex-col items-center text-center gap-3",
+                "p-5 flex flex-col items-center text-center gap-3",
             ]}
         >
             <TeamAvatar
@@ -78,19 +67,8 @@ const chipHover =
                 labelled
                 class={avatarClass}
             />
-            <div
-                class:list={[
-                    "space-y-0.5",
-                    variant === "row" && "min-w-0 flex-1",
-                ]}
-            >
-                <h3
-                    title={variant === "row" ? member.name : undefined}
-                    class:list={[
-                        "font-display font-bold text-white text-base",
-                        variant === "row" && "truncate",
-                    ]}
-                >
+            <div class="space-y-0.5">
+                <h3 class="font-display font-bold text-white text-base">
                     {member.name}
                 </h3>
                 <p
@@ -101,12 +79,7 @@ const chipHover =
                     {title.es}
                 </p>
             </div>
-            <div
-                class:list={[
-                    "flex items-center gap-2",
-                    variant === "full" && "mt-auto",
-                ]}
-            >
+            <div class="flex items-center gap-2 mt-auto">
                 <a
                     href={member.github}
                     target="_blank"
