@@ -1,0 +1,67 @@
+name: Pedir aparecer en la página del equipo
+description: Solicita aparecer en /team como Miembro de la comunidad o Contributor, o propón a otra persona.
+title: "feat: add team member "
+labels: ["team"]
+body:
+    - type: markdown
+      attributes:
+          value: |
+              La página **/team** muestra a la comunidad. Aquí puedes pedir aparecer como **Miembro de la comunidad** (participas en Discord) o como **Contributor** (aportas de forma continua: código, ideas, feedback o apoyo en actividades; lo confirma el equipo).
+              Los títulos **Founder**, **Co-founder** y **Core team** son por invitación y no se piden por este medio. Aparecer es siempre opcional.
+    - type: input
+      id: name
+      attributes:
+          label: Nombre público
+          description: Tal como quieres que aparezca en la tarjeta.
+      validations:
+          required: true
+    - type: input
+      id: github
+      attributes:
+          label: Perfil de GitHub
+          description: Tu foto se muestra directamente desde tu avatar de GitHub. Si lo cambias allá, cambia también en el sitio.
+          placeholder: https://github.com/usuario
+      validations:
+          required: true
+    - type: input
+      id: portfolio
+      attributes:
+          label: Portfolio (opcional)
+          placeholder: https://
+    - type: input
+      id: linkedin
+      attributes:
+          label: LinkedIn (opcional)
+          placeholder: https://www.linkedin.com/in/usuario
+    - type: dropdown
+      id: title
+      attributes:
+          label: Título que solicitas
+          options:
+              - Miembro de la comunidad
+              - Contributor
+      validations:
+          required: true
+    - type: textarea
+      id: contribution
+      attributes:
+          label: Si pides Contributor, ¿cómo aportas a la comunidad?
+          description: Pull requests, ideas, feedback a otras personas, apoyo en sesiones o eventos. Enlaza lo que puedas. Déjalo vacío si pides Miembro.
+    - type: dropdown
+      id: proposer
+      attributes:
+          label: ¿Quién envía esta solicitud?
+          options:
+              - Soy la persona que quiere aparecer
+              - Propongo a otra persona (ya me dio su permiso)
+      validations:
+          required: true
+    - type: checkboxes
+      id: checks
+      attributes:
+          label: Antes de enviar
+          options:
+              - label: La persona acepta que su nombre, foto de GitHub y los enlaces indicados sean públicos en el sitio
+                required: true
+              - label: Ya participa en la comunidad de Discord
+                required: true

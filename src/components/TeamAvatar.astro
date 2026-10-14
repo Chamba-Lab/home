@@ -1,0 +1,75 @@
+---
+import { Image } from "astro:assets";
+import { githubAvatarUrl, type TeamMember } from "../lib/team";
+
+interface Props {
+    member: TeamMember;
+    // Clases del círculo (tamaño, borde, hover). Las pone quien lo usa.
+    class?: string;
+    // Tamaño mostrado en px; se pide a 2x para pantallas retina.
+    px: number;
+    // Clase de tipografía para la inicial de respaldo.
+    textClass?: string;
+    // Si es true, el avatar lleva texto alternativo; si no, es decorativo.
+    labelled?: boolean;
+    lazy?: boolean;
+}
+
+const {
+    member,
+    class: className = "",
+    px,
+    textClass = "text-xl",
+    labelled = false,
+    lazy = true,
+} = Astro.props;
+
+// Foto propia (fundadores): local y optimizada en el build.
+// Sin foto propia: el navegador pide el avatar a GitHub; la inicial queda de
+// respaldo mientras carga o si la imagen falla.
+const remoteSrc =
+    !member.avatarSrc && member.githubUser
+        ? githubAvatarUrl(member.githubUser, px * 2)
+        : undefined;
+---
+
+{
+    member.avatarSrc ? (
+        <Image
+            src={member.avatarSrc}
+            alt={labelled ? `Foto de ${member.name}` : ""}
+            data-i18n-alt-en={labelled ? `Photo of ${member.name}` : undefined}
+            data-i18n-alt-es={labelled ? `Foto de ${member.name}` : undefined}
+            width={px * 2}
+            height={px * 2}
+            loading={lazy ? "lazy" : "eager"}
+            class={`${className} object-cover`}
+        />
+    ) : (
+        <span
+            class={`${className} relative overflow-hidden bg-brand-yellow text-slate-950 flex items-center justify-center font-display ${textClass} font-extrabold`}
+            aria-hidden={labelled ? undefined : "true"}
+        >
+            {member.name.charAt(0)}
+            {remoteSrc && (
+                <img
+                    src={remoteSrc}
+                    alt={labelled ? `Foto de ${member.name}` : ""}
+                    data-i18n-alt-en={
+                        labelled ? `Photo of ${member.name}` : undefined
+                    }
+                    data-i18n-alt-es={
+                        labelled ? `Foto de ${member.name}` : undefined
+                    }
+                    width={px}
+                    height={px}
+                    loading={lazy ? "lazy" : "eager"}
+                    decoding="async"
+                    referrerpolicy="no-referrer"
+                    onerror="this.remove()"
+                    class="absolute inset-0 w-full h-full object-cover bg-slate-900"
+                />
+            )}
+        </span>
+    )
+}

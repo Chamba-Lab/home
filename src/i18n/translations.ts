@@ -39,6 +39,26 @@ export const translations = {
         teamTitle: "Quienes hacen Chamba Lab",
         teamDesc:
             "Voluntarios que sostienen la comunidad. Sin fines de lucro, con ganas.",
+        viewFullTeam: "Conoce a todo el equipo",
+        teamStackLabel: "Contributors y miembros de la comunidad",
+        teamPageTitle: "El equipo de Chamba Lab",
+        teamPageIntro:
+            "Personas que dedican su tiempo a sostener la comunidad. Sin fines de lucro, con ganas.",
+        teamFoundersTitle: "Fundadores",
+        teamCrewTitle: "Core team y Contributors",
+        teamCrewDesc:
+            "El círculo cercano que opera la comunidad y quienes aportan de forma continua: web, ideas, feedback y apoyo en actividades.",
+        teamEmptyCrew:
+            "Aún no hay contributors. El primer lugar puede ser el tuyo.",
+        teamMembersTitle: "Miembros de la comunidad",
+        teamMembersDesc:
+            "Quienes participan en Discord, dan y piden feedback y hacen crecer el ciclo. Aparecen aquí solo si lo piden.",
+        teamMembersMore: "Ver más miembros",
+        teamRequestTitle: "¿Quieres aparecer aquí?",
+        teamRequestDesc:
+            "Pide aparecer como miembro o contributor con un issue en GitHub. Es opcional: tu privacidad va primero.",
+        teamRequestCta: "Pedir aparecer",
+        teamJoinCta: "Unirme a la comunidad",
 
         // Events Section
         eventsSectionTitle: "Eventos y Sesiones",
@@ -137,6 +157,25 @@ export const translations = {
         teamTitle: "Meet the team",
         teamDesc:
             "Volunteers who keep the community going. Non-profit, run on enthusiasm.",
+        viewFullTeam: "Meet the whole team",
+        teamStackLabel: "Contributors and community members",
+        teamPageTitle: "The Chamba Lab team",
+        teamPageIntro:
+            "People who give their time to keep the community going. Non-profit, run on enthusiasm.",
+        teamFoundersTitle: "Founders",
+        teamCrewTitle: "Core team & Contributors",
+        teamCrewDesc:
+            "The close circle that runs the community and the people who contribute consistently: web, ideas, feedback and activity support.",
+        teamEmptyCrew: "No contributors yet. The first spot could be yours.",
+        teamMembersTitle: "Community members",
+        teamMembersDesc:
+            "Everyone who takes part on Discord, gives and asks for feedback, and keeps the cycle going. They appear here only if they ask.",
+        teamMembersMore: "Show more members",
+        teamRequestTitle: "Want to be listed here?",
+        teamRequestDesc:
+            "Ask to appear as a member or contributor with a GitHub issue. It's optional: your privacy comes first.",
+        teamRequestCta: "Request a spot",
+        teamJoinCta: "Join the community",
 
         // Events Section
         eventsSectionTitle: "Events & Sessions",
