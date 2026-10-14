@@ -73,9 +73,9 @@ const communityMembers = members.filter((m) => m.tier === "member");
                         aportan de forma continua: web, ideas, feedback y apoyo
                         en actividades.
                     </p>
-                    <ul class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                         {crew.map((m) => (
-                            <TeamMemberCard member={m} />
+                            <TeamMemberCard member={m} variant="row" />
                         ))}
                     </ul>
                 </section>
