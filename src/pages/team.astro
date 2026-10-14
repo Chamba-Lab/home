@@ -40,7 +40,7 @@ const communityMembers = members.filter((m) => m.tier === "member");
             </p>
         </div>
 
-        <!-- Fundadores: tarjetas medianas con aro dorado -->
+        <!-- Fundadores -->
         <section class="mb-16" aria-labelledby="founders-heading">
             <h2
                 id="founders-heading"
@@ -54,37 +54,33 @@ const communityMembers = members.filter((m) => m.tier === "member");
             </ul>
         </section>
 
-        <!-- Core team y Contributors: filas con avatar, nombre, título y enlaces -->
-        <section class="mb-16" aria-labelledby="crew-heading">
-            <h2
-                id="crew-heading"
-                class="font-display text-2xl font-bold text-white mb-1"
-                data-i18n="teamCrewTitle"
-            >
-                Core team y Contributors
-            </h2>
-            <p class="text-sm text-slate-400 mb-6" data-i18n="teamCrewDesc">
-                El círculo cercano que opera la comunidad y quienes aportan de
-                forma continua: web, ideas, feedback y apoyo en actividades.
-            </p>
-            {
-                crew.length > 0 ? (
-                    <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <!-- Core team y Contributors: mismas tarjetas que los fundadores; la sección solo existe si hay gente -->
+        {
+            crew.length > 0 && (
+                <section class="mb-16" aria-labelledby="crew-heading">
+                    <h2
+                        id="crew-heading"
+                        class="font-display text-2xl font-bold text-white mb-1"
+                        data-i18n="teamCrewTitle"
+                    >
+                        Core team y Contributors
+                    </h2>
+                    <p
+                        class="text-sm text-slate-400 mb-6"
+                        data-i18n="teamCrewDesc"
+                    >
+                        El círculo cercano que opera la comunidad y quienes
+                        aportan de forma continua: web, ideas, feedback y apoyo
+                        en actividades.
+                    </p>
+                    <ul class="grid grid-cols-1 md:grid-cols-3 gap-6">
                         {crew.map((m) => (
-                            <TeamMemberCard member={m} variant="row" />
+                            <TeamMemberCard member={m} />
                         ))}
                     </ul>
-                ) : (
-                    <p
-                        class="card-glass rounded-2xl border border-dashed border-white/15 p-6 text-sm text-slate-400"
-                        data-i18n="teamEmptyCrew"
-                    >
-                        Aún no hay contributors. El primer lugar puede ser el
-                        tuyo.
-                    </p>
-                )
-            }
-        </section>
+                </section>
+            )
+        }
 
         <!-- Miembros: muro opcional, solo quien lo pide -->
         <section class="mb-16" aria-labelledby="members-heading">
