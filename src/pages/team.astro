@@ -12,8 +12,10 @@ const members = await getTeamMembers();
 const founders = members.filter(
     (m) => m.tier === "founder" || m.tier === "cofounder",
 );
-const core = members.filter((m) => m.tier === "core");
-const contributors = members.filter((m) => m.tier === "contributor");
+// Core team y contributors comparten sección (mismo tamaño); core va primero.
+const crew = members.filter(
+    (m) => m.tier === "core" || m.tier === "contributor",
+);
 const communityMembers = members.filter((m) => m.tier === "member");
 ---
 
@@ -52,59 +54,30 @@ const communityMembers = members.filter((m) => m.tier === "member");
             </ul>
         </section>
 
-        <!-- Core team: mismo tamaño que fundadores, aro neutro; solo si hay -->
-        {
-            core.length > 0 && (
-                <section class="mb-16" aria-labelledby="core-heading">
-                    <h2
-                        id="core-heading"
-                        class="font-display text-2xl font-bold text-white mb-1"
-                        data-i18n="teamCoreTitle"
-                    >
-                        Core team
-                    </h2>
-                    <p
-                        class="text-sm text-slate-400 mb-6"
-                        data-i18n="teamCoreDesc"
-                    >
-                        El círculo cercano que opera la comunidad día a día.
-                    </p>
-                    <ul class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        {core.map((m) => (
-                            <TeamMemberCard member={m} />
-                        ))}
-                    </ul>
-                </section>
-            )
-        }
-
-        <!-- Contributors: filas con avatar, nombre y enlaces -->
-        <section class="mb-16" aria-labelledby="contributors-heading">
+        <!-- Core team y Contributors: filas con avatar, nombre, título y enlaces -->
+        <section class="mb-16" aria-labelledby="crew-heading">
             <h2
-                id="contributors-heading"
+                id="crew-heading"
                 class="font-display text-2xl font-bold text-white mb-1"
-                data-i18n="teamContributorsTitle"
+                data-i18n="teamCrewTitle"
             >
-                Contributors
+                Core team y Contributors
             </h2>
-            <p
-                class="text-sm text-slate-400 mb-6"
-                data-i18n="teamContributorsDesc"
-            >
-                Quienes aportan de forma continua: web, ideas, feedback y apoyo
-                en actividades.
+            <p class="text-sm text-slate-400 mb-6" data-i18n="teamCrewDesc">
+                El círculo cercano que opera la comunidad y quienes aportan de
+                forma continua: web, ideas, feedback y apoyo en actividades.
             </p>
             {
-                contributors.length > 0 ? (
+                crew.length > 0 ? (
                     <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                        {contributors.map((m) => (
+                        {crew.map((m) => (
                             <TeamMemberCard member={m} variant="row" />
                         ))}
                     </ul>
                 ) : (
                     <p
                         class="card-glass rounded-2xl border border-dashed border-white/15 p-6 text-sm text-slate-400"
-                        data-i18n="teamEmptyContributors"
+                        data-i18n="teamEmptyCrew"
                     >
                         Aún no hay contributors. El primer lugar puede ser el
                         tuyo.
