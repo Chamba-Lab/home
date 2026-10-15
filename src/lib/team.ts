@@ -1,7 +1,7 @@
 import type { ImageMetadata } from "astro";
 import { getCollection } from "astro:content";
 
-// Títulos públicos (sitio, LinkedIn y redes). Independientes de los roles de Discord.
+// Títulos públicos del equipo (sitio, LinkedIn y redes).
 export const TIERS = [
     "founder",
     "cofounder",

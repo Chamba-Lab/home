@@ -12,7 +12,7 @@ Este archivo es lo primero que lee cualquier persona o agente antes de tocar el 
     - _Práctico_: recursos y apoyo real, no solo teoría.
 - **Ecosistema**: un ciclo continuo entre dos perfiles, **Early Career** (Trainee y Junior) y **Mid & Senior** (profesionales en activo), con dos interacciones: **Advising y Preparación** (feedback de CV/código, convocatorias, simulacros) y **Continuous Growing** (networking, arquitectura y retorno: guiar a quienes vienen detrás). Lo representa `CommunityEcosystem.tsx`.
 - **Pilares**: _A. Professional Evolution & Advising_ (empleabilidad, revisiones, mock interviews) y _B. Community Core & Continuous Growing_ (coworking, debates, recursos, mentoría, dinámicas y eventos). Detalle y roadmap en [`docs/project.md`](./docs/project.md).
-- **Alcance de este repo**: solo la landing y el sitio público (home). Un ecosistema de producto mayor, si existe, vive aparte.
+- **Alcance de este repo**: la landing, la vista pública de la comunidad. Explica quiénes somos y redirige a Discord, donde ocurre la interacción y las actividades. Un ecosistema de producto mayor, si existe, vive aparte.
 - **Marca**: "Chamba" es el único término del glosario cultural activo hoy (es el nombre); el resto se introduce de forma progresiva en features concretas ([`docs/branding_concepts.md`](./docs/branding_concepts.md)). La mascota (mapache/gato con taza de café) es el logo.
 
 ## 2. Stack
