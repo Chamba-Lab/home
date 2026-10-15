@@ -92,4 +92,4 @@ GitHub Actions. En cada PR a `master` corre `PR Checks` (`Lint, Test & Build` y 
 | [CODE_OF_CONDUCT.md](./CODE_OF_CONDUCT.md)               | Normas de la comunidad                                             |
 | [CHANGELOG.md](./CHANGELOG.md)                           | Historial de versiones (generado, no se edita a mano)              |
 
-Comunidad: [Discord](https://discord.gg/TCuZSnfKTE) · Código y issues: [GitHub](https://github.com/Chamba-Lab/home).
+Comunidad: [Discord](https://discord.gg/fNd8CXBbsQ) · Código y issues: [GitHub](https://github.com/Chamba-Lab/home).
