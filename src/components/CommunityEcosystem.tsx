@@ -26,7 +26,7 @@ const ECOSYSTEM_DATA: Record<
         sectionTitle: "El Ecosistema",
         sectionHighlight: "Chamba Lab",
         sectionDesc:
-            "Un ciclo colaborativo y continuo. Conectamos a quienes inician con quienes ya tienen camino recorrido.",
+            "Un ciclo continuo: quienes empiezan aprenden de quienes ya recorrieron el camino, y quienes ya lo recorrieron siguen creciendo al compartirlo.",
         advisingActivities: [
             "Revisión comunitaria de CV, perfil de LinkedIn y GitHub",
             "Difusión y recomendación de convocatorias laborales reales",
@@ -46,7 +46,7 @@ const ECOSYSTEM_DATA: Record<
                 title: "Early Career",
                 subtitle: "Trainee & Junior",
                 description:
-                    "Espacio para estudiantes, desarrolladores autodidactas y quienes dan sus primeros pasos en la industria tech.",
+                    "Para estudiantes de últimos años, técnicos, personas autodidactas y quienes están en su primer año de trabajo.",
                 points: [
                     "Canales para compartir tu portafolio y proyectos en busca de feedback",
                     "Canal de difusión de oportunidades para perfiles trainee y junior",
@@ -68,7 +68,7 @@ const ECOSYSTEM_DATA: Record<
                 title: "Mid & Senior",
                 subtitle: "Profesionales en actividad",
                 description:
-                    "Punto de encuentro para desarrolladores con experiencia laboral comprobada en tecnología.",
+                    "Punto de encuentro para personas con experiencia en tecnología que siguen creciendo y comparten lo que saben.",
                 points: [
                     "Networking horizontal entre pares de distintos países de la región",
                     "Conversaciones técnicas sobre producción, arquitectura y desafíos reales",
@@ -77,7 +77,7 @@ const ECOSYSTEM_DATA: Record<
             },
             growing: {
                 title: "Continuous Growing",
-                subtitle: "Evolución continua",
+                subtitle: "Crecimiento continuo",
                 description:
                     "El ciclo donde los profesionales continúan aprendiendo y fortalecen la comunidad compartiendo su experiencia.",
                 points: [
@@ -93,7 +93,7 @@ const ECOSYSTEM_DATA: Record<
         sectionTitle: "The",
         sectionHighlight: "Chamba Lab Ecosystem",
         sectionDesc:
-            "A collaborative, continuous cycle. Connecting those starting out with seasoned developers.",
+            "A continuous cycle: those starting out learn from those further along, and those further along keep growing by sharing.",
         advisingActivities: [
             "Community reviews for CVs, LinkedIn, and GitHub profiles",
             "Sharing and recommending verified tech job opportunities",
@@ -113,7 +113,7 @@ const ECOSYSTEM_DATA: Record<
                 title: "Early Career",
                 subtitle: "Trainee & Junior",
                 description:
-                    "Designed for graduating students, self-taught developers, and first-year tech professionals.",
+                    "For final-year students, technicians, self-taught people and those in their first year of work.",
                 points: [
                     "Channels to showcase your portfolio and projects for community feedback",
                     "Curated diffusion channel for trainee and junior tech opportunities",
@@ -135,7 +135,7 @@ const ECOSYSTEM_DATA: Record<
                 title: "Mid & Senior",
                 subtitle: "Industry professionals",
                 description:
-                    "A peer circle for developers with proven industry experience across software and tech teams.",
+                    "A meeting point for experienced people in tech who keep growing and share what they know.",
                 points: [
                     "Peer-to-peer networking across different tech ecosystems in LATAM",
                     "In-depth discussions on system design, production challenges, and tooling",
@@ -144,9 +144,9 @@ const ECOSYSTEM_DATA: Record<
             },
             growing: {
                 title: "Continuous Growing",
-                subtitle: "Ongoing evolution",
+                subtitle: "Ongoing growth",
                 description:
-                    "The self-sustaining community cycle: engineers continuing their growth while giving back to incoming developers.",
+                    "The cycle where experienced people keep learning and strengthen the community by sharing what they know.",
                 points: [
                     "Resource sharing on engineering best practices and emerging tech",
                     "Discussions on career advancement and technical leadership paths",
@@ -929,7 +929,9 @@ export default function CommunityEcosystem() {
                                         fontSize="11"
                                         fontWeight="700"
                                     >
-                                        {isEs ? "SSr a más" : "Mid to Senior+"}
+                                        {isEs
+                                            ? "Semi-senior+"
+                                            : "Mid to Senior+"}
                                     </text>
                                 </g>
 

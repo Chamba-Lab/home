@@ -6,13 +6,28 @@ export const translations = {
         navActivities: "Dinámicas",
         joinDiscord: "Unirse a Discord",
         badge: "Comunidad Tech",
-        heroTitlePrefix: "El espacio para impulsar tu camino en",
+        heroTitlePrefix: "Conecta, inspírate y crece en",
         heroTitleHighlight: "tecnología",
         heroSubtitle:
-            "Una comunidad abierta para compartir conocimiento, oportunidades laborales y crecer juntos. Todo en tiempo real en nuestro Discord.",
-        heroIntro1:
-            "Una comunidad abierta para compartir conocimiento, oportunidades laborales y crecer juntos.",
-        heroIntro2: "Todo pasa en nuestro Discord en tiempo real.",
+            "Una comunidad abierta de personas en tecnología que se conectan, se inspiran y crecen juntas. Todo ocurre en nuestro Discord.",
+
+        // What we offer
+        offerBadge: "Qué ofrecemos",
+        offerTitle: "Una comunidad para avanzar juntos",
+        offerConnectTitle: "Conecta",
+        offerConnectDesc:
+            "Un punto de encuentro para conversar, coordinar y trabajar en compañía.",
+        offerConnectItems: "Discord, coworking y sesiones en vivo",
+        offerInspireTitle: "Inspírate",
+        offerInspireDesc:
+            "Aprende de las historias y los criterios de otras personas del sector.",
+        offerInspireItems:
+            "Conversaciones de carrera y arquitectura, mentoría abierta y dinámicas",
+        offerGrowTitle: "Crece",
+        offerGrowDesc:
+            "Avanza en tu carrera con apoyo concreto de otras personas.",
+        offerGrowItems:
+            "Revisión de CV, LinkedIn y GitHub, feedback de código, mock interviews y recursos",
         ctaDiscord: "Unirse a Discord",
         ctaResources: "Ver Recursos",
 
@@ -113,7 +128,7 @@ export const translations = {
 
         // Footer
         footerDesc:
-            "Espacio colaborativo para impulsar carreras y compartir oportunidades reales en tecnología en LATAM y el mundo.",
+            "Comunidad tech para conectar, inspirarte y crecer. Nos encontramos en Discord.",
         allRightsReserved: "Todos los derechos reservados.",
     },
     en: {
@@ -123,13 +138,28 @@ export const translations = {
         navActivities: "Activities",
         joinDiscord: "Join Discord",
         badge: "Tech Community",
-        heroTitlePrefix: "The space to empower your path in",
+        heroTitlePrefix: "Connect, get inspired and grow in",
         heroTitleHighlight: "tech",
         heroSubtitle:
-            "An open community to share knowledge, job opportunities, and grow together. All happening live on our Discord.",
-        heroIntro1:
-            "An open community to share knowledge, job opportunities, and grow together.",
-        heroIntro2: "All happening live on our Discord.",
+            "An open community of people in tech who connect, get inspired and grow together. It all happens on our Discord.",
+
+        // What we offer
+        offerBadge: "What we offer",
+        offerTitle: "A community to move forward together",
+        offerConnectTitle: "Connect",
+        offerConnectDesc:
+            "A meeting point to talk, coordinate and work together.",
+        offerConnectItems: "Discord, coworking and live sessions",
+        offerInspireTitle: "Get inspired",
+        offerInspireDesc:
+            "Learn from the stories and judgment of others in the field.",
+        offerInspireItems:
+            "Career and architecture talks, open mentoring and activities",
+        offerGrowTitle: "Grow",
+        offerGrowDesc:
+            "Move your career forward with practical help from others.",
+        offerGrowItems:
+            "CV, LinkedIn and GitHub reviews, code feedback, mock interviews and resources",
         ctaDiscord: "Join Discord",
         ctaResources: "Explore Resources",
 
@@ -229,7 +259,7 @@ export const translations = {
 
         // Footer
         footerDesc:
-            "Collaborative space to empower tech careers and share real opportunities across LATAM and beyond.",
+            "A tech community to connect, get inspired and grow. We meet on Discord.",
         allRightsReserved: "All rights reserved.",
     },
 } as const;
