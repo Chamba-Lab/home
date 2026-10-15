@@ -1,106 +1,82 @@
-# AGENTS.md: Chamba Lab Source of Truth
-**Status**: Active | **Protocol**: AI-DLC v1.0
+# AGENTS.md: Chamba Lab, fuente de verdad del repo
 
-## 1. Project Identity
-*   **Name**: Chamba Lab
-*   **Type**: Community-Led Tech Platform (Non-Profit).
-*   **Mission**: Democratizar el acceso a oportunidades laborales en tech, conectando a quienes están construyendo su carrera con quienes ya tienen camino recorrido.
-*   **Core Values**:
-    *   *Comunidad*: Avanzar por cuenta propia tiene mérito; en comunidad multiplicas tus posibilidades.
-    *   *Práctico*: Recursos y apoyo real, no solo teoría.
-    *   *Privacidad*: Datos protegidos por diseño.
-*   **Nota de marca**: "Chamba" es el único término del glosario cultural activo hoy (es el nombre). El resto (Trome, Pilas, Yapa, etc.) se introduce progresivamente en features concretas, no como copy genérico — ver `docs/branding_concepts.md`.
+Este archivo es lo primero que lee cualquier persona o agente antes de tocar el proyecto. Es la versión corta y vigente: lo esencial del negocio, lo técnico y las reglas de trabajo. El detalle va en los documentos enlazados al final; las ideas en bruto, la operación y el brainstorming viven fuera del repo (Notion del equipo) y no son necesarios para contribuir.
 
-## 2. Tech Stack Strict (The Ecosystem)
-*Construiremos un ecosistema evolutivo, iniciando lean.*
+## 1. Identidad y visión
 
-### Frontend (Web Platform)
-*   **Framework**: **Astro 7.x** (Rendimiento por defecto).
-*   **UI Library**: **React 19+** (Para "Islas" de interactividad: Ecosistema Comunitario, Dinámicas como La Ruleta, Chamba Board).
-*   **Styling**: **TailwindCSS 4.x** (Utility-first con tokens en `@theme`).
-*   **Hosting**: **GitHub Pages** (Opción Principal - Costo Cero).
-    *   *Alternativa*: Vercel / Netlify (Solo si se requiere SSR en el futuro).
-*   **Runtime**: **Node.js >=22.12.0** (ver `engines` en `package.json`; el pipeline usa `lts/*`).
+- **Chamba Lab**: comunidad tech sin fines de lucro, liderada por voluntarios. Punto de encuentro: Discord.
+- **Lema**: _Connect. Inspire. Grow._ (Conecta, inspírate y crece). Aparece en la imagen OG y en los metadatos del sitio.
+- **Misión**: democratizar el acceso a oportunidades laborales en tech, conectando a quienes construyen su carrera con quienes ya tienen camino recorrido, en LATAM y el mundo. No es una aceleradora comercial.
+- **Valores**:
+    - _Comunidad_: avanzar por cuenta propia tiene mérito; en comunidad multiplicas tus posibilidades.
+    - _Práctico_: recursos y apoyo real, no solo teoría.
+- **Ecosistema**: un ciclo continuo entre dos perfiles, **Early Career** (Trainee y Junior) y **Mid & Senior** (profesionales en activo), con dos interacciones: **Advising y Preparación** (feedback de CV/código, convocatorias, simulacros) y **Continuous Growing** (networking, arquitectura y retorno: guiar a quienes vienen detrás). Lo representa `CommunityEcosystem.tsx`.
+- **Pilares**: _A. Professional Evolution & Advising_ (empleabilidad, revisiones, mock interviews) y _B. Community Core & Continuous Growing_ (coworking, debates, recursos, mentoría, dinámicas y eventos). Detalle y roadmap en [`docs/project.md`](./docs/project.md).
+- **Alcance de este repo**: solo la landing y el sitio público (home). Un ecosistema de producto mayor, si existe, vive aparte.
+- **Marca**: "Chamba" es el único término del glosario cultural activo hoy (es el nombre); el resto se introduce de forma progresiva en features concretas ([`docs/branding_concepts.md`](./docs/branding_concepts.md)). La mascota (mapache/gato con taza de café) es el logo.
 
-### Site Structure
-*   **Páginas**: 
-    *   `/` (Landing inmersiva: Hero con iluminación radial, integración de widget interactivo de Discord, diagrama interactivo del Ecosistema Chamba Lab con vista dual adaptativa: canvas SVG horizontal simétrico en desktop y stepper interactivo vertical en mobile con acordeón fluido y ticker dinámico, vitrina asimétrica de eventos con exportación a calendarios, sección de equipo organizador y vitrina de recursos curados, en ese orden).
-    *   **Equipo** (`src/components/TeamSection.astro`, ancla `#team`): título "Quienes hacen Chamba Lab" / "Meet the team" (glosario universal; `Camiseta` sigue reservado). El home muestra al equipo fundador (`founder` y `cofounder`) y, debajo, una pila de avatares superpuestos del resto (core team y contributors primero, luego miembros; cada grupo se baraja en el cliente) con una píldora `+N` por los que no caben (14 en pantallas anchas, 8 en móvil) y enlace a `/team`. Tarjetas `card-glass` (`TeamMemberCard.astro`, variante `full`) con avatar (foto de perfil, `.jpg`), título público y enlaces a GitHub, portfolio y LinkedIn. Datos en `src/content/team.json` (schema `team` en `content.config.ts`); los enlaces opcionales ausentes no se renderizan. Foto: los fundadores usan foto propia local (`avatar` en `team.json`, archivo en `src/assets/team/`, optimizada en el build). El resto (core, contributors y miembros) no lleva `avatar`: el navegador pide su avatar de GitHub en tiempo de ejecución (`TeamAvatar.astro`, derivado de la URL `github`), con `referrerpolicy="no-referrer"`, la inicial como respaldo si falla y sin assets ni pasos de pipeline por persona. Decisión consciente: cada visita a `/team` y al home consulta a GitHub (expone la IP del visitante a un tercero), a cambio de cero operativa manual; si la privacidad pesa más, basta volver a poner `avatar` local o bajar la imagen en el build. El campo opcional `logo` apunta a un logo personal en `src/assets/team/logos/` y sustituye al globo del portfolio; los SVG se optimizan con `npm run team:optimize`. **Títulos públicos** (sitio, LinkedIn y redes; independientes de los roles de Discord, definidos en Notion): campo `tier` = `founder` (1 persona), `cofounder` (2), `core` (círculo cercano), `contributor` o `member` (Miembro de la comunidad); las etiquetas viven en `TIER_LABEL` (`src/lib/team.ts`) y se muestran en inglés en ambos idiomas por ser términos de la comunidad dev. `member` aparece solo si la persona lo pide (opt-in, por privacidad). `Staff` es término interno de Discord y no se usa hacia afuera. **`/team`** (`src/pages/team.astro`): página pública que agrupa en tres secciones: Fundadores (`founder` y `cofounder`), Core team y Contributors fusionados en una sola sección (core primero), Fundadores con tarjeta `full` y Core team/Contributors con la variante compacta `row` (fila con avatar de 48 px, nombre, título y enlaces; 3 columnas en escritorio, 2 en tablet, 1 en móvil), de modo que los fundadores destacan; avatares con borde neutro, sin aro dorado y Miembros de la comunidad (chips `chip` de solo avatar que enlazan a GitHub, con el nombre en un tooltip). El muro de miembros se baraja en cada visita (script inline en el cliente; sin JS se ve completo y en orden) y muestra `MEMBERS_VISIBLE` (24) con un botón "Ver más"; las secciones vacías no se renderizan (también la de Core team y Contributors); al final, una tarjeta invita a pedir aparecer con la plantilla de issue `team-member.yml`, que solo permite solicitar Miembro o Contributor (Founder, Co-founder y Core team son por invitación). Para sumar a alguien: añadir su entrada con `tier` y su GitHub (la foto sale de ahí; solo los fundadores llevan `avatar` local) y, si quiere, su logo.
-    *   `/resources` (Biblioteca curada de guías, plantillas y plataformas con buscador y filtros por categoría).
-    *   `/events` (Calendario de eventos fijos y recurrentes con cálculo por meses desde el primer evento registrado (el historial pasado sigue navegable, con los eventos pasados atenuados), zona horaria comunitaria UTC-5, y exportación funcional a Google Calendar e iCal `.ics` generados con RFC 5545).
-    *   `/activities` (Hub de dinámicas comunitarias) y subrutas por actividad (ej. `/activities/roulette`). Rutas siempre en inglés, aunque el copy visible sea en español con soporte bilingüe.
-*   **Layout compartido**: `src/layouts/Layout.astro` monta `Header` y `Footer` (`src/components/`), gestiona i18n (`ES`/`EN`), carga las fuentes (`Plus Jakarta Sans` + `Inter`) y aplica la base `class="dark bg-bg text-slate-200"`.
-*   **Header responsive**: Sticky glassmorphism (`backdrop-blur-xl bg-[#080D1A]/85 border-b border-white/[0.08]`). Enlaces directos a `/resources`, `/events` y `/activities`. Selector de idioma en pastilla segmentada (`[ ES | EN ]`) y botón CTA de Discord con resplandor (*hover glow*). En mobile colapsa a menú desplegable con fondo desenfocado.
-*   **i18n**: Diccionario centralizado en `src/i18n/translations.ts`. El selector traduce el chrome estructural y las secciones de la landing en vivo vía `data-i18n` y atributos bilingües (`data-i18n-en` / `data-i18n-es` para texto; `data-i18n-alt-*`, `data-i18n-aria-label-*` y `data-i18n-title-*` para atributos), persistiendo la preferencia en `localStorage` (`chamba-lab-lang`).
-*   **Enlaces externos centralizados**: `src/lib/constants.ts` es la única fuente de `DISCORD_URL`, `GITHUB_URL` y los datos del widget de Discord (`DISCORD_GUILD_ID`, `DISCORD_WIDGET_API`, `DISCORD_WIDGET_IFRAME`). No repetir estas URLs en componentes. CTAs de Discord con criterio: header, hero, widget, tarjeta final de `/events` y `/activities`, y un icono en el footer junto al de GitHub (repo de código).
-*   **Anclas e IDs en inglés**: los IDs de sección y anclas de URL van en inglés (`#team`, `#resources`, `#events`), igual que las rutas.
-*   **Tema**: Dark-mode first (`#080D1A`), garantizando una experiencia inmersiva, consistente y con alto contraste sin fluctuaciones de estilo.
-*   **Widget de Discord**: Componente `src/components/DiscordWidget.astro` que obtiene en build time los datos del servidor vía API JSON de Discord (`widget.json`), renderizando una tarjeta *glassmorphism* moderna con el avatar del server (`brand/discord/avatar-cream-1024.png`, optimizado a WebP por `astro:assets`), contadores de conectados y en voz, **canales de voz agrupados con su gente** (ocupados primero, vacíos atenuados, cada canal enlaza a `discord.com/channels/<servidor>/<canal>`, iconos de silenciado/ensordecido) y, aparte, quienes están en línea fuera de voz (los bots cuentan como miembros: la API no los marca), con selector para alternar opcionalmente al iFrame oficial. La lógica y el marcado viven en `src/lib/discord.ts` (agrupación, escape de HTML, solo avatares del CDN de Discord, textos bilingües con `data-i18n-es/en`), compartidos por el build y por el refresco del navegador cada 60 s; `widget.json` solo expone canales de voz públicos y avatares genéricos. `FALLBACK_DATA` son datos de ejemplo que reflejan la vista real y solo se usan si la API falla; con respuesta correcta nunca se mezclan.
-*   **Ecosistema Comunitario (`src/components/CommunityEcosystem.tsx`)**: Diagrama interactivo del ciclo colaborativo continuo con vista dual adaptativa (desktop SVG horizontal simétrico y mobile stepper interactivo vertical). Modela los perfiles de la comunidad y sus interacciones formativas:
-    *   **Perfiles**:
-        *   `Early Career` (*Trainee & Junior*): Estudiantes, autodidactas y profesionales que inician. Espacio para recibir feedback de código/CV, acceder a convocatorias iniciales y resolver dudas técnicas en un entorno seguro y libre de juicios.
-        *   `Mid & Senior` (*Profesionales en actividad*): Desarrolladores con experiencia laboral comprobada. Punto de encuentro para networking horizontal regional, debates de arquitectura/producción y mentoría abierta y sin fricciones.
-    *   **Interacciones**:
-        *   `Advising & Preparación`: Apoyo práctico entre pares (revisión comunitaria de CV/LinkedIn/GitHub, difusión de convocatorias reales, revisión de código de proyectos personales y simulacros de entrevistas técnicas / *Mock Interviews* con feedback en vivo).
-        *   `Continuous Growing`: Crecimiento profesional continuo y ciclo de retorno (networking con líderes regionales, conversaciones sobre arquitectura y diseño de sistemas, actualización técnica y cierre del ciclo guiando a la siguiente generación).
-*   **Dinámicas**: `/activities` lista actividades comunitarias (`src/content/activities.json`). Primera dinámica activa: **La Ruleta** (`/activities/roulette`, datos en `src/content/roulette.json`) con soporte bilingüe (ES/EN), 7 packs precargados (96 preguntas de empleabilidad, arquitectura, tendencias 2026 con 24 opciones para early career y 12 para mid/senior, dilemas de producción, IA y rompehielos) y modo libre (hasta 24 opciones), construida en React 19 sobre Canvas 2D adaptativo con tooltips flotantes en hover, física de aguja (*needle wobble*), sintetizador de audio con Web Audio API, confeti dinámico y retiro progresivo de opciones sorteadas en la sesión activa (con opciones de reincorporación y restablecimiento).
+## 2. Stack
 
-### Backend & Data (Evolutionary)
-*   **Phase 1 (Static)**: Archivos JSON como base de datos (`src/content.config.ts` + `src/content/*.json`). **Strict Static Site Generation (SSG)** para compatibilidad con GitHub Pages.
-*   **Phase 2 (Dynamic)**:
-    *   **Logic**: Python (FastAPI) o Node.js (Hono) para scrapers/APIs ligeras.
-    *   **Cloud**: AWS Lambda (Serverless) para tareas cron (ej. Scraper semanal).
+- **Astro 7** (SSG estricto) + **React 19** (islas interactivas) + **Tailwind CSS 4** (tokens en `@theme`).
+- **Node >= 22.12** y npm. Pruebas con Vitest; ESLint + Prettier.
+- **Hosting**: GitHub Pages (`base: /home`). Sin servidor: todo el contenido es estático.
+- **Datos**: JSON en `src/content/*.json`, validados por `src/content.config.ts`.
+- **Estructura**: `src/pages` (rutas), `src/components`, `src/layouts/Layout.astro` (header, footer, i18n, fuentes), `src/lib` (lógica pura y constantes), `src/i18n`, `src/styles/global.css` (tokens), `brand/` y `src/assets/` (marca).
 
-## 3. Design System: "Modern Dark Glassmorphism" (Stitch: Landing Optimizada y Equilibrada)
-*Estética inmersiva para desarrolladores: superficies obsidian-blue, vidrio esmerilado, iluminación radial y acentos vibrantes. Ver especificación exhaustiva en [DESIGN.md](./DESIGN.md).*
+## 3. Sitio
 
-*   **Vibe**: Alto contraste, tipografía display elegante en titulares, esquinas suavemente redondeadas (`rounded-xl`, `rounded-2xl`), gradientes radiales sutiles y efectos de resplandor (*glow*) en interacción.
-*   **Tokens**: Definidos en `src/styles/global.css` dentro de `@theme` de Tailwind v4:
-    *   `--color-bg`: `#080D1A` (Fondo lienzo principal).
-    *   `--color-surface`: `#0B1120` (Superficie de paneles y contenedores).
-    *   `--color-surface-subtle`: `#0f172a`.
-    *   `--color-surface-card`: `#131e36` (Superficie de tarjetas elevadas).
-    *   `--color-brand-yellow`: `#FACC15` (Amarillo marca de alto impacto en CTAs primarios y énfasis de texto).
-    *   `--color-brand-yellow-deep`: `#A16207` (Texto amarillo sobre fondos claros, 4.51:1).
-    *   `--color-brand-cream`: `#FCF6E8` (Crema de la mascota: fondo sobre claro, avatar alternativo).
-    *   `--color-brand-discord`: `#5865F2` (Blurple oficial para acciones y telemetría de Discord).
-    *   `--color-border`: `rgba(255, 255, 255, 0.12)`.
-*   **Utilidades visuales clave**:
-    *   `.glow-radial`: Gradiente radial superior dorado suave que ilumina el hero.
-    *   `.card-glass`: Fondo traslúcido (`rgba(15, 23, 42, 0.65)`), desenfoque de fondo (`backdrop-filter: blur(16px)`), borde sutil `rgba(255, 255, 255, 0.08)` y transición a `border-brand-yellow/30` en hover.
-*   **Tipografía**:
-    *   Display / Títulos: **Plus Jakarta Sans** (pesos 600, 700, 800) para impacto visual limpio y moderno.
-    *   Cuerpo de texto / Lectura: **Inter** (pesos 400, 500, 600) para máxima legibilidad.
-*   **Identidad / Mascota**: Logo = mascota (mapache/gato con taza de café, *grumpy*). Masters SVG en `src/assets/brand/` (el header y el footer usan `chamba-tile.svg`); `brand/og.svg` es la plantilla de la imagen OG y `brand/discord/` guarda los avatares 1024. Nunca colocar la mascota directo sobre `#080D1A`: usar tile amarillo, sticker o fondo crema (`--color-brand-cream`). Reglas completas, tamaños mínimos y favicon en [DESIGN.md §6.1](./DESIGN.md).
-    *   `npm run brand:optimize`: optimiza los SVG con svgo (`svgo.config.cjs`, conserva los `id` de capa).
-    *   `npm run brand:og`: regenera `public/og-image.png` (1200x630) desde `brand/og.svg` con los colores de los tokens.
-    *   Iconos de sitio en `public/`: `favicon.ico`, `favicon.svg`, `apple-touch-icon.png`, `icon-192.png`, `icon-512.png`, `site.webmanifest`.
-*   **ICS**: el `UID` de cada evento es `<id>@chambalab.org` (`src/lib/calendar.ts`). `chambalab.org` es solo un namespace para el identificador, no un dominio que el sitio sirva; debe mantenerse estable para que los clientes de calendario actualicen en vez de duplicar eventos.
-*   **SEO**: `@astrojs/sitemap` genera `sitemap-index.xml` en el build (usa `site` + `base` de `astro.config.mjs`) y `public/robots.txt` lo referencia.
-*   **Iconografía**: SVGs limpios inline optimizados (`DiscordIcon`, `GithubIcon`, flechas, menú), sin fuentes de iconos externas.
+| Ruta                   | Qué es                                                                                                                                          |
+| :--------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------- |
+| `/`                    | Landing: hero, widget de Discord, diagrama del ecosistema, eventos, equipo (fundadores y pila de avatares) y recursos destacados, en ese orden. |
+| `/resources`           | Biblioteca curada con buscador y filtro por categoría.                                                                                          |
+| `/events`              | Calendario mensual (UTC-5) con exportación a Google Calendar e iCal.                                                                            |
+| `/team`                | Fundadores, Core team y Contributors, y muro de miembros; invita a pedir aparecer.                                                              |
+| `/activities`          | Hub de dinámicas; hoy `/activities/roulette` (La Ruleta). Las demás aparecen como "próximamente".                                               |
 
-## 4. Architecture Patterns & Governance
-*   **Static First**: Todo contenido informativo (Guías, Recursos, Eventos) es estático (SSG).
-*   **Islands Architecture**: Javascript solo donde es interactivo (Dinámicas en React, switchers en componentes Astro).
-*   **Privacy by Default**: Respeto a privacidad comunitaria, sin tracking invasivo.
+- Rutas, IDs y anclas van **en inglés**; el copy visible es bilingüe (ES/EN).
+- **Widget de Discord**: `DiscordWidget.astro` + `src/lib/discord.ts`. Muestra conectados, canales de voz con su gente (cada canal enlaza a Discord) y quienes están en línea fuera de voz. Datos de `widget.json` en build y refresco en el navegador; si la API falla se usa `FALLBACK_DATA` (datos de ejemplo, nunca se mezclan con los reales).
+- **Equipo**: datos en `src/content/team.json`. El campo `tier` define el título público: `founder`, `cofounder`, `core`, `contributor`, `member` (etiquetas en `TIER_LABEL`, `src/lib/team.ts`). Fundadores con tarjeta `full` y foto local (`avatar`); Core team y Contributors con tarjeta compacta `row`; miembros como `chip` solo-avatar. El resto toma su avatar de GitHub desde el `github` de la entrada. Las secciones vacías no se renderizan. Sumar a alguien: añadir su entrada (ver [CONTRIBUTING.md](./CONTRIBUTING.md#sumarte-al-equipo)).
+- **La Ruleta**: datos en `src/content/roulette.json` (packs de preguntas y modo libre), React sobre Canvas 2D.
 
-## 5. Development Protocol
-1.  **Atomic Commits**: Un cambio lógico = Un commit.
-2.  **Linting**: ESLint + Prettier obligatorios (`npm run lint` antes de push).
-3.  **Documentation**: Cada feature nueva actualiza este archivo maestro.
-4.  **Conventional Commits**: Obligatorio usar prefijos estándar (`feat:`, `fix:`, `chore:`) para alimentar el changelog automático.
-5.  **Colaboración**: guía completa en [CONTRIBUTING.md](./CONTRIBUTING.md) y normas en [CODE_OF_CONDUCT.md](./CODE_OF_CONDUCT.md). **`master` está protegida: no se hace push directo, tampoco los agentes de IA.** Todo cambio se trabaja en una rama (`feat/…`, `fix/…`, `docs/…`, `chore/…`) creada desde `master` actualizada y entra por Pull Request; un agente que reciba una tarea crea la rama antes de editar y nunca commitea en `master`; plantilla de PR, plantillas de issues (bug, recurso, evento, equipo) y `CODEOWNERS` viven en `.github/`. `.gitattributes` fija finales de línea LF.
+## 4. Convenciones técnicas
 
-## 6. CI/CD Pipeline (Automated)
-*   **Provider**: GitHub Actions.
-*   **Trigger**: Push to `master` (release y despliegue). En cada Pull Request hacia `master` corre `.github/workflows/pr-checks.yml` con los checks `Lint, Test & Build` y `PR title (Conventional Commits)`, que son los candidatos a *required status checks* de la protección de `master`.
-*   **Tools**:
-    *   `release-it`: Gestión de versiones y git tags.
-    *   `auto-changelog`: Generación de historial de cambios.
-    *   GitHub App **Chamba Lab CD Bot** (`RELEASE_APP_ID` como variable y `RELEASE_APP_PRIVATE_KEY` como secreto del repo): el workflow genera con ella un token de corta vida para que `release-it` pueda hacer push del commit de release y del tag a `master`. Debe estar en la lista de bypass del ruleset de `master`.
-*   **Stages**:
-    *   `Lint & Test` → `Release` → `Build` → `Deploy (GitHub Pages)`.
+- **i18n**: textos en `src/i18n/translations.ts` con `data-i18n`; texto o atributos bilingües con `data-i18n-es/en` y `data-i18n-alt-*`, `-aria-label-*`, `-title-*`. La preferencia se guarda en `localStorage` (`chamba-lab-lang`). Todo texto nuevo va en ES y EN.
+- **Enlaces externos**: `DISCORD_URL`, `GITHUB_URL` y datos del widget solo se definen en `src/lib/constants.ts`; no repetirlos en componentes.
+- **Contenido estático**: nada que requiera servidor. Los eventos usan un `id` estable (es el `UID` del `.ics`, `<id>@chambalab.org`, un namespace y no un dominio real).
+- **SEO**: `@astrojs/sitemap` y `public/robots.txt`.
+- **Iconos**: SVG inline optimizados, sin fuentes de iconos.
+- **Marca**: `npm run brand:optimize` (svgo) y `npm run brand:og` (regenera `public/og-image.png` desde `brand/og.svg` con los colores de los tokens).
 
-## 7. Community & Resources
-*   **Discord**: [Unirse a la Comunidad](https://discord.gg/TCuZSnfKTE) (Hub central de coordinación).
-*   **GitHub**: Repositorio principal para código y issues.
+## 5. Diseño
+
+Sistema **Modern Dark Glassmorphism**: dark-mode first (`#080D1A`), vidrio esmerilado (`.card-glass`), iluminación radial dorada (`.glow-radial`), amarillo de marca `#FACC15` en CTAs y blurple `#5865F2` solo para Discord. Tipografía: Plus Jakarta Sans (titulares) e Inter (cuerpo). Los tokens viven en `src/styles/global.css` y se usan siempre en vez de colores sueltos. La especificación, los patrones de componentes y las reglas de la mascota están en [`DESIGN.md`](./DESIGN.md).
+
+## 6. Reglas de trabajo (personas y agentes)
+
+1. **`master` está protegida: nunca se hace push directo**, tampoco un agente. Todo va en una rama (`feat/…`, `fix/…`, `docs/…`, `chore/…`) creada desde `master` actualizada y entra por Pull Request. El merge lo hace una persona del equipo.
+2. **Commits atómicos y Conventional Commits** (`feat:`, `fix:`, `docs:`, `chore:`…), en inglés y en imperativo. El título del PR también, porque pasa a ser el commit del squash y alimenta el changelog y la versión.
+3. **Antes de subir**: `npm run lint`, `npm run test` y `npm run build` deben pasar. No usar `astro check` (pide una instalación interactiva y se cuelga).
+4. **Documentación viva**: una feature nueva actualiza este archivo (y `DESIGN.md`, `README.md` o `docs/` si aplica). Una decisión importante se registra en [`docs/decisions.md`](./docs/decisions.md).
+5. **Sin atribución de IA**: los commits y PRs no llevan líneas de co-autor ni "generated with".
+6. **Datos de prueba**: si simulas equipo, eventos o contenido para revisar la interfaz, revierte los cambios antes de commitear.
+7. **Verificación visual**: cambios de interfaz se revisan en el navegador en escritorio y móvil; si no se pudo comprobar algún caso, dilo en el PR.
+8. **Piensa en la comunidad**: lo que no sea código ni decisión del producto (brainstorming, operación, detalle del servidor de Discord) se queda fuera del repo.
+
+## 7. CI/CD
+
+GitHub Actions. En cada PR a `master` corre `PR Checks` (`Lint, Test & Build` y `PR title (Conventional Commits)`, obligatorios). Al fusionar, `Master CI/CD` hace lint y test, versiona con `release-it` (tag y `CHANGELOG.md`), compila y despliega a GitHub Pages. El release lo publica la GitHub App **Chamba Lab CD Bot** (`RELEASE_APP_ID` / `RELEASE_APP_PRIVATE_KEY`), con bypass en el ruleset de `master`. Los commits de release llevan `[skip ci]`.
+
+## 8. Documentos
+
+| Documento                                                | Contenido                                                          |
+| :------------------------------------------------------- | :----------------------------------------------------------------- |
+| [README.md](./README.md)                                 | Presentación, comandos y puesta en marcha                          |
+| [CONTRIBUTING.md](./CONTRIBUTING.md)                     | Cómo contribuir: ramas, commits, PR, contenido                     |
+| [DESIGN.md](./DESIGN.md)                                 | Sistema de diseño, componentes y reglas de marca                   |
+| [docs/project.md](./docs/project.md)                     | Manifiesto, pilares y roadmap                                      |
+| [docs/decisions.md](./docs/decisions.md)                 | Decisiones clave y su porqué                                       |
+| [docs/branding_concepts.md](./docs/branding_concepts.md) | Glosario cultural progresivo                                       |
+| [CODE_OF_CONDUCT.md](./CODE_OF_CONDUCT.md)               | Normas de la comunidad                                             |
+| [CHANGELOG.md](./CHANGELOG.md)                           | Historial de versiones (generado, no se edita a mano)              |
+
+Comunidad: [Discord](https://discord.gg/TCuZSnfKTE) · Código y issues: [GitHub](https://github.com/Chamba-Lab/home).
