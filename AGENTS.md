@@ -4,7 +4,7 @@ Este archivo es lo primero que lee cualquier persona o agente antes de tocar el 
 
 ## 1. Identidad y visión
 
-- **Chamba Lab**: comunidad tech sin fines de lucro, liderada por voluntarios. Su espacio de interacción es Discord.
+- **Chamba Lab**: comunidad tech. Su espacio de interacción es Discord.
 - **Lema**: _Connect. Inspire. Grow._ (Conecta, inspírate y crece). Está en la imagen OG y en los metadatos del sitio.
 - **Misión**: crear un espacio donde las personas en tecnología se conecten, se inspiren y crezcan juntas en su carrera, para que el contexto en el que cada quien empieza pese menos.
 - **Visión (largo plazo)**: un ecosistema que se retroalimenta y se sostiene con quienes lo conforman.

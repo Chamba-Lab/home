@@ -2,7 +2,7 @@
     "name": "chamba-lab",
     "type": "module",
     "version": "0.17.0",
-    "description": "Chamba Lab: Community-Led Tech Platform",
+    "description": "Chamba Lab: public site of the tech community",
     "license": "MIT",
     "engines": {
         "node": ">=22.12.0"

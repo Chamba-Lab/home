@@ -12,15 +12,17 @@
 
 ## 📌 Nuestra Misión
 
-Somos una comunidad tech sin fines de lucro para quienes construyen su carrera en tecnología: estudiantes, profesionales y todo lo que hay en el medio. Compartimos conocimiento, oportunidades y apoyo real para crecer juntos. Discord es nuestro punto de encuentro. Más contexto en [docs/project.md](./docs/project.md).
+Chamba Lab es una comunidad tech. Nuestra misión es crear un espacio donde las personas en tecnología se conecten, se inspiren y crezcan juntas en su carrera, para que el contexto en el que cada quien empieza pese menos.
+
+La interacción ocurre en Discord; este repositorio es el sitio público de la comunidad. Más contexto en [docs/project.md](./docs/project.md).
 
 ---
 
 ## 🛠 Tech Stack
 
-Construido para ser ultra rápido, accesible y visualmente impactante.
+Sitio estático, rápido y bilingüe (ES/EN).
 
-- **Frontend**: [Astro 7.x](https://astro.build) (Optimizado para rendimiento extremo y SSG).
+- **Frontend**: [Astro 7.x](https://astro.build) (SSG).
 - **UI Library**: [React 19+](https://reactjs.org) (Utilizado en "Islas" de interacción como el Ecosistema Comunitario y La Ruleta).
 - **Styling**: [TailwindCSS 4.x](https://tailwindcss.com), sistema de diseño **Modern Dark Glassmorphism** (fondo obsidian `#080D1A`, tarjetas con `backdrop-blur`, acentos en amarillo `#FACC15` y Discord `#5865F2`) — especificación completa en [DESIGN.md](./DESIGN.md) y arquitectura en [AGENTS.md](./AGENTS.md).
 - **CI/CD**: GitHub Actions + `release-it` para versionado automático y despliegue a **GitHub Pages**.
@@ -31,7 +33,7 @@ Construido para ser ultra rápido, accesible y visualmente impactante.
 
 | Ruta | Contenido |
 | :--- | :--- |
-| `/` | Landing con hero, widget de Discord, diagrama del ecosistema comunitario, eventos, equipo y recursos destacados |
+| `/` | Landing con hero, widget de Discord, ecosistema (Connect, Inspire, Grow y el diagrama de perfiles), eventos, equipo y recursos destacados |
 | `/resources` | Biblioteca completa de guías, plantillas y plataformas curadas con filtros |
 | `/events` | Calendario de eventos y sesiones recurrentes con exportación a Google Calendar / iCal |
 | `/activities` | Hub de mini actividades comunitarias (dinámicas) |
@@ -98,7 +100,7 @@ La mascota (mapache/gato con taza de café) es el logo de Chamba Lab. Los SVG ma
 
 ## 🤝 Comunidad y Contribución
 
-Avanzar por cuenta propia tiene mérito; en comunidad multiplicas tus posibilidades. Las contribuciones son el motor de Chamba Lab.
+Avanzar por cuenta propia tiene mérito; en comunidad multiplicas tus posibilidades.
 
 - **Cómo contribuir**: lee [CONTRIBUTING.md](./CONTRIBUTING.md) (flujo de ramas, Conventional Commits, checklist de PR) y nuestro [Código de Conducta](./CODE_OF_CONDUCT.md).
 - **Ideas y bugs**: abre un issue con las plantillas para proponer recursos, eventos o reportar errores.

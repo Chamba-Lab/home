@@ -6,7 +6,7 @@ Resumen del proyecto para quien contribuye al sitio. La versión técnica está 
 
 - **Misión**: crear un espacio donde las personas en tecnología se conecten, se inspiren y crezcan juntas en su carrera, para que el contexto en el que cada quien empieza pese menos.
 - **Visión (largo plazo)**: un ecosistema que se retroalimenta y se sostiene con quienes lo conforman.
-- **Principios**: apoyo práctico, no solo teoría; sin fines de lucro, liderada por voluntarios.
+- **Principios**: apoyo práctico, no solo teoría.
 - **Alcance**: no busca resolver todas las barreras económicas, académicas o laborales. Es un espacio de encuentro y crecimiento.
 - **Público**: principalmente hispanohablante, empezando por Perú (UTC-5, compartido con Colombia).
 
@@ -31,7 +31,7 @@ Mid y Senior van juntos en el diagrama del home: pasar de uno a otro es cuestió
 
 - **Corto plazo**: lanzar y activar la comunidad en Discord; sesiones y dinámicas regulares; el sitio como vista pública.
 - **Mediano plazo**: crecer la base de miembros y las actividades (revisiones, mock interviews, debates); sumar voluntarios que ayuden a organizar.
-- **Largo plazo**: un ecosistema autosustentable que se retroalimenta. Posibles herramientas propias, como un tablero de oportunidades (Chamba Board), fuera de este repo.
+- **Largo plazo**: un ecosistema que se retroalimenta y se sostiene con quienes lo conforman. Posibles herramientas propias, como un tablero de oportunidades (Chamba Board), fuera de este repo.
 
 ## Roadmap del sitio
 
