@@ -1,6 +1,6 @@
 # Cómo contribuir a Chamba Lab
 
-Gracias por sumar. Chamba Lab es una comunidad sin fines de lucro y todo lo que ves aquí lo sostienen voluntarios. Esta guía explica cómo proponer cambios sin fricción.
+Gracias por sumar. Esta guía explica cómo proponer cambios sin fricción.
 
 Al participar aceptas nuestro [Código de Conducta](./CODE_OF_CONDUCT.md). Si algo no queda claro, pregunta en [Discord](https://discord.gg/TCuZSnfKTE).
 

@@ -9,7 +9,7 @@
 
 ## 1. Design Philosophy & Identity
 
-Chamba Lab es una comunidad de tecnología sin fines de lucro para conectar, inspirar y crecer. El sistema de diseño refleja una experiencia inmersiva para desarrolladores (_developer-centric_), combinando la sobriedad técnica de superficies obsidian con la elegancia del vidrio esmerilado (_frosted glass_), acentos luminiscentes de alta energía y microinteracciones fluidas.
+Chamba Lab es una comunidad de tecnología para conectar, inspirar y crecer. El sistema de diseño refleja una experiencia inmersiva para desarrolladores (_developer-centric_), combinando la sobriedad técnica de superficies obsidian con la elegancia del vidrio esmerilado (_frosted glass_), acentos luminiscentes de alta energía y microinteracciones fluidas.
 
 ### Core Principles
 

@@ -37,12 +37,12 @@ export const translations = {
         teamBadge: "Equipo",
         teamTitle: "Quienes hacen Chamba Lab",
         teamDesc:
-            "Voluntarios que sostienen la comunidad. Sin fines de lucro, con ganas.",
+            "Las personas que sostienen la comunidad.",
         viewFullTeam: "Conoce a todo el equipo",
         teamStackLabel: "Contributors y miembros de la comunidad",
         teamPageTitle: "El equipo de Chamba Lab",
         teamPageIntro:
-            "Personas que dedican su tiempo a sostener la comunidad. Sin fines de lucro, con ganas.",
+            "Personas que dedican su tiempo a sostener la comunidad.",
         teamFoundersTitle: "Fundadores",
         teamCrewTitle: "Core team y Contributors",
         teamCrewDesc:
@@ -152,12 +152,12 @@ export const translations = {
         teamBadge: "Team",
         teamTitle: "Meet the team",
         teamDesc:
-            "Volunteers who keep the community going. Non-profit, run on enthusiasm.",
+            "The people who keep the community going.",
         viewFullTeam: "Meet the whole team",
         teamStackLabel: "Contributors and community members",
         teamPageTitle: "The Chamba Lab team",
         teamPageIntro:
-            "People who give their time to keep the community going. Non-profit, run on enthusiasm.",
+            "People who give their time to keep the community going.",
         teamFoundersTitle: "Founders",
         teamCrewTitle: "Core team & Contributors",
         teamCrewDesc:
