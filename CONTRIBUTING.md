@@ -65,14 +65,14 @@ Si el PR se integra con _squash_, **el título del PR se convierte en el mensaje
 ## Estilo de código
 
 - ESLint y Prettier son obligatorios: `npm run lint` debe pasar y `npm run lint:fix` corrige casi todo.
-- Mantén el contenido estático: los datos viven en `src/content/*.json` (ver `src/content.config.ts`). No agregues tracking ni dependencias que requieran servidor; el sitio se publica como estático en GitHub Pages.
+- Mantén el contenido estático: los datos viven en `src/content/*.json` (ver `src/content.config.ts`). No agregues dependencias que requieran servidor; el sitio se publica como estático en GitHub Pages.
 - Los textos visibles son bilingües (ES/EN) y se centralizan en `src/i18n/translations.ts` o en los atributos `data-i18n-*`. Rutas y anclas van en inglés.
 - No repitas URLs de Discord o GitHub en componentes: usa `src/lib/constants.ts`.
 - Respeta los tokens del tema (`src/styles/global.css`) en lugar de colores sueltos.
 
 ## Documentación
 
-Cada feature nueva actualiza [AGENTS.md](./AGENTS.md), y el `README.md` o `docs/project.md` cuando corresponda. Un PR que cambia el comportamiento sin tocar la documentación queda incompleto.
+Cada feature nueva actualiza [AGENTS.md](./AGENTS.md), y el `README.md`, `DESIGN.md` o `docs/project.md` cuando corresponda. Las decisiones importantes se anotan en [docs/decisions.md](./docs/decisions.md). Un PR que cambia el comportamiento sin tocar la documentación queda incompleto.
 
 ## Contenido
 

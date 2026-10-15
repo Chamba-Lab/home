@@ -55,7 +55,7 @@ export const translations = {
         teamMembersMore: "Ver más miembros",
         teamRequestTitle: "¿Quieres aparecer aquí?",
         teamRequestDesc:
-            "Pide aparecer como miembro o contributor con un issue en GitHub. Es opcional: tu privacidad va primero.",
+            "Pide aparecer como miembro o contributor con un issue en GitHub. Es opcional.",
         teamRequestCta: "Pedir aparecer",
         teamJoinCta: "Unirme a la comunidad",
 
@@ -172,7 +172,7 @@ export const translations = {
         teamMembersMore: "Show more members",
         teamRequestTitle: "Want to be listed here?",
         teamRequestDesc:
-            "Ask to appear as a member or contributor with a GitHub issue. It's optional: your privacy comes first.",
+            "Ask to appear as a member or contributor with a GitHub issue. It's optional.",
         teamRequestCta: "Request a spot",
         teamJoinCta: "Join the community",
 

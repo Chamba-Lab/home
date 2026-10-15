@@ -2,7 +2,6 @@
 
 **System Name**: Modern Dark Glassmorphism  
 **Version**: 1.0.0  
-**Design Reference**: Stitch (Landing Optimizada y Equilibrada)  
 **Status**: Active / Production Standard  
 **Host Framework**: Astro 7.x + TailwindCSS 4.x + React 19 Islands
 
@@ -10,14 +9,14 @@
 
 ## 1. Design Philosophy & Identity
 
-Chamba Lab es una plataforma y comunidad de tecnología sin fines de lucro enfocada en democratizar oportunidades laborales e impulsar el crecimiento profesional práctico. El sistema de diseño refleja una experiencia inmersiva para desarrolladores (_developer-centric_), combinando la sobriedad técnica de superficies obsidian con la elegancia del vidrio esmerilado (_frosted glass_), acentos luminiscentes de alta energía y microinteracciones fluidas.
+Chamba Lab es una comunidad de tecnología sin fines de lucro para conectar, inspirar y crecer. El sistema de diseño refleja una experiencia inmersiva para desarrolladores (_developer-centric_), combinando la sobriedad técnica de superficies obsidian con la elegancia del vidrio esmerilado (_frosted glass_), acentos luminiscentes de alta energía y microinteracciones fluidas.
 
 ### Core Principles
 
 1. **Dark-Mode First**: Experiencia inmersiva nativa (`#080D1A`), eliminando fluctuaciones visuales y reduciendo la fatiga visual.
 2. **Elevación por Vidrio (Glassmorphism)**: La jerarquía visual se establece mediante capas de transparencia, desenfoque de fondo (_backdrop blur_) y bordes de luz especular sutiles, evitando sombras opacas artificiales.
-3. **Alto Contraste y Legibilidad**: Todo texto y control cumple o supera el estándar WCAG AA (ratios de contraste superiores a 10:1 frente al fondo).
-4. **Microinteracciones y Feedback Háptico**: Estados hover con resplandor (_glow_), elevación física (`-translate-y-0.5`), transiciones CSS suaves y retroalimentación auditiva/visual en componentes interactivos complejos.
+3. **Alto Contraste y Legibilidad**: texto claro sobre superficies oscuras; la meta es cumplir WCAG AA en texto y controles (el texto amarillo sobre fondo claro usa `brand-yellow-deep`).
+4. **Microinteracciones**: estados hover con resplandor (_glow_), elevación (`-translate-y-0.5`) y transiciones suaves; audio y animación solo en componentes interactivos complejos (la ruleta).
 5. **No Placeholders**: Todo componente visual o interactivo se implementa funcional, con datos estables y degradación elegante (_graceful fallback_).
 
 ---
@@ -146,31 +145,21 @@ Cargada de forma optimizada vía Google Fonts en `src/layouts/Layout.astro`.
 - Cuerpo con título de alto contraste y descripción concisa en `text-slate-300`.
 - Pie de tarjeta con metadatos técnicos y botón/enlace de acción directa.
 
-### 5.4 Islas Interactivas (React 19)
+### 5.4 Tarjetas del equipo (`TeamMemberCard.astro`)
 
-- **La Ruleta Comunitaria (`RouletteWheel.tsx`)**:
-    - Escenario circular con Canvas 2D adaptativo (renderizado radial para soportar hasta 24-30 opciones sin saturación).
-    - Aguja física superior (12 o'clock) con animación física de oscilación (_wobble_).
-    - Tooltip flotante _dark glass_ con posicionamiento trigonométrico que revela el texto íntegro al hacer hover sobre cualquier sector.
-    - Audio sintetizado en Web Audio API (ticks percutivos al rozar las clavijas y acorde pentatónico triunfal al aterrizar).
-    - Partículas de confeti dinámicas en canvas superpuesto.
-- **Ecosistema Comunitario (`CommunityEcosystem.tsx`)**:
-    - **Arquitectura Adaptativa Dual**:
-        - **Desktop ($\ge 768\text{px}$)**: Canvas SVG horizontal simétrico (`viewBox="0 0 880 340"` con centro en $Y=170$).
-            - _Nodos de Perfil_ (Círculos $R=65$ con anillos orbitales $R=74$): `Early Career` ($X=180$) y `Mid & Senior` ($X=490$).
-            - _Nodos de Interacción_ (Rombos $48\times 48$ rotados $45^\circ$): `Advising` ($X=335, Y=62$, vértice de apoyo triangular simétrico) y `Growing` ($X=720, Y=170$, bucle de evolución continua con retorno inferior).
-            - _Interacción y Foco_: Sistema de atenuación selectiva (`opacity-25` vs `opacity-100`) con tarjeta inspectora flotante de alto contraste que despliega objetivos y actividades clave.
-            - _Ticker Dinámico de Actividades_: Transiciones suaves de opacidad (`duration-300`) que alternan progresivamente 5 actividades reales en cada rombo.
-        - **Mobile ($< 768\text{px}$)**: Stepper vertical interactivo pensado para navegación táctil con el pulgar.
-            - Tarjetas colapsables `.card-glass` con acordeón fluido y micro-conectores direccionales entre etapas (`▼`).
-            - Badges de previsualización en vivo con pulsación sutil (`animate-pulse`) para las actividades en rotación.
-            - Pastilla de cierre de ciclo continuo: `↺ Ciclo continuo: en comunidad multiplicamos posibilidades`.
-- **Discord Widget (`DiscordWidget.astro` + API Fetch)**:
-    - Cabecera con el avatar crema del server (`brand/discord/avatar-cream-1024.png`) en `rounded-xl`, el mismo que usa el server de Discord.
-    - Consumo directo en cliente de la API oficial con _graceful fallback_ estático.
-    - Avatares de miembros conectados, canales activos y botón rápido de acceso.
+Tres variantes según el título público, para que la jerarquía se lea de un vistazo:
 
----
+- **`full`**: tarjeta `card-glass` centrada con avatar de 80 px, nombre, título y enlaces (GitHub, portfolio, LinkedIn). Fundadores.
+- **`row`**: tarjeta compacta en fila (avatar 48 px, nombre, título, GitHub). Core team y Contributors.
+- **`chip`**: solo avatar de 48 px que enlaza a GitHub, con el nombre en un tooltip. Miembros.
+
+Los avatares llevan borde neutro (`border-white/25`), nunca amarillo; el fondo amarillo de la inicial de respaldo se recorta con `bg-clip-padding` para que no se vea bajo el borde. Las secciones sin gente no se renderizan.
+
+### 5.5 Islas interactivas (React 19)
+
+- **La Ruleta (`RouletteWheel.tsx`)**: Canvas 2D adaptativo con texto radial, aguja con oscilación, tooltip flotante con el texto completo de cada opción, audio sintetizado con Web Audio API y confeti. El giro dura `SPIN_DURATION_MS` con desaceleración `easeOutQuart`.
+- **Ecosistema Comunitario (`CommunityEcosystem.tsx`)**: diagrama de dos perfiles y dos interacciones con vista dual. En escritorio (>= 768 px) es un SVG horizontal con foco selectivo (`opacity-25` frente a `opacity-100`) y una tarjeta inspectora; en móvil, un stepper vertical con acordeón y un cierre de ciclo. Un ticker alterna actividades reales en cada interacción.
+- **Widget de Discord (`DiscordWidget.astro`)**: cabecera con el avatar crema del servidor, contadores de conectados y en voz, canales de voz agrupados con su gente (ocupados primero, vacíos atenuados, cada canal enlaza a Discord) y quienes están en línea fuera de voz. Respaldo estático si falla la API.
 
 ## 6. Iconography & Assets
 
@@ -213,19 +202,12 @@ Mapache/gato peludo con taza de café y expresión _grumpy_. Masters en `src/ass
 
 ## 7. Motion & Interaction Guidelines
 
-1. **Duraciones y Curvas**:
-    - Hover ordinario: `duration-200 ease-out`.
-    - Despliegue de menús y modales: `duration-300 cubic-bezier(0.16, 1, 0.3, 1)`.
-    - Giro de Ruleta: `SPIN_DURATION_MS = 5200` con curva de desaceleración cuártica `easeOutQuart(t) = 1 - Math.pow(1 - t, 4)`.
-2. **Efectos de Profundidad**:
-    - Sutil elevación vertical (`-translate-y-0.5`) combinada con aumento de intensidad de sombra (`shadow-brand-yellow/30`).
-3. **Respeto a Preferencias del Sistema**:
-    - Soporte para `prefers-reduced-motion: reduce` para desactivar partículas y giros continuos prolongados.
-
----
+1. **Duraciones**: hover ordinario `duration-200 ease-out`; menús y paneles `duration-300`; giro de la ruleta `SPIN_DURATION_MS` con `easeOutQuart(t) = 1 - Math.pow(1 - t, 4)`.
+2. **Profundidad**: elevación vertical sutil (`-translate-y-0.5`) junto con más resplandor o sombra de marca.
+3. **Pendiente**: respetar `prefers-reduced-motion` (hoy no se aplica) para desactivar partículas y giros largos.
 
 ## 8. Governance & Maintenance
 
 - Cualquier nuevo componente debe reutilizar estrictamente los tokens de color definidos en `src/styles/global.css`.
 - No introducir temas claros paralelos salvo que exista una decisión explícita de arquitectura; la consistencia dark-mode es la directriz central.
-- Cada nuevo icono o variante debe documentarse en este archivo y respetar las normas de Atomic Commits y Conventional Commits del protocolo general (`AGENTS.md`).
+- Cada nuevo icono, variante o patrón de componente se documenta en este archivo. Las normas de commits y PR están en `AGENTS.md`.

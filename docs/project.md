@@ -1,69 +1,46 @@
-# Chamba Lab: Connect. Inspire. Evolve.
+# Chamba Lab: Connect. Inspire. Grow.
 
-> **Status**: Definition & Expansion Phase  
-> **Focus**: Professional Evolution & Community Support
+Resumen del proyecto para quien contribuye al sitio. La versión técnica está en [`AGENTS.md`](../AGENTS.md) y las decisiones en [`decisions.md`](./decisions.md). El contexto amplio y el detalle viven en el Notion del equipo.
 
-> **Landing pública**: La landing principal presenta una arquitectura visual *Modern Dark Glassmorphism* (diseño "Landing Optimizada y Equilibrada"): Hero con iluminación radial, widget interactivo en tiempo real de Discord (tarjeta nativa moderna y conmutador a widget oficial), diagrama interactivo del Ecosistema Comunitario (perfiles *Early Career* y *Mid & Senior* con interacciones formativas *Advising* y *Continuous Growing* en vista dual SVG desktop y stepper mobile), vitrina asimétrica de eventos y vitrina de recursos curados. Los "Pilares de Acción" descritos abajo representan la visión de roadmap a mediano/largo plazo y se articulan directamente a través de dicho ecosistema. El término cultural activo en el copy público hoy es "Chamba" (el nombre); el resto se introduce progresivamente en features concretas — ver `docs/branding_concepts.md`.
+## Propósito
 
-## 🚀 Manifiesto
-**Chamba Lab** es una iniciativa comunitaria, sin fines de lucro, para potenciar el talento tech. No somos una "aceleradora comercial"; somos un grupo de estudiantes y profesionales que creen en el poder de compartir conocimiento y tender puentes.
+- **Misión**: crear un espacio donde las personas en tecnología se conecten, se inspiren y crezcan juntas en su carrera, para que el contexto en el que cada quien empieza pese menos.
+- **Visión (largo plazo)**: un ecosistema que se retroalimenta y se sostiene con quienes lo conforman.
+- **Principios**: apoyo práctico, no solo teoría; sin fines de lucro, liderada por voluntarios.
+- **Alcance**: no busca resolver todas las barreras económicas, académicas o laborales. Es un espacio de encuentro y crecimiento.
+- **Público**: principalmente hispanohablante, empezando por Perú (UTC-5, compartido con Colombia).
 
-Nuestro objetivo es simple: **avanzar por cuenta propia tiene mérito; en comunidad multiplicas tus posibilidades.** Conectamos a quienes inician con quienes ya tienen camino recorrido, creando un espacio horizontal para aprender, recibir feedback sincero, debatir sobre retos reales y abrir nuevas oportunidades.
+## Perfiles
 
-## 🏛️ Pilares de Acción
+| Perfil           | Necesitan                                                             | Aportan                                                         |
+| :--------------- | :-------------------------------------------------------------------- | :-------------------------------------------------------------- |
+| **Early Career** | Mentoría, orientación de carrera, feedback de CV y código, pares      | Preguntas, energía, apoyo entre pares                           |
+| **Mid & Senior** | Seguir creciendo, inspiración, networking, espacios de debate         | Mentoría, revisiones, referencias de oportunidades, visión real |
 
-Nuestra estrategia se basa en dos columnas vertebrales que se integran en el ciclo colaborativo continuo:
+Mid y Senior van juntos en el diagrama del home: pasar de uno a otro es cuestión de tiempo y capacitación, y comparten lo que aportan y necesitan.
 
-### Pillar A: Professional Evolution & Advising
-*Herramientas colaborativas y apoyo práctico entre pares para la inserción y crecimiento en el sector Tech.*
+## Qué ofrece la comunidad
 
-1.  **Chamba Board (Empleabilidad)**:
-    *   Difusión comunitaria y recomendación de convocatorias laborales reales (sin spam).
-2.  **Career Reviews & Portafolio**:
-    *   Revisión comunitaria de CV (compatibles con ATS), perfiles de LinkedIn y repositorios de GitHub.
-3.  **Code & Project Feedback**:
-    *   Revisión colaborativa de código y proyectos personales para ganar solidez técnica.
-4.  **Learning Paths & Unblocking**:
-    *   Rutas de aprendizaje curadas y espacio seguro para resolver dudas técnicas y bloqueos de entornos de trabajo sin temor al juicio.
-5.  **Mock Interviews**:
-    *   Simulacros periódicos de entrevistas técnicas y de comportamiento con feedback en vivo entre pares.
+| Verbo       | Qué es                                                    | Ejemplos                                                                  |
+| :---------- | :-------------------------------------------------------- | :------------------------------------------------------------------------ |
+| **Connect** | Punto de encuentro y compañía                             | Discord, coworking (Code & Coffee), eventos y sesiones                    |
+| **Inspire** | Aprender de las historias y criterios de otras personas   | Conversaciones de carrera y arquitectura, mentoría abierta, dinámicas     |
+| **Grow**    | Avance concreto en la carrera                             | Revisión de CV, LinkedIn y GitHub, feedback de código, mock interviews, recursos curados |
 
-### Pillar B: Community Core & Continuous Growing
-*El tejido social y el espacio de evolución continua para profesionales en activo.*
+## Horizontes
 
-1.  **Sync Spaces & Coworking**:
-    *   Sesiones virtuales de trabajo en paralelo (ej. Code & Coffee recurrente los viernes).
-2.  **Architecture & Tech Debates**:
-    *   Espacios de conversación sobre arquitectura de software, desafíos en producción y herramientas modernas.
-3.  **Knowledge Hub & Resources**:
-    *   Biblioteca curada y viva de guías, plantillas y plataformas recomendadas por la comunidad (`/resources`).
-4.  **Mentorship & Ciclo de Retorno**:
-    *   Acceso a consejos de desarrolladores con experiencia laboral y oportunidad de devolver apoyo guiando a quienes recién inician.
-5.  **Dinámicas & Eventos**:
-    *   Mini actividades comunitarias interactivas (comenzando con **La Ruleta** en `/activities/roulette`) y calendario de sesiones con exportación a Google Calendar / iCal (`/events`).
-    *   Modo preestablecido: 7 packs temáticos precargados (Empleabilidad, Debates Tech, Qué Aprender 2026 para Early Career y para Mid & Senior, Dilemas de Producción, IA & Futuro del Dev, Rompehielos & Cultura Dev) con 96 preguntas en total.
-    *   Modo libre: soporte ampliado para hasta 24 opciones personalizadas.
-    *   Canvas 2D adaptativo con distribución radial para textos largos, tooltips flotantes en hover, física de aguja (*needle wobble*), sintetizador de audio con Web Audio API y confeti.
-    *   Diseño bajo el estándar *Modern Dark Glassmorphism* documentado en [`DESIGN.md`](../DESIGN.md).
-    *   Próximo: agregar más actividades (preguntas rápidas, minijuegos, etc.).
+- **Corto plazo**: lanzar y activar la comunidad en Discord; sesiones y dinámicas regulares; el sitio como vista pública.
+- **Mediano plazo**: crecer la base de miembros y las actividades (revisiones, mock interviews, debates); sumar voluntarios que ayuden a organizar.
+- **Largo plazo**: un ecosistema autosustentable que se retroalimenta. Posibles herramientas propias, como un tablero de oportunidades (Chamba Board), fuera de este repo.
 
-## 🗺️ Roadmap de Evolución
+## Roadmap del sitio
 
-### Fase 1: Pulido Estructural, i18n & Ecosistema (Completada)
-- [x] **Reorganización del Landing Page**: Ajustar flujo narrativo (Hero & Discord ➔ Ecosistema Comunitario ➔ Eventos y Sesiones ➔ Recursos Curados).
-- [x] **SEO & Social Share Cards**: Implementación de Open Graph y Twitter Cards con imagen de previsualización oficial (1200×630, mascota con contorno *sticker* sobre fondo obsidian).
-- [x] **Internacionalización (i18n) Completa**: Traducción bilingüe exhaustiva en ruleta, dinámicas y textos pendientes.
-- [x] **Modularización de Datos**: Desacoplar presets de preguntas de la ruleta del catálogo general `content/activities.json` hacia `content/roulette.json`.
+**Hecho**: landing con widget de Discord, ecosistema, eventos, equipo y recursos; páginas de recursos, eventos, equipo y dinámicas (La Ruleta); bilingüe ES/EN; SEO y tarjetas de redes; identidad de marca; guía de contribución y `master` protegida.
 
-- [x] **Identidad de marca (mascota)**: Logo, favicon, manifest, imagen OG y banner del README con la mascota; tokens `brand-cream` y `brand-yellow-deep`; scripts `brand:optimize` y `brand:og`. Reglas en [`DESIGN.md`](../DESIGN.md) §6.1.
+**Siguiente**
 
-### Fase 2: Expansión de Valor, Dinámicas & Calidad
-- [ ] **Career Kit Beta**: Primeras plantillas de CV Tech ATS-friendly, checklists de perfil (LinkedIn/GitHub) y rúbricas de Mock Interviews.
-- [ ] **Segunda Dinámica: "⚡ Preguntas Rápidas"**: Quick Quiz con temporizador en `/activities/quick-questions` para stages de Discord.
-- [x] **Sección de Equipo**: Tarjetas del equipo en la landing (`#team`) con foto, rol y enlaces a GitHub, portfolio (con logo personal opcional en lugar del globo) y LinkedIn; datos en `content/team.json`.
-- [ ] **Módulo de Contribución Comunitaria**: Plantillas de issues y canales guiados para proponer recursos y eventos comunitarios. _Base lista: `CONTRIBUTING.md`, `CODE_OF_CONDUCT.md`, plantillas de issues/PR y `CODEOWNERS`; falta el flujo guiado desde el sitio._
-- [ ] **Suite de Tests Automatizados (Vitest)**: Cobertura de pruebas unitarias para utilidades de calendario (UTC-5, RFC 5545 `.ics`) y lógica de dinámicas.
-
-### Fase 3: Plataforma Operativa de Empleabilidad
-- [ ] **Evolución de Recursos**: De directorio estático a herramienta práctica operativa (guías comunitarias, salarios, prospección).
-- [ ] **Chamba Board**: Publicación y recomendación de oportunidades laborales validadas y sin spam.
+- Refinar el contenido del sitio para que refleje este propósito, los perfiles y lo que ofrece la comunidad.
+- Career Kit Beta: plantillas de CV Tech compatibles con ATS, checklists de perfil y rúbricas de mock interview.
+- Segunda dinámica (Preguntas Rápidas) en `/activities/quick-questions`.
+- Flujo guiado para proponer recursos y eventos desde el sitio.
+- Más cobertura de pruebas (calendario y dinámicas).

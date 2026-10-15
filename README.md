@@ -2,8 +2,8 @@
 
 ![Chamba Lab Hero Banner](https://raw.githubusercontent.com/Chamba-Lab/home/master/public/og-image.png)
 
-> **Community-Led Tech Platform**  
-> *Democratizando el acceso a oportunidades laborales en tech.*
+> **Connect. Inspire. Grow.**  
+> *Comunidad tech para conectar, inspirarte y crecer.*
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-indigo.svg)](./LICENSE)
 [![CI/CD Status](https://github.com/Chamba-Lab/home/actions/workflows/master-pipeline.yml/badge.svg)](https://github.com/Chamba-Lab/home/actions)
@@ -12,7 +12,7 @@
 
 ## 📌 Nuestra Misión
 
-Somos una comunidad tech para quienes construyen su carrera en tecnología — estudiantes, profesionales y todo lo que hay en el medio. Compartimos conocimiento, oportunidades y apoyo real para crecer juntos. Discord es nuestro punto de encuentro.
+Somos una comunidad tech sin fines de lucro para quienes construyen su carrera en tecnología: estudiantes, profesionales y todo lo que hay en el medio. Compartimos conocimiento, oportunidades y apoyo real para crecer juntos. Discord es nuestro punto de encuentro. Más contexto en [docs/project.md](./docs/project.md).
 
 ---
 
@@ -31,13 +31,14 @@ Construido para ser ultra rápido, accesible y visualmente impactante.
 
 | Ruta | Contenido |
 | :--- | :--- |
-| `/` | Landing inmersiva con Hero, widget interactivo de Discord, diagrama interactivo del Ecosistema Comunitario (perfiles e interacciones), vitrina de eventos y vitrina de recursos |
+| `/` | Landing con hero, widget de Discord, diagrama del ecosistema comunitario, eventos, equipo y recursos destacados |
 | `/resources` | Biblioteca completa de guías, plantillas y plataformas curadas con filtros |
 | `/events` | Calendario de eventos y sesiones recurrentes con exportación a Google Calendar / iCal |
 | `/activities` | Hub de mini actividades comunitarias (dinámicas) |
-| `/activities/roulette` | La Ruleta — dinámica interactiva con 7 packs temáticos (96 preguntas) o modo libre (hasta 24 opciones), Canvas 2D radial, tooltips flotantes, audio sintetizado y confeti |
+| `/team` | Fundadores, Core team, Contributors y miembros de la comunidad |
+| `/activities/roulette` | La Ruleta: dinámica interactiva con packs temáticos de preguntas y modo libre |
 
-Rutas siempre en inglés (buenas prácticas), con soporte bilingüe completo (`ES`/`EN` con pastilla segmentada en el header). Detalle técnico completo en [AGENTS.md](./AGENTS.md#site-structure).
+Rutas siempre en inglés, con soporte bilingüe (`ES`/`EN`). Detalle técnico en [AGENTS.md](./AGENTS.md).
 
 ---
 
@@ -88,10 +89,10 @@ Utilizamos un pipeline automatizado para asegurar la calidad y facilitar el crec
 La mascota (mapache/gato con taza de café) es el logo de Chamba Lab. Los SVG maestros viven en `src/assets/brand/`, la plantilla OG y los avatares de Discord en `brand/`, y los favicons y el manifest en `public/`. Reglas de uso (fondos permitidos, tamaños mínimos) en [DESIGN.md §6.1](./DESIGN.md).
 
 ### Despliegue Automático
-Al realizar un push a la rama `master`, el sistema activa:
-1. **Validación**: Linting y Tests de unidad.
-2. **Release**: Generación de tags, actualización de `CHANGELOG.md`.
-3. **Deploy**: Publicación instantánea en **GitHub Pages**.
+`master` está protegida: los cambios entran por Pull Request con checks de lint, tests, build y título. Al fusionar, el pipeline:
+1. **Valida**: lint y tests.
+2. **Publica la versión**: tag y `CHANGELOG.md`.
+3. **Despliega** en **GitHub Pages**.
 
 ---
 
@@ -101,7 +102,7 @@ Avanzar por cuenta propia tiene mérito; en comunidad multiplicas tus posibilida
 
 - **Cómo contribuir**: lee [CONTRIBUTING.md](./CONTRIBUTING.md) (flujo de ramas, Conventional Commits, checklist de PR) y nuestro [Código de Conducta](./CODE_OF_CONDUCT.md).
 - **Ideas y bugs**: abre un issue con las plantillas para proponer recursos, eventos o reportar errores.
-- **Arquitectura y diseño**: [AGENTS.md](./AGENTS.md) y [DESIGN.md](./DESIGN.md).
+- **Arquitectura, decisiones y diseño**: [AGENTS.md](./AGENTS.md), [docs/decisions.md](./docs/decisions.md) y [DESIGN.md](./DESIGN.md).
 - **Discord**: [Escríbenos en la comunidad](https://discord.gg/TCuZSnfKTE).
 
 ---
