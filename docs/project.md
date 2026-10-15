@@ -31,7 +31,7 @@ Mid y Senior van juntos en el diagrama del home: pasar de uno a otro es cuestió
 
 - **Corto plazo**: lanzar y activar la comunidad en Discord; sesiones y dinámicas regulares; el sitio como vista pública.
 - **Mediano plazo**: crecer la base de miembros y las actividades (revisiones, mock interviews, debates); sumar voluntarios que ayuden a organizar.
-- **Largo plazo**: un ecosistema autosustentable que se retroalimenta. Posibles herramientas propias, como un tablero de oportunidades (Chamba Board), fuera de este repo.
+- **Largo plazo**: un ecosistema que se retroalimenta y se sostiene con quienes lo conforman. Posibles herramientas propias, como un tablero de oportunidades (Chamba Board), fuera de este repo.
 
 ## Roadmap del sitio
 
