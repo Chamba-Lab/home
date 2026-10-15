@@ -1,5 +1,10 @@
 ---
-import { DISCORD_URL, GITHUB_URL } from "../lib/constants";
+import {
+    CODE_OF_CONDUCT_URL,
+    CONTRIBUTING_URL,
+    DISCORD_URL,
+    GITHUB_URL,
+} from "../lib/constants";
 import DiscordIcon from "./icons/DiscordIcon.astro";
 import GithubIcon from "./icons/GithubIcon.astro";
 import tile from "../assets/brand/chamba-tile.svg";
@@ -78,7 +83,25 @@ const currentYear = new Date().getFullYear();
                     >Todos los derechos reservados.</span
                 >
             </p>
-            <div class="flex items-center gap-4">
+            <div class="flex flex-wrap items-center justify-center gap-4">
+                <a
+                    href={CONTRIBUTING_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    data-i18n="footerContribute"
+                    class="text-slate-400 hover:text-white transition-colors"
+                >
+                    Contribuir
+                </a>
+                <a
+                    href={CODE_OF_CONDUCT_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    data-i18n="footerConduct"
+                    class="text-slate-400 hover:text-white transition-colors"
+                >
+                    Código de conducta
+                </a>
                 <a
                     href={DISCORD_URL}
                     target="_blank"
