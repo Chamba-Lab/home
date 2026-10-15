@@ -12,7 +12,7 @@
 
 ## 📌 Nuestra Misión
 
-Chamba Lab es una comunidad tech sin fines de lucro, liderada por voluntarios. Nuestra misión es crear un espacio donde las personas en tecnología se conecten, se inspiren y crezcan juntas en su carrera, para que el contexto en el que cada quien empieza pese menos.
+Chamba Lab es una comunidad tech. Nuestra misión es crear un espacio donde las personas en tecnología se conecten, se inspiren y crezcan juntas en su carrera, para que el contexto en el que cada quien empieza pese menos.
 
 La interacción ocurre en Discord; este repositorio es el sitio público de la comunidad. Más contexto en [docs/project.md](./docs/project.md).
 
