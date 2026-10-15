@@ -44,13 +44,13 @@ const ECOSYSTEM_DATA: Record<
         ],
         advisingActivities: [
             "Revisión comunitaria de CV, perfil de LinkedIn y GitHub",
-            "Difusión y recomendación de convocatorias laborales reales",
+            "Convocatorias y oportunidades compartidas por la comunidad",
             "Revisión colaborativa de código y proyectos personales",
             "Espacio para resolver dudas sobre entornos de trabajo y bloqueos técnicos",
             "Simulacros de entrevistas técnicas y feedback en vivo (Mock Interviews)",
         ],
         growingActivities: [
-            "Networking profesional con desarrolladores y líderes de la región",
+            "Networking con otras personas del sector",
             "Espacios de conversación sobre arquitectura y diseño de sistemas",
             "Actualización técnica en nuevas herramientas y tendencias de la industria",
             "Desarrollo de habilidades blandas y liderazgo técnico",
@@ -64,7 +64,7 @@ const ECOSYSTEM_DATA: Record<
                     "Para estudiantes de últimos años, técnicos, personas autodidactas y quienes están en su primer año de trabajo.",
                 points: [
                     "Canales para compartir tu portafolio y proyectos en busca de feedback",
-                    "Canal de difusión de oportunidades para perfiles trainee y junior",
+                    "Un canal para compartir oportunidades pensadas para quienes empiezan",
                     "Espacio seguro para hacer preguntas técnicas sin temor al juicio",
                 ],
             },
@@ -72,7 +72,7 @@ const ECOSYSTEM_DATA: Record<
                 title: "Advising & Preparación",
                 subtitle: "Apoyo práctico entre pares",
                 description:
-                    "Espacio abierto donde la comunidad comparte consejos sinceros y feedback constructivo sobre procesos de selección.",
+                    "Espacio abierto donde la comunidad comparte consejos sinceros y feedback constructivo sobre CV, entrevistas y proyectos.",
                 points: [
                     "Hilos comunitarios de revisión de CV, LinkedIn y repositorios de GitHub",
                     "Dinámicas periódicas de simulacro de entrevistas técnicas (Mock Interviews)",
@@ -85,7 +85,7 @@ const ECOSYSTEM_DATA: Record<
                 description:
                     "Punto de encuentro para personas con experiencia en tecnología que siguen creciendo y comparten lo que saben.",
                 points: [
-                    "Networking horizontal entre pares de distintos países de la región",
+                    "Networking entre pares con experiencia",
                     "Conversaciones técnicas sobre producción, arquitectura y desafíos reales",
                     "Oportunidad de compartir conocimiento y guiar de forma abierta y flexible",
                 ],
@@ -125,13 +125,13 @@ const ECOSYSTEM_DATA: Record<
         ],
         advisingActivities: [
             "Community reviews for CVs, LinkedIn, and GitHub profiles",
-            "Sharing and recommending verified tech job opportunities",
+            "Job openings and opportunities shared by the community",
             "Collaborative code and personal project reviews",
             "Safe space for technical Q&A and unblocking work challenges",
             "Live technical and behavioral mock interview sessions",
         ],
         growingActivities: [
-            "Professional networking with developers and tech leads across LATAM",
+            "Networking with other people in the field",
             "Conversations on software architecture and system design",
             "Technical upskilling in modern tools and industry trends",
             "Soft skills development, career growth, and technical leadership",
@@ -145,7 +145,7 @@ const ECOSYSTEM_DATA: Record<
                     "For final-year students, technicians, self-taught people and those in their first year of work.",
                 points: [
                     "Channels to showcase your portfolio and projects for community feedback",
-                    "Curated diffusion channel for trainee and junior tech opportunities",
+                    "A channel to share opportunities aimed at people starting out",
                     "Safe and supportive space to ask technical questions without judgment",
                 ],
             },
@@ -153,11 +153,11 @@ const ECOSYSTEM_DATA: Record<
                 title: "Advising & Career Prep",
                 subtitle: "Hands-on peer support",
                 description:
-                    "Open space where experienced developers share honest advice and constructive feedback on hiring processes.",
+                    "Open space where the community shares honest advice and constructive feedback on CVs, interviews and projects.",
                 points: [
                     "Community review threads for resumes, LinkedIn, and GitHub repos",
                     "Regular live technical and behavioral mock interview sessions",
-                    "Actionable advice from experienced members on landing tech roles",
+                    "Practical advice from experienced members on getting through interviews",
                 ],
             },
             senior: {
@@ -166,7 +166,7 @@ const ECOSYSTEM_DATA: Record<
                 description:
                     "A meeting point for experienced people in tech who keep growing and share what they know.",
                 points: [
-                    "Peer-to-peer networking across different tech ecosystems in LATAM",
+                    "Networking between experienced peers",
                     "In-depth discussions on system design, production challenges, and tooling",
                     "Flexible opportunities to share knowledge and mentor incoming talent",
                 ],
