@@ -17,6 +17,7 @@ Registro corto de las decisiones que condicionan el proyecto y el porqué. Solo 
 
 ## Técnicas
 
+- **Dominio propio `chambalab.org` en la raíz.** El sitio se sirve desde GitHub Pages con `public/CNAME` y sin `base` en Astro. El DNS vive en Cloudflare (solo DNS, sin proxy). El namespace de los iCal (`<id>@chambalab.org`) no cambia, para que los calendarios sigan actualizando eventos.
 - **Sitio 100 % estático (SSG) en GitHub Pages.** Los datos son JSON validados con `content.config.ts`. Lo dinámico se resuelve en el navegador (por ejemplo, el widget de Discord) y no con servidor.
 - **Widget de Discord sin bot.** Solo se usa `widget.json`, que expone canales de voz públicos y avatares genéricos; no hay canales de texto, eventos ni fotos reales. Con respuesta correcta nunca se mezclan datos de ejemplo.
 - **i18n en el cliente.** El HTML se genera en español y el selector ES/EN cambia los textos en vivo con atributos `data-i18n*`. La preferencia se guarda en `localStorage`.

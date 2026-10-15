@@ -22,7 +22,7 @@ const {
 const rawBase = import.meta.env.BASE_URL;
 const base = rawBase.endsWith("/") ? rawBase : `${rawBase}/`;
 
-const siteUrl = Astro.site ?? "https://chamba-lab.github.io";
+const siteUrl = Astro.site ?? "https://chambalab.org";
 const canonicalUrl = new URL(Astro.url.pathname, siteUrl);
 const defaultImage = `${base}og-image.png`;
 const ogImageUrl = new URL(image || defaultImage, siteUrl);

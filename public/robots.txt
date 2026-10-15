@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://chamba-lab.github.io/home/sitemap-index.xml
+Sitemap: https://chambalab.org/sitemap-index.xml
