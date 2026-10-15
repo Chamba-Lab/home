@@ -16,7 +16,7 @@
 - [ ] El título del PR sigue Conventional Commits (`feat: ...`, `fix: ...`)
 - [ ] Actualicé `AGENTS.md` / `README.md` / `docs/` si el cambio lo requiere
 - [ ] Los textos visibles están en ES y EN
-- [ ] No agrega tracking ni dependencias que requieran servidor
+- [ ] No agrega dependencias que requieran servidor
 
 ## Capturas (si cambia la interfaz)
 
