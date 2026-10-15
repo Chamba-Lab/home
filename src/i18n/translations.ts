@@ -36,8 +36,7 @@ export const translations = {
         // Team Section
         teamBadge: "Equipo",
         teamTitle: "Quienes hacen Chamba Lab",
-        teamDesc:
-            "Las personas que sostienen la comunidad.",
+        teamDesc: "Las personas que sostienen la comunidad.",
         viewFullTeam: "Conoce a todo el equipo",
         teamStackLabel: "Contributors y miembros de la comunidad",
         teamPageTitle: "El equipo de Chamba Lab",
@@ -151,8 +150,7 @@ export const translations = {
         // Team Section
         teamBadge: "Team",
         teamTitle: "Meet the team",
-        teamDesc:
-            "The people who keep the community going.",
+        teamDesc: "The people who keep the community going.",
         viewFullTeam: "Meet the whole team",
         teamStackLabel: "Contributors and community members",
         teamPageTitle: "The Chamba Lab team",
