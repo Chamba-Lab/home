@@ -9,19 +9,28 @@ interface Props {
     member: TeamMember;
     // "full": tarjeta centrada con avatar y enlaces (fundadores, core team y contributors: mismo diseño).
     // "chip": solo avatar, enlaza a GitHub (miembros; escala a muchas personas).
-    variant?: "full" | "chip";
+    variant?: "full" | "row" | "chip";
 }
 
 const { member, variant = "full" } = Astro.props;
 const title = TIER_LABEL[member.tier];
 
+// Variantes compactas (core team y contributors): enlaces más pequeños.
+const small = variant !== "full";
 const linkClass =
-    "w-9 h-9 inline-flex items-center justify-center rounded-lg bg-slate-900/80 border border-white/10 text-slate-300 hover:text-brand-yellow hover:border-brand-yellow/40 transition-all";
+    (small ? "w-8 h-8" : "w-9 h-9") +
+    " inline-flex items-center justify-center rounded-lg bg-slate-900/80 border border-white/10 text-slate-300 hover:text-brand-yellow hover:border-brand-yellow/40 transition-all";
 
 // Tamaño mostrado del avatar en px (TeamAvatar lo pide al doble, para retina).
 const avatar = {
     full: { box: "w-20 h-20", px: 80, text: "text-2xl" },
+    row: { box: "w-12 h-12", px: 48, text: "text-lg" },
     chip: { box: "w-12 h-12", px: 48, text: "text-base" },
+}[variant];
+const shell = {
+    full: "card-glass rounded-2xl border border-white/10 p-5 flex flex-col items-center text-center gap-3 hover:-translate-y-0.5 transition-all duration-300",
+    row: "card-glass rounded-xl border border-white/10 p-3 flex items-center gap-3 hover:-translate-y-0.5 transition-all duration-300",
+    chip: "",
 }[variant];
 const avatarClass = `${avatar.box} shrink-0 rounded-full border-2 border-white/25`;
 const chipHover =
@@ -54,12 +63,7 @@ const chipHover =
             </span>
         </li>
     ) : (
-        <li
-            class:list={[
-                "card-glass rounded-2xl border border-white/10 hover:-translate-y-0.5 transition-all duration-300",
-                "p-5 flex flex-col items-center text-center gap-3",
-            ]}
-        >
+        <li class={shell}>
             <TeamAvatar
                 member={member}
                 px={avatar.px}
@@ -67,19 +71,39 @@ const chipHover =
                 labelled
                 class={avatarClass}
             />
-            <div class="space-y-0.5">
-                <h3 class="font-display font-bold text-white text-base">
+            <div
+                class:list={[
+                    "space-y-0.5",
+                    variant === "row" && "min-w-0 flex-1",
+                ]}
+            >
+                <h3
+                    class:list={[
+                        "font-display font-bold text-white",
+                        small ? "text-sm" : "text-base",
+                        variant === "row" && "truncate",
+                    ]}
+                >
                     {member.name}
                 </h3>
                 <p
-                    class="text-sm text-slate-400"
+                    class:list={[
+                        "text-slate-400",
+                        small ? "text-xs" : "text-sm",
+                    ]}
                     data-i18n-en={title.en}
                     data-i18n-es={title.es}
                 >
                     {title.es}
                 </p>
             </div>
-            <div class="flex items-center gap-2 mt-auto">
+            <div
+                class:list={[
+                    "flex items-center",
+                    small ? "gap-1.5" : "gap-2",
+                    variant !== "row" && "mt-auto",
+                ]}
+            >
                 <a
                     href={member.github}
                     target="_blank"
