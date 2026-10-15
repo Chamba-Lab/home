@@ -25,7 +25,7 @@ Este archivo es lo primero que lee cualquier persona o agente antes de tocar el 
 - **Inspire**: conversaciones de carrera y arquitectura, mentoría abierta, dinámicas.
 - **Grow**: revisión de CV, LinkedIn y GitHub, feedback de código, mock interviews, recursos curados.
 
-**Qué no es**: una aceleradora comercial. El detalle y el roadmap están en [`docs/project.md`](./docs/project.md).
+El detalle y el roadmap están en [`docs/project.md`](./docs/project.md).
 
 **Vocabulario canónico** (usar siempre estos términos): _Early Career_, _Mid & Senior_, _título público_ (campo `tier` del equipo), _dinámica_ (actividad interactiva del sitio), _widget de Discord_.
 
