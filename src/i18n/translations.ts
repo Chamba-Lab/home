@@ -113,6 +113,8 @@ export const translations = {
         footerDesc:
             "Comunidad tech para conectar, inspirarte y crecer. Nos encontramos en Discord.",
         allRightsReserved: "Todos los derechos reservados.",
+        footerContribute: "Contribuir",
+        footerConduct: "Código de conducta",
     },
     en: {
         langToggle: "ES",
@@ -227,6 +229,8 @@ export const translations = {
         footerDesc:
             "A tech community to connect, get inspired and grow. We meet on Discord.",
         allRightsReserved: "All rights reserved.",
+        footerContribute: "Contribute",
+        footerConduct: "Code of conduct",
     },
 } as const;
 
