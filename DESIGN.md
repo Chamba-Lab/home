@@ -63,7 +63,7 @@ Los tokens base están configurados en `src/styles/global.css` dentro de `@theme
 
 ## 3. Typography System
 
-Cargada de forma optimizada vía Google Fonts en `src/layouts/Layout.astro`.
+Autoalojada con `@fontsource-variable` (Inter y Plus Jakarta Sans, importadas en `src/layouts/Layout.astro`); no se piden fuentes a servicios externos. Los tokens son `--font-sans` y `--font-display` en `global.css`.
 
 ### 3.1 Font Families
 
