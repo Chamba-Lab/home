@@ -4,16 +4,31 @@ Este archivo es lo primero que lee cualquier persona o agente antes de tocar el 
 
 ## 1. Identidad y visión
 
-- **Chamba Lab**: comunidad tech sin fines de lucro, liderada por voluntarios. Punto de encuentro: Discord.
-- **Lema**: _Connect. Inspire. Grow._ (Conecta, inspírate y crece). Aparece en la imagen OG y en los metadatos del sitio.
-- **Misión**: democratizar el acceso a oportunidades laborales en tech, conectando a quienes construyen su carrera con quienes ya tienen camino recorrido, en LATAM y el mundo. No es una aceleradora comercial.
-- **Valores**:
-    - _Comunidad_: avanzar por cuenta propia tiene mérito; en comunidad multiplicas tus posibilidades.
-    - _Práctico_: recursos y apoyo real, no solo teoría.
-- **Ecosistema**: un ciclo continuo entre dos perfiles, **Early Career** (Trainee y Junior) y **Mid & Senior** (profesionales en activo), con dos interacciones: **Advising y Preparación** (feedback de CV/código, convocatorias, simulacros) y **Continuous Growing** (networking, arquitectura y retorno: guiar a quienes vienen detrás). Lo representa `CommunityEcosystem.tsx`.
-- **Pilares**: _A. Professional Evolution & Advising_ (empleabilidad, revisiones, mock interviews) y _B. Community Core & Continuous Growing_ (coworking, debates, recursos, mentoría, dinámicas y eventos). Detalle y roadmap en [`docs/project.md`](./docs/project.md).
-- **Alcance de este repo**: la landing, la vista pública de la comunidad. Explica quiénes somos y redirige a Discord, donde ocurre la interacción y las actividades. Un ecosistema de producto mayor, si existe, vive aparte.
-- **Marca**: "Chamba" es el único término del glosario cultural activo hoy (es el nombre); el resto se introduce de forma progresiva en features concretas ([`docs/branding_concepts.md`](./docs/branding_concepts.md)). La mascota (mapache/gato con taza de café) es el logo.
+- **Chamba Lab**: comunidad tech sin fines de lucro, liderada por voluntarios. Su espacio de interacción es Discord.
+- **Lema**: _Connect. Inspire. Grow._ (Conecta, inspírate y crece). Está en la imagen OG y en los metadatos del sitio.
+- **Misión**: crear un espacio donde quienes hablan español en tecnología se conecten, se inspiren y crezcan juntos en su carrera y en su vida, para que el contexto en el que cada quien empieza pese menos.
+- **Visión (largo plazo)**: un ecosistema que se retroalimenta y se sostiene con quienes lo conforman. A corto y mediano plazo los fundadores están presentes y lideran las dinámicas.
+- **Valores**: _Comunidad_ (avanzar por cuenta propia tiene mérito; en comunidad multiplicas tus posibilidades) y _Práctico_ (apoyo real, no solo teoría).
+- **Público**: personas que hablan español, empezando por Perú (horario UTC-5, compartido con Colombia). Copy neutro, sin jerga local; "Chamba" (el nombre) es la única excepción.
+- **Este repo es la landing**: la vista pública de la comunidad. Explica quiénes somos y redirige a Discord, donde ocurre la interacción y las actividades.
+- **Horizontal**: no hay rangos ni escalera dentro de la comunidad. Los títulos públicos del equipo indican quién administra, no autoridad.
+
+**Perfiles** (el diagrama del home agrupa Mid y Senior porque comparten lo que aportan y necesitan):
+
+| Perfil           | Quiénes                                                              | Necesitan                                                                 | Aportan                                                              |
+| :--------------- | :------------------------------------------------------------------- | :------------------------------------------------------------------------ | :------------------------------------------------------------------- |
+| **Early Career** | Estudiantes de últimos años, técnicos, egresados, primer año laboral | Mentoría, orientación de carrera (CV, entrevistas), feedback, pares       | Preguntas, energía y apoyo entre pares                               |
+| **Mid & Senior** | Profesionales con experiencia consolidada                            | Seguir creciendo (arquitectura, liderazgo), inspiración, networking, debate | Mentoría, revisiones, referencias de oportunidades y visión real del sector |
+
+**Estructura de la comunidad** (sigue el lema):
+
+- **Connect**: punto de encuentro en Discord, coworking, eventos y sesiones.
+- **Inspire**: conversaciones de carrera y arquitectura, mentoría abierta, dinámicas.
+- **Grow**: revisión de CV, LinkedIn y GitHub, feedback de código, mock interviews, recursos curados.
+
+**Qué no es**: no es una aceleradora, ni una bolsa de empleo (hoy), ni una escuela con rangos. El detalle y el roadmap están en [`docs/project.md`](./docs/project.md).
+
+**Vocabulario canónico** (usar siempre estos términos): _Early Career_, _Mid & Senior_, _título público_ (campo `tier` del equipo), _dinámica_ (actividad interactiva del sitio), _widget de Discord_.
 
 ## 2. Stack
 
@@ -73,9 +88,8 @@ GitHub Actions. En cada PR a `master` corre `PR Checks` (`Lint, Test & Build` y 
 | [README.md](./README.md)                                 | Presentación, comandos y puesta en marcha                          |
 | [CONTRIBUTING.md](./CONTRIBUTING.md)                     | Cómo contribuir: ramas, commits, PR, contenido                     |
 | [DESIGN.md](./DESIGN.md)                                 | Sistema de diseño, componentes y reglas de marca                   |
-| [docs/project.md](./docs/project.md)                     | Manifiesto, pilares y roadmap                                      |
+| [docs/project.md](./docs/project.md)                     | Propósito, perfiles, horizontes y roadmap                          |
 | [docs/decisions.md](./docs/decisions.md)                 | Decisiones clave y su porqué                                       |
-| [docs/branding_concepts.md](./docs/branding_concepts.md) | Glosario cultural progresivo                                       |
 | [CODE_OF_CONDUCT.md](./CODE_OF_CONDUCT.md)               | Normas de la comunidad                                             |
 | [CHANGELOG.md](./CHANGELOG.md)                           | Historial de versiones (generado, no se edita a mano)              |
 

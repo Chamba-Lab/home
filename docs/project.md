@@ -1,58 +1,46 @@
 # Chamba Lab: Connect. Inspire. Grow.
 
-Resumen del proyecto: qué es la comunidad, cómo se organiza y hacia dónde va este sitio. La versión técnica está en [`AGENTS.md`](../AGENTS.md); las decisiones, en [`decisions.md`](./decisions.md). El desarrollo detallado de ideas y la operación de la comunidad viven en el Notion del equipo.
+Resumen del proyecto para quien contribuye al sitio. La versión técnica está en [`AGENTS.md`](../AGENTS.md) y las decisiones en [`decisions.md`](./decisions.md). El contexto amplio y el detalle viven en el Notion del equipo.
 
-## Manifiesto
+## Propósito
 
-**Chamba Lab** es una iniciativa comunitaria, sin fines de lucro, para potenciar el talento tech. No es una aceleradora comercial: somos estudiantes y profesionales que creen en compartir conocimiento y tender puentes.
+- **Misión**: crear un espacio donde quienes hablan español en tecnología se conecten, se inspiren y crezcan juntos en su carrera y en su vida, para que el contexto en el que cada quien empieza pese menos.
+- **Visión (largo plazo)**: un ecosistema que se retroalimenta y se sostiene con quienes lo conforman.
+- **Principios**: comunidad horizontal, sin rangos; apoyo práctico, no solo teoría; sin fines de lucro, liderada por voluntarios.
+- **Alcance**: no busca resolver todas las barreras económicas, académicas o laborales. Es un espacio de encuentro y crecimiento.
+- **Público**: hispanohablantes, empezando por Perú (UTC-5, compartido con Colombia).
 
-**Avanzar por cuenta propia tiene mérito; en comunidad multiplicas tus posibilidades.** Conectamos a quienes inician con quienes ya tienen camino recorrido, en un espacio horizontal para aprender, recibir feedback sincero, debatir retos reales y abrir oportunidades. Punto de encuentro: Discord.
+## Perfiles
 
-## Ecosistema
+| Perfil           | Necesitan                                                             | Aportan                                                         |
+| :--------------- | :-------------------------------------------------------------------- | :-------------------------------------------------------------- |
+| **Early Career** | Mentoría, orientación de carrera, feedback de CV y código, pares      | Preguntas, energía, apoyo entre pares                           |
+| **Mid & Senior** | Seguir creciendo, inspiración, networking, espacios de debate         | Mentoría, revisiones, referencias de oportunidades, visión real |
 
-Un ciclo continuo entre dos perfiles:
+Mid y Senior van juntos en el diagrama del home: pasar de uno a otro es cuestión de tiempo y capacitación, y comparten lo que aportan y necesitan.
 
-- **Early Career** (Trainee y Junior): reciben feedback, acceden a convocatorias y resuelven dudas sin miedo al juicio.
-- **Mid & Senior** (profesionales en activo): networking, debates de arquitectura y mentoría abierta.
+## Qué ofrece la comunidad
 
-Y dos interacciones que los unen: **Advising y Preparación** (revisión de CV, LinkedIn, GitHub y proyectos; simulacros de entrevista) y **Continuous Growing** (crecimiento continuo y retorno: guiar a la siguiente generación). El sitio lo muestra en la landing con el diagrama interactivo.
+| Verbo       | Qué es                                                    | Ejemplos                                                                  |
+| :---------- | :-------------------------------------------------------- | :------------------------------------------------------------------------ |
+| **Connect** | Punto de encuentro y compañía                             | Discord, coworking (Code & Coffee), eventos y sesiones                    |
+| **Inspire** | Aprender de las historias y criterios de otras personas   | Conversaciones de carrera y arquitectura, mentoría abierta, dinámicas     |
+| **Grow**    | Avance concreto en la carrera                             | Revisión de CV, LinkedIn y GitHub, feedback de código, mock interviews, recursos curados |
 
-## Pilares de acción
+## Horizontes
 
-**A. Professional Evolution & Advising**: apoyo práctico entre pares para entrar y crecer en el sector.
-
-- Chamba Board: difusión de convocatorias reales, sin spam.
-- Career Reviews: CV (compatibles con ATS), LinkedIn y GitHub.
-- Code & Project Feedback.
-- Learning Paths & Unblocking.
-- Mock Interviews.
-
-**B. Community Core & Continuous Growing**: el tejido social y la evolución continua.
-
-- Sync Spaces & Coworking (por ejemplo, Code & Coffee los viernes).
-- Architecture & Tech Debates.
-- Knowledge Hub & Resources (`/resources`).
-- Mentorship y ciclo de retorno.
-- Dinámicas y eventos (La Ruleta en `/activities/roulette` y el calendario en `/events`).
+- **Corto plazo**: lanzar y activar la comunidad en Discord; los fundadores presentes, liderando las dinámicas y las sesiones regulares; el sitio como vista pública.
+- **Mediano plazo**: crecer la base de miembros y las actividades (revisiones, mock interviews, debates); sumar voluntarios que ayuden a organizar.
+- **Largo plazo**: un ecosistema autosustentable que se retroalimenta; los fundadores pasan a un segundo plano. Posibles herramientas propias, como un tablero de oportunidades (Chamba Board), fuera de este repo.
 
 ## Roadmap del sitio
 
-**Hecho**
-
-- Landing con widget de Discord (con voz por canal), ecosistema, eventos, equipo y recursos.
-- Páginas de recursos, eventos (con exportación a calendario), equipo (títulos públicos) y dinámicas (La Ruleta).
-- Bilingüe ES/EN, SEO y tarjetas de redes (OG), identidad de marca con la mascota.
-- Guía de contribución, plantillas de issues y PR, y `master` protegida con checks automáticos.
+**Hecho**: landing con widget de Discord, ecosistema, eventos, equipo y recursos; páginas de recursos, eventos, equipo y dinámicas (La Ruleta); bilingüe ES/EN; SEO y tarjetas de redes; identidad de marca; guía de contribución y `master` protegida.
 
 **Siguiente**
 
-- **Career Kit Beta**: plantillas de CV Tech compatibles con ATS, checklists de perfil y rúbricas de mock interview.
-- **Segunda dinámica** (Preguntas Rápidas) en `/activities/quick-questions`.
-- **Contribución guiada desde el sitio**: hoy se hace con issues y PR; falta un flujo más directo para proponer recursos y eventos.
-- **Más cobertura de pruebas**: calendario (UTC-5, `.ics`) y dinámicas.
-- **Fuentes autoalojadas**: hoy se cargan desde Google Fonts.
-
-**Horizonte** (puede vivir fuera de este repo)
-
-- De directorio estático de recursos a herramienta práctica (guías, salarios, prospección).
-- Chamba Board como producto: publicación y recomendación de oportunidades validadas.
+- Refinar el contenido del sitio para que refleje este propósito, los perfiles y lo que ofrece la comunidad.
+- Career Kit Beta: plantillas de CV Tech compatibles con ATS, checklists de perfil y rúbricas de mock interview.
+- Segunda dinámica (Preguntas Rápidas) en `/activities/quick-questions`.
+- Flujo guiado para proponer recursos y eventos desde el sitio.
+- Más cobertura de pruebas (calendario y dinámicas).
