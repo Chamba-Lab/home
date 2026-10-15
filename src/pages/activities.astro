@@ -11,8 +11,12 @@ const activities = await getCollection("activities");
 ---
 
 <Layout
-    title="Chamba Lab | Dinámicas y Actividades Comunitarias"
+    title="Dinámicas y actividades comunitarias | Chamba Lab"
     description="Mini actividades para la comunidad. Gira la ruleta, elige un tema, debate en vivo o desafíate a ti mismo en sesiones de Discord."
+    breadcrumbs={[
+        { name: "Inicio", path: "/" },
+        { name: "Dinámicas", path: "/activities/" },
+    ]}
 >
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
         <!-- Header -->

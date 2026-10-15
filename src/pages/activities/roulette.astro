@@ -17,8 +17,13 @@ const { freeMode, presets } = config;
 ---
 
 <Layout
-    title="Chamba Lab | La Ruleta de la Comunidad"
+    title="La Ruleta de la Comunidad | Chamba Lab"
     description="Gira y descubre un tema para debatir o improvisar en sesiones de la comunidad. 7 packs temáticos precargados o modo libre de hasta 24 opciones."
+    breadcrumbs={[
+        { name: "Inicio", path: "/" },
+        { name: "Dinámicas", path: "/activities/" },
+        { name: "La Ruleta", path: "/activities/roulette/" },
+    ]}
 >
     <main
         class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20 relative"

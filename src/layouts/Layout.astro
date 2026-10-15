@@ -4,12 +4,24 @@ import "@fontsource-variable/plus-jakarta-sans";
 import "../styles/global.css";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
+import { SITE_URL } from "../lib/constants";
+import {
+    breadcrumbJsonLd,
+    serializeJsonLd,
+    type BreadcrumbItem,
+} from "../lib/seo";
 
 interface Props {
     title: string;
     description?: string;
     image?: string;
     type?: "website" | "article";
+    /** Migas de pan (JSON-LD). La primera debe ser el inicio. */
+    breadcrumbs?: BreadcrumbItem[];
+    /** Nodos JSON-LD adicionales (Organization, Event, etc.). */
+    jsonLd?: Record<string, unknown>[];
+    /** Excluye la página de los buscadores (por ejemplo, el 404). */
+    noindex?: boolean;
 }
 
 const {
@@ -17,15 +29,23 @@ const {
     description = "Chamba Lab: comunidad tech para conectar, inspirarte y crecer. Conversa, aprende y avanza junto a otras personas en tecnología. Únete en Discord.",
     image,
     type = "website",
+    breadcrumbs,
+    jsonLd = [],
+    noindex = false,
 } = Astro.props;
 
 const rawBase = import.meta.env.BASE_URL;
 const base = rawBase.endsWith("/") ? rawBase : `${rawBase}/`;
 
-const siteUrl = Astro.site ?? "https://chambalab.org";
+const siteUrl = Astro.site ?? new URL(SITE_URL);
 const canonicalUrl = new URL(Astro.url.pathname, siteUrl);
 const defaultImage = `${base}og-image.png`;
 const ogImageUrl = new URL(image || defaultImage, siteUrl);
+
+const structuredData = [
+    ...jsonLd,
+    ...(breadcrumbs ? [breadcrumbJsonLd(siteUrl.origin, breadcrumbs)] : []),
+];
 ---
 
 <!doctype html>
@@ -38,6 +58,7 @@ const ogImageUrl = new URL(image || defaultImage, siteUrl);
         <meta name="description" content={description} />
         <meta name="generator" content={Astro.generator} />
         <meta name="theme-color" content="#080D1A" />
+        {noindex && <meta name="robots" content="noindex" />}
         <link rel="canonical" href={canonicalUrl.href} />
         <link rel="icon" href={`${base}favicon.ico`} sizes="48x48" />
         <link rel="icon" type="image/svg+xml" href={`${base}favicon.svg`} />
@@ -70,6 +91,16 @@ const ogImageUrl = new URL(image || defaultImage, siteUrl);
             name="twitter:image:alt"
             content="Chamba Lab · Connect. Inspire. Grow."
         />
+
+        {
+            structuredData.length > 0 && (
+                <script
+                    is:inline
+                    type="application/ld+json"
+                    set:html={serializeJsonLd(structuredData)}
+                />
+            )
+        }
     </head>
     <body
         class="min-h-screen flex flex-col bg-bg text-slate-200 selection:bg-brand-yellow selection:text-slate-950"

@@ -1,6 +1,8 @@
 /** Fuente única de enlaces externos: no repetir estas URLs en componentes. */
 export const DISCORD_URL = "https://discord.gg/fNd8CXBbsQ";
-export const GITHUB_URL = "https://github.com/Chamba-Lab/home";
+export const SITE_URL = "https://chambalab.org";
+export const GITHUB_ORG_URL = "https://github.com/Chamba-Lab";
+export const GITHUB_URL = `${GITHUB_ORG_URL}/home`;
 export const CONTRIBUTING_URL = `${GITHUB_URL}/blob/master/CONTRIBUTING.md`;
 export const CODE_OF_CONDUCT_URL = `${GITHUB_URL}/blob/master/CODE_OF_CONDUCT.md`;
 

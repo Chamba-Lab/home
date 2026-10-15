@@ -3,10 +3,14 @@ import Layout from "../layouts/Layout.astro";
 import EventItem from "../components/EventItem.astro";
 import ChevronIcon from "../components/icons/ChevronIcon.astro";
 import DiscordIcon from "../components/icons/DiscordIcon.astro";
-import { DISCORD_URL } from "../lib/constants";
+import { DISCORD_URL, SITE_URL } from "../lib/constants";
+import { eventJsonLd } from "../lib/seo";
 import { getCollection } from "astro:content";
 
 const MONTHS_AHEAD = 12;
+// Eventos próximos que se publican como datos estructurados.
+const SEO_EVENTS_LIMIT = 10;
+const siteOrigin = Astro.site?.origin ?? SITE_URL;
 
 const events = await getCollection("events");
 
@@ -136,11 +140,32 @@ const months = Array.from({ length: totalMonths }, (_, i) => {
         occurrences,
     };
 });
+
+const today = new Date();
+today.setHours(0, 0, 0, 0);
+const upcomingEvents = months
+    .flatMap((month) => month.occurrences)
+    .filter((occurrence) => occurrence.date >= today)
+    .slice(0, SEO_EVENTS_LIMIT);
 ---
 
 <Layout
-    title="Chamba Lab | Calendario de Eventos y Sesiones"
+    title="Calendario de eventos y sesiones | Chamba Lab"
     description="Sesiones en vivo, simulacros técnicos y espacios de coworking de la comunidad. Horarios y enlaces a Google Calendar e iCal."
+    breadcrumbs={[
+        { name: "Inicio", path: "/" },
+        { name: "Eventos", path: "/events/" },
+    ]}
+    jsonLd={upcomingEvents.map((o) =>
+        eventJsonLd(siteOrigin, {
+            name: o.title.es ?? o.title.en,
+            description: o.description.es ?? o.description.en,
+            date: o.dateIso,
+            startTime: o.startTime,
+            endTime: o.endTime,
+            timezone: o.timezone,
+        }),
+    )}
 >
     <main class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
         <!-- Header -->
