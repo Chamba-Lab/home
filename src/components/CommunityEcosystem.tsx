@@ -16,6 +16,7 @@ const ECOSYSTEM_DATA: Record<
         sectionTitle: string;
         sectionHighlight: string;
         sectionDesc: string;
+        pillars: Array<{ title: string; desc: string }>;
         advisingActivities: string[];
         growingActivities: string[];
         nodes: Record<NodeKey, NodeDetail>;
@@ -26,7 +27,21 @@ const ECOSYSTEM_DATA: Record<
         sectionTitle: "El Ecosistema",
         sectionHighlight: "Chamba Lab",
         sectionDesc:
-            "Un ciclo colaborativo y continuo. Conectamos a quienes inician con quienes ya tienen camino recorrido.",
+            "Un ciclo continuo: quienes empiezan aprenden de quienes ya recorrieron el camino, y quienes ya lo recorrieron siguen creciendo al compartirlo.",
+        pillars: [
+            {
+                title: "Conecta",
+                desc: "Un punto de encuentro para conversar, coordinar y trabajar en compañía.",
+            },
+            {
+                title: "Inspírate",
+                desc: "Aprende de las historias y los criterios de otras personas del sector.",
+            },
+            {
+                title: "Crece",
+                desc: "Avanza en tu carrera con apoyo concreto de otras personas.",
+            },
+        ],
         advisingActivities: [
             "Revisión comunitaria de CV, perfil de LinkedIn y GitHub",
             "Difusión y recomendación de convocatorias laborales reales",
@@ -46,7 +61,7 @@ const ECOSYSTEM_DATA: Record<
                 title: "Early Career",
                 subtitle: "Trainee & Junior",
                 description:
-                    "Espacio para estudiantes, desarrolladores autodidactas y quienes dan sus primeros pasos en la industria tech.",
+                    "Para estudiantes de últimos años, técnicos, personas autodidactas y quienes están en su primer año de trabajo.",
                 points: [
                     "Canales para compartir tu portafolio y proyectos en busca de feedback",
                     "Canal de difusión de oportunidades para perfiles trainee y junior",
@@ -68,7 +83,7 @@ const ECOSYSTEM_DATA: Record<
                 title: "Mid & Senior",
                 subtitle: "Profesionales en actividad",
                 description:
-                    "Punto de encuentro para desarrolladores con experiencia laboral comprobada en tecnología.",
+                    "Punto de encuentro para personas con experiencia en tecnología que siguen creciendo y comparten lo que saben.",
                 points: [
                     "Networking horizontal entre pares de distintos países de la región",
                     "Conversaciones técnicas sobre producción, arquitectura y desafíos reales",
@@ -77,7 +92,7 @@ const ECOSYSTEM_DATA: Record<
             },
             growing: {
                 title: "Continuous Growing",
-                subtitle: "Evolución continua",
+                subtitle: "Crecimiento continuo",
                 description:
                     "El ciclo donde los profesionales continúan aprendiendo y fortalecen la comunidad compartiendo su experiencia.",
                 points: [
@@ -93,7 +108,21 @@ const ECOSYSTEM_DATA: Record<
         sectionTitle: "The",
         sectionHighlight: "Chamba Lab Ecosystem",
         sectionDesc:
-            "A collaborative, continuous cycle. Connecting those starting out with seasoned developers.",
+            "A continuous cycle: those starting out learn from those further along, and those further along keep growing by sharing.",
+        pillars: [
+            {
+                title: "Connect",
+                desc: "A meeting point to talk, coordinate and work together.",
+            },
+            {
+                title: "Get inspired",
+                desc: "Learn from the stories and judgment of others in the field.",
+            },
+            {
+                title: "Grow",
+                desc: "Move your career forward with practical help from others.",
+            },
+        ],
         advisingActivities: [
             "Community reviews for CVs, LinkedIn, and GitHub profiles",
             "Sharing and recommending verified tech job opportunities",
@@ -113,7 +142,7 @@ const ECOSYSTEM_DATA: Record<
                 title: "Early Career",
                 subtitle: "Trainee & Junior",
                 description:
-                    "Designed for graduating students, self-taught developers, and first-year tech professionals.",
+                    "For final-year students, technicians, self-taught people and those in their first year of work.",
                 points: [
                     "Channels to showcase your portfolio and projects for community feedback",
                     "Curated diffusion channel for trainee and junior tech opportunities",
@@ -135,7 +164,7 @@ const ECOSYSTEM_DATA: Record<
                 title: "Mid & Senior",
                 subtitle: "Industry professionals",
                 description:
-                    "A peer circle for developers with proven industry experience across software and tech teams.",
+                    "A meeting point for experienced people in tech who keep growing and share what they know.",
                 points: [
                     "Peer-to-peer networking across different tech ecosystems in LATAM",
                     "In-depth discussions on system design, production challenges, and tooling",
@@ -144,9 +173,9 @@ const ECOSYSTEM_DATA: Record<
             },
             growing: {
                 title: "Continuous Growing",
-                subtitle: "Ongoing evolution",
+                subtitle: "Ongoing growth",
                 description:
-                    "The self-sustaining community cycle: engineers continuing their growth while giving back to incoming developers.",
+                    "The cycle where experienced people keep learning and strengthen the community by sharing what they know.",
                 points: [
                     "Resource sharing on engineering best practices and emerging tech",
                     "Discussions on career advancement and technical leadership paths",
@@ -238,7 +267,7 @@ export default function CommunityEcosystem() {
     return (
         <section
             id="community-ecosystem"
-            className="relative py-16 sm:py-24 overflow-hidden border-t border-white/[0.08]"
+            className="relative py-10 sm:py-12 overflow-hidden border-t border-white/[0.08]"
         >
             {/* Background lighting */}
             <div className="absolute top-1/2 left-1/3 -translate-y-1/2 w-96 h-96 bg-brand-yellow/[0.04] rounded-full blur-3xl pointer-events-none" />
@@ -246,12 +275,12 @@ export default function CommunityEcosystem() {
 
             <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                 {/* Section Header */}
-                <div className="text-center max-w-2xl mx-auto mb-8 sm:mb-12">
+                <div className="text-center max-w-2xl mx-auto">
                     <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full card-glass text-xs font-semibold text-slate-300 border border-white/10 mb-4">
                         <span className="w-2 h-2 rounded-full bg-brand-yellow animate-pulse" />
                         <span>{t.badge}</span>
                     </div>
-                    <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white mb-3">
+                    <h2 className="font-display text-3xl sm:text-4xl font-extrabold tracking-tight text-white mb-2">
                         {t.sectionTitle}{" "}
                         <span className="text-brand-yellow">
                             {t.sectionHighlight}
@@ -261,6 +290,24 @@ export default function CommunityEcosystem() {
                     <p className="text-sm sm:text-base text-slate-300 leading-relaxed max-w-2xl mx-auto">
                         {t.sectionDesc}
                     </p>
+                </div>
+
+                <div className="mb-5 sm:mb-6">
+                    <ul className="grid grid-cols-1 sm:grid-cols-3 gap-3 max-w-4xl mx-auto mt-5 text-left">
+                        {t.pillars.map((pillar) => (
+                            <li
+                                key={pillar.title}
+                                className="rounded-xl border border-white/[0.08] bg-white/[0.02] px-4 py-3"
+                            >
+                                <h3 className="font-display text-sm font-bold text-white mb-0.5">
+                                    {pillar.title}
+                                </h3>
+                                <p className="text-xs text-slate-400 leading-relaxed">
+                                    {pillar.desc}
+                                </p>
+                            </li>
+                        ))}
+                    </ul>
                 </div>
 
                 {/* ============================================================== */}
@@ -400,11 +447,11 @@ export default function CommunityEcosystem() {
                 {/* VISTA DESKTOP: CANVAS VECTORIAL CENTRADO (>= 768px)            */}
                 {/* ============================================================== */}
                 <div className="hidden md:block">
-                    <div className="card-glass rounded-3xl p-4 sm:p-8 border border-white/[0.12] bg-[#070B16] shadow-2xl relative">
+                    <div className="card-glass rounded-3xl p-4 sm:p-5 border border-white/[0.12] bg-[#070B16] shadow-2xl relative">
                         <div className="w-full flex justify-center items-center overflow-x-auto">
                             <svg
                                 viewBox="0 0 880 340"
-                                className="w-full max-w-4xl h-auto min-w-[680px] select-none block mx-auto"
+                                className="w-full max-w-3xl h-auto min-w-[680px] select-none block mx-auto"
                                 style={{
                                     filter: "drop-shadow(0 15px 25px rgba(0,0,0,0.45))",
                                 }}
@@ -929,7 +976,9 @@ export default function CommunityEcosystem() {
                                         fontSize="11"
                                         fontWeight="700"
                                     >
-                                        {isEs ? "SSr a más" : "Mid to Senior+"}
+                                        {isEs
+                                            ? "Semi-senior+"
+                                            : "Mid to Senior+"}
                                     </text>
                                 </g>
 

@@ -41,7 +41,7 @@ El detalle y el roadmap están en [`docs/project.md`](./docs/project.md).
 
 | Ruta                   | Qué es                                                                                                                                          |
 | :--------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------- |
-| `/`                    | Landing: hero, widget de Discord, diagrama del ecosistema, eventos, equipo (fundadores y pila de avatares) y recursos destacados, en ese orden. |
+| `/`                    | Landing: hero, widget de Discord, ecosistema (Connect, Inspire, Grow y el diagrama de perfiles), eventos, equipo (fundadores y pila de avatares) y recursos destacados, en ese orden. |
 | `/resources`           | Biblioteca curada con buscador y filtro por categoría.                                                                                          |
 | `/events`              | Calendario mensual (UTC-5) con exportación a Google Calendar e iCal.                                                                            |
 | `/team`                | Fundadores, Core team y Contributors, y muro de miembros; invita a pedir aparecer.                                                              |

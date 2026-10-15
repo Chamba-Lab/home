@@ -39,7 +39,6 @@ Mid y Senior van juntos en el diagrama del home: pasar de uno a otro es cuestió
 
 **Siguiente**
 
-- Refinar el contenido del sitio para que refleje este propósito, los perfiles y lo que ofrece la comunidad.
 - Career Kit Beta: plantillas de CV Tech compatibles con ATS, checklists de perfil y rúbricas de mock interview.
 - Segunda dinámica (Preguntas Rápidas) en `/activities/quick-questions`.
 - Flujo guiado para proponer recursos y eventos desde el sitio.

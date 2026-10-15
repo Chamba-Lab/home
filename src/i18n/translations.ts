@@ -6,13 +6,11 @@ export const translations = {
         navActivities: "Dinámicas",
         joinDiscord: "Unirse a Discord",
         badge: "Comunidad Tech",
-        heroTitlePrefix: "El espacio para impulsar tu camino en",
+        heroTitlePrefix: "Conecta, inspírate y crece en",
         heroTitleHighlight: "tecnología",
         heroSubtitle:
-            "Una comunidad abierta para compartir conocimiento, oportunidades laborales y crecer juntos. Todo en tiempo real en nuestro Discord.",
-        heroIntro1:
-            "Una comunidad abierta para compartir conocimiento, oportunidades laborales y crecer juntos.",
-        heroIntro2: "Todo pasa en nuestro Discord en tiempo real.",
+            "Una comunidad abierta de personas en tecnología que se conectan, se inspiran y crecen juntas. Todo ocurre en nuestro Discord.",
+
         ctaDiscord: "Unirse a Discord",
         ctaResources: "Ver Recursos",
 
@@ -113,7 +111,7 @@ export const translations = {
 
         // Footer
         footerDesc:
-            "Espacio colaborativo para impulsar carreras y compartir oportunidades reales en tecnología en LATAM y el mundo.",
+            "Comunidad tech para conectar, inspirarte y crecer. Nos encontramos en Discord.",
         allRightsReserved: "Todos los derechos reservados.",
     },
     en: {
@@ -123,13 +121,11 @@ export const translations = {
         navActivities: "Activities",
         joinDiscord: "Join Discord",
         badge: "Tech Community",
-        heroTitlePrefix: "The space to empower your path in",
+        heroTitlePrefix: "Connect, get inspired and grow in",
         heroTitleHighlight: "tech",
         heroSubtitle:
-            "An open community to share knowledge, job opportunities, and grow together. All happening live on our Discord.",
-        heroIntro1:
-            "An open community to share knowledge, job opportunities, and grow together.",
-        heroIntro2: "All happening live on our Discord.",
+            "An open community of people in tech who connect, get inspired and grow together. It all happens on our Discord.",
+
         ctaDiscord: "Join Discord",
         ctaResources: "Explore Resources",
 
@@ -229,7 +225,7 @@ export const translations = {
 
         // Footer
         footerDesc:
-            "Collaborative space to empower tech careers and share real opportunities across LATAM and beyond.",
+            "A tech community to connect, get inspired and grow. We meet on Discord.",
         allRightsReserved: "All rights reserved.",
     },
 } as const;
