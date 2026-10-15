@@ -1,7 +1,7 @@
 {
     "name": "Chamba Lab",
     "short_name": "Chamba Lab",
-    "description": "Comunidad tech para compartir conocimiento, oportunidades laborales y crecer juntos.",
+    "description": "Comunidad tech para conectar, inspirarte y crecer.",
     "start_url": "./",
     "scope": "./",
     "display": "standalone",
