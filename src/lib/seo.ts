@@ -1,6 +1,6 @@
 /** Datos estructurados (JSON-LD) para buscadores. Lógica pura, sin Astro. */
 
-import { DISCORD_URL, GITHUB_ORG_URL } from "./constants";
+import { DISCORD_PUBLIC_URL, DISCORD_URL, GITHUB_ORG_URL } from "./constants";
 
 type JsonLd = Record<string, unknown>;
 
@@ -99,7 +99,7 @@ export function eventJsonLd(
         ...(event.endTime ? { endDate: at(event.endTime) } : {}),
         eventStatus: "https://schema.org/EventScheduled",
         eventAttendanceMode: "https://schema.org/OnlineEventAttendanceMode",
-        location: { "@type": "VirtualLocation", url: DISCORD_URL },
+        location: { "@type": "VirtualLocation", url: DISCORD_PUBLIC_URL },
         image: [`${siteUrl}/og-image.png`],
         url: `${siteUrl}${pagePath}`,
         organizer: { "@id": `${siteUrl}/#organization` },

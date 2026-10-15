@@ -24,6 +24,7 @@ Registro corto de las decisiones que condicionan el proyecto y el porqué. Solo 
 - **Rutas y anclas en inglés**, copy bilingüe.
 - **SEO en español, sin rutas por idioma.** El HTML se genera en español y el inglés se aplica en el cliente, así que los buscadores solo indexan el español (coherente con el público principal). Si se quiere posicionar en inglés, hay que crear rutas `/en/` con `hreflang`; hoy no compensa el costo.
 - **Un solo origen para URLs externas** (`src/lib/constants.ts`).
+- **`chambalab.org/discord` como enlace público de la invitación.** Es una redirección estática a `DISCORD_URL`, para compartir un enlace propio y estable en redes, README y perfiles. Si la invitación se renueva, solo cambia `constants.ts`. Se usa en los calendarios (`.ics` y Google Calendar) y en el JSON-LD de los eventos, porque ahí el enlace queda guardado fuera del sitio; los archivos Markdown y la configuración del repo (que no pueden importar `constants.ts`) la usan escrita a mano. Los botones del sitio siguen yendo directo a `DISCORD_URL`. No exige Boost de Discord, a diferencia de una URL personalizada `discord.gg/…`.
 
 ## Flujo
 

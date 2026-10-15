@@ -1,4 +1,5 @@
 import { describe, it, expect } from "vitest";
+import { DISCORD_PUBLIC_URL } from "../lib/constants";
 import {
     breadcrumbJsonLd,
     eventJsonLd,
@@ -38,7 +39,10 @@ describe("eventJsonLd", () => {
         expect(data.eventAttendanceMode).toBe(
             "https://schema.org/OnlineEventAttendanceMode",
         );
-        expect(data.location).toMatchObject({ "@type": "VirtualLocation" });
+        expect(data.location).toEqual({
+            "@type": "VirtualLocation",
+            url: DISCORD_PUBLIC_URL,
+        });
     });
     it("usa solo la fecha si no hay hora y omite endDate", () => {
         const data = eventJsonLd(SITE, {

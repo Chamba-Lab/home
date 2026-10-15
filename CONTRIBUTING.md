@@ -2,7 +2,7 @@
 
 Gracias por sumar. Esta guía explica cómo proponer cambios sin fricción.
 
-Al participar aceptas nuestro [Código de Conducta](./CODE_OF_CONDUCT.md). Si algo no queda claro, pregunta en [Discord](https://discord.gg/fNd8CXBbsQ).
+Al participar aceptas nuestro [Código de Conducta](./CODE_OF_CONDUCT.md). Si algo no queda claro, pregunta en [Discord](https://chambalab.org/discord).
 
 ## Formas de contribuir
 
@@ -94,4 +94,4 @@ Solicita tu lugar con la plantilla de issue **Pedir aparecer en la página del e
 - Los PRs pequeños y enfocados se revisan más rápido.
 - Quien revisa puede pedir cambios o proponer alternativas; la decisión final es de los mantenedores.
 
-¿Dudas? Escríbenos en [Discord](https://discord.gg/fNd8CXBbsQ).
+¿Dudas? Escríbenos en [Discord](https://chambalab.org/discord).
