@@ -196,6 +196,7 @@ Mapache/gato peludo con taza de café y expresión _grumpy_. Masters en `src/ass
 
 - Optimizar SVG: `npm run brand:optimize` (svgo con `svgo.config.cjs`: `cleanupIds:false`, `floatPrecision:1`, `multipass`).
 - Regenerar la imagen OG: `npm run brand:og`. Renderiza `brand/og.svg` (SVG válido por sí solo; el script sustituye sus hex de marca por los valores vigentes de los tokens) a `public/og-image.png` (1200×630) leyendo los colores de los tokens de `global.css`. Si cambia un token, correr el script y commitear el PNG.
+- Piezas de Discord (banner del servidor 960×540, invite splash 1920×1080, anuncio y portada del evento de lanzamiento): SVG fuente con el texto convertido a trazos en `brand/discord/`. `npm run brand:discord` exporta los PNG con el mismo tamaño. Siguen las reglas de la mascota (versión _sticker_ sobre `#080D1A`).
 - `scripts/trace.py` vectoriza los PNG originales de `brand/source/` (requiere `potrace`, `numpy`, `Pillow`).
 
 ---
