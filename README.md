@@ -3,7 +3,7 @@
 ![Chamba Lab Hero Banner](https://raw.githubusercontent.com/Chamba-Lab/home/master/public/og-image.png)
 
 > **Connect. Inspire. Grow.**  
-> *Comunidad tech en español para conectar, inspirarte y crecer.*
+> *Comunidad tech para conectar, inspirarte y crecer.*
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-indigo.svg)](./LICENSE)
 [![CI/CD Status](https://github.com/Chamba-Lab/home/actions/workflows/master-pipeline.yml/badge.svg)](https://github.com/Chamba-Lab/home/actions)

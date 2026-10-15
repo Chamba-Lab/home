@@ -6,12 +6,11 @@ Este archivo es lo primero que lee cualquier persona o agente antes de tocar el 
 
 - **Chamba Lab**: comunidad tech sin fines de lucro, liderada por voluntarios. Su espacio de interacción es Discord.
 - **Lema**: _Connect. Inspire. Grow._ (Conecta, inspírate y crece). Está en la imagen OG y en los metadatos del sitio.
-- **Misión**: crear un espacio donde quienes hablan español en tecnología se conecten, se inspiren y crezcan juntos en su carrera y en su vida, para que el contexto en el que cada quien empieza pese menos.
-- **Visión (largo plazo)**: un ecosistema que se retroalimenta y se sostiene con quienes lo conforman. A corto y mediano plazo los fundadores están presentes y lideran las dinámicas.
+- **Misión**: crear un espacio donde las personas en tecnología se conecten, se inspiren y crezcan juntas en su carrera, para que el contexto en el que cada quien empieza pese menos.
+- **Visión (largo plazo)**: un ecosistema que se retroalimenta y se sostiene con quienes lo conforman.
 - **Valores**: _Comunidad_ (avanzar por cuenta propia tiene mérito; en comunidad multiplicas tus posibilidades) y _Práctico_ (apoyo real, no solo teoría).
-- **Público**: personas que hablan español, empezando por Perú (horario UTC-5, compartido con Colombia). Copy neutro, sin jerga local; "Chamba" (el nombre) es la única excepción.
+- **Público**: principalmente hispanohablante, empezando por Perú (horario UTC-5, compartido con Colombia). Copy neutro, sin jerga local; "Chamba" (el nombre) es la única excepción.
 - **Este repo es la landing**: la vista pública de la comunidad. Explica quiénes somos y redirige a Discord, donde ocurre la interacción y las actividades.
-- **Horizontal**: no hay rangos ni escalera dentro de la comunidad. Los títulos públicos del equipo indican quién administra, no autoridad.
 
 **Perfiles** (el diagrama del home agrupa Mid y Senior porque comparten lo que aportan y necesitan):
 
@@ -26,7 +25,7 @@ Este archivo es lo primero que lee cualquier persona o agente antes de tocar el 
 - **Inspire**: conversaciones de carrera y arquitectura, mentoría abierta, dinámicas.
 - **Grow**: revisión de CV, LinkedIn y GitHub, feedback de código, mock interviews, recursos curados.
 
-**Qué no es**: no es una aceleradora, ni una bolsa de empleo (hoy), ni una escuela con rangos. El detalle y el roadmap están en [`docs/project.md`](./docs/project.md).
+**Qué no es**: una aceleradora comercial. El detalle y el roadmap están en [`docs/project.md`](./docs/project.md).
 
 **Vocabulario canónico** (usar siempre estos términos): _Early Career_, _Mid & Senior_, _título público_ (campo `tier` del equipo), _dinámica_ (actividad interactiva del sitio), _widget de Discord_.
 

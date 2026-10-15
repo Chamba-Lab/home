@@ -7,12 +7,11 @@ Registro corto de las decisiones que condicionan el proyecto y el porqué. Solo 
 - **Este repo es solo la landing: la vista pública de la comunidad.** Explica quiénes somos y lleva a Discord, donde ocurre la interacción y las actividades. No aloja backend ni producto operativo; si el proyecto crece a un ecosistema mayor (por ejemplo, un tablero de empleo), vive aparte y este sitio lo enlaza.
 - **Lema: _Connect. Inspire. Grow._** Resume la comunidad (conectar, inspirar, crecer juntos). Está en la imagen OG (`brand/og.svg`), los metadatos de `Layout.astro` y el README.
 - **Valores: Comunidad y Práctico.** El lema _Connect. Inspire. Grow._ estructura la propuesta de la comunidad (ver `AGENTS.md`).
-- **Autosustentable es visión de largo plazo.** A corto y mediano plazo los fundadores están presentes y lideran; no se diseñan incentivos ni métricas de autosostenimiento todavía.
 - **Copy neutro en español.** Sin jerga local para no limitar el crecimiento hacia otros países; "Chamba" (el nombre) es la única excepción.
 
 ## Equipo y títulos
 
-- **Títulos públicos del equipo**: `founder`, `cofounder`, `core`, `contributor`, `member`. Reconocen quién administra o aporta; no son una escalera ni confieren autoridad. Fundador, Co-founder y Core team son por invitación; Contributor y Miembro se piden por issue.
+- **Títulos públicos del equipo**: `founder`, `cofounder`, `core`, `contributor`, `member`. Fundador, Co-founder y Core team son por invitación; Contributor y Miembro se piden por issue.
 - **Los miembros aparecen solo si lo piden.** El muro de miembros es voluntario.
 - **Avatares: fundadores con foto local; el resto, desde GitHub en cada visita.** Evita mantener imágenes por persona a cambio de que el navegador consulte a GitHub. Si pesa más lo contrario, se vuelve a `avatar` local o se descarga en el build.
 
