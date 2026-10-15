@@ -7,8 +7,7 @@ import tailwindcss from "@tailwindcss/vite";
 
 // https://astro.build/config
 export default defineConfig({
-    site: "https://chamba-lab.github.io",
-    base: "/home",
+    site: "https://chambalab.org",
     integrations: [react(), sitemap()],
 
     vite: {

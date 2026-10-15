@@ -33,7 +33,7 @@ El detalle y el roadmap están en [`docs/project.md`](./docs/project.md).
 
 - **Astro 7** (SSG estricto) + **React 19** (islas interactivas) + **Tailwind CSS 4** (tokens en `@theme`).
 - **Node >= 22.12** y npm. Pruebas con Vitest; ESLint + Prettier.
-- **Hosting**: GitHub Pages (`base: /home`). Sin servidor: todo el contenido es estático.
+- **Hosting**: GitHub Pages con dominio propio (`chambalab.org`, archivo `public/CNAME`, sin `base`). Sin servidor: todo el contenido es estático.
 - **Datos**: JSON en `src/content/*.json`, validados por `src/content.config.ts`.
 - **Estructura**: `src/pages` (rutas), `src/components`, `src/layouts/Layout.astro` (header, footer, i18n, fuentes), `src/lib` (lógica pura y constantes), `src/i18n`, `src/styles/global.css` (tokens), `brand/` y `src/assets/` (marca).
 

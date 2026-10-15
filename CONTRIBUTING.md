@@ -27,7 +27,7 @@ npm install
 npm run dev
 ```
 
-El sitio queda en `http://localhost:4321/home/`. La arquitectura, el sistema de diseño y las convenciones viven en [AGENTS.md](./AGENTS.md) y [DESIGN.md](./DESIGN.md); léelos antes de tocar componentes o estilos.
+El sitio queda en `http://localhost:4321/`. La arquitectura, el sistema de diseño y las convenciones viven en [AGENTS.md](./AGENTS.md) y [DESIGN.md](./DESIGN.md); léelos antes de tocar componentes o estilos.
 
 ## Flujo de trabajo
 
