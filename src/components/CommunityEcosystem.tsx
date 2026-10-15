@@ -267,7 +267,7 @@ export default function CommunityEcosystem() {
     return (
         <section
             id="community-ecosystem"
-            className="relative py-16 sm:py-24 overflow-hidden border-t border-white/[0.08]"
+            className="relative py-10 sm:py-12 overflow-hidden border-t border-white/[0.08]"
         >
             {/* Background lighting */}
             <div className="absolute top-1/2 left-1/3 -translate-y-1/2 w-96 h-96 bg-brand-yellow/[0.04] rounded-full blur-3xl pointer-events-none" />
@@ -275,12 +275,12 @@ export default function CommunityEcosystem() {
 
             <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                 {/* Section Header */}
-                <div className="text-center max-w-2xl mx-auto mb-8 sm:mb-12">
+                <div className="text-center max-w-2xl mx-auto">
                     <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full card-glass text-xs font-semibold text-slate-300 border border-white/10 mb-4">
                         <span className="w-2 h-2 rounded-full bg-brand-yellow animate-pulse" />
                         <span>{t.badge}</span>
                     </div>
-                    <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white mb-3">
+                    <h2 className="font-display text-3xl sm:text-4xl font-extrabold tracking-tight text-white mb-2">
                         {t.sectionTitle}{" "}
                         <span className="text-brand-yellow">
                             {t.sectionHighlight}
@@ -292,17 +292,17 @@ export default function CommunityEcosystem() {
                     </p>
                 </div>
 
-                <div className="mb-8 sm:mb-12">
-                    <ul className="grid grid-cols-1 sm:grid-cols-3 gap-3 max-w-4xl mx-auto mt-8 text-left">
+                <div className="mb-5 sm:mb-6">
+                    <ul className="grid grid-cols-1 sm:grid-cols-3 gap-3 max-w-4xl mx-auto mt-5 text-left">
                         {t.pillars.map((pillar) => (
                             <li
                                 key={pillar.title}
-                                className="rounded-xl border border-white/[0.08] bg-white/[0.02] px-5 py-4"
+                                className="rounded-xl border border-white/[0.08] bg-white/[0.02] px-4 py-3"
                             >
-                                <h3 className="font-display text-base font-bold text-white mb-1">
+                                <h3 className="font-display text-sm font-bold text-white mb-0.5">
                                     {pillar.title}
                                 </h3>
-                                <p className="text-sm text-slate-400 leading-relaxed">
+                                <p className="text-xs text-slate-400 leading-relaxed">
                                     {pillar.desc}
                                 </p>
                             </li>
@@ -447,11 +447,11 @@ export default function CommunityEcosystem() {
                 {/* VISTA DESKTOP: CANVAS VECTORIAL CENTRADO (>= 768px)            */}
                 {/* ============================================================== */}
                 <div className="hidden md:block">
-                    <div className="card-glass rounded-3xl p-4 sm:p-8 border border-white/[0.12] bg-[#070B16] shadow-2xl relative">
+                    <div className="card-glass rounded-3xl p-4 sm:p-5 border border-white/[0.12] bg-[#070B16] shadow-2xl relative">
                         <div className="w-full flex justify-center items-center overflow-x-auto">
                             <svg
                                 viewBox="0 0 880 340"
-                                className="w-full max-w-4xl h-auto min-w-[680px] select-none block mx-auto"
+                                className="w-full max-w-3xl h-auto min-w-[680px] select-none block mx-auto"
                                 style={{
                                     filter: "drop-shadow(0 15px 25px rgba(0,0,0,0.45))",
                                 }}
