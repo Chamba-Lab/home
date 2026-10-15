@@ -105,7 +105,7 @@ Avanzar por cuenta propia tiene mérito; en comunidad multiplicas tus posibilida
 - **Cómo contribuir**: lee [CONTRIBUTING.md](./CONTRIBUTING.md) (flujo de ramas, Conventional Commits, checklist de PR) y nuestro [Código de Conducta](./CODE_OF_CONDUCT.md).
 - **Ideas y bugs**: abre un issue con las plantillas para proponer recursos, eventos o reportar errores.
 - **Arquitectura, decisiones y diseño**: [AGENTS.md](./AGENTS.md), [docs/decisions.md](./docs/decisions.md) y [DESIGN.md](./DESIGN.md).
-- **Discord**: [Escríbenos en la comunidad](https://discord.gg/fNd8CXBbsQ).
+- **Discord**: [Escríbenos en la comunidad](https://chambalab.org/discord).
 
 ---
 

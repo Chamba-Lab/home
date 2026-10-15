@@ -1,6 +1,13 @@
 /** Fuente única de enlaces externos: no repetir estas URLs en componentes. */
-export const DISCORD_URL = "https://discord.gg/fNd8CXBbsQ";
 export const SITE_URL = "https://chambalab.org";
+/** Invitación oficial de Discord. Es el destino de la redirección /discord. */
+export const DISCORD_URL = "https://discord.gg/fNd8CXBbsQ";
+/**
+ * Enlace estable de la invitación (redirección en astro.config.mjs). Úsalo donde
+ * el enlace se guarda fuera del sitio (calendarios, datos estructurados), para
+ * que no se rompa si la invitación cambia.
+ */
+export const DISCORD_PUBLIC_URL = `${SITE_URL}/discord`;
 export const GITHUB_ORG_URL = "https://github.com/Chamba-Lab";
 export const GITHUB_URL = `${GITHUB_ORG_URL}/home`;
 export const CONTRIBUTING_URL = `${GITHUB_URL}/blob/master/CONTRIBUTING.md`;

@@ -55,7 +55,7 @@ El detalle y el roadmap están en [`docs/project.md`](./docs/project.md).
 ## 4. Convenciones técnicas
 
 - **i18n**: textos en `src/i18n/translations.ts` con `data-i18n`; texto o atributos bilingües con `data-i18n-es/en` y `data-i18n-alt-*`, `-aria-label-*`, `-title-*`. La preferencia se guarda en `localStorage` (`chamba-lab-lang`). Todo texto nuevo va en ES y EN.
-- **Enlaces externos**: `DISCORD_URL`, `GITHUB_URL` y datos del widget solo se definen en `src/lib/constants.ts`; no repetirlos en componentes. `chambalab.org/discord` es una redirección estática (`redirects` en `astro.config.mjs`) hacia `DISCORD_URL`: es el enlace público para redes, el README de la organización y Discord, así no cambia si se renueva la invitación. Va con `noindex` y fuera del sitemap.
+- **Enlaces externos**: `DISCORD_URL`, `DISCORD_PUBLIC_URL`, `GITHUB_URL` y datos del widget solo se definen en `src/lib/constants.ts`; no repetirlos en componentes. Los botones del sitio usan `DISCORD_URL` (directo); `DISCORD_PUBLIC_URL` (`chambalab.org/discord`) va donde el enlace se guarda fuera del sitio: calendarios y datos estructurados. `chambalab.org/discord` es una redirección estática (`redirects` en `astro.config.mjs`) hacia `DISCORD_URL`: es el enlace público para redes, el README de la organización y Discord, así no cambia si se renueva la invitación. Va con `noindex` y fuera del sitemap.
 - **Contenido estático**: nada que requiera servidor. Los eventos usan un `id` estable (es el `UID` del `.ics`, `<id>@chambalab.org`, un namespace y no un dominio real).
 - **SEO**: `@astrojs/sitemap` y `public/robots.txt`. Cada página pasa `title` ("Página | Chamba Lab", unos 60 caracteres) y `description` (120-160) a `Layout.astro`, que genera canonical, Open Graph y Twitter Cards. Los datos estructurados (JSON-LD) salen de `src/lib/seo.ts`: `Organization` y `WebSite` en `/`, `Event` en `/events` y `BreadcrumbList` en las páginas internas (prop `breadcrumbs`). `src/pages/404.astro` va con `noindex`.
 - **Iconos**: SVG inline optimizados, sin fuentes de iconos.
@@ -92,4 +92,4 @@ GitHub Actions. En cada PR a `master` corre `PR Checks` (`Lint, Test & Build` y 
 | [CODE_OF_CONDUCT.md](./CODE_OF_CONDUCT.md)               | Normas de la comunidad                                             |
 | [CHANGELOG.md](./CHANGELOG.md)                           | Historial de versiones (generado, no se edita a mano)              |
 
-Comunidad: [Discord](https://discord.gg/fNd8CXBbsQ) · Código y issues: [GitHub](https://github.com/Chamba-Lab/home).
+Comunidad: [Discord](https://chambalab.org/discord) · Código y issues: [GitHub](https://github.com/Chamba-Lab/home).

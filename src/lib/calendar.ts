@@ -3,7 +3,7 @@
  * Default timezone: UTC-5 (America/Lima / Bogota / Quito)
  */
 
-import { DISCORD_URL } from "./constants";
+import { DISCORD_PUBLIC_URL } from "./constants";
 
 export interface CalendarEventOptions {
     id?: string;
@@ -18,7 +18,7 @@ export interface CalendarEventOptions {
     location?: string;
 }
 
-const DEFAULT_LOCATION = `Discord - ${DISCORD_URL}`;
+const DEFAULT_LOCATION = `Discord - ${DISCORD_PUBLIC_URL}`;
 const DEFAULT_TIMEZONE_IANA = "America/Lima";
 
 /**
