@@ -4,7 +4,8 @@ import DiscordWidget from "../components/DiscordWidget.astro";
 import CommunityEcosystem from "../components/CommunityEcosystem";
 import TeamSection from "../components/TeamSection.astro";
 import DiscordIcon from "../components/icons/DiscordIcon.astro";
-import { DISCORD_URL } from "../lib/constants";
+import { DISCORD_URL, SITE_URL } from "../lib/constants";
+import { organizationJsonLd, websiteJsonLd } from "../lib/seo";
 import { getCollection } from "astro:content";
 import {
     buildGoogleCalendarUrl,
@@ -14,6 +15,7 @@ import {
 
 const rawBase = import.meta.env.BASE_URL;
 const base = rawBase.endsWith("/") ? rawBase : `${rawBase}/`;
+const siteOrigin = Astro.site?.origin ?? SITE_URL;
 
 // Fetch resources and events dynamically as requested
 const allResources = await getCollection("resources");
@@ -115,7 +117,10 @@ const recIcsUrl = recurringEvent
     : "#";
 ---
 
-<Layout title="Chamba Lab | Conecta, inspírate y crece en tecnología">
+<Layout
+    title="Chamba Lab | Comunidad tech para conectar y crecer"
+    jsonLd={[organizationJsonLd(siteOrigin), websiteJsonLd(siteOrigin)]}
+>
     <main class="flex-1">
         <!-- ============================================================== -->
         <!-- HERO SECTION (Stitch: Landing Optimizada y Equilibrada)       -->

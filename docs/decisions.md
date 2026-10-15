@@ -22,6 +22,7 @@ Registro corto de las decisiones que condicionan el proyecto y el porqué. Solo 
 - **Widget de Discord sin bot.** Solo se usa `widget.json`, que expone canales de voz públicos y avatares genéricos; no hay canales de texto, eventos ni fotos reales. Con respuesta correcta nunca se mezclan datos de ejemplo.
 - **i18n en el cliente.** El HTML se genera en español y el selector ES/EN cambia los textos en vivo con atributos `data-i18n*`. La preferencia se guarda en `localStorage`.
 - **Rutas y anclas en inglés**, copy bilingüe.
+- **SEO en español, sin rutas por idioma.** El HTML se genera en español y el inglés se aplica en el cliente, así que los buscadores solo indexan el español (coherente con el público principal). Si se quiere posicionar en inglés, hay que crear rutas `/en/` con `hreflang`; hoy no compensa el costo.
 - **Un solo origen para URLs externas** (`src/lib/constants.ts`).
 
 ## Flujo
