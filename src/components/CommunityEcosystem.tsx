@@ -16,6 +16,7 @@ const ECOSYSTEM_DATA: Record<
         sectionTitle: string;
         sectionHighlight: string;
         sectionDesc: string;
+        pillars: Array<{ title: string; desc: string }>;
         advisingActivities: string[];
         growingActivities: string[];
         nodes: Record<NodeKey, NodeDetail>;
@@ -27,6 +28,20 @@ const ECOSYSTEM_DATA: Record<
         sectionHighlight: "Chamba Lab",
         sectionDesc:
             "Un ciclo continuo: quienes empiezan aprenden de quienes ya recorrieron el camino, y quienes ya lo recorrieron siguen creciendo al compartirlo.",
+        pillars: [
+            {
+                title: "Conecta",
+                desc: "Un punto de encuentro para conversar, coordinar y trabajar en compañía.",
+            },
+            {
+                title: "Inspírate",
+                desc: "Aprende de las historias y los criterios de otras personas del sector.",
+            },
+            {
+                title: "Crece",
+                desc: "Avanza en tu carrera con apoyo concreto de otras personas.",
+            },
+        ],
         advisingActivities: [
             "Revisión comunitaria de CV, perfil de LinkedIn y GitHub",
             "Difusión y recomendación de convocatorias laborales reales",
@@ -94,6 +109,20 @@ const ECOSYSTEM_DATA: Record<
         sectionHighlight: "Chamba Lab Ecosystem",
         sectionDesc:
             "A continuous cycle: those starting out learn from those further along, and those further along keep growing by sharing.",
+        pillars: [
+            {
+                title: "Connect",
+                desc: "A meeting point to talk, coordinate and work together.",
+            },
+            {
+                title: "Get inspired",
+                desc: "Learn from the stories and judgment of others in the field.",
+            },
+            {
+                title: "Grow",
+                desc: "Move your career forward with practical help from others.",
+            },
+        ],
         advisingActivities: [
             "Community reviews for CVs, LinkedIn, and GitHub profiles",
             "Sharing and recommending verified tech job opportunities",
@@ -261,6 +290,24 @@ export default function CommunityEcosystem() {
                     <p className="text-sm sm:text-base text-slate-300 leading-relaxed max-w-2xl mx-auto">
                         {t.sectionDesc}
                     </p>
+                </div>
+
+                <div className="mb-8 sm:mb-12">
+                    <ul className="grid grid-cols-1 sm:grid-cols-3 gap-3 max-w-4xl mx-auto mt-8 text-left">
+                        {t.pillars.map((pillar) => (
+                            <li
+                                key={pillar.title}
+                                className="rounded-xl border border-white/[0.08] bg-white/[0.02] px-5 py-4"
+                            >
+                                <h3 className="font-display text-base font-bold text-white mb-1">
+                                    {pillar.title}
+                                </h3>
+                                <p className="text-sm text-slate-400 leading-relaxed">
+                                    {pillar.desc}
+                                </p>
+                            </li>
+                        ))}
+                    </ul>
                 </div>
 
                 {/* ============================================================== */}

@@ -11,23 +11,6 @@ export const translations = {
         heroSubtitle:
             "Una comunidad abierta de personas en tecnología que se conectan, se inspiran y crecen juntas. Todo ocurre en nuestro Discord.",
 
-        // What we offer
-        offerBadge: "Qué ofrecemos",
-        offerTitle: "Una comunidad para avanzar juntos",
-        offerConnectTitle: "Conecta",
-        offerConnectDesc:
-            "Un punto de encuentro para conversar, coordinar y trabajar en compañía.",
-        offerConnectItems: "Discord, coworking y sesiones en vivo",
-        offerInspireTitle: "Inspírate",
-        offerInspireDesc:
-            "Aprende de las historias y los criterios de otras personas del sector.",
-        offerInspireItems:
-            "Conversaciones de carrera y arquitectura, mentoría abierta y dinámicas",
-        offerGrowTitle: "Crece",
-        offerGrowDesc:
-            "Avanza en tu carrera con apoyo concreto de otras personas.",
-        offerGrowItems:
-            "Revisión de CV, LinkedIn y GitHub, feedback de código, mock interviews y recursos",
         ctaDiscord: "Unirse a Discord",
         ctaResources: "Ver Recursos",
 
@@ -143,23 +126,6 @@ export const translations = {
         heroSubtitle:
             "An open community of people in tech who connect, get inspired and grow together. It all happens on our Discord.",
 
-        // What we offer
-        offerBadge: "What we offer",
-        offerTitle: "A community to move forward together",
-        offerConnectTitle: "Connect",
-        offerConnectDesc:
-            "A meeting point to talk, coordinate and work together.",
-        offerConnectItems: "Discord, coworking and live sessions",
-        offerInspireTitle: "Get inspired",
-        offerInspireDesc:
-            "Learn from the stories and judgment of others in the field.",
-        offerInspireItems:
-            "Career and architecture talks, open mentoring and activities",
-        offerGrowTitle: "Grow",
-        offerGrowDesc:
-            "Move your career forward with practical help from others.",
-        offerGrowItems:
-            "CV, LinkedIn and GitHub reviews, code feedback, mock interviews and resources",
         ctaDiscord: "Join Discord",
         ctaResources: "Explore Resources",
 
