@@ -59,7 +59,7 @@ El detalle y el roadmap están en [`docs/project.md`](./docs/project.md).
 - **Contenido estático**: nada que requiera servidor. Los eventos usan un `id` estable (es el `UID` del `.ics`, `<id>@chambalab.org`, un namespace y no un dominio real).
 - **SEO**: `@astrojs/sitemap` y `public/robots.txt`.
 - **Iconos**: SVG inline optimizados, sin fuentes de iconos.
-- **Marca**: `npm run brand:optimize` (svgo) y `npm run brand:og` (regenera `public/og-image.png` desde `brand/og.svg` con los colores de los tokens).
+- **Marca**: `npm run brand:optimize` (svgo), `npm run brand:og` (regenera `public/og-image.png` desde `brand/og.svg` con los colores de los tokens) y `npm run brand:discord` (exporta a PNG las piezas de `brand/discord/`).
 
 ## 5. Diseño
 

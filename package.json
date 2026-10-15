@@ -19,7 +19,8 @@
         "test": "vitest run",
         "brand:optimize": "svgo -f src/assets/brand --config svgo.config.cjs",
         "team:optimize": "svgo -f src/assets/team/logos --config svgo.config.cjs",
-        "brand:og": "node scripts/build-og.mjs"
+        "brand:og": "node scripts/build-og.mjs",
+        "brand:discord": "node scripts/build-discord-assets.mjs"
     },
     "dependencies": {
         "@astrojs/react": "^6.0.6",
