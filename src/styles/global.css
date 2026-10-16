@@ -179,64 +179,14 @@ body[data-category] {
     opacity: 0.45;
 }
 
-/*
- * Transición entre /resources y cada categoría (View Transitions entre
- * documentos, sin JavaScript). Navegadores sin soporte navegan sin animación.
- * Icono, título y brillo de la categoría viajan entre ambas páginas
- * (view-transition-name cat-icon-*, cat-title-*, cat-glow-*); las categorías
- * salen hacia la izquierda y los recursos suben.
- */
+/* Fundido uniforme entre páginas, sin desplazamientos de elementos. */
 @view-transition {
     navigation: auto;
 }
 
-::view-transition-group(*) {
+::view-transition-group(root) {
     animation-duration: 450ms;
     animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-::view-transition-old(resource-categories) {
-    animation: 300ms ease-in both vt-out-left;
-}
-
-::view-transition-new(resource-categories) {
-    animation: 400ms cubic-bezier(0.22, 1, 0.36, 1) both vt-in-left;
-}
-
-::view-transition-new(resource-list) {
-    animation: 450ms cubic-bezier(0.22, 1, 0.36, 1) 60ms both vt-in-up;
-}
-
-::view-transition-old(resource-list) {
-    animation: 300ms ease-in both vt-out-down;
-}
-
-@keyframes vt-out-left {
-    to {
-        opacity: 0;
-        transform: translateX(-120px);
-    }
-}
-
-@keyframes vt-in-left {
-    from {
-        opacity: 0;
-        transform: translateX(-120px);
-    }
-}
-
-@keyframes vt-in-up {
-    from {
-        opacity: 0;
-        transform: translateY(80px);
-    }
-}
-
-@keyframes vt-out-down {
-    to {
-        opacity: 0;
-        transform: translateY(80px);
-    }
 }
 
 /* Con "reducir movimiento", solo un fundido corto. */

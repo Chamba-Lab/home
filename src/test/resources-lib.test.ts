@@ -16,6 +16,7 @@ import {
     youtubeEmbedUrl,
     youtubeThumbnail,
     youtubeVideoId,
+    type ResourceType,
 } from "../lib/resources";
 
 describe("youtubeVideoId", () => {
@@ -119,7 +120,10 @@ describe("categories", () => {
         ]);
         expect(groups[2].items.map((i) => i.n)).toEqual([1, 3]);
         expect(
-            groupByFormat([{ n: 1 }, { n: 2 }]).map((g) => g.format),
+            groupByFormat<{ n: number; type?: ResourceType }>([
+                { n: 1 },
+                { n: 2 },
+            ]).map((g) => g.format),
         ).toEqual(["web"]);
     });
     it("finds a category by id and has unique ids", () => {

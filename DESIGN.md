@@ -207,7 +207,7 @@ Mapache/gato peludo con taza de café y expresión _grumpy_. Masters en `src/ass
 1. **Duraciones**: hover ordinario `duration-200 ease-out`; menús y paneles `duration-300`; giro de la ruleta `SPIN_DURATION_MS` con `easeOutQuart(t) = 1 - Math.pow(1 - t, 4)`.
 2. **Profundidad**: elevación vertical sutil (`-translate-y-0.5`) junto con más resplandor o sombra de marca.
 3. **Movimiento reducido**: las tarjetas y transiciones de recursos ya respetan `prefers-reduced-motion`; pendiente en el resto (partículas y giros largos).
-4. **Transiciones entre páginas**: View Transitions entre documentos en CSS (`@view-transition`), sin librerías. Hoy solo entre `/resources` y cada categoría: 450 ms con `cubic-bezier(0.22, 1, 0.36, 1)`; con movimiento reducido, un fundido de 200 ms.
+4. **Transiciones entre páginas**: View Transitions entre documentos en CSS (`@view-transition`), sin librerías. Todas las rutas, incluida Recursos y sus categorías, usan el mismo fundido de página completa de 450 ms; con movimiento reducido, un fundido de 200 ms.
 
 ## 8. Governance & Maintenance
 
@@ -233,4 +233,4 @@ Diseño aprobado en Figma (página «05 · Recursos», con la referencia «Refer
 - **Tarjeta de recurso** (`ResourceCard.astro`): plana y sin brillo. Un marcador de 3 px a ras del borde izquierdo, del alto de la cara (avatar del canal o miniatura del video) o del bloque título + dominio; al pasar el ratón se extiende a una barra con 16 px de margen. Las webs no llevan imagen. La fila de categoría (icono de 28 px y nombre) solo aparece donde se mezclan categorías (buscador). Pie: acción con flecha ↗ a la izquierda; acceso y formato a la derecha.
 - **Secciones por formato** en `/resources/<categoría>` (`ResourceSection.astro`): Videos, Canales de YouTube y Sitios web, sin secciones vacías y sin títulos si solo hay una. Con cuatro videos o más (`VIDEO_CAROUSEL_MIN`), carrusel con scroll-snap: 3 visibles, flechas con borde de la categoría, indicador y desvanecido a la derecha; en móvil, una tarjeta y un trozo de la siguiente.
 - **Navbar y pie por categoría**: en `/resources/<categoría>` el `<body>` lleva `data-category` y el logo, la píldora «Lab» y el idioma activo toman el acento de la categoría; en `/resources` vuelven al amarillo de marca.
-- **Transición**: el icono, el título y el brillo de la categoría viajan entre `/resources` y su página (`view-transition-name` `cat-icon-*`, `cat-title-*`, `cat-glow-*`); el brillo se convierte en la luz de cabecera de la categoría, las categorías salen 120 px a la izquierda y los recursos suben 80 px.
+- **Transición**: Recursos y sus categorías usan el mismo fundido que el resto del sitio, sin deslizamientos ni elementos que viajen entre páginas. El hover de «Todos los recursos» usa `--cat-accent` de la categoría actual.

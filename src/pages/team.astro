@@ -120,29 +120,33 @@ const communityMembers = members.filter((m) => m.tier === "member");
         )}
 
         <script>
-            (function () {
-                var wall = document.getElementById("members-wall");
+            (() => {
+                const wall =
+                    document.querySelector<HTMLUListElement>("#members-wall");
                 if (!wall) return;
-                var limit = Number(wall.dataset.limit);
-                var items = Array.prototype.slice.call(wall.children);
-                for (var i = items.length - 1; i > 0; i--) {
-                    var j = Math.floor(Math.random() * (i + 1));
-                    var tmp = items[i];
-                    items[i] = items[j];
-                    items[j] = tmp;
+                const limit = Number(wall.dataset.limit);
+                const items = Array.from(
+                    wall.querySelectorAll<HTMLLIElement>(":scope > li"),
+                );
+                for (let i = items.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [items[i], items[j]] = [items[j], items[i]];
                 }
-                items.forEach(function (el, idx) {
-                    wall.appendChild(el);
-                    if (idx >= limit) el.hidden = true;
+                items.forEach((item, index) => {
+                    wall.appendChild(item);
+                    item.hidden = index >= limit;
                 });
-                var button = document.getElementById("members-more");
-                if (items.length <= limit || !button) return;
-                document.getElementById("members-more-count").textContent =
-                    "(" + (items.length - limit) + ")";
+                const button =
+                    document.querySelector<HTMLButtonElement>("#members-more");
+                const count = document.querySelector<HTMLSpanElement>(
+                    "#members-more-count",
+                );
+                if (items.length <= limit || !button || !count) return;
+                count.textContent = "(" + (items.length - limit) + ")";
                 button.hidden = false;
-                button.addEventListener("click", function () {
-                    items.forEach(function (el) {
-                        el.hidden = false;
+                button.addEventListener("click", () => {
+                    items.forEach((item) => {
+                        item.hidden = false;
                     });
                     button.hidden = true;
                 });
