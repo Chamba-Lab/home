@@ -5,14 +5,23 @@
 interface Props {
     category: { id: string; iconPath: string };
     class?: string;
+    // view-transition-name para la transición entre /resources y la categoría.
+    transitionName?: string;
 }
 
-const { category, class: className = "h-12 w-12" } = Astro.props;
+const {
+    category,
+    class: className = "h-12 w-12",
+    transitionName,
+} = Astro.props;
 ---
 
 <span
     data-category={category.id}
     class={`inline-flex shrink-0 items-center justify-center rounded-xl border border-(--cat-border) bg-(--cat-tint) text-(--cat-accent) ${className}`}
+    style={
+        transitionName ? `view-transition-name: ${transitionName}` : undefined
+    }
     aria-hidden="true"
 >
     <svg

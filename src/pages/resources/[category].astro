@@ -40,7 +40,17 @@ const others = RESOURCE_CATEGORIES.filter((c) => c.id !== category.id);
         { name: category.label.es, path: categoryPath(category.id) },
     ]}
 >
-    <main class="w-full min-w-0 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
+    <!-- Brillo de la categoría: continúa el de su tarjeta en /resources -->
+    <div
+        class="pointer-events-none absolute inset-x-0 top-20 h-[900px] overflow-hidden"
+        aria-hidden="true"
+    >
+        <span
+            class="category-hero-glow"
+            style={`view-transition-name: cat-glow-${category.id}`}
+        ></span>
+    </div>
+    <main class="relative w-full min-w-0 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
         <div class="max-w-3xl mb-12">
             <a
                 href="/resources/"
@@ -71,8 +81,10 @@ const others = RESOURCE_CATEGORIES.filter((c) => c.id !== category.id);
                 <CategoryIcon
                     category={category}
                     class="h-12 w-12 sm:h-14 sm:w-14"
+                    transitionName={`cat-icon-${category.id}`}
                 />
                 <h1
+                    style={`view-transition-name: cat-title-${category.id}`}
                     class="font-display text-4xl sm:text-5xl font-extrabold text-white tracking-tight min-w-0"
                     data-i18n-es={category.label.es}
                     data-i18n-en={category.label.en}
@@ -96,7 +108,7 @@ const others = RESOURCE_CATEGORIES.filter((c) => c.id !== category.id);
             />
         </div>
 
-        <div class="space-y-14">
+        <div class="space-y-14" style="view-transition-name: resource-list">
             {sections.map((section) => (
                 <ResourceSection
                     label={section.label}

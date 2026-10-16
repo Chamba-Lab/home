@@ -23,10 +23,17 @@ const { category, count } = Astro.props;
     data-category={category.id}
     class="category-card group relative isolate flex flex-col justify-between overflow-hidden rounded-2xl border border-(--cat-border) p-6 transition-all duration-300 hover:-translate-y-0.5"
 >
-    <span class="category-glow" aria-hidden="true"></span>
+    <span
+        class="category-glow"
+        style={`view-transition-name: cat-glow-${category.id}`}
+        aria-hidden="true"
+    ></span>
     <div>
         <div class="mb-5 flex items-center justify-between gap-3">
-            <CategoryIcon category={category} />
+            <CategoryIcon
+                category={category}
+                transitionName={`cat-icon-${category.id}`}
+            />
             <span class="inline-flex items-center gap-1.5 rounded-full border border-(--cat-border) bg-(--cat-tint) px-2.5 py-1 text-[11px] font-semibold text-(--cat-accent)">
                 <span
                     class="h-1.5 w-1.5 rounded-full bg-(--cat-accent)"
@@ -41,7 +48,8 @@ const { category, count } = Astro.props;
             </span>
         </div>
         <h2
-            class="mb-2 font-display text-xl leading-snug font-bold text-white transition-colors group-hover:text-(--cat-accent)"
+            style={`view-transition-name: cat-title-${category.id}`}
+            class="mb-2 w-fit font-display text-xl leading-snug font-bold text-white transition-colors group-hover:text-(--cat-accent)"
             data-i18n-es={category.label.es}
             data-i18n-en={category.label.en}
         >
