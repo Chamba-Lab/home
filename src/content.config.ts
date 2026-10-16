@@ -1,5 +1,10 @@
 import { defineCollection, z } from "astro:content";
 import { file } from "astro/loaders";
+import {
+    ACCESS_IDS,
+    RESOURCE_CATEGORY_IDS,
+    RESOURCE_TYPE_IDS,
+} from "./lib/resources";
 
 // "en" is the required baseline; "es" is an optional overlay that falls
 // back to "en" when missing (see applyLang in src/layouts/Layout.astro).
@@ -16,25 +21,16 @@ const resources = defineCollection({
         url: z.string().url(),
         // Format: "web" (default), "channel" (YouTube channel) or "video"
         // (YouTube video, played on demand).
-        type: z.enum(["web", "channel", "video"]).default("web"),
+        type: z.enum(RESOURCE_TYPE_IDS).default("web"),
         // Channel only: URL of the channel image (yt3.googleusercontent.com,
         // ?=s112 size). The browser loads it; the title initial is the fallback.
         avatar: z.string().url().optional(),
         // Video only: name of the channel that publishes it.
         channel: z.string().optional(),
-        category: z.enum([
-            "cv",
-            "empleo",
-            "aprendizaje",
-            "certificacion",
-            "becas",
-            "ia",
-            "practica",
-            "opensource",
-        ]),
+        category: z.enum(RESOURCE_CATEGORY_IDS),
         // Optional, only for courses and certifications: free, freemium
         // (free tier with paid extras) or paid.
-        access: z.enum(["free", "freemium", "paid"]).optional(),
+        access: z.enum(ACCESS_IDS).optional(),
     }),
 });
 

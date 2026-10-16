@@ -2,43 +2,14 @@
 import Layout from "../layouts/Layout.astro";
 import ResourceCard from "../components/ResourceCard.astro";
 import { getCollection } from "astro:content";
+import {
+    RESOURCE_CATEGORIES,
+    RESOURCE_FORMATS,
+    groupByCategory,
+} from "../lib/resources";
 
-const resources = await getCollection("resources");
-
-const categoryOrder = [
-    "cv",
-    "empleo",
-    "aprendizaje",
-    "certificacion",
-    "becas",
-    "ia",
-    "practica",
-    "opensource",
-] as const;
-const formats = [
-    { id: "web", en: "Websites", es: "Webs" },
-    { id: "channel", en: "Channels", es: "Canales" },
-    { id: "video", en: "Videos", es: "Videos" },
-] as const;
-const categoryLabel: Record<
-    (typeof categoryOrder)[number],
-    { en: string; es: string }
-> = {
-    cv: { en: "CV & LinkedIn", es: "CV y LinkedIn" },
-    empleo: { en: "Job boards", es: "Portales de empleo" },
-    aprendizaje: { en: "Learning", es: "Aprendizaje" },
-    certificacion: { en: "Certifications", es: "Certificaciones" },
-    becas: { en: "Academic opportunities", es: "Oportunidades académicas" },
-    ia: { en: "AI tools", es: "Herramientas de IA" },
-    practica: { en: "Technical practice", es: "Práctica técnica" },
-    opensource: { en: "Open source & GitHub", es: "Open source y GitHub" },
-};
-
-const grouped = categoryOrder.map((category) => ({
-    category,
-    label: categoryLabel[category],
-    items: resources.filter((r) => r.data.category === category),
-}));
+const resources = (await getCollection("resources")).map((r) => r.data);
+const groups = groupByCategory(resources);
 ---
 
 <Layout
@@ -112,16 +83,16 @@ const grouped = categoryOrder.map((category) => ({
                     Todos
                 </button>
                 {
-                    categoryOrder.map((category) => (
+                    RESOURCE_CATEGORIES.map((category) => (
                         <button
                             type="button"
-                            data-filter={category}
+                            data-filter={category.id}
                             aria-pressed="false"
                             class="resource-filter-pill px-4 py-2 text-xs font-bold uppercase rounded-xl transition-all bg-slate-900/80 border border-white/10 text-slate-300 hover:text-white hover:border-white/20"
-                            data-i18n-en={categoryLabel[category].en}
-                            data-i18n-es={categoryLabel[category].es}
+                            data-i18n-en={category.label.en}
+                            data-i18n-es={category.label.es}
                         >
-                            {categoryLabel[category].es}
+                            {category.label.es}
                         </button>
                     ))
                 }
@@ -143,16 +114,16 @@ const grouped = categoryOrder.map((category) => ({
                     Todos
                 </button>
                 {
-                    formats.map((format) => (
+                    RESOURCE_FORMATS.map((format) => (
                         <button
                             type="button"
                             data-format={format.id}
                             aria-pressed="false"
                             class="resource-filter-pill px-4 py-2 text-xs font-bold uppercase rounded-xl transition-all bg-slate-900/80 border border-white/10 text-slate-300 hover:text-white hover:border-white/20"
-                            data-i18n-en={format.en}
-                            data-i18n-es={format.es}
+                            data-i18n-en={format.filterLabel.en}
+                            data-i18n-es={format.filterLabel.es}
                         >
-                            {format.es}
+                            {format.filterLabel.es}
                         </button>
                     ))
                 }
@@ -162,35 +133,28 @@ const grouped = categoryOrder.map((category) => ({
         <!-- Groups List -->
         <div class="space-y-6">
             {
-                grouped.map(
-                    (group) =>
-                        group.items.length > 0 && (
-                            <section
-                                data-resource-section={group.category}
-                                class="space-y-6"
-                            >
-                                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                                    {group.items.map((item) => (
-                                        <ResourceCard
-                                            title={item.data.title}
-                                            descriptionEn={
-                                                item.data.description.en
-                                            }
-                                            descriptionEs={
-                                                item.data.description.es
-                                            }
-                                            url={item.data.url}
-                                            category={item.data.category}
-                                            type={item.data.type}
-                                            avatar={item.data.avatar}
-                                            channel={item.data.channel}
-                                            access={item.data.access}
-                                        />
-                                    ))}
-                                </div>
-                            </section>
-                        ),
-                )
+                groups.map((group) => (
+                    <section
+                        data-resource-section={group.category.id}
+                        class="space-y-6"
+                    >
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            {group.items.map((item) => (
+                                <ResourceCard
+                                    title={item.title}
+                                    descriptionEn={item.description.en}
+                                    descriptionEs={item.description.es}
+                                    url={item.url}
+                                    category={item.category}
+                                    type={item.type}
+                                    avatar={item.avatar}
+                                    channel={item.channel}
+                                    access={item.access}
+                                />
+                            ))}
+                        </div>
+                    </section>
+                ))
             }
         </div>
 
@@ -216,6 +180,8 @@ const grouped = categoryOrder.map((category) => ({
     </main>
 
     <script>
+        import { matchesFilters } from "../lib/resources";
+
         const searchInput =
             document.querySelector<HTMLInputElement>("#resource-search");
         const categoryPills = Array.from(
@@ -233,12 +199,8 @@ const grouped = categoryOrder.map((category) => ({
         let activeFilter = "all";
         let activeFormat = "all";
 
-        function normalize(text: string) {
-            return text.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
-        }
-
         function applyFilter() {
-            const query = normalize(searchInput?.value ?? "");
+            const query = searchInput?.value ?? "";
             let anyVisible = false;
 
             sections.forEach((section) => {
@@ -246,17 +208,18 @@ const grouped = categoryOrder.map((category) => ({
                 section
                     .querySelectorAll<HTMLElement>("[data-resource-card]")
                     .forEach((card) => {
-                        const matchesCategory =
-                            activeFilter === "all" ||
-                            card.dataset.resourceCard === activeFilter;
-                        const matchesFormat =
-                            activeFormat === "all" ||
-                            card.dataset.resourceFormat === activeFormat;
-                        const matchesQuery =
-                            query === "" ||
-                            normalize(card.textContent ?? "").includes(query);
-                        const visible =
-                            matchesCategory && matchesFormat && matchesQuery;
+                        const visible = matchesFilters(
+                            {
+                                category: card.dataset.resourceCard ?? "",
+                                format: card.dataset.resourceFormat ?? "web",
+                                text: card.textContent ?? "",
+                            },
+                            {
+                                category: activeFilter,
+                                format: activeFormat,
+                                query,
+                            },
+                        );
                         card.hidden = !visible;
                         if (visible) sectionHasVisible = true;
                     });

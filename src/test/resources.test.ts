@@ -1,18 +1,13 @@
 import { describe, it, expect } from "vitest";
 import resources from "../content/resources.json";
-import { youtubeVideoId } from "../lib/resources";
+import {
+    ACCESS_IDS,
+    RESOURCE_CATEGORY_IDS,
+    youtubeVideoId,
+} from "../lib/resources";
 
-const CATEGORIES = [
-    "cv",
-    "empleo",
-    "aprendizaje",
-    "certificacion",
-    "becas",
-    "ia",
-    "practica",
-    "opensource",
-];
-const ACCESS = ["free", "freemium", "paid"];
+const CATEGORIES: string[] = RESOURCE_CATEGORY_IDS;
+const ACCESS: string[] = ACCESS_IDS;
 
 describe("resources.json", () => {
     it("has unique ids and unique URLs", () => {
