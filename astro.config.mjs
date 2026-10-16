@@ -26,13 +26,19 @@ export default defineConfig({
                 "default-src 'self'",
                 "img-src 'self' data: https://cdn.discordapp.com https://github.com https://avatars.githubusercontent.com https://img.youtube.com https://yt3.googleusercontent.com",
                 "frame-src https://discord.com https://www.youtube-nocookie.com",
-                "connect-src 'self' https://discord.com",
+                // cloudflareinsights.com recibe las métricas de Web Analytics.
+                "connect-src 'self' https://discord.com https://cloudflareinsights.com",
                 // Vite incrusta como data: los subconjuntos de fuente pequeños.
                 "font-src 'self' data:",
                 "object-src 'none'",
                 "base-uri 'self'",
                 "form-action 'self'",
             ],
+            // Cloudflare inyecta su beacon de Web Analytics al servir el HTML
+            // (no está en el build), así que se permite su dominio.
+            scriptDirective: {
+                resources: ["'self'", "https://static.cloudflareinsights.com"],
+            },
             styleDirective: {
                 resources: ["'self'", "'unsafe-inline'"],
             },
