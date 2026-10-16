@@ -149,6 +149,13 @@ export function matchesFilters(
     );
 }
 
+// "58 recursos" / "1 recurso" / "58 resources" / "1 resource".
+export function resourceCountLabel(count: number, lang: "es" | "en"): string {
+    if (lang === "en")
+        return `${count} ${count === 1 ? "resource" : "resources"}`;
+    return `${count} ${count === 1 ? "recurso" : "recursos"}`;
+}
+
 const YOUTUBE_ID = /^[A-Za-z0-9_-]{11}$/;
 
 // Saca el ID de un enlace de YouTube (watch, youtu.be, embed o shorts).

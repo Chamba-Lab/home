@@ -6,6 +6,7 @@ import {
     groupByCategory,
     matchesFilters,
     normalizeText,
+    resourceCountLabel,
     youtubeEmbedUrl,
     youtubeThumbnail,
     youtubeVideoId,
@@ -90,6 +91,15 @@ describe("matchesFilters", () => {
         expect(matchesFilters(card, { ...all, query: "  PROGRAMACIÓN " })).toBe(
             true,
         );
+    });
+});
+
+describe("resourceCountLabel", () => {
+    it("pluralizes in both languages", () => {
+        expect(resourceCountLabel(1, "es")).toBe("1 recurso");
+        expect(resourceCountLabel(58, "es")).toBe("58 recursos");
+        expect(resourceCountLabel(0, "en")).toBe("0 resources");
+        expect(resourceCountLabel(1, "en")).toBe("1 resource");
     });
 });
 
