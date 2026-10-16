@@ -1,7 +1,7 @@
 {
     "name": "chamba-lab",
     "type": "module",
-    "version": "0.26.0",
+    "version": "0.26.1",
     "description": "Chamba Lab: public site of the tech community",
     "license": "MIT",
     "engines": {
