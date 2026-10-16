@@ -12,7 +12,6 @@ interface NodeDetail {
 const ECOSYSTEM_DATA: Record<
     "es" | "en",
     {
-        badge: string;
         sectionTitle: string;
         sectionHighlight: string;
         sectionDesc: string;
@@ -23,7 +22,6 @@ const ECOSYSTEM_DATA: Record<
     }
 > = {
     es: {
-        badge: "Ecosistema Comunitario",
         sectionTitle: "El Ecosistema",
         sectionHighlight: "Chamba Lab",
         sectionDesc:
@@ -104,7 +102,6 @@ const ECOSYSTEM_DATA: Record<
         },
     },
     en: {
-        badge: "Community Ecosystem",
         sectionTitle: "The",
         sectionHighlight: "Chamba Lab Ecosystem",
         sectionDesc:
@@ -276,10 +273,6 @@ export default function CommunityEcosystem() {
             <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                 {/* Section Header */}
                 <div className="text-center max-w-2xl mx-auto">
-                    <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full card-glass text-xs font-semibold text-slate-300 border border-white/10 mb-4">
-                        <span className="w-2 h-2 rounded-full bg-brand-yellow animate-pulse" />
-                        <span>{t.badge}</span>
-                    </div>
                     <h2 className="font-display text-3xl sm:text-4xl font-extrabold tracking-tight text-white mb-2">
                         {t.sectionTitle}{" "}
                         <span className="text-brand-yellow">

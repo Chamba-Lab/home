@@ -217,3 +217,7 @@ Mapache/gato peludo con taza de café y expresión _grumpy_. Masters en `src/ass
 ## Eventos: portada editorial
 
 La página /events sigue el diseño aprobado en Figma (45:326): portada con carteles de lanzamiento y Code & Coffee, agenda mensual en filas separadas por líneas e invitación sobre fondo crema. Se conserva el header y footer compartido. Los carteles usan los vectores exportados a public/images/events, texto bilingüe y horarios del catálogo real. En móvil se ocultan los carteles de las filas y la fecha se presenta junto al horario. El token event-recurring (#8a95ff) identifica encuentros recurrentes.
+
+### Encabezados sin etiquetas redundantes
+
+Los títulos de página y sección se presentan directamente, sin minietiquetas decorativas que repitan su contexto (por ejemplo, «Comunidad Tech», «Biblioteca Curada» o «Equipo»). Se conservan las etiquetas con información funcional: categorías, formato, acceso, recurrencia y disponibilidad.
