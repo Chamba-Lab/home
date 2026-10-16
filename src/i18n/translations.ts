@@ -5,7 +5,6 @@ export const translations = {
         navEvents: "Eventos",
         navActivities: "Dinámicas",
         joinDiscord: "Unirse a Discord",
-        badge: "Comunidad Tech",
         heroTitlePrefix: "Conecta, inspírate y crece en",
         heroTitleHighlight: "tecnología",
         heroSubtitle:
@@ -36,7 +35,6 @@ export const translations = {
         viewAllResources: "Explorar todos los recursos",
 
         // Team Section
-        teamBadge: "Equipo",
         teamTitle: "Quienes hacen Chamba Lab",
         teamDesc: "Las personas que sostienen la comunidad.",
         viewFullTeam: "Conoce a todo el equipo",
@@ -71,7 +69,6 @@ export const translations = {
         downloadIcs: "iCal",
         viewAllEvents: "Ver calendario completo de eventos",
         noEvents: "No hay eventos programados este mes.",
-        eventsBadge: "Calendario Comunitario",
         eventsProposeTitle: "¿Quieres proponer un taller o sesión?",
         eventsProposeDesc:
             "Súmate a nuestro Discord y propón temas en el canal #eventos.",
@@ -84,7 +81,6 @@ export const translations = {
         dynamicsTitle: "Dinámicas",
         dynamicsIntro:
             "Mini actividades para la comunidad. Gira la ruleta, elige un tema, debate en vivo o desafíate a ti mismo. Perfecto para sesiones en Discord, eventos o simplemente para romper el hielo.",
-        dynamicsBadge: "Dinámicas Comunitarias",
         dynamicsActive: "Activa",
         dynamicsTry: "Probar dinámica",
         dynamicsComingSoon: "Próximamente",
@@ -96,7 +92,6 @@ export const translations = {
 
         // Roulette Page
         rouletteBack: "Volver a Dinámicas",
-        rouletteBadge: "Dinámica 01 • Rompehielos Tech",
         rouletteTitle: "La Ruleta de la Comunidad",
         rouletteDesc:
             "Descubre temas de conversación, dilemas de arquitectura o desafíos técnicos para debatir en vivo. Perfecto para dinamizar canales de voz en Discord o practicar improvisación técnica.",
@@ -124,7 +119,6 @@ export const translations = {
         navEvents: "Events",
         navActivities: "Activities",
         joinDiscord: "Join Discord",
-        badge: "Tech Community",
         heroTitlePrefix: "Connect, get inspired and grow in",
         heroTitleHighlight: "tech",
         heroSubtitle:
@@ -155,7 +149,6 @@ export const translations = {
         viewAllResources: "Explore all resources",
 
         // Team Section
-        teamBadge: "Team",
         teamTitle: "Meet the team",
         teamDesc: "The people who keep the community going.",
         viewFullTeam: "Meet the whole team",
@@ -190,7 +183,6 @@ export const translations = {
         downloadIcs: "iCal",
         viewAllEvents: "View full events calendar",
         noEvents: "No events scheduled this month.",
-        eventsBadge: "Community Calendar",
         eventsProposeTitle: "Want to propose a workshop or session?",
         eventsProposeDesc:
             "Join our Discord and suggest topics in the #events channel.",
@@ -202,7 +194,6 @@ export const translations = {
         dynamicsTitle: "Dynamics",
         dynamicsIntro:
             "Mini activities for the community. Spin the roulette, choose a topic, debate live, or challenge yourself. Perfect for Discord sessions, events, or just breaking the ice.",
-        dynamicsBadge: "Community Dynamics",
         dynamicsActive: "Active",
         dynamicsTry: "Try dynamic",
         dynamicsComingSoon: "Coming soon",
@@ -214,7 +205,6 @@ export const translations = {
 
         // Roulette Page
         rouletteBack: "Back to Dynamics",
-        rouletteBadge: "Dynamic 01 • Tech Icebreaker",
         rouletteTitle: "Community Roulette",
         rouletteDesc:
             "Discover discussion topics, architectural dilemmas, or technical challenges to debate live. Perfect for livening up Discord voice channels or practicing technical improvisation.",
