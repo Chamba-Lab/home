@@ -1,3 +1,5 @@
+import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
 import { describe, it, expect } from "vitest";
 import {
     RESOURCE_CATEGORIES,
@@ -113,6 +115,18 @@ describe("categories", () => {
     it("gives every category an icon", () => {
         for (const c of RESOURCE_CATEGORIES) {
             expect(c.iconPath.length, c.id).toBeGreaterThan(10);
+        }
+    });
+    it("gives every category a color palette in global.css", () => {
+        const css = readFileSync(
+            resolve(process.cwd(), "src/styles/global.css"),
+            "utf8",
+        );
+        for (const c of RESOURCE_CATEGORIES) {
+            const rule = new RegExp(
+                `\\[data-category="${c.id}"\\]\\s*\\{[^}]*--cat-accent:[^}]*--cat-base:`,
+            );
+            expect(css, c.id).toMatch(rule);
         }
     });
     it("uses ids that are valid, English URL slugs", () => {

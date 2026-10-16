@@ -45,9 +45,9 @@ const accessBadge = access ? ACCESS_LEVELS[access] : undefined;
 const categoryInfo = categoryById(category);
 const badge = {
     label: categoryInfo?.label ?? { es: category, en: category },
-    class:
-        categoryInfo?.badgeClass ??
-        "border-white/10 bg-slate-900 text-slate-300",
+    class: categoryInfo
+        ? "border-(--cat-border) bg-(--cat-tint) text-(--cat-accent)"
+        : "border-white/10 bg-slate-900 text-slate-300",
 };
 const isVideo = type === "video";
 const showMeta = showCategory || accessBadge || formatLabel;
@@ -92,6 +92,7 @@ const showMeta = showCategory || accessBadge || formatLabel;
                 <div class="flex items-center justify-between gap-2 mb-4">
                     {showCategory && (
                         <span
+                            data-category={categoryInfo?.id}
                             class={`text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded border ${badge.class}`}
                             data-i18n-es={badge.label.es}
                             data-i18n-en={badge.label.en}

@@ -78,3 +78,55 @@ body {
         border-color: rgba(250, 204, 21, 0.3);
     }
 }
+
+/*
+ * Paleta de cada categoría de recursos (ids de RESOURCE_CATEGORIES).
+ * --cat-accent pinta texto, iconos y acciones; --cat-base, fondos y bordes.
+ * Cualquier elemento con data-category="<id>" expone la paleta a sus hijos.
+ */
+[data-category] {
+    --cat-tint: color-mix(in srgb, var(--cat-base) 10%, transparent);
+    --cat-border: color-mix(in srgb, var(--cat-base) 30%, transparent);
+    --cat-glow: color-mix(in srgb, var(--cat-base) 55%, transparent);
+    --cat-wash: color-mix(in srgb, var(--cat-accent) 6%, transparent);
+}
+
+[data-category="cv"] {
+    --cat-accent: #facc15;
+    --cat-base: #facc15;
+}
+
+[data-category="jobs"] {
+    --cat-accent: #38bdf8;
+    --cat-base: #0ea5e9;
+}
+
+[data-category="learning"] {
+    --cat-accent: #34d399;
+    --cat-base: #10b981;
+}
+
+[data-category="certifications"] {
+    --cat-accent: #fb923c;
+    --cat-base: #f97316;
+}
+
+[data-category="scholarships"] {
+    --cat-accent: #fb7185;
+    --cat-base: #f43f5e;
+}
+
+[data-category="ai"] {
+    --cat-accent: #e879f9;
+    --cat-base: #d946ef;
+}
+
+[data-category="practice"] {
+    --cat-accent: #8a95ff;
+    --cat-base: #5865f2;
+}
+
+[data-category="opensource"] {
+    --cat-accent: #cbd5e1;
+    --cat-base: #94a3b8;
+}
