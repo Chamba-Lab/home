@@ -38,6 +38,13 @@ jobs:
             - name: Install dependencies
               run: npm ci
 
+            # Identidad noreply de la App (chamba-lab-cd-bot[bot]): los commits de
+            # release se atribuyen al bot y no exponen el correo de ninguna persona.
+            - name: Configure Git User
+              run: |
+                  git config --global user.name "Chamba Lab [Bot]"
+                  git config --global user.email "341797193+chamba-lab-cd-bot[bot]@users.noreply.github.com"
+
             - name: Validate Code
               run: |
                   npm run lint
@@ -51,17 +58,6 @@ jobs:
                   app-id: ${{ vars.RELEASE_APP_ID }}
                   private-key: ${{ secrets.RELEASE_APP_PRIVATE_KEY }}
                   permission-contents: write
-
-            # Identidad noreply de la App: los commits de release se atribuyen al
-            # bot y no exponen el correo de ninguna persona.
-            - name: Configure Git User
-              env:
-                  GH_TOKEN: ${{ steps.app-token.outputs.token }}
-                  APP_SLUG: ${{ steps.app-token.outputs.app-slug }}
-              run: |
-                  user_id=$(gh api "/users/${APP_SLUG}[bot]" --jq .id)
-                  git config --global user.name "Chamba Lab [Bot]"
-                  git config --global user.email "${user_id}+${APP_SLUG}[bot]@users.noreply.github.com"
 
             - name: Automated Version Release
               env:
