@@ -27,7 +27,7 @@
             "es": "Rutas de aprendizaje visuales para casi cualquier rol tech: frontend, backend, DevOps y más."
         },
         "url": "https://roadmap.sh",
-        "category": "aprendizaje",
+        "category": "learning",
         "access": "free"
     },
     {
@@ -38,7 +38,7 @@
             "es": "Documentación técnica de referencia para desarrollo web, traducida a español."
         },
         "url": "https://developer.mozilla.org/es/",
-        "category": "aprendizaje",
+        "category": "learning",
         "access": "free"
     },
     {
@@ -49,7 +49,7 @@
             "es": "Cursos gratuitos y certificaciones prácticas para aprender a programar desde cero."
         },
         "url": "https://www.freecodecamp.org",
-        "category": "aprendizaje",
+        "category": "learning",
         "access": "free"
     },
     {
@@ -60,7 +60,7 @@
             "es": "La plataforma más usada para practicar problemas de algoritmos de cara a entrevistas técnicas."
         },
         "url": "https://leetcode.com",
-        "category": "practica"
+        "category": "practice"
     },
     {
         "id": "codewars",
@@ -70,7 +70,7 @@
             "es": "Retos de código (katas) creados por la comunidad en muchos lenguajes, ordenados por dificultad para practicar un poco cada día."
         },
         "url": "https://www.codewars.com",
-        "category": "practica"
+        "category": "practice"
     },
     {
         "id": "interviewing-io",
@@ -80,7 +80,7 @@
             "es": "Entrevistas técnicas simuladas, anónimas, con ingenieros reales."
         },
         "url": "https://interviewing.io",
-        "category": "practica"
+        "category": "practice"
     },
     {
         "id": "reactive-resume",
@@ -100,7 +100,7 @@
             "es": "El mayor portal de empleo profesional: búsqueda, alertas y postulación directa con tu perfil."
         },
         "url": "https://www.linkedin.com/jobs/",
-        "category": "empleo"
+        "category": "jobs"
     },
     {
         "id": "get-on-board",
@@ -110,7 +110,7 @@
             "es": "Portal de empleo tech enfocado en Latinoamérica, con puestos remotos y rangos salariales visibles."
         },
         "url": "https://www.getonbrd.com",
-        "category": "empleo"
+        "category": "jobs"
     },
     {
         "id": "computrabajo-pe",
@@ -120,7 +120,7 @@
             "es": "Uno de los portales de empleo más visitados de Perú y Latinoamérica, útil para puestos de entrada y locales."
         },
         "url": "https://pe.computrabajo.com",
-        "category": "empleo"
+        "category": "jobs"
     },
     {
         "id": "bumeran-pe",
@@ -130,7 +130,7 @@
             "es": "Portal de empleo generalista con muchas ofertas en Perú, incluidas prácticas y puestos junior."
         },
         "url": "https://www.bumeran.com.pe",
-        "category": "empleo"
+        "category": "jobs"
     },
     {
         "id": "torre",
@@ -140,7 +140,7 @@
             "es": "Red de talento con ofertas de empresas de todo el mundo, muchas de ellas remotas."
         },
         "url": "https://torre.ai",
-        "category": "empleo"
+        "category": "jobs"
     },
     {
         "id": "we-work-remotely",
@@ -150,7 +150,7 @@
             "es": "Portal de empleo solo remoto, con una sección dedicada a programación."
         },
         "url": "https://weworkremotely.com",
-        "category": "empleo"
+        "category": "jobs"
     },
     {
         "id": "cs50",
@@ -160,7 +160,7 @@
             "es": "Introducción a las ciencias de la computación de Harvard: clases y ejercicios gratuitos, con subtítulos en español."
         },
         "url": "https://cs50.harvard.edu/x/",
-        "category": "aprendizaje",
+        "category": "learning",
         "access": "free"
     },
     {
@@ -171,7 +171,7 @@
             "es": "Currículo full stack gratuito, basado en proyectos y respaldado por una comunidad activa."
         },
         "url": "https://www.theodinproject.com",
-        "category": "aprendizaje",
+        "category": "learning",
         "access": "free"
     },
     {
@@ -182,7 +182,7 @@
             "es": "Rutas de aprendizaje gratuitas sobre Azure, .NET, datos, IA y más, disponibles en español."
         },
         "url": "https://learn.microsoft.com/es-es/training/",
-        "category": "aprendizaje",
+        "category": "learning",
         "access": "free"
     },
     {
@@ -193,7 +193,7 @@
             "es": "Cursos introductorios gratuitos de redes, ciberseguridad y Python."
         },
         "url": "https://www.netacad.com",
-        "category": "aprendizaje",
+        "category": "learning",
         "access": "free"
     },
     {
@@ -204,7 +204,7 @@
             "es": "Cursos de universidades y empresas; muchos se pueden auditar gratis, con ayuda financiera para los certificados."
         },
         "url": "https://www.coursera.org",
-        "category": "aprendizaje",
+        "category": "learning",
         "access": "freemium"
     },
     {
@@ -215,7 +215,7 @@
             "es": "Cursos de tecnología y carrera en español por suscripción, con algunas clases gratuitas para probar."
         },
         "url": "https://platzi.com",
-        "category": "aprendizaje",
+        "category": "learning",
         "access": "paid"
     },
     {
@@ -226,7 +226,7 @@
             "es": "Mercado de cursos de pago sobre casi cualquier tema tech; revisa las reseñas antes de comprar."
         },
         "url": "https://www.udemy.com",
-        "category": "aprendizaje",
+        "category": "learning",
         "access": "paid"
     },
     {
@@ -237,7 +237,7 @@
             "es": "Capacitación gratuita en la nube y preparación para las certificaciones de AWS, cuyos exámenes son de pago."
         },
         "url": "https://skillbuilder.aws",
-        "category": "certificacion",
+        "category": "certifications",
         "access": "freemium"
     },
     {
@@ -248,7 +248,7 @@
             "es": "Certificaciones de Microsoft por rol con material oficial de estudio gratuito; los exámenes tienen costo."
         },
         "url": "https://learn.microsoft.com/es-es/credentials/",
-        "category": "certificacion",
+        "category": "certifications",
         "access": "freemium"
     },
     {
@@ -259,7 +259,7 @@
             "es": "Certificados profesionales de nivel inicial en soporte TI, datos, UX y ciberseguridad, con ayuda financiera disponible."
         },
         "url": "https://grow.google/certificates/",
-        "category": "certificacion",
+        "category": "certifications",
         "access": "paid"
     },
     {
@@ -270,7 +270,7 @@
             "es": "Pruebas de habilidades gratuitas que te dan un certificado para compartir en tu CV o LinkedIn."
         },
         "url": "https://www.hackerrank.com/skills-verification",
-        "category": "certificacion",
+        "category": "certifications",
         "access": "free"
     },
     {
@@ -281,7 +281,7 @@
             "es": "Certificaciones oficiales sobre GitHub, Actions y Copilot, reconocidas por la comunidad de desarrollo."
         },
         "url": "https://learn.github.com/certifications",
-        "category": "certificacion",
+        "category": "certifications",
         "access": "paid"
     },
     {
@@ -292,7 +292,7 @@
             "es": "Cursos introductorios gratuitos de Linux, Kubernetes y código abierto, y certificaciones de pago como CKA."
         },
         "url": "https://training.linuxfoundation.org",
-        "category": "certificacion",
+        "category": "certifications",
         "access": "freemium"
     },
     {
@@ -303,7 +303,7 @@
             "es": "Asistente de IA general para explicar conceptos, depurar y redactar; el plan gratuito tiene límites."
         },
         "url": "https://chatgpt.com",
-        "category": "ia"
+        "category": "ai"
     },
     {
         "id": "claude",
@@ -313,7 +313,7 @@
             "es": "Asistente de IA de Anthropic, destacado en redacción, revisión de código y documentos largos; tiene plan gratuito."
         },
         "url": "https://claude.ai",
-        "category": "ia"
+        "category": "ai"
     },
     {
         "id": "gemini",
@@ -323,7 +323,7 @@
             "es": "Asistente de IA de Google, integrado con Google Workspace y con plan gratuito."
         },
         "url": "https://gemini.google.com",
-        "category": "ia"
+        "category": "ai"
     },
     {
         "id": "github-copilot",
@@ -333,7 +333,7 @@
             "es": "Programador asistido por IA dentro de tu editor, con plan gratuito y acceso ampliado para algunos estudiantes."
         },
         "url": "https://github.com/features/copilot",
-        "category": "ia"
+        "category": "ai"
     },
     {
         "id": "perplexity",
@@ -343,7 +343,7 @@
             "es": "Buscador con IA que responde con fuentes citadas, útil para investigar tecnologías con rapidez."
         },
         "url": "https://www.perplexity.ai",
-        "category": "ia"
+        "category": "ai"
     },
     {
         "id": "notebooklm",
@@ -353,7 +353,7 @@
             "es": "Sube tus notas y documentos y haz preguntas sobre ellos, útil para estudiar."
         },
         "url": "https://notebook.google",
-        "category": "ia"
+        "category": "ai"
     },
     {
         "id": "hugging-face",
@@ -363,7 +363,7 @@
             "es": "Plataforma de modelos, datasets y cursos abiertos para aprender y experimentar con machine learning."
         },
         "url": "https://huggingface.co",
-        "category": "ia"
+        "category": "ai"
     },
     {
         "id": "deeplearning-ai",
@@ -373,7 +373,7 @@
             "es": "Cursos cortos y prácticos de IA generativa y machine learning; muchos se pueden tomar gratis."
         },
         "url": "https://www.deeplearning.ai/courses",
-        "category": "ia"
+        "category": "ai"
     },
     {
         "id": "exercism",
@@ -383,7 +383,7 @@
             "es": "Ejercicios de programación gratuitos en decenas de lenguajes, con mentoría opcional de voluntarios."
         },
         "url": "https://exercism.org",
-        "category": "practica"
+        "category": "practice"
     },
     {
         "id": "frontend-mentor",
@@ -393,7 +393,7 @@
             "es": "Retos front-end con diseños reales, ideales para armar proyectos de portafolio."
         },
         "url": "https://www.frontendmentor.io",
-        "category": "practica"
+        "category": "practice"
     },
     {
         "id": "neetcode",
@@ -403,7 +403,7 @@
             "es": "Listas curadas de problemas y explicaciones en video para preparar entrevistas de algoritmos con orden."
         },
         "url": "https://neetcode.io",
-        "category": "practica"
+        "category": "practice"
     },
     {
         "id": "tech-interview-handbook",
@@ -413,7 +413,7 @@
             "es": "Guía gratuita sobre CV, entrevistas de código, preguntas de comportamiento y negociación de ofertas."
         },
         "url": "https://www.techinterviewhandbook.org",
-        "category": "practica"
+        "category": "practice"
     },
     {
         "id": "github-skills",
@@ -475,7 +475,7 @@
         "url": "https://www.youtube.com/@freecodecamp",
         "type": "channel",
         "avatar": "https://yt3.googleusercontent.com/ytc/AIdro_lGRc-05M2OoE1ejQdxeFhyP7OkJg9h4Y-7CK_5je3QqFI=s112-c-k-c0x00ffffff-no-rj",
-        "category": "aprendizaje"
+        "category": "learning"
     },
     {
         "id": "cs50-youtube",
@@ -487,7 +487,7 @@
         "url": "https://www.youtube.com/@cs50",
         "type": "channel",
         "avatar": "https://yt3.googleusercontent.com/ytc/AIdro_m7MWMBm4PynPndRMCxUEfNcU9Eufkk5ZkYI5RNjPchQ_c=s112-c-k-c0x00ffffff-no-rj",
-        "category": "aprendizaje"
+        "category": "learning"
     },
     {
         "id": "midudev-youtube",
@@ -499,7 +499,7 @@
         "url": "https://www.youtube.com/@midudev",
         "type": "channel",
         "avatar": "https://yt3.googleusercontent.com/QkJIZgFfiFacdK8syyPRt7cJYPl3jTf0qFhdPwFdpJpyCW5jI_uylNK5a3IH8bitE2wy6Dr2Lw=s112-c-k-c0x00ffffff-no-rj",
-        "category": "aprendizaje"
+        "category": "learning"
     },
     {
         "id": "mouredev-youtube",
@@ -511,7 +511,7 @@
         "url": "https://www.youtube.com/@mouredev",
         "type": "channel",
         "avatar": "https://yt3.googleusercontent.com/aPuVOhE66m_en_vzdz5SpbytqxUd-xHyAfLyn_lIVcC88dYT85WVhdYKrbZgRz7QMXvF7Ap_4fQ=s112-c-k-c0x00ffffff-no-rj",
-        "category": "aprendizaje"
+        "category": "learning"
     },
     {
         "id": "fcc-python-video",
@@ -523,7 +523,7 @@
         "url": "https://www.youtube.com/watch?v=rfscVS0vtbw",
         "type": "video",
         "channel": "freeCodeCamp.org",
-        "category": "aprendizaje"
+        "category": "learning"
     },
     {
         "id": "fcc-javascript-es-video",
@@ -535,7 +535,7 @@
         "url": "https://www.youtube.com/watch?v=ivdTnPl1ND0",
         "type": "video",
         "channel": "freeCodeCamp Español",
-        "category": "aprendizaje"
+        "category": "learning"
     },
     {
         "id": "pronabec",
@@ -545,7 +545,7 @@
             "es": "El programa nacional de becas del Perú: Beca 18, posgrado y convocatorias internacionales."
         },
         "url": "https://www.gob.pe/pronabec",
-        "category": "becas"
+        "category": "scholarships"
     },
     {
         "id": "daad",
@@ -555,7 +555,7 @@
             "es": "El servicio alemán de intercambio académico: becas de maestría, doctorado y estancias de investigación en Alemania."
         },
         "url": "https://www.daad.de/es/",
-        "category": "becas"
+        "category": "scholarships"
     },
     {
         "id": "fundacion-carolina",
@@ -565,7 +565,7 @@
             "es": "Becas para que profesionales de Latinoamérica cursen posgrados en España."
         },
         "url": "https://www.fundacioncarolina.es",
-        "category": "becas"
+        "category": "scholarships"
     },
     {
         "id": "erasmus-plus",
@@ -575,7 +575,7 @@
             "es": "El programa de la Unión Europea para estudiar, formarse e intercambiar en el extranjero."
         },
         "url": "https://erasmus-plus.ec.europa.eu",
-        "category": "becas"
+        "category": "scholarships"
     },
     {
         "id": "pronabec-youtube",
@@ -587,7 +587,7 @@
         "url": "https://www.youtube.com/@Pronabec",
         "type": "channel",
         "avatar": "https://yt3.googleusercontent.com/ytc/AIdro_msI_8JELTU97LHXUp-9mUAxsm9kLo_4HljFahmNOHCHw=s112-c-k-c0x00ffffff-no-rj",
-        "category": "becas"
+        "category": "scholarships"
     },
     {
         "id": "fulbright-peru-youtube",
@@ -599,7 +599,7 @@
         "url": "https://www.youtube.com/@fulbrightperu",
         "type": "channel",
         "avatar": "https://yt3.googleusercontent.com/tG-X5EsZdS49DRP8izfOiNy3vodKTofwVuJvZoOXO5BuDebtozCwH16aeadFJK8wFNf664TT_A=s112-c-k-c0x00ffffff-no-rj",
-        "category": "becas"
+        "category": "scholarships"
     },
     {
         "id": "daad-youtube",
@@ -611,6 +611,6 @@
         "url": "https://www.youtube.com/@DAADWorldwide",
         "type": "channel",
         "avatar": "https://yt3.googleusercontent.com/ytc/AIdro_lvxhRNBMGfw9bU5jz8YOgyuWXx0qePWQZYAGXAdlUd_MQ=s112-c-k-c0x00ffffff-no-rj",
-        "category": "becas"
+        "category": "scholarships"
     }
 ]

@@ -2,9 +2,12 @@ import { describe, it, expect } from "vitest";
 import {
     RESOURCE_CATEGORIES,
     categoryById,
+    categoryPageDescription,
+    categoryPageTitle,
+    categoryPath,
     displayDomain,
     groupByCategory,
-    matchesFilters,
+    matchesQuery,
     normalizeText,
     resourceCountLabel,
     youtubeEmbedUrl,
@@ -64,33 +67,19 @@ describe("normalizeText", () => {
     });
 });
 
-describe("matchesFilters", () => {
-    const card = {
-        category: "aprendizaje",
-        text: "freeCodeCamp Cursos de programación",
-    };
-    const all = { category: "all", query: "" };
+describe("matchesQuery", () => {
+    const text = "freeCodeCamp Cursos de programación";
 
-    it("shows everything with no filters", () => {
-        expect(matchesFilters(card, all)).toBe(true);
+    it("matches everything with an empty query", () => {
+        expect(matchesQuery(text, "")).toBe(true);
+        expect(matchesQuery(text, "   ")).toBe(true);
     });
-    it("requires category and query to match together", () => {
-        expect(matchesFilters(card, { ...all, category: "aprendizaje" })).toBe(
-            true,
-        );
-        expect(matchesFilters(card, { ...all, category: "becas" })).toBe(false);
-        expect(
-            matchesFilters(card, {
-                category: "aprendizaje",
-                query: "programacion",
-            }),
-        ).toBe(true);
-        expect(matchesFilters(card, { ...all, query: "python" })).toBe(false);
+    it("ignores accents, case and surrounding spaces", () => {
+        expect(matchesQuery(text, "  PROGRAMACIÓN ")).toBe(true);
+        expect(matchesQuery(text, "programacion")).toBe(true);
     });
-    it("ignores accents, case and surrounding spaces in the query", () => {
-        expect(matchesFilters(card, { ...all, query: "  PROGRAMACIÓN " })).toBe(
-            true,
-        );
+    it("rejects text that is not there", () => {
+        expect(matchesQuery(text, "python")).toBe(false);
     });
 });
 
@@ -106,19 +95,33 @@ describe("resourceCountLabel", () => {
 describe("categories", () => {
     it("keeps the catalog order and skips empty groups", () => {
         const groups = groupByCategory([
-            { category: "ia", n: 1 },
+            { category: "ai", n: 1 },
             { category: "cv", n: 2 },
-            { category: "ia", n: 3 },
+            { category: "ai", n: 3 },
         ]);
-        expect(groups.map((g) => g.category.id)).toEqual(["cv", "ia"]);
+        expect(groups.map((g) => g.category.id)).toEqual(["cv", "ai"]);
         expect(groups[1].items.map((i) => i.n)).toEqual([1, 3]);
     });
     it("finds a category by id and has unique ids", () => {
-        expect(categoryById("becas")?.label.es).toBe(
+        expect(categoryById("scholarships")?.label.es).toBe(
             "Oportunidades académicas",
         );
         expect(categoryById("nope")).toBeUndefined();
         const ids = RESOURCE_CATEGORIES.map((c) => c.id);
         expect(new Set(ids).size).toBe(ids.length);
+    });
+    it("uses ids that are valid, English URL slugs", () => {
+        for (const c of RESOURCE_CATEGORIES) {
+            expect(c.id, c.id).toMatch(/^[a-z]+$/);
+        }
+        expect(categoryPath("jobs")).toBe("/resources/jobs/");
+    });
+    it("builds page metadata within SEO length", () => {
+        for (const c of RESOURCE_CATEGORIES) {
+            expect(categoryPageTitle(c).length, c.id).toBeLessThanOrEqual(65);
+            const d = categoryPageDescription(c).length;
+            expect(d, c.id).toBeGreaterThanOrEqual(100);
+            expect(d, c.id).toBeLessThanOrEqual(175);
+        }
     });
 });

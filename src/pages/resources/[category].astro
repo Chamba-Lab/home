@@ -1,0 +1,136 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import ResourceCard from "../../components/ResourceCard.astro";
+import ResourceSearch from "../../components/ResourceSearch.astro";
+import ResourceEmptyState from "../../components/ResourceEmptyState.astro";
+import ResourceCriteriaNote from "../../components/ResourceCriteriaNote.astro";
+import { getCollection } from "astro:content";
+import {
+    RESOURCE_CATEGORIES,
+    categoryPageDescription,
+    categoryPageTitle,
+    categoryPath,
+    groupByCategory,
+} from "../../lib/resources";
+
+export async function getStaticPaths() {
+    const resources = (await getCollection("resources")).map((r) => r.data);
+    return groupByCategory(resources).map(({ category, items }) => ({
+        params: { category: category.id },
+        props: { category, items },
+    }));
+}
+
+const { category, items } = Astro.props;
+const others = RESOURCE_CATEGORIES.filter((c) => c.id !== category.id);
+---
+
+<Layout
+    title={categoryPageTitle(category)}
+    description={categoryPageDescription(category)}
+    breadcrumbs={[
+        { name: "Inicio", path: "/" },
+        { name: "Recursos", path: "/resources/" },
+        { name: category.label.es, path: categoryPath(category.id) },
+    ]}
+>
+    <main
+        class="w-full min-w-0 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24"
+    >
+        <div class="max-w-3xl mb-12">
+            <a
+                href="/resources/"
+                class="inline-flex items-center gap-1.5 text-xs font-bold text-slate-400 hover:text-brand-yellow transition-colors mb-6"
+            >
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="w-3.5 h-3.5"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                >
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                </svg>
+                <span
+                    data-i18n-es="Todos los recursos"
+                    data-i18n-en="All resources"
+                >
+                    Todos los recursos
+                </span>
+            </a>
+            <h1
+                class="font-display text-4xl sm:text-5xl font-extrabold text-white tracking-tight mb-4"
+                data-i18n-es={category.label.es}
+                data-i18n-en={category.label.en}
+            >
+                {category.label.es}
+            </h1>
+            <p
+                class="text-lg text-slate-300 leading-relaxed"
+                data-i18n-es={category.description.es}
+                data-i18n-en={category.description.en}
+            >
+                {category.description.es}
+            </p>
+        </div>
+
+        <div class="mb-12">
+            <ResourceSearch
+                placeholderEs="Buscar en esta categoría..."
+                placeholderEn="Search this category..."
+            />
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {
+                items.map((item) => (
+                    <ResourceCard
+                        title={item.title}
+                        descriptionEn={item.description.en}
+                        descriptionEs={item.description.es}
+                        url={item.url}
+                        category={item.category}
+                        type={item.type}
+                        avatar={item.avatar}
+                        channel={item.channel}
+                        access={item.access}
+                        showCategory={false}
+                    />
+                ))
+            }
+        </div>
+
+        <ResourceEmptyState />
+
+        <nav class="mt-16" aria-labelledby="other-categories">
+            <h2
+                id="other-categories"
+                class="text-[11px] font-semibold uppercase tracking-wider text-slate-500 mb-3"
+                data-i18n-es="Otras categorías"
+                data-i18n-en="Other categories"
+            >
+                Otras categorías
+            </h2>
+            <div class="flex flex-wrap gap-2.5">
+                {
+                    others.map((other) => (
+                        <a
+                            href={categoryPath(other.id)}
+                            class="px-4 py-2 text-xs font-bold uppercase rounded-xl bg-slate-900/80 border border-white/10 text-slate-300 hover:text-white hover:border-white/20 transition-all"
+                            data-i18n-es={other.label.es}
+                            data-i18n-en={other.label.en}
+                        >
+                            {other.label.es}
+                        </a>
+                    ))
+                }
+            </div>
+        </nav>
+
+        <ResourceCriteriaNote />
+    </main>
+</Layout>
