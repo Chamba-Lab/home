@@ -39,6 +39,38 @@ jobs:
             - name: Build
               run: npm run build
 
+    # Solo avisa: no es un check obligatorio y nunca falla, porque a veces hay
+    # alertas sin parche upstream que no deben frenar un PR.
+    audit:
+        name: Dependency audit (advisory)
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v7
+              with:
+                  persist-credentials: false
+
+            - name: Setup Node.js
+              uses: actions/setup-node@v7
+              with:
+                  node-version: "lts/*"
+
+            # npm audit lee package-lock.json; no hace falta instalar dependencias.
+            - name: npm audit (high y critical)
+              run: |
+                  if npm audit --audit-level=high > audit.txt 2>&1; then
+                      echo "✅ npm audit: sin vulnerabilidades altas ni críticas." >> "$GITHUB_STEP_SUMMARY"
+                  else
+                      echo "::warning title=npm audit::Hay dependencias con vulnerabilidades altas o críticas. El detalle está en el resumen de este job."
+                      {
+                          echo "## ⚠️ npm audit"
+                          echo
+                          echo '```'
+                          cat audit.txt
+                          echo '```'
+                      } >> "$GITHUB_STEP_SUMMARY"
+                  fi
+
     pr-title:
         name: PR title (Conventional Commits)
         runs-on: ubuntu-latest
