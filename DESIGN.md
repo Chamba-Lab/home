@@ -213,3 +213,7 @@ Mapache/gato peludo con taza de café y expresión _grumpy_. Masters en `src/ass
 - Cualquier nuevo componente debe reutilizar estrictamente los tokens de color definidos en `src/styles/global.css`.
 - No introducir temas claros paralelos salvo que exista una decisión explícita de arquitectura; la consistencia dark-mode es la directriz central.
 - Cada nuevo icono, variante o patrón de componente se documenta en este archivo. Las normas de commits y PR están en `AGENTS.md`.
+
+## Eventos: portada editorial
+
+La página /events sigue el diseño aprobado en Figma (45:326): portada con carteles de lanzamiento y Code & Coffee, agenda mensual en filas separadas por líneas e invitación sobre fondo crema. Se conserva el header y footer compartido. Los carteles usan los vectores exportados a public/images/events, texto bilingüe y horarios del catálogo real. En móvil se ocultan los carteles de las filas y la fecha se presenta junto al horario. El token event-recurring (#8a95ff) identifica encuentros recurrentes.

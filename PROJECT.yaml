@@ -1,0 +1,10 @@
+name: Chamba Lab
+stack:
+    framework: Astro 7
+    islands: React 19
+    styling: Tailwind CSS 4
+    runtime: Node.js >=22.12
+responsibilities:
+    implementation: Codex
+design:
+    events: https://www.figma.com/design/0wjkzIMBAORctHoSEHpR0E/Chamba-Lab?node-id=45-326
