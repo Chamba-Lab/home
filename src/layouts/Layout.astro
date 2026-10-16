@@ -108,6 +108,9 @@ const structuredData = [
         <script>
             import { translations, type Lang } from "../i18n/translations";
             import { getStoredLang, setStoredLang } from "../i18n/lang";
+            import { removeBrokenImages } from "../lib/broken-images";
+
+            removeBrokenImages();
 
             function applyLang(lang: Lang) {
                 document.documentElement.lang = lang;
