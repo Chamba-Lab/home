@@ -5,9 +5,30 @@ interface Props {
     descriptionEs?: string;
     url: string;
     category: string;
+    access: "free" | "freemium" | "paid";
 }
 
-const { title, descriptionEn, descriptionEs, url, category } = Astro.props;
+const { title, descriptionEn, descriptionEs, url, category, access } =
+    Astro.props;
+
+const accessBadges = {
+    free: {
+        es: "Gratis",
+        en: "Free",
+        class: "border-emerald-500/30 text-emerald-400",
+    },
+    freemium: {
+        es: "Gratis + de pago",
+        en: "Free + paid",
+        class: "border-amber-500/30 text-amber-400",
+    },
+    paid: {
+        es: "De pago",
+        en: "Paid",
+        class: "border-slate-500/40 text-slate-300",
+    },
+} as const;
+const accessBadge = accessBadges[access];
 
 const categoryBadges: Record<
     string,
@@ -18,10 +39,30 @@ const categoryBadges: Record<
         labelEn: "CV & LinkedIn",
         class: "border-brand-yellow/30 bg-brand-yellow/10 text-brand-yellow",
     },
+    empleo: {
+        label: "Portales de empleo",
+        labelEn: "Job boards",
+        class: "border-sky-500/30 bg-sky-500/10 text-sky-400",
+    },
     aprendizaje: {
         label: "Aprendizaje",
         labelEn: "Learning",
         class: "border-emerald-500/30 bg-emerald-500/10 text-emerald-400",
+    },
+    certificacion: {
+        label: "Certificaciones",
+        labelEn: "Certifications",
+        class: "border-orange-500/30 bg-orange-500/10 text-orange-400",
+    },
+    ia: {
+        label: "Herramientas de IA",
+        labelEn: "AI tools",
+        class: "border-fuchsia-500/30 bg-fuchsia-500/10 text-fuchsia-400",
+    },
+    opensource: {
+        label: "Open source y GitHub",
+        labelEn: "Open source & GitHub",
+        class: "border-slate-400/30 bg-slate-400/10 text-slate-300",
     },
     practica: {
         label: "Práctica Técnica",
@@ -49,6 +90,13 @@ const badge = categoryBadges[category] || {
                 data-i18n-en={badge.labelEn}
             >
                 {badge.label}
+            </span>
+            <span
+                class={`text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded border ${accessBadge.class}`}
+                data-i18n-es={accessBadge.es}
+                data-i18n-en={accessBadge.en}
+            >
+                {accessBadge.es}
             </span>
         </div>
         <h3
