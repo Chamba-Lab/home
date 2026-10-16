@@ -2,11 +2,7 @@
 import Layout from "../layouts/Layout.astro";
 import ResourceCard from "../components/ResourceCard.astro";
 import { getCollection } from "astro:content";
-import {
-    RESOURCE_CATEGORIES,
-    RESOURCE_FORMATS,
-    groupByCategory,
-} from "../lib/resources";
+import { RESOURCE_CATEGORIES, groupByCategory } from "../lib/resources";
 
 const resources = (await getCollection("resources")).map((r) => r.data);
 const groups = groupByCategory(resources);
@@ -97,37 +93,6 @@ const groups = groupByCategory(resources);
                     ))
                 }
             </div>
-
-            <!-- Format Filters -->
-            <div class="flex flex-wrap items-center gap-2.5">
-                <span
-                    class="text-[11px] font-semibold uppercase tracking-wider text-slate-500 mr-1"
-                    data-i18n="filterFormat">Formato</span
-                >
-                <button
-                    type="button"
-                    data-format="all"
-                    aria-pressed="true"
-                    class="resource-filter-pill px-4 py-2 text-xs font-bold uppercase rounded-xl transition-all bg-brand-yellow text-slate-950 shadow-md shadow-brand-yellow/20"
-                    data-i18n="filterAll"
-                >
-                    Todos
-                </button>
-                {
-                    RESOURCE_FORMATS.map((format) => (
-                        <button
-                            type="button"
-                            data-format={format.id}
-                            aria-pressed="false"
-                            class="resource-filter-pill px-4 py-2 text-xs font-bold uppercase rounded-xl transition-all bg-slate-900/80 border border-white/10 text-slate-300 hover:text-white hover:border-white/20"
-                            data-i18n-en={format.filterLabel.en}
-                            data-i18n-es={format.filterLabel.es}
-                        >
-                            {format.filterLabel.es}
-                        </button>
-                    ))
-                }
-            </div>
         </div>
 
         <!-- Groups List -->
@@ -187,9 +152,6 @@ const groups = groupByCategory(resources);
         const categoryPills = Array.from(
             document.querySelectorAll<HTMLButtonElement>("[data-filter]"),
         );
-        const formatPills = Array.from(
-            document.querySelectorAll<HTMLButtonElement>("[data-format]"),
-        );
         const sections = Array.from(
             document.querySelectorAll<HTMLElement>("[data-resource-section]"),
         );
@@ -197,7 +159,6 @@ const groups = groupByCategory(resources);
             document.querySelector<HTMLElement>("#resources-empty");
 
         let activeFilter = "all";
-        let activeFormat = "all";
 
         function applyFilter() {
             const query = searchInput?.value ?? "";
@@ -211,12 +172,10 @@ const groups = groupByCategory(resources);
                         const visible = matchesFilters(
                             {
                                 category: card.dataset.resourceCard ?? "",
-                                format: card.dataset.resourceFormat ?? "web",
                                 text: card.textContent ?? "",
                             },
                             {
                                 category: activeFilter,
-                                format: activeFormat,
                                 query,
                             },
                         );
@@ -266,14 +225,6 @@ const groups = groupByCategory(resources);
             pill.addEventListener("click", () => {
                 activeFilter = pill.dataset.filter ?? "all";
                 paintPills(categoryPills, pill);
-                applyFilter();
-            });
-        });
-
-        formatPills.forEach((pill) => {
-            pill.addEventListener("click", () => {
-                activeFormat = pill.dataset.format ?? "all";
-                paintPills(formatPills, pill);
                 applyFilter();
             });
         });

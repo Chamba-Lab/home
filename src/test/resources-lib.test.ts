@@ -66,24 +66,21 @@ describe("normalizeText", () => {
 describe("matchesFilters", () => {
     const card = {
         category: "aprendizaje",
-        format: "channel",
         text: "freeCodeCamp Cursos de programación",
     };
-    const all = { category: "all", format: "all", query: "" };
+    const all = { category: "all", query: "" };
 
     it("shows everything with no filters", () => {
         expect(matchesFilters(card, all)).toBe(true);
     });
-    it("requires category, format and query to match together", () => {
+    it("requires category and query to match together", () => {
         expect(matchesFilters(card, { ...all, category: "aprendizaje" })).toBe(
             true,
         );
         expect(matchesFilters(card, { ...all, category: "becas" })).toBe(false);
-        expect(matchesFilters(card, { ...all, format: "video" })).toBe(false);
         expect(
             matchesFilters(card, {
                 category: "aprendizaje",
-                format: "channel",
                 query: "programacion",
             }),
         ).toBe(true);
