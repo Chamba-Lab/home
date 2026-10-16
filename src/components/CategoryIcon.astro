@@ -1,0 +1,27 @@
+---
+// Icono de una categoría de recursos dentro de un recuadro del color de la
+// categoría. El trazo y los colores salen del catálogo en `src/lib/resources.ts`.
+interface Props {
+    category: { iconPath: string; badgeClass: string };
+    class?: string;
+}
+
+const { category, class: className = "h-12 w-12" } = Astro.props;
+---
+
+<span
+    class={`inline-flex shrink-0 items-center justify-center rounded-xl border ${category.badgeClass} ${className}`}
+    aria-hidden="true"
+>
+    <svg
+        class="h-6 w-6"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+    >
+        <path d={category.iconPath}></path>
+    </svg>
+</span>

@@ -1,0 +1,22 @@
+---
+// Aviso de "sin resultados" con botón para limpiar la búsqueda. Lo muestra
+// el script de ResourceSearch.
+---
+
+<div
+    id="resources-empty"
+    hidden
+    class="card-glass rounded-2xl p-12 text-center text-slate-400 border border-white/10 my-12"
+>
+    <p data-i18n="noResourcesFound">
+        No encontramos recursos que coincidan con tu búsqueda.
+    </p>
+    <button
+        type="button"
+        data-clear-filters
+        class="mt-4 font-semibold text-brand-yellow hover:text-white transition-colors"
+        data-i18n="clearFilters"
+    >
+        Limpiar filtros
+    </button>
+</div>

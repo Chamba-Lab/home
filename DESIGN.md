@@ -172,6 +172,7 @@ Los avatares llevan borde neutro (`border-white/25`), nunca amarillo; el fondo a
     - _Shuffle_: Flechas bidireccionales cruzadas estándar (`M16 3h5v5M4 20L21 3M21 16v5h-5M15 15l6 6M4 4l5 5`).
     - _Mascota_: ver §6.1 (reglas de uso de la marca).
     - _Discord_: Logomarca oficial SVG monocromática o en blurple.
+    - _Categorías de recursos_: un icono de trazo por categoría (documento, maletín, libro, medalla, birrete, destellos, código y rama), en un recuadro `h-12 w-12 rounded-xl border` con los colores de la categoría (`badgeClass`). El trazo vive en `iconPath` de `RESOURCE_CATEGORIES` (`src/lib/resources.ts`) y lo pinta `CategoryIcon.astro`; una categoría nueva necesita su icono (una prueba lo exige).
 
 ---
 

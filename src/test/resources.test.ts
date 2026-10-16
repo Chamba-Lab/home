@@ -35,7 +35,7 @@ describe("resources.json", () => {
             const isWeb = !("type" in r) || r.type === "web";
             if (
                 isWeb &&
-                (r.category === "aprendizaje" || r.category === "certificacion")
+                (r.category === "learning" || r.category === "certifications")
             ) {
                 expect("access" in r, r.id).toBe(true);
             }

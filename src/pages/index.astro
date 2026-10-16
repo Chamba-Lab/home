@@ -25,10 +25,9 @@ const allEvents = await getCollection("events");
 const featuredCv =
     allResources.find((r) => r.data.category === "cv") || allResources[0];
 const featuredLearning =
-    allResources.find((r) => r.data.category === "aprendizaje") ||
-    allResources[1];
+    allResources.find((r) => r.data.category === "learning") || allResources[1];
 const featuredPractice =
-    allResources.find((r) => r.data.category === "practica") || allResources[2];
+    allResources.find((r) => r.data.category === "practice") || allResources[2];
 
 const featuredResources = [
     {
