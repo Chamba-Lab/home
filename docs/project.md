@@ -35,11 +35,20 @@ Mid y Senior van juntos en el diagrama del home: pasar de uno a otro es cuestió
 
 ## Roadmap del sitio
 
-**Hecho**: landing con widget de Discord, ecosistema, eventos, equipo y recursos; páginas de recursos, eventos, equipo y dinámicas (La Ruleta); bilingüe ES/EN; SEO y tarjetas de redes; identidad de marca; guía de contribución y `master` protegida.
+**Hecho**: landing con widget de Discord, ecosistema, eventos, equipo y recursos; páginas de recursos, eventos, equipo y dinámicas (La Ruleta); bilingüe ES/EN; identidad de marca; dominio propio `chambalab.org` y enlace público `chambalab.org/discord`; SEO técnico (datos estructurados, 404, metadatos); biblioteca de recursos curada con criterios y marca de acceso; guía de contribución y `master` protegida.
 
-**Siguiente**
+**Enfoque del lanzamiento**: es casual y de baja escala. La comunidad pasa a ser un proyecto público y serio (dominio, redes de los fundadores, eventos con más orden), con el enlace abierto para que entre gente poco a poco. No se busca captar más de lo que se puede atender, ni hay actividades diarias o semanales obligatorias.
 
-- Career Kit Beta: plantillas de CV Tech compatibles con ATS, checklists de perfil y rúbricas de mock interview.
-- Segunda dinámica (Preguntas Rápidas) en `/activities/quick-questions`.
+**Siguiente (corto plazo)**
+
+- Dejar el servidor de Discord listo para abrir: reglas, estructura, seguridad y Onboarding.
+- Mantener los eventos fijos del sitio al día (lanzamiento y Code & Coffee) y definir otras sesiones internamente.
+- Seguir ampliando y revisando los recursos curados.
+
+**Después (mediano plazo)**
+
 - Flujo guiado para proponer recursos y eventos desde el sitio.
+- Segunda dinámica (Preguntas Rápidas) en `/activities/quick-questions`.
+- Career Kit Beta: plantillas de CV Tech compatibles con ATS, checklists de perfil y rúbricas de mock interview.
+- Un contador simple de miembros e invitados.
 - Más cobertura de pruebas (calendario y dinámicas).

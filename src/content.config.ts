@@ -14,7 +14,18 @@ const resources = defineCollection({
         title: z.string(),
         description: i18nText,
         url: z.string().url(),
-        category: z.enum(["cv", "aprendizaje", "practica"]),
+        category: z.enum([
+            "cv",
+            "empleo",
+            "aprendizaje",
+            "certificacion",
+            "ia",
+            "practica",
+            "opensource",
+        ]),
+        // Optional, only for courses and certifications: free, freemium
+        // (free tier with paid extras) or paid.
+        access: z.enum(["free", "freemium", "paid"]).optional(),
     }),
 });
 

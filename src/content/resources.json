@@ -27,7 +27,8 @@
             "es": "Rutas de aprendizaje visuales para casi cualquier rol tech: frontend, backend, DevOps y más."
         },
         "url": "https://roadmap.sh",
-        "category": "aprendizaje"
+        "category": "aprendizaje",
+        "access": "free"
     },
     {
         "id": "mdn-es",
@@ -37,7 +38,8 @@
             "es": "Documentación técnica de referencia para desarrollo web, traducida a español."
         },
         "url": "https://developer.mozilla.org/es/",
-        "category": "aprendizaje"
+        "category": "aprendizaje",
+        "access": "free"
     },
     {
         "id": "freecodecamp",
@@ -47,7 +49,8 @@
             "es": "Cursos gratuitos y certificaciones prácticas para aprender a programar desde cero."
         },
         "url": "https://www.freecodecamp.org",
-        "category": "aprendizaje"
+        "category": "aprendizaje",
+        "access": "free"
     },
     {
         "id": "leetcode",
@@ -60,6 +63,16 @@
         "category": "practica"
     },
     {
+        "id": "codewars",
+        "title": "Codewars",
+        "description": {
+            "en": "Community-made coding challenges (katas) in many languages, ranked by difficulty so you can practice a little every day.",
+            "es": "Retos de código (katas) creados por la comunidad en muchos lenguajes, ordenados por dificultad para practicar un poco cada día."
+        },
+        "url": "https://www.codewars.com",
+        "category": "practica"
+    },
+    {
         "id": "interviewing-io",
         "title": "interviewing.io",
         "description": {
@@ -68,5 +81,388 @@
         },
         "url": "https://interviewing.io",
         "category": "practica"
+    },
+    {
+        "id": "reactive-resume",
+        "title": "Reactive Resume",
+        "description": {
+            "en": "Free, open-source resume builder with clean templates and PDF export.",
+            "es": "Creador de CV gratuito y de código abierto, con plantillas limpias y exportación a PDF."
+        },
+        "url": "https://rxresu.me",
+        "category": "cv"
+    },
+    {
+        "id": "linkedin-jobs",
+        "title": "LinkedIn Empleos",
+        "description": {
+            "en": "The largest job board for professionals: search, alerts and direct applications tied to your profile.",
+            "es": "El mayor portal de empleo profesional: búsqueda, alertas y postulación directa con tu perfil."
+        },
+        "url": "https://www.linkedin.com/jobs/",
+        "category": "empleo"
+    },
+    {
+        "id": "get-on-board",
+        "title": "Get on Board",
+        "description": {
+            "en": "Tech job board focused on Latin America, with remote roles and visible salary ranges.",
+            "es": "Portal de empleo tech enfocado en Latinoamérica, con puestos remotos y rangos salariales visibles."
+        },
+        "url": "https://www.getonbrd.com",
+        "category": "empleo"
+    },
+    {
+        "id": "computrabajo-pe",
+        "title": "Computrabajo Perú",
+        "description": {
+            "en": "One of the most visited job boards in Peru and Latin America, useful for entry-level and local roles.",
+            "es": "Uno de los portales de empleo más visitados de Perú y Latinoamérica, útil para puestos de entrada y locales."
+        },
+        "url": "https://pe.computrabajo.com",
+        "category": "empleo"
+    },
+    {
+        "id": "bumeran-pe",
+        "title": "Bumeran Perú",
+        "description": {
+            "en": "General job board with many openings in Peru, including internships and junior positions.",
+            "es": "Portal de empleo generalista con muchas ofertas en Perú, incluidas prácticas y puestos junior."
+        },
+        "url": "https://www.bumeran.com.pe",
+        "category": "empleo"
+    },
+    {
+        "id": "torre",
+        "title": "Torre",
+        "description": {
+            "en": "Talent network with openings from companies worldwide, many of them remote.",
+            "es": "Red de talento con ofertas de empresas de todo el mundo, muchas de ellas remotas."
+        },
+        "url": "https://torre.ai",
+        "category": "empleo"
+    },
+    {
+        "id": "we-work-remotely",
+        "title": "We Work Remotely",
+        "description": {
+            "en": "Large remote-only job board with a dedicated programming section.",
+            "es": "Portal de empleo solo remoto, con una sección dedicada a programación."
+        },
+        "url": "https://weworkremotely.com",
+        "category": "empleo"
+    },
+    {
+        "id": "cs50",
+        "title": "CS50 de Harvard",
+        "description": {
+            "en": "Harvard's introduction to computer science: free lectures and problem sets, with Spanish subtitles.",
+            "es": "Introducción a las ciencias de la computación de Harvard: clases y ejercicios gratuitos, con subtítulos en español."
+        },
+        "url": "https://cs50.harvard.edu/x/",
+        "category": "aprendizaje",
+        "access": "free"
+    },
+    {
+        "id": "odin-project",
+        "title": "The Odin Project",
+        "description": {
+            "en": "Free, project-based full stack curriculum backed by an active community.",
+            "es": "Currículo full stack gratuito, basado en proyectos y respaldado por una comunidad activa."
+        },
+        "url": "https://www.theodinproject.com",
+        "category": "aprendizaje",
+        "access": "free"
+    },
+    {
+        "id": "microsoft-learn",
+        "title": "Microsoft Learn",
+        "description": {
+            "en": "Free learning paths on Azure, .NET, data, AI and more, available in Spanish.",
+            "es": "Rutas de aprendizaje gratuitas sobre Azure, .NET, datos, IA y más, disponibles en español."
+        },
+        "url": "https://learn.microsoft.com/es-es/training/",
+        "category": "aprendizaje",
+        "access": "free"
+    },
+    {
+        "id": "cisco-netacad",
+        "title": "Cisco Networking Academy",
+        "description": {
+            "en": "Free introductory courses on networking, cybersecurity and Python.",
+            "es": "Cursos introductorios gratuitos de redes, ciberseguridad y Python."
+        },
+        "url": "https://www.netacad.com",
+        "category": "aprendizaje",
+        "access": "free"
+    },
+    {
+        "id": "coursera",
+        "title": "Coursera",
+        "description": {
+            "en": "University and industry courses; many can be audited for free, with financial aid for certificates.",
+            "es": "Cursos de universidades y empresas; muchos se pueden auditar gratis, con ayuda financiera para los certificados."
+        },
+        "url": "https://www.coursera.org",
+        "category": "aprendizaje",
+        "access": "freemium"
+    },
+    {
+        "id": "platzi",
+        "title": "Platzi",
+        "description": {
+            "en": "Spanish-language tech and career courses by subscription, with some free classes to try it out.",
+            "es": "Cursos de tecnología y carrera en español por suscripción, con algunas clases gratuitas para probar."
+        },
+        "url": "https://platzi.com",
+        "category": "aprendizaje",
+        "access": "paid"
+    },
+    {
+        "id": "udemy",
+        "title": "Udemy",
+        "description": {
+            "en": "Marketplace of paid courses on nearly every tech topic; check the reviews before buying.",
+            "es": "Mercado de cursos de pago sobre casi cualquier tema tech; revisa las reseñas antes de comprar."
+        },
+        "url": "https://www.udemy.com",
+        "category": "aprendizaje",
+        "access": "paid"
+    },
+    {
+        "id": "aws-skill-builder",
+        "title": "AWS Skill Builder",
+        "description": {
+            "en": "Free cloud training and exam prep for AWS certifications, whose exams are paid.",
+            "es": "Capacitación gratuita en la nube y preparación para las certificaciones de AWS, cuyos exámenes son de pago."
+        },
+        "url": "https://skillbuilder.aws",
+        "category": "certificacion",
+        "access": "freemium"
+    },
+    {
+        "id": "microsoft-credentials",
+        "title": "Microsoft Credentials",
+        "description": {
+            "en": "Role-based Microsoft certifications with free official study material; the exams have a fee.",
+            "es": "Certificaciones de Microsoft por rol con material oficial de estudio gratuito; los exámenes tienen costo."
+        },
+        "url": "https://learn.microsoft.com/es-es/credentials/",
+        "category": "certificacion",
+        "access": "freemium"
+    },
+    {
+        "id": "google-career-certificates",
+        "title": "Google Career Certificates",
+        "description": {
+            "en": "Entry-level professional certificates in IT support, data, UX and cybersecurity, with financial aid available.",
+            "es": "Certificados profesionales de nivel inicial en soporte TI, datos, UX y ciberseguridad, con ayuda financiera disponible."
+        },
+        "url": "https://grow.google/certificates/",
+        "category": "certificacion",
+        "access": "paid"
+    },
+    {
+        "id": "hackerrank-certifications",
+        "title": "HackerRank Skills Certification",
+        "description": {
+            "en": "Free skills tests that give you a shareable certificate for your CV or LinkedIn.",
+            "es": "Pruebas de habilidades gratuitas que te dan un certificado para compartir en tu CV o LinkedIn."
+        },
+        "url": "https://www.hackerrank.com/skills-verification",
+        "category": "certificacion",
+        "access": "free"
+    },
+    {
+        "id": "github-certifications",
+        "title": "GitHub Certifications",
+        "description": {
+            "en": "Official certifications on GitHub, Actions and Copilot, recognized by the developer community.",
+            "es": "Certificaciones oficiales sobre GitHub, Actions y Copilot, reconocidas por la comunidad de desarrollo."
+        },
+        "url": "https://learn.github.com/certifications",
+        "category": "certificacion",
+        "access": "paid"
+    },
+    {
+        "id": "linux-foundation-training",
+        "title": "Linux Foundation Training",
+        "description": {
+            "en": "Free introductory courses on Linux, Kubernetes and open source, plus paid certifications such as CKA.",
+            "es": "Cursos introductorios gratuitos de Linux, Kubernetes y código abierto, y certificaciones de pago como CKA."
+        },
+        "url": "https://training.linuxfoundation.org",
+        "category": "certificacion",
+        "access": "freemium"
+    },
+    {
+        "id": "chatgpt",
+        "title": "ChatGPT",
+        "description": {
+            "en": "General-purpose AI assistant for explaining concepts, debugging and drafting; the free plan has limits.",
+            "es": "Asistente de IA general para explicar conceptos, depurar y redactar; el plan gratuito tiene límites."
+        },
+        "url": "https://chatgpt.com",
+        "category": "ia"
+    },
+    {
+        "id": "claude",
+        "title": "Claude",
+        "description": {
+            "en": "AI assistant from Anthropic, strong at writing, code review and long documents; has a free plan.",
+            "es": "Asistente de IA de Anthropic, destacado en redacción, revisión de código y documentos largos; tiene plan gratuito."
+        },
+        "url": "https://claude.ai",
+        "category": "ia"
+    },
+    {
+        "id": "gemini",
+        "title": "Gemini",
+        "description": {
+            "en": "Google's AI assistant, integrated with Google Workspace and with a free plan.",
+            "es": "Asistente de IA de Google, integrado con Google Workspace y con plan gratuito."
+        },
+        "url": "https://gemini.google.com",
+        "category": "ia"
+    },
+    {
+        "id": "github-copilot",
+        "title": "GitHub Copilot",
+        "description": {
+            "en": "AI pair programmer inside your editor, with a free plan and extended access for some students.",
+            "es": "Programador asistido por IA dentro de tu editor, con plan gratuito y acceso ampliado para algunos estudiantes."
+        },
+        "url": "https://github.com/features/copilot",
+        "category": "ia"
+    },
+    {
+        "id": "perplexity",
+        "title": "Perplexity",
+        "description": {
+            "en": "AI search engine that answers with cited sources, handy for researching technologies quickly.",
+            "es": "Buscador con IA que responde con fuentes citadas, útil para investigar tecnologías con rapidez."
+        },
+        "url": "https://www.perplexity.ai",
+        "category": "ia"
+    },
+    {
+        "id": "notebooklm",
+        "title": "NotebookLM",
+        "description": {
+            "en": "Upload your own notes and documents and ask questions about them, useful for studying.",
+            "es": "Sube tus notas y documentos y haz preguntas sobre ellos, útil para estudiar."
+        },
+        "url": "https://notebook.google",
+        "category": "ia"
+    },
+    {
+        "id": "hugging-face",
+        "title": "Hugging Face",
+        "description": {
+            "en": "Hub of open models, datasets and courses to learn and experiment with machine learning.",
+            "es": "Plataforma de modelos, datasets y cursos abiertos para aprender y experimentar con machine learning."
+        },
+        "url": "https://huggingface.co",
+        "category": "ia"
+    },
+    {
+        "id": "deeplearning-ai",
+        "title": "DeepLearning.AI",
+        "description": {
+            "en": "Short, practical courses on generative AI and machine learning; many are free to take.",
+            "es": "Cursos cortos y prácticos de IA generativa y machine learning; muchos se pueden tomar gratis."
+        },
+        "url": "https://www.deeplearning.ai/courses",
+        "category": "ia"
+    },
+    {
+        "id": "exercism",
+        "title": "Exercism",
+        "description": {
+            "en": "Free coding exercises in dozens of languages, with optional mentoring from volunteers.",
+            "es": "Ejercicios de programación gratuitos en decenas de lenguajes, con mentoría opcional de voluntarios."
+        },
+        "url": "https://exercism.org",
+        "category": "practica"
+    },
+    {
+        "id": "frontend-mentor",
+        "title": "Frontend Mentor",
+        "description": {
+            "en": "Real-world front-end challenges with designs, ideal for building portfolio projects.",
+            "es": "Retos front-end con diseños reales, ideales para armar proyectos de portafolio."
+        },
+        "url": "https://www.frontendmentor.io",
+        "category": "practica"
+    },
+    {
+        "id": "neetcode",
+        "title": "NeetCode",
+        "description": {
+            "en": "Curated problem lists and video explanations to prepare for algorithm interviews in an orderly way.",
+            "es": "Listas curadas de problemas y explicaciones en video para preparar entrevistas de algoritmos con orden."
+        },
+        "url": "https://neetcode.io",
+        "category": "practica"
+    },
+    {
+        "id": "tech-interview-handbook",
+        "title": "Tech Interview Handbook",
+        "description": {
+            "en": "Free guide to resumes, coding interviews, behavioral questions and negotiating offers.",
+            "es": "Guía gratuita sobre CV, entrevistas de código, preguntas de comportamiento y negociación de ofertas."
+        },
+        "url": "https://www.techinterviewhandbook.org",
+        "category": "practica"
+    },
+    {
+        "id": "github-skills",
+        "title": "GitHub Skills",
+        "description": {
+            "en": "Interactive, free mini-courses that teach Git, GitHub and Actions inside your own repository.",
+            "es": "Minicursos interactivos y gratuitos que enseñan Git, GitHub y Actions en tu propio repositorio."
+        },
+        "url": "https://skills.github.com",
+        "category": "opensource"
+    },
+    {
+        "id": "open-source-guides",
+        "title": "Open Source Guides",
+        "description": {
+            "en": "GitHub's guides on how to contribute to and maintain open source projects, available in Spanish.",
+            "es": "Guías de GitHub sobre cómo contribuir y mantener proyectos de código abierto, disponibles en español."
+        },
+        "url": "https://opensource.guide/es/",
+        "category": "opensource"
+    },
+    {
+        "id": "good-first-issue",
+        "title": "Good First Issue",
+        "description": {
+            "en": "Curated beginner-friendly issues from open source projects to make your first contribution.",
+            "es": "Issues curados y amigables para principiantes de proyectos de código abierto, para tu primera contribución."
+        },
+        "url": "https://goodfirstissue.dev",
+        "category": "opensource"
+    },
+    {
+        "id": "first-contributions",
+        "title": "First Contributions",
+        "description": {
+            "en": "Step-by-step tutorial to make your first pull request on a practice repository.",
+            "es": "Tutorial paso a paso para hacer tu primer pull request en un repositorio de práctica."
+        },
+        "url": "https://firstcontributions.github.io",
+        "category": "opensource"
+    },
+    {
+        "id": "github-student-pack",
+        "title": "GitHub Student Developer Pack",
+        "description": {
+            "en": "Free tools and credits for verified students, from cloud credits to developer tooling.",
+            "es": "Herramientas y créditos gratuitos para estudiantes verificados, desde créditos de nube hasta herramientas de desarrollo."
+        },
+        "url": "https://education.github.com/pack",
+        "category": "opensource"
     }
 ]

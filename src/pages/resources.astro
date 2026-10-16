@@ -5,14 +5,26 @@ import { getCollection } from "astro:content";
 
 const resources = await getCollection("resources");
 
-const categoryOrder = ["cv", "aprendizaje", "practica"] as const;
+const categoryOrder = [
+    "cv",
+    "empleo",
+    "aprendizaje",
+    "certificacion",
+    "ia",
+    "practica",
+    "opensource",
+] as const;
 const categoryLabel: Record<
     (typeof categoryOrder)[number],
     { en: string; es: string }
 > = {
     cv: { en: "CV & LinkedIn", es: "CV y LinkedIn" },
+    empleo: { en: "Job boards", es: "Portales de empleo" },
     aprendizaje: { en: "Learning", es: "Aprendizaje" },
+    certificacion: { en: "Certifications", es: "Certificaciones" },
+    ia: { en: "AI tools", es: "Herramientas de IA" },
     practica: { en: "Technical practice", es: "Práctica técnica" },
+    opensource: { en: "Open source & GitHub", es: "Open source y GitHub" },
 };
 
 const grouped = categoryOrder.map((category) => ({
@@ -110,7 +122,7 @@ const grouped = categoryOrder.map((category) => ({
         </div>
 
         <!-- Groups List -->
-        <div class="space-y-16">
+        <div class="space-y-6">
             {
                 grouped.map(
                     (group) =>
@@ -119,16 +131,6 @@ const grouped = categoryOrder.map((category) => ({
                                 data-resource-section={group.category}
                                 class="space-y-6"
                             >
-                                <div class="flex items-center gap-3 pb-3 border-b border-white/[0.08]">
-                                    <span class="w-2.5 h-2.5 rounded-full bg-brand-yellow" />
-                                    <h2
-                                        class="font-display text-2xl font-bold text-white tracking-tight"
-                                        data-i18n-en={group.label.en}
-                                        data-i18n-es={group.label.es}
-                                    >
-                                        {group.label.es}
-                                    </h2>
-                                </div>
                                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                                     {group.items.map((item) => (
                                         <ResourceCard
@@ -141,6 +143,7 @@ const grouped = categoryOrder.map((category) => ({
                                             }
                                             url={item.data.url}
                                             category={item.data.category}
+                                            access={item.data.access}
                                         />
                                     ))}
                                 </div>
@@ -149,6 +152,16 @@ const grouped = categoryOrder.map((category) => ({
                 )
             }
         </div>
+
+        <p
+            class="mt-12 max-w-3xl text-sm text-slate-400 leading-relaxed"
+            data-i18n="resourcesCriteria"
+        >
+            Elegimos recursos seguros, con un propósito claro y fáciles de
+            empezar sin pagar. En cursos y certificaciones indicamos si son
+            gratis, gratis con extras de pago o de pago. Los planes y precios
+            cambian: confírmalos en cada sitio.
+        </p>
 
         <!-- Empty State -->
         <div
