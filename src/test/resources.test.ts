@@ -1,11 +1,14 @@
+import { existsSync } from "node:fs";
 import { describe, it, expect } from "vitest";
 import resources from "../content/resources.json";
+import { youtubeVideoId } from "../lib/resources";
 
 const CATEGORIES = [
     "cv",
     "empleo",
     "aprendizaje",
     "certificacion",
+    "becas",
     "ia",
     "practica",
     "opensource",
@@ -33,11 +36,12 @@ describe("resources.json", () => {
         }
     });
 
-    it("marks access on every course and certification", () => {
+    it("marks access on every course and certification (web format)", () => {
         for (const r of resources) {
+            const isWeb = !("type" in r) || r.type === "web";
             if (
-                r.category === "aprendizaje" ||
-                r.category === "certificacion"
+                isWeb &&
+                (r.category === "aprendizaje" || r.category === "certificacion")
             ) {
                 expect("access" in r, r.id).toBe(true);
             }
@@ -57,6 +61,31 @@ describe("resources.json", () => {
                 resources.some((r) => r.category === c),
                 c,
             ).toBe(true);
+        }
+    });
+
+    it("keeps formats consistent with their fields", () => {
+        for (const r of resources) {
+            const type = ("type" in r ? r.type : "web") as string;
+            expect(["web", "channel", "video"], r.id).toContain(type);
+            if (type === "video") {
+                expect(youtubeVideoId(r.url), r.id).toBeDefined();
+                expect("channel" in r, r.id).toBe(true);
+            }
+            if (type === "channel") {
+                expect(r.url, r.id).toMatch(/^https:\/\/www\.youtube\.com\/@/);
+            }
+        }
+    });
+
+    it("points every channel avatar to an existing file", () => {
+        for (const r of resources) {
+            if ("avatar" in r && r.avatar) {
+                expect(
+                    existsSync(`src/assets/resources/${r.avatar}`),
+                    r.id,
+                ).toBe(true);
+            }
         }
     });
 });

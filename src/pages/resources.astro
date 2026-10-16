@@ -10,9 +10,15 @@ const categoryOrder = [
     "empleo",
     "aprendizaje",
     "certificacion",
+    "becas",
     "ia",
     "practica",
     "opensource",
+] as const;
+const formats = [
+    { id: "web", en: "Websites", es: "Webs" },
+    { id: "channel", en: "Channels", es: "Canales" },
+    { id: "video", en: "Videos", es: "Videos" },
 ] as const;
 const categoryLabel: Record<
     (typeof categoryOrder)[number],
@@ -22,6 +28,7 @@ const categoryLabel: Record<
     empleo: { en: "Job boards", es: "Portales de empleo" },
     aprendizaje: { en: "Learning", es: "Aprendizaje" },
     certificacion: { en: "Certifications", es: "Certificaciones" },
+    becas: { en: "Academic opportunities", es: "Oportunidades académicas" },
     ia: { en: "AI tools", es: "Herramientas de IA" },
     practica: { en: "Technical practice", es: "Práctica técnica" },
     opensource: { en: "Open source & GitHub", es: "Open source y GitHub" },
@@ -119,6 +126,37 @@ const grouped = categoryOrder.map((category) => ({
                     ))
                 }
             </div>
+
+            <!-- Format Filters -->
+            <div class="flex flex-wrap items-center gap-2.5">
+                <span
+                    class="text-[11px] font-semibold uppercase tracking-wider text-slate-500 mr-1"
+                    data-i18n="filterFormat">Formato</span
+                >
+                <button
+                    type="button"
+                    data-format="all"
+                    aria-pressed="true"
+                    class="resource-filter-pill px-4 py-2 text-xs font-bold uppercase rounded-xl transition-all bg-brand-yellow text-slate-950 shadow-md shadow-brand-yellow/20"
+                    data-i18n="filterAll"
+                >
+                    Todos
+                </button>
+                {
+                    formats.map((format) => (
+                        <button
+                            type="button"
+                            data-format={format.id}
+                            aria-pressed="false"
+                            class="resource-filter-pill px-4 py-2 text-xs font-bold uppercase rounded-xl transition-all bg-slate-900/80 border border-white/10 text-slate-300 hover:text-white hover:border-white/20"
+                            data-i18n-en={format.en}
+                            data-i18n-es={format.es}
+                        >
+                            {format.es}
+                        </button>
+                    ))
+                }
+            </div>
         </div>
 
         <!-- Groups List -->
@@ -143,6 +181,9 @@ const grouped = categoryOrder.map((category) => ({
                                             }
                                             url={item.data.url}
                                             category={item.data.category}
+                                            type={item.data.type}
+                                            avatar={item.data.avatar}
+                                            channel={item.data.channel}
                                             access={item.data.access}
                                         />
                                     ))}
@@ -177,8 +218,11 @@ const grouped = categoryOrder.map((category) => ({
     <script>
         const searchInput =
             document.querySelector<HTMLInputElement>("#resource-search");
-        const pills = Array.from(
+        const categoryPills = Array.from(
             document.querySelectorAll<HTMLButtonElement>("[data-filter]"),
+        );
+        const formatPills = Array.from(
+            document.querySelectorAll<HTMLButtonElement>("[data-format]"),
         );
         const sections = Array.from(
             document.querySelectorAll<HTMLElement>("[data-resource-section]"),
@@ -187,6 +231,7 @@ const grouped = categoryOrder.map((category) => ({
             document.querySelector<HTMLElement>("#resources-empty");
 
         let activeFilter = "all";
+        let activeFormat = "all";
 
         function normalize(text: string) {
             return text.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
@@ -204,10 +249,14 @@ const grouped = categoryOrder.map((category) => ({
                         const matchesCategory =
                             activeFilter === "all" ||
                             card.dataset.resourceCard === activeFilter;
+                        const matchesFormat =
+                            activeFormat === "all" ||
+                            card.dataset.resourceFormat === activeFormat;
                         const matchesQuery =
                             query === "" ||
                             normalize(card.textContent ?? "").includes(query);
-                        const visible = matchesCategory && matchesQuery;
+                        const visible =
+                            matchesCategory && matchesFormat && matchesQuery;
                         card.hidden = !visible;
                         if (visible) sectionHasVisible = true;
                     });
@@ -218,38 +267,50 @@ const grouped = categoryOrder.map((category) => ({
             if (emptyState) emptyState.hidden = anyVisible;
         }
 
-        pills.forEach((pill) => {
+        function paintPills(pills: HTMLButtonElement[], selected: HTMLElement) {
+            pills.forEach((p) => {
+                const active = p === selected;
+                p.setAttribute("aria-pressed", String(active));
+                if (active) {
+                    p.classList.add(
+                        "bg-brand-yellow",
+                        "text-slate-950",
+                        "shadow-md",
+                        "shadow-brand-yellow/20",
+                    );
+                    p.classList.remove(
+                        "bg-slate-900/80",
+                        "border-white/10",
+                        "text-slate-300",
+                    );
+                } else {
+                    p.classList.remove(
+                        "bg-brand-yellow",
+                        "text-slate-950",
+                        "shadow-md",
+                        "shadow-brand-yellow/20",
+                    );
+                    p.classList.add(
+                        "bg-slate-900/80",
+                        "border-white/10",
+                        "text-slate-300",
+                    );
+                }
+            });
+        }
+
+        categoryPills.forEach((pill) => {
             pill.addEventListener("click", () => {
                 activeFilter = pill.dataset.filter ?? "all";
-                pills.forEach((p) => {
-                    const active = p === pill;
-                    p.setAttribute("aria-pressed", String(active));
-                    if (active) {
-                        p.classList.add(
-                            "bg-brand-yellow",
-                            "text-slate-950",
-                            "shadow-md",
-                            "shadow-brand-yellow/20",
-                        );
-                        p.classList.remove(
-                            "bg-slate-900/80",
-                            "border-white/10",
-                            "text-slate-300",
-                        );
-                    } else {
-                        p.classList.remove(
-                            "bg-brand-yellow",
-                            "text-slate-950",
-                            "shadow-md",
-                            "shadow-brand-yellow/20",
-                        );
-                        p.classList.add(
-                            "bg-slate-900/80",
-                            "border-white/10",
-                            "text-slate-300",
-                        );
-                    }
-                });
+                paintPills(categoryPills, pill);
+                applyFilter();
+            });
+        });
+
+        formatPills.forEach((pill) => {
+            pill.addEventListener("click", () => {
+                activeFormat = pill.dataset.format ?? "all";
+                paintPills(formatPills, pill);
                 applyFilter();
             });
         });
@@ -267,5 +328,26 @@ const grouped = categoryOrder.map((category) => ({
             }
             applyFilter();
         });
+
+        // Videos: la miniatura es un enlace a YouTube. Con JS, al pulsarla se
+        // carga el reproductor (sin cookies de seguimiento) en el mismo lugar;
+        // antes de eso no se envía nada a YouTube salvo la miniatura.
+        document
+            .querySelectorAll<HTMLAnchorElement>("[data-video-id]")
+            .forEach((thumb) => {
+                thumb.addEventListener("click", (event) => {
+                    event.preventDefault();
+                    const iframe = document.createElement("iframe");
+                    iframe.src = `https://www.youtube-nocookie.com/embed/${thumb.dataset.videoId}?autoplay=1&rel=0`;
+                    iframe.title = thumb.dataset.videoTitle ?? "Video";
+                    iframe.allow =
+                        "accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; fullscreen";
+                    iframe.allowFullscreen = true;
+                    iframe.className = "absolute inset-0 h-full w-full";
+                    thumb.replaceChildren(iframe);
+                    thumb.removeAttribute("href");
+                    thumb.removeAttribute("aria-label");
+                });
+            });
     </script>
 </Layout>

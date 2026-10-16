@@ -14,11 +14,20 @@ const resources = defineCollection({
         title: z.string(),
         description: i18nText,
         url: z.string().url(),
+        // Format: "web" (default), "channel" (YouTube channel) or "video"
+        // (YouTube video, played on demand).
+        type: z.enum(["web", "channel", "video"]).default("web"),
+        // Channel only: file name inside src/assets/resources/. Without it the
+        // card shows the initial of the title.
+        avatar: z.string().optional(),
+        // Video only: name of the channel that publishes it.
+        channel: z.string().optional(),
         category: z.enum([
             "cv",
             "empleo",
             "aprendizaje",
             "certificacion",
+            "becas",
             "ia",
             "practica",
             "opensource",

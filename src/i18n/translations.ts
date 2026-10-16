@@ -78,6 +78,7 @@ export const translations = {
         eventsJoinDiscord: "Unirse al Discord",
 
         filterAll: "Todos",
+        filterFormat: "Formato",
         noResourcesFound:
             "No encontramos recursos que coincidan con tu búsqueda.",
         dynamicsTitle: "Dinámicas",
@@ -196,6 +197,7 @@ export const translations = {
         eventsJoinDiscord: "Join Discord",
 
         filterAll: "All",
+        filterFormat: "Format",
         noResourcesFound: "No resources match your search.",
         dynamicsTitle: "Dynamics",
         dynamicsIntro:
