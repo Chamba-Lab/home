@@ -67,18 +67,13 @@ export const RESOURCE_CATEGORY_IDS = RESOURCE_CATEGORIES.map((c) => c.id) as [
 // Formatos: "web" (por defecto), "channel" (canal de YouTube) y "video"
 // (video de YouTube con reproductor diferido).
 export const RESOURCE_FORMATS = [
-    {
-        id: "web",
-        filterLabel: { es: "Webs", en: "Websites" },
-    },
+    { id: "web" },
     {
         id: "channel",
-        filterLabel: { es: "Canales", en: "Channels" },
         cardLabel: { es: "Canal de YouTube", en: "YouTube channel" },
     },
     {
         id: "video",
-        filterLabel: { es: "Videos", en: "Videos" },
         cardLabel: { es: "Video de YouTube", en: "YouTube video" },
     },
 ] as const;
@@ -133,17 +128,15 @@ export function normalizeText(text: string): string {
 
 export interface ResourceFilters {
     category: string; // "all" o un id de categoría
-    format: string; // "all" o un id de formato
     query: string; // texto libre, sin normalizar
 }
 
 export interface FilterableResource {
     category: string;
-    format: string;
     text: string; // todo el texto visible de la tarjeta
 }
 
-// Una tarjeta es visible si cumple categoría, formato y búsqueda a la vez.
+// Una tarjeta es visible si cumple categoría y búsqueda a la vez.
 export function matchesFilters(
     resource: FilterableResource,
     filters: ResourceFilters,
@@ -152,9 +145,15 @@ export function matchesFilters(
     return (
         (filters.category === "all" ||
             resource.category === filters.category) &&
-        (filters.format === "all" || resource.format === filters.format) &&
         (query === "" || normalizeText(resource.text).includes(query))
     );
+}
+
+// "58 recursos" / "1 recurso" / "58 resources" / "1 resource".
+export function resourceCountLabel(count: number, lang: "es" | "en"): string {
+    if (lang === "en")
+        return `${count} ${count === 1 ? "resource" : "resources"}`;
+    return `${count} ${count === 1 ? "recurso" : "recursos"}`;
 }
 
 const YOUTUBE_ID = /^[A-Za-z0-9_-]{11}$/;

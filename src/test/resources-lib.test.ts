@@ -6,6 +6,7 @@ import {
     groupByCategory,
     matchesFilters,
     normalizeText,
+    resourceCountLabel,
     youtubeEmbedUrl,
     youtubeThumbnail,
     youtubeVideoId,
@@ -66,24 +67,21 @@ describe("normalizeText", () => {
 describe("matchesFilters", () => {
     const card = {
         category: "aprendizaje",
-        format: "channel",
         text: "freeCodeCamp Cursos de programación",
     };
-    const all = { category: "all", format: "all", query: "" };
+    const all = { category: "all", query: "" };
 
     it("shows everything with no filters", () => {
         expect(matchesFilters(card, all)).toBe(true);
     });
-    it("requires category, format and query to match together", () => {
+    it("requires category and query to match together", () => {
         expect(matchesFilters(card, { ...all, category: "aprendizaje" })).toBe(
             true,
         );
         expect(matchesFilters(card, { ...all, category: "becas" })).toBe(false);
-        expect(matchesFilters(card, { ...all, format: "video" })).toBe(false);
         expect(
             matchesFilters(card, {
                 category: "aprendizaje",
-                format: "channel",
                 query: "programacion",
             }),
         ).toBe(true);
@@ -93,6 +91,15 @@ describe("matchesFilters", () => {
         expect(matchesFilters(card, { ...all, query: "  PROGRAMACIÓN " })).toBe(
             true,
         );
+    });
+});
+
+describe("resourceCountLabel", () => {
+    it("pluralizes in both languages", () => {
+        expect(resourceCountLabel(1, "es")).toBe("1 recurso");
+        expect(resourceCountLabel(58, "es")).toBe("58 recursos");
+        expect(resourceCountLabel(0, "en")).toBe("0 resources");
+        expect(resourceCountLabel(1, "en")).toBe("1 resource");
     });
 });
 

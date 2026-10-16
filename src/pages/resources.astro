@@ -2,11 +2,7 @@
 import Layout from "../layouts/Layout.astro";
 import ResourceCard from "../components/ResourceCard.astro";
 import { getCollection } from "astro:content";
-import {
-    RESOURCE_CATEGORIES,
-    RESOURCE_FORMATS,
-    groupByCategory,
-} from "../lib/resources";
+import { RESOURCE_CATEGORIES, groupByCategory } from "../lib/resources";
 
 const resources = (await getCollection("resources")).map((r) => r.data);
 const groups = groupByCategory(resources);
@@ -20,7 +16,9 @@ const groups = groupByCategory(resources);
         { name: "Recursos", path: "/resources/" },
     ]}
 >
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
+    <main
+        class="w-full min-w-0 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24"
+    >
         <!-- Page Header -->
         <div class="max-w-3xl mb-12">
             <div
@@ -72,12 +70,14 @@ const groups = groupByCategory(resources);
             </div>
 
             <!-- Segmented Category Filters -->
-            <div class="flex flex-wrap items-center gap-2.5 pt-1">
+            <div
+                class="-mx-4 flex items-center gap-2.5 overflow-x-auto px-4 pt-1 pb-2 [scrollbar-width:none] sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0 sm:pb-0 [&::-webkit-scrollbar]:hidden"
+            >
                 <button
                     type="button"
                     data-filter="all"
                     aria-pressed="true"
-                    class="resource-filter-pill px-4 py-2 text-xs font-bold uppercase rounded-xl transition-all bg-brand-yellow text-slate-950 shadow-md shadow-brand-yellow/20"
+                    class="resource-filter-pill shrink-0 whitespace-nowrap px-4 py-2 text-xs font-bold uppercase rounded-xl transition-all bg-brand-yellow text-slate-950 shadow-md shadow-brand-yellow/20"
                     data-i18n="filterAll"
                 >
                     Todos
@@ -88,7 +88,7 @@ const groups = groupByCategory(resources);
                             type="button"
                             data-filter={category.id}
                             aria-pressed="false"
-                            class="resource-filter-pill px-4 py-2 text-xs font-bold uppercase rounded-xl transition-all bg-slate-900/80 border border-white/10 text-slate-300 hover:text-white hover:border-white/20"
+                            class="resource-filter-pill shrink-0 whitespace-nowrap px-4 py-2 text-xs font-bold uppercase rounded-xl transition-all bg-slate-900/80 border border-white/10 text-slate-300 hover:text-white hover:border-white/20"
                             data-i18n-en={category.label.en}
                             data-i18n-es={category.label.es}
                         >
@@ -98,35 +98,19 @@ const groups = groupByCategory(resources);
                 }
             </div>
 
-            <!-- Format Filters -->
-            <div class="flex flex-wrap items-center gap-2.5">
-                <span
-                    class="text-[11px] font-semibold uppercase tracking-wider text-slate-500 mr-1"
-                    data-i18n="filterFormat">Formato</span
-                >
+            <!-- Result count and reset -->
+            <div class="flex items-center gap-3 text-sm text-slate-400">
+                <p id="resource-count" aria-live="polite"></p>
                 <button
                     type="button"
-                    data-format="all"
-                    aria-pressed="true"
-                    class="resource-filter-pill px-4 py-2 text-xs font-bold uppercase rounded-xl transition-all bg-brand-yellow text-slate-950 shadow-md shadow-brand-yellow/20"
-                    data-i18n="filterAll"
+                    id="resource-clear"
+                    data-clear-filters
+                    hidden
+                    class="font-semibold text-brand-yellow hover:text-white transition-colors"
+                    data-i18n="clearFilters"
                 >
-                    Todos
+                    Limpiar filtros
                 </button>
-                {
-                    RESOURCE_FORMATS.map((format) => (
-                        <button
-                            type="button"
-                            data-format={format.id}
-                            aria-pressed="false"
-                            class="resource-filter-pill px-4 py-2 text-xs font-bold uppercase rounded-xl transition-all bg-slate-900/80 border border-white/10 text-slate-300 hover:text-white hover:border-white/20"
-                            data-i18n-en={format.filterLabel.en}
-                            data-i18n-es={format.filterLabel.es}
-                        >
-                            {format.filterLabel.es}
-                        </button>
-                    ))
-                }
             </div>
         </div>
 
@@ -173,22 +157,28 @@ const groups = groupByCategory(resources);
             id="resources-empty"
             hidden
             class="card-glass rounded-2xl p-12 text-center text-slate-400 border border-white/10 my-12"
-            data-i18n="noResourcesFound"
         >
-            No encontramos recursos que coincidan con tu búsqueda.
+            <p data-i18n="noResourcesFound">
+                No encontramos recursos que coincidan con tu búsqueda.
+            </p>
+            <button
+                type="button"
+                data-clear-filters
+                class="mt-4 font-semibold text-brand-yellow hover:text-white transition-colors"
+                data-i18n="clearFilters"
+            >
+                Limpiar filtros
+            </button>
         </div>
     </main>
 
     <script>
-        import { matchesFilters } from "../lib/resources";
+        import { matchesFilters, resourceCountLabel } from "../lib/resources";
 
         const searchInput =
             document.querySelector<HTMLInputElement>("#resource-search");
         const categoryPills = Array.from(
             document.querySelectorAll<HTMLButtonElement>("[data-filter]"),
-        );
-        const formatPills = Array.from(
-            document.querySelectorAll<HTMLButtonElement>("[data-format]"),
         );
         const sections = Array.from(
             document.querySelectorAll<HTMLElement>("[data-resource-section]"),
@@ -196,12 +186,19 @@ const groups = groupByCategory(resources);
         const emptyState =
             document.querySelector<HTMLElement>("#resources-empty");
 
+        const countEl = document.querySelector<HTMLElement>("#resource-count");
+        const clearButtons = Array.from(
+            document.querySelectorAll<HTMLButtonElement>(
+                "[data-clear-filters]",
+            ),
+        );
+
         let activeFilter = "all";
-        let activeFormat = "all";
 
         function applyFilter() {
             const query = searchInput?.value ?? "";
             let anyVisible = false;
+            let visibleCount = 0;
 
             sections.forEach((section) => {
                 let sectionHasVisible = false;
@@ -211,23 +208,33 @@ const groups = groupByCategory(resources);
                         const visible = matchesFilters(
                             {
                                 category: card.dataset.resourceCard ?? "",
-                                format: card.dataset.resourceFormat ?? "web",
                                 text: card.textContent ?? "",
                             },
                             {
                                 category: activeFilter,
-                                format: activeFormat,
                                 query,
                             },
                         );
                         card.hidden = !visible;
-                        if (visible) sectionHasVisible = true;
+                        if (visible) {
+                            sectionHasVisible = true;
+                            visibleCount++;
+                        }
                     });
                 section.hidden = !sectionHasVisible;
                 if (sectionHasVisible) anyVisible = true;
             });
 
             if (emptyState) emptyState.hidden = anyVisible;
+            if (countEl) {
+                const lang =
+                    document.documentElement.lang === "en" ? "en" : "es";
+                countEl.textContent = resourceCountLabel(visibleCount, lang);
+            }
+            const filtering = activeFilter !== "all" || query.trim() !== "";
+            clearButtons.forEach((b) => {
+                if (b.id === "resource-clear") b.hidden = !filtering;
+            });
         }
 
         function paintPills(pills: HTMLButtonElement[], selected: HTMLElement) {
@@ -270,15 +277,17 @@ const groups = groupByCategory(resources);
             });
         });
 
-        formatPills.forEach((pill) => {
-            pill.addEventListener("click", () => {
-                activeFormat = pill.dataset.format ?? "all";
-                paintPills(formatPills, pill);
+        searchInput?.addEventListener("input", applyFilter);
+
+        clearButtons.forEach((button) => {
+            button.addEventListener("click", () => {
+                if (searchInput) searchInput.value = "";
+                activeFilter = "all";
+                paintPills(categoryPills, categoryPills[0]);
                 applyFilter();
+                searchInput?.focus();
             });
         });
-
-        searchInput?.addEventListener("input", applyFilter);
 
         document.addEventListener("chamba-lab:lang", (event) => {
             const lang = (event as CustomEvent<{ lang: "es" | "en" }>).detail
@@ -291,6 +300,8 @@ const groups = groupByCategory(resources);
             }
             applyFilter();
         });
+
+        applyFilter();
 
         // Videos: la miniatura es un enlace a YouTube. Con JS, al pulsarla se
         // carga el reproductor (sin cookies de seguimiento) en el mismo lugar;
