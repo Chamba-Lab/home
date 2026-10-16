@@ -1,6 +1,7 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import ResourceCard from "../../components/ResourceCard.astro";
+import CategoryIcon from "../../components/CategoryIcon.astro";
 import ResourceSearch from "../../components/ResourceSearch.astro";
 import ResourceEmptyState from "../../components/ResourceEmptyState.astro";
 import ResourceCriteriaNote from "../../components/ResourceCriteriaNote.astro";
@@ -62,13 +63,19 @@ const others = RESOURCE_CATEGORIES.filter((c) => c.id !== category.id);
                     Todos los recursos
                 </span>
             </a>
-            <h1
-                class="font-display text-4xl sm:text-5xl font-extrabold text-white tracking-tight mb-4"
-                data-i18n-es={category.label.es}
-                data-i18n-en={category.label.en}
-            >
-                {category.label.es}
-            </h1>
+            <div class="mb-4 flex items-center gap-4">
+                <CategoryIcon
+                    category={category}
+                    class="h-12 w-12 sm:h-14 sm:w-14"
+                />
+                <h1
+                    class="font-display text-4xl sm:text-5xl font-extrabold text-white tracking-tight min-w-0"
+                    data-i18n-es={category.label.es}
+                    data-i18n-en={category.label.en}
+                >
+                    {category.label.es}
+                </h1>
+            </div>
             <p
                 class="text-lg text-slate-300 leading-relaxed"
                 data-i18n-es={category.description.es}

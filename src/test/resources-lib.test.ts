@@ -110,6 +110,11 @@ describe("categories", () => {
         const ids = RESOURCE_CATEGORIES.map((c) => c.id);
         expect(new Set(ids).size).toBe(ids.length);
     });
+    it("gives every category an icon", () => {
+        for (const c of RESOURCE_CATEGORIES) {
+            expect(c.iconPath.length, c.id).toBeGreaterThan(10);
+        }
+    });
     it("uses ids that are valid, English URL slugs", () => {
         for (const c of RESOURCE_CATEGORIES) {
             expect(c.id, c.id).toMatch(/^[a-z]+$/);
