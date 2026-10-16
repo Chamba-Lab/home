@@ -22,6 +22,8 @@ interface Props {
     // Video: canal que lo publica.
     channel?: string;
     access?: ResourceAccess;
+    // En la página de una categoría todas comparten categoría: se omite la insignia.
+    showCategory?: boolean;
 }
 
 const {
@@ -34,6 +36,7 @@ const {
     avatar,
     channel,
     access,
+    showCategory = true,
 } = Astro.props;
 
 const videoId = type === "video" ? youtubeVideoId(url) : undefined;
@@ -47,6 +50,7 @@ const badge = {
         "border-white/10 bg-slate-900 text-slate-300",
 };
 const isVideo = type === "video";
+const showMeta = showCategory || accessBadge || formatLabel;
 ---
 
 <div
@@ -86,37 +90,39 @@ const isVideo = type === "video";
             )
         }
         <div class={`flex flex-col ${isVideo ? "px-6 pt-5" : ""}`}>
-            <div class="flex items-center justify-between gap-2 mb-4">
-                <span
-                    class={`text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded border ${badge.class}`}
-                    data-i18n-es={badge.label.es}
-                    data-i18n-en={badge.label.en}
-                >
-                    {badge.label.es}
-                </span>
-                {
-                    accessBadge && (
-                        <span
-                            class={`text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded border ${accessBadge.badgeClass}`}
-                            data-i18n-es={accessBadge.label.es}
-                            data-i18n-en={accessBadge.label.en}
-                        >
-                            {accessBadge.label.es}
-                        </span>
-                    )
-                }
-                {
-                    formatLabel && (
-                        <span
-                            class="text-[11px] font-semibold text-slate-400 whitespace-nowrap"
-                            data-i18n-es={formatLabel.es}
-                            data-i18n-en={formatLabel.en}
-                        >
-                            {formatLabel.es}
-                        </span>
-                    )
-                }
-            </div>
+            {
+                showMeta && (
+                    <div class="flex items-center justify-between gap-2 mb-4">
+                        {showCategory && (
+                            <span
+                                class={`text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded border ${badge.class}`}
+                                data-i18n-es={badge.label.es}
+                                data-i18n-en={badge.label.en}
+                            >
+                                {badge.label.es}
+                            </span>
+                        )}
+                        {accessBadge && (
+                            <span
+                                class={`text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded border ${accessBadge.badgeClass}`}
+                                data-i18n-es={accessBadge.label.es}
+                                data-i18n-en={accessBadge.label.en}
+                            >
+                                {accessBadge.label.es}
+                            </span>
+                        )}
+                        {formatLabel && (
+                            <span
+                                class="text-[11px] font-semibold text-slate-400 whitespace-nowrap"
+                                data-i18n-es={formatLabel.es}
+                                data-i18n-en={formatLabel.en}
+                            >
+                                {formatLabel.es}
+                            </span>
+                        )}
+                    </div>
+                )
+            }
             {
                 type === "channel" ? (
                     <div class="flex items-center gap-4 mb-3 min-w-0">
@@ -211,3 +217,26 @@ const isVideo = type === "video";
         </a>
     </div>
 </div>
+
+<script>
+    // Videos: la miniatura es un enlace a YouTube. Con JS, al pulsarla se
+    // carga el reproductor (sin cookies de seguimiento) en el mismo lugar;
+    // antes de eso no se envía nada a YouTube salvo la miniatura.
+    document
+        .querySelectorAll<HTMLAnchorElement>("[data-video-id]")
+        .forEach((thumb) => {
+            thumb.addEventListener("click", (event) => {
+                event.preventDefault();
+                const iframe = document.createElement("iframe");
+                iframe.src = `https://www.youtube-nocookie.com/embed/${thumb.dataset.videoId}?autoplay=1&rel=0`;
+                iframe.title = thumb.dataset.videoTitle ?? "Video";
+                iframe.allow =
+                    "accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; fullscreen";
+                iframe.allowFullscreen = true;
+                iframe.className = "absolute inset-0 h-full w-full";
+                thumb.replaceChildren(iframe);
+                thumb.removeAttribute("href");
+                thumb.removeAttribute("aria-label");
+            });
+        });
+</script>

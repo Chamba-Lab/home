@@ -1,0 +1,116 @@
+---
+// Buscador de recursos con contador y "Limpiar filtros". Filtra las tarjetas
+// `[data-resource-card]` de la página por su texto visible. En la entrada de
+// recursos la lista completa va dentro de `[data-search-only]` (oculta hasta
+// que se escribe) y las categorías en `[data-hide-when-searching]`.
+interface Props {
+    placeholderEs: string;
+    placeholderEn: string;
+}
+
+const { placeholderEs, placeholderEn } = Astro.props;
+---
+
+<div class="space-y-4 max-w-4xl">
+    <div class="relative">
+        <input
+            id="resource-search"
+            type="search"
+            data-i18n-placeholder-en={placeholderEn}
+            data-i18n-placeholder-es={placeholderEs}
+            placeholder={placeholderEs}
+            class="w-full card-glass rounded-xl px-5 py-3.5 pl-12 text-sm text-white placeholder:text-slate-500 border border-white/10 focus:outline-none focus:border-brand-yellow/50 transition-all shadow-inner"
+        />
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="w-5 h-5 text-slate-400 absolute left-4 top-3.5"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+        >
+            <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+        </svg>
+    </div>
+    <div class="flex items-center gap-3 text-sm text-slate-400">
+        <p id="resource-count" aria-live="polite"></p>
+        <button
+            type="button"
+            id="resource-clear"
+            data-clear-filters
+            hidden
+            class="font-semibold text-brand-yellow hover:text-white transition-colors"
+            data-i18n="clearFilters"
+        >
+            Limpiar filtros
+        </button>
+    </div>
+</div>
+
+<script>
+    import { matchesQuery, resourceCountLabel } from "../lib/resources";
+
+    const input = document.querySelector<HTMLInputElement>("#resource-search");
+    const countEl = document.querySelector<HTMLElement>("#resource-count");
+    const emptyState = document.querySelector<HTMLElement>("#resources-empty");
+    const cards = Array.from(
+        document.querySelectorAll<HTMLElement>("[data-resource-card]"),
+    );
+    const searchOnly = Array.from(
+        document.querySelectorAll<HTMLElement>("[data-search-only]"),
+    );
+    const hideWhenSearching = Array.from(
+        document.querySelectorAll<HTMLElement>("[data-hide-when-searching]"),
+    );
+    const clearButtons = Array.from(
+        document.querySelectorAll<HTMLButtonElement>("[data-clear-filters]"),
+    );
+
+    function apply() {
+        const query = input?.value ?? "";
+        const searching = query.trim() !== "";
+        let visible = 0;
+
+        cards.forEach((card) => {
+            const show = matchesQuery(card.textContent ?? "", query);
+            card.hidden = !show;
+            if (show) visible++;
+        });
+        searchOnly.forEach((el) => (el.hidden = !searching));
+        hideWhenSearching.forEach((el) => (el.hidden = searching));
+        if (emptyState) emptyState.hidden = visible > 0;
+        if (countEl) {
+            const lang = document.documentElement.lang === "en" ? "en" : "es";
+            countEl.textContent = resourceCountLabel(visible, lang);
+        }
+        clearButtons.forEach((b) => {
+            if (b.id === "resource-clear") b.hidden = !searching;
+        });
+    }
+
+    input?.addEventListener("input", apply);
+
+    clearButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+            if (input) input.value = "";
+            apply();
+            input?.focus();
+        });
+    });
+
+    document.addEventListener("chamba-lab:lang", (event) => {
+        const lang = (event as CustomEvent<{ lang: "es" | "en" }>).detail.lang;
+        if (input) {
+            input.placeholder =
+                lang === "es"
+                    ? (input.dataset.i18nPlaceholderEs ?? "")
+                    : (input.dataset.i18nPlaceholderEn ?? "");
+        }
+        apply();
+    });
+
+    apply();
+</script>
