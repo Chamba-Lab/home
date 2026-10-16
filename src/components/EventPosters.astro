@@ -1,0 +1,225 @@
+---
+import { getCollection } from "astro:content";
+interface Props {
+    kind?: "launch" | "coffee";
+    compact?: boolean;
+}
+const { kind, compact = false } = Astro.props;
+const events = await getCollection("events");
+const launch = events.find((e) => e.id === "launch")?.data;
+const coffee = events.find((e) => e.id === "code-coffee")?.data;
+const date = launch?.date
+    ? new Date(launch.date + "T12:00:00-05:00")
+    : undefined;
+const dateEs =
+    date
+        ?.toLocaleDateString("es-PE", {
+            day: "numeric",
+            month: "short",
+            timeZone: "America/Lima",
+        })
+        .replace(".", "")
+        .toUpperCase() ?? "";
+const dateEn =
+    date
+        ?.toLocaleDateString("en-US", {
+            day: "numeric",
+            month: "short",
+            timeZone: "America/Lima",
+        })
+        .toUpperCase() ?? "";
+---
+
+<div class:list={["posters", { compact }]} aria-hidden="true">
+    {!compact && (
+        <img class="poster-glow" src="/images/events/glow.svg" alt="" />
+    )}
+    {(!kind || kind === "launch") && (
+        <div class="poster-slot launch-slot">
+            <div class="poster launch-poster">
+                <span
+                    class="poster-label"
+                    data-i18n-es="CHAMBA LAB / ENCUENTRO"
+                    data-i18n-en="CHAMBA LAB / GATHERING"
+                >
+                    CHAMBA LAB / ENCUENTRO
+                </span>
+                <strong
+                    class="poster-title"
+                    data-i18n-es="EL INICIO&#10;DE ALGO&#10;EN COMÚN."
+                    data-i18n-en="THE START&#10;OF SOMETHING&#10;TOGETHER."
+                >
+                    EL INICIO
+                    <br />
+                    DE ALGO
+                    <br />
+                    EN COMÚN.
+                </strong>
+                <img class="poster-star" src="/images/events/star.svg" alt="" />
+                <strong
+                    class="poster-date"
+                    data-i18n-es={dateEs}
+                    data-i18n-en={dateEn}
+                >
+                    {dateEs}
+                </strong>
+                <span class="poster-bottom">{launch?.startTime} · DISCORD</span>
+            </div>
+        </div>
+    )}
+    {(!kind || kind === "coffee") && (
+        <div class="poster-slot coffee-slot">
+            <div class="poster coffee-poster">
+                <span class="poster-label">CHAMBA LAB / COWORKING</span>
+                <strong class="poster-title">
+                    Code &amp;
+                    <br />
+                    Coffee
+                </strong>
+                <img
+                    class="poster-coffee"
+                    src="/images/events/coffee.svg"
+                    alt=""
+                />
+                <span
+                    class="poster-bottom"
+                    data-i18n-es={`VIERNES · ${coffee?.startTime}—${coffee?.endTime}`}
+                    data-i18n-en={`FRIDAYS · ${coffee?.startTime}—${coffee?.endTime}`}
+                >
+                    VIERNES · {coffee?.startTime}—{coffee?.endTime}
+                </span>
+            </div>
+        </div>
+    )}
+</div>
+<style>
+    .posters {
+        position: relative;
+        width: 100%;
+        aspect-ratio: 610/495;
+        container-type: inline-size;
+    }
+    .poster-glow {
+        position: absolute;
+        width: 85.2%;
+        left: 6.6%;
+        top: -2%;
+        height: auto;
+    }
+    .poster-slot {
+        position: absolute;
+        width: 47.54%;
+        aspect-ratio: 290/350;
+    }
+    .launch-slot {
+        left: 4.9%;
+        top: 5%;
+        transform: rotate(-9deg);
+    }
+    .coffee-slot {
+        left: 48.5%;
+        top: 27%;
+        transform: rotate(8deg);
+    }
+    .poster {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        border-radius: 2.95cqw;
+        overflow: hidden;
+        color: var(--color-on-accent);
+        font-family: var(--font-display);
+        font-weight: 800;
+        line-height: 1.16;
+    }
+    .launch-poster {
+        background: var(--color-brand-yellow);
+    }
+    .coffee-poster {
+        background: var(--color-brand-cream);
+    }
+    .poster-label {
+        position: absolute;
+        left: 8.28%;
+        top: 6.28%;
+        font-size: 1.64cqw;
+    }
+    .poster-title {
+        position: absolute;
+        left: 8.28%;
+        top: 17.7%;
+        font-size: 5.41cqw;
+        white-space: pre-line;
+    }
+    .coffee-poster .poster-title {
+        top: 14.85%;
+        font-size: 6.56cqw;
+    }
+    .poster-star {
+        position: absolute;
+        left: 57.24%;
+        top: 59.43%;
+        width: 33.1%;
+        height: auto;
+    }
+    .poster-coffee {
+        position: absolute;
+        left: 20%;
+        top: 43.14%;
+        width: 55.17%;
+        height: auto;
+    }
+    .poster-date {
+        position: absolute;
+        left: 8.28%;
+        top: 77.14%;
+        font-size: 5.57cqw;
+    }
+    .poster-bottom {
+        position: absolute;
+        left: 8.28%;
+        top: 90.28%;
+        font-size: 1.8cqw;
+    }
+    .coffee-poster .poster-bottom {
+        top: 88%;
+        font-size: 1.96cqw;
+    }
+    .compact {
+        width: 132px;
+        aspect-ratio: 132/159.31;
+    }
+    .compact .poster-slot {
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        transform: none;
+    }
+    .compact .poster {
+        border-radius: 8px;
+    }
+    .compact .poster-label {
+        font-size: 3.45cqw;
+    }
+    .compact .poster-title {
+        font-size: 11.38cqw;
+    }
+    .compact .coffee-poster .poster-title {
+        font-size: 13.79cqw;
+    }
+    .compact .poster-date {
+        font-size: 11.72cqw;
+    }
+    .compact .poster-bottom {
+        font-size: 3.79cqw;
+    }
+    .compact .coffee-poster .poster-bottom {
+        font-size: 4.14cqw;
+    }
+    @media (max-width: 767px) {
+        .posters:not(.compact) {
+            max-width: 440px;
+            margin-inline: auto;
+        }
+    }
+</style>
