@@ -35,7 +35,7 @@ Mid y Senior van juntos en el diagrama del home: pasar de uno a otro es cuestió
 
 ## Roadmap del sitio
 
-**Hecho**: landing con widget de Discord, ecosistema, eventos, equipo y recursos; páginas de recursos, eventos, equipo y dinámicas (La Ruleta); bilingüe ES/EN; identidad de marca; dominio propio `chambalab.org` y enlace público `chambalab.org/discord`; SEO técnico (datos estructurados, 404, metadatos); biblioteca de recursos curada con criterios y marca de acceso; guía de contribución y `master` protegida.
+**Hecho**: landing con widget de Discord, ecosistema, eventos, equipo y recursos; páginas de recursos, eventos, equipo y dinámicas (La Ruleta); bilingüe ES/EN; identidad de marca; dominio propio `chambalab.org` y enlace público `chambalab.org/discord`; SEO técnico (datos estructurados, 404, metadatos); biblioteca de recursos curada con criterios, en tres formatos (web, canal y video) y con una categoría de becas; guía de contribución y `master` protegida.
 
 **Enfoque del lanzamiento**: es casual y de baja escala. La comunidad pasa a ser un proyecto público y serio (dominio, redes de los fundadores, eventos con más orden), con el enlace abierto para que entre gente poco a poco. No se busca captar más de lo que se puede atender, ni hay actividades diarias o semanales obligatorias.
 

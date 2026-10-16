@@ -35,14 +35,14 @@ El detalle y el roadmap están en [`docs/project.md`](./docs/project.md).
 - **Node >= 22.12** y npm. Pruebas con Vitest; ESLint + Prettier.
 - **Hosting**: GitHub Pages con dominio propio (`chambalab.org`, archivo `public/CNAME`, sin `base`). Sin servidor: todo el contenido es estático.
 - **Datos**: JSON en `src/content/*.json`, validados por `src/content.config.ts`.
-- **Estructura**: `src/pages` (rutas), `src/components`, `src/layouts/Layout.astro` (header, footer, i18n, fuentes), `src/lib` (lógica pura y constantes), `src/i18n`, `src/styles/global.css` (tokens), `brand/` y `src/assets/` (marca).
+- **Estructura**: `src/pages` (rutas), `src/components`, `src/layouts/Layout.astro` (header, footer, i18n, fuentes), `src/lib` (lógica pura y constantes; p. ej. `resources.ts` tiene el catálogo de categorías, formatos y acceso, el filtrado y las ayudas de YouTube, y las páginas solo pintan), `src/i18n`, `src/styles/global.css` (tokens), `brand/` y `src/assets/` (marca).
 
 ## 3. Sitio
 
 | Ruta                   | Qué es                                                                                                                                          |
 | :--------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------- |
 | `/`                    | Landing: hero, widget de Discord, ecosistema (Connect, Inspire, Grow y el diagrama de perfiles), eventos, equipo (fundadores y pila de avatares) y recursos destacados, en ese orden. |
-| `/resources`           | Biblioteca curada (empleo, aprendizaje, certificaciones, IA, práctica, open source y CV) con buscador, filtro por categoría y marca de acceso (gratis, freemium, de pago) solo en cursos y certificaciones. Criterios en [CONTRIBUTING.md](./CONTRIBUTING.md#añadir-un-recurso). |
+| `/resources`           | Biblioteca curada (empleo, aprendizaje, certificaciones, becas, IA, práctica, open source y CV) en tres formatos (web, canal de YouTube y video con reproductor al pulsar), con buscador, filtros por categoría y formato, y marca de acceso (gratis, freemium, de pago) solo en cursos y certificaciones. Criterios en [CONTRIBUTING.md](./CONTRIBUTING.md#añadir-un-recurso). |
 | `/events`              | Calendario mensual (UTC-5) con exportación a Google Calendar e iCal.                                                                            |
 | `/team`                | Fundadores, Core team y Contributors, y muro de miembros; invita a pedir aparecer.                                                              |
 | `/activities`          | Hub de dinámicas; hoy `/activities/roulette` (La Ruleta). Las demás aparecen como "próximamente".                                               |

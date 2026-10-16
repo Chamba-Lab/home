@@ -464,5 +464,153 @@
         },
         "url": "https://education.github.com/pack",
         "category": "opensource"
+    },
+    {
+        "id": "freecodecamp-youtube",
+        "title": "freeCodeCamp.org",
+        "description": {
+            "en": "Full-length programming courses, from beginner to advanced, free on YouTube.",
+            "es": "Cursos completos de programación, de principiante a avanzado, gratis en YouTube."
+        },
+        "url": "https://www.youtube.com/@freecodecamp",
+        "type": "channel",
+        "avatar": "https://yt3.googleusercontent.com/ytc/AIdro_lGRc-05M2OoE1ejQdxeFhyP7OkJg9h4Y-7CK_5je3QqFI=s112-c-k-c0x00ffffff-no-rj",
+        "category": "aprendizaje"
+    },
+    {
+        "id": "cs50-youtube",
+        "title": "CS50",
+        "description": {
+            "en": "Harvard CS50 lectures and seminars, recorded and free.",
+            "es": "Clases y seminarios de CS50 de Harvard, grabados y gratuitos."
+        },
+        "url": "https://www.youtube.com/@cs50",
+        "type": "channel",
+        "avatar": "https://yt3.googleusercontent.com/ytc/AIdro_m7MWMBm4PynPndRMCxUEfNcU9Eufkk5ZkYI5RNjPchQ_c=s112-c-k-c0x00ffffff-no-rj",
+        "category": "aprendizaje"
+    },
+    {
+        "id": "midudev-youtube",
+        "title": "midudev",
+        "description": {
+            "en": "Web development, JavaScript and React in Spanish, with a practical approach.",
+            "es": "Desarrollo web, JavaScript y React en español, con enfoque práctico."
+        },
+        "url": "https://www.youtube.com/@midudev",
+        "type": "channel",
+        "avatar": "https://yt3.googleusercontent.com/QkJIZgFfiFacdK8syyPRt7cJYPl3jTf0qFhdPwFdpJpyCW5jI_uylNK5a3IH8bitE2wy6Dr2Lw=s112-c-k-c0x00ffffff-no-rj",
+        "category": "aprendizaje"
+    },
+    {
+        "id": "mouredev-youtube",
+        "title": "MoureDev",
+        "description": {
+            "en": "Long programming courses and roadmaps in Spanish, from zero to your first job.",
+            "es": "Cursos largos de programación y hojas de ruta en español, desde cero hasta el primer empleo."
+        },
+        "url": "https://www.youtube.com/@mouredev",
+        "type": "channel",
+        "avatar": "https://yt3.googleusercontent.com/aPuVOhE66m_en_vzdz5SpbytqxUd-xHyAfLyn_lIVcC88dYT85WVhdYKrbZgRz7QMXvF7Ap_4fQ=s112-c-k-c0x00ffffff-no-rj",
+        "category": "aprendizaje"
+    },
+    {
+        "id": "fcc-python-video",
+        "title": "Learn Python: Full Course for Beginners",
+        "description": {
+            "en": "A complete beginner course in Python, in a single video.",
+            "es": "Un curso completo de Python para principiantes, en un solo video."
+        },
+        "url": "https://www.youtube.com/watch?v=rfscVS0vtbw",
+        "type": "video",
+        "channel": "freeCodeCamp.org",
+        "category": "aprendizaje"
+    },
+    {
+        "id": "fcc-javascript-es-video",
+        "title": "Aprende JavaScript: curso completo desde cero",
+        "description": {
+            "en": "A full JavaScript course in Spanish, from the basics to your first projects.",
+            "es": "Un curso completo de JavaScript en español, desde lo básico hasta tus primeros proyectos."
+        },
+        "url": "https://www.youtube.com/watch?v=ivdTnPl1ND0",
+        "type": "video",
+        "channel": "freeCodeCamp Español",
+        "category": "aprendizaje"
+    },
+    {
+        "id": "pronabec",
+        "title": "Pronabec",
+        "description": {
+            "en": "Peru's national scholarship program: Beca 18, postgraduate and international calls.",
+            "es": "El programa nacional de becas del Perú: Beca 18, posgrado y convocatorias internacionales."
+        },
+        "url": "https://www.gob.pe/pronabec",
+        "category": "becas"
+    },
+    {
+        "id": "daad",
+        "title": "DAAD",
+        "description": {
+            "en": "The German academic exchange service: scholarships for master's, PhD and research stays in Germany.",
+            "es": "El servicio alemán de intercambio académico: becas de maestría, doctorado y estancias de investigación en Alemania."
+        },
+        "url": "https://www.daad.de/es/",
+        "category": "becas"
+    },
+    {
+        "id": "fundacion-carolina",
+        "title": "Fundación Carolina",
+        "description": {
+            "en": "Scholarships for Latin American graduates to study postgraduate programs in Spain.",
+            "es": "Becas para que profesionales de Latinoamérica cursen posgrados en España."
+        },
+        "url": "https://www.fundacioncarolina.es",
+        "category": "becas"
+    },
+    {
+        "id": "erasmus-plus",
+        "title": "Erasmus+",
+        "description": {
+            "en": "The European Union program for study, training and exchange abroad.",
+            "es": "El programa de la Unión Europea para estudiar, formarse e intercambiar en el extranjero."
+        },
+        "url": "https://erasmus-plus.ec.europa.eu",
+        "category": "becas"
+    },
+    {
+        "id": "pronabec-youtube",
+        "title": "Pronabec Perú",
+        "description": {
+            "en": "Official channel with guides and announcements for scholarship calls.",
+            "es": "Canal oficial con guías y anuncios de las convocatorias de becas."
+        },
+        "url": "https://www.youtube.com/@Pronabec",
+        "type": "channel",
+        "avatar": "https://yt3.googleusercontent.com/ytc/AIdro_msI_8JELTU97LHXUp-9mUAxsm9kLo_4HljFahmNOHCHw=s112-c-k-c0x00ffffff-no-rj",
+        "category": "becas"
+    },
+    {
+        "id": "fulbright-peru-youtube",
+        "title": "Fulbright Perú",
+        "description": {
+            "en": "Official channel of the Fulbright Commission in Peru, with information on grants to study in the United States.",
+            "es": "Canal oficial de la Comisión Fulbright en Perú, con información sobre becas para estudiar en Estados Unidos."
+        },
+        "url": "https://www.youtube.com/@fulbrightperu",
+        "type": "channel",
+        "avatar": "https://yt3.googleusercontent.com/tG-X5EsZdS49DRP8izfOiNy3vodKTofwVuJvZoOXO5BuDebtozCwH16aeadFJK8wFNf664TT_A=s112-c-k-c0x00ffffff-no-rj",
+        "category": "becas"
+    },
+    {
+        "id": "daad-youtube",
+        "title": "DAAD Worldwide",
+        "description": {
+            "en": "Official DAAD channel with videos about studying and researching in Germany.",
+            "es": "Canal oficial del DAAD con videos sobre estudiar e investigar en Alemania."
+        },
+        "url": "https://www.youtube.com/@DAADWorldwide",
+        "type": "channel",
+        "avatar": "https://yt3.googleusercontent.com/ytc/AIdro_lvxhRNBMGfw9bU5jz8YOgyuWXx0qePWQZYAGXAdlUd_MQ=s112-c-k-c0x00ffffff-no-rj",
+        "category": "becas"
     }
 ]
