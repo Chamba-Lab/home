@@ -109,46 +109,42 @@ const STACK_VISIBLE = 14;
             </a>
         </div>
         <script>
-            (function () {
-                var link = document.getElementById("team-stack");
-                if (!link) return;
-                var list = link.querySelector("ul");
-                var more = document.getElementById("team-stack-more");
-                function shuffle(arr) {
-                    for (var i = arr.length - 1; i > 0; i--) {
-                        var j = Math.floor(Math.random() * (i + 1));
-                        var tmp = arr[i];
-                        arr[i] = arr[j];
-                        arr[j] = tmp;
+            (() => {
+                const link =
+                    document.querySelector<HTMLAnchorElement>("#team-stack");
+                const list = link?.querySelector<HTMLUListElement>("ul");
+                const more =
+                    document.querySelector<HTMLSpanElement>("#team-stack-more");
+                if (!link || !list || !more) return;
+
+                function shuffle<T>(items: T[]): T[] {
+                    for (let i = items.length - 1; i > 0; i--) {
+                        const j = Math.floor(Math.random() * (i + 1));
+                        [items[i], items[j]] = [items[j], items[i]];
                     }
-                    return arr;
+                    return items;
                 }
-                var items = Array.prototype.slice.call(list.children);
-                var crew = shuffle(
-                    items.filter(function (el) {
-                        return el.dataset.group === "crew";
-                    }),
+
+                const items = Array.from(
+                    list.querySelectorAll<HTMLLIElement>(":scope > li"),
                 );
-                var members = shuffle(
-                    items.filter(function (el) {
-                        return el.dataset.group === "member";
-                    }),
+                const crew = shuffle(
+                    items.filter((item) => item.dataset.group === "crew"),
                 );
-                var all = crew.concat(members);
+                const members = shuffle(
+                    items.filter((item) => item.dataset.group === "member"),
+                );
+                const all = [...crew, ...members];
                 // Menos avatares en móvil para que la pila no desborde.
-                var max = window.matchMedia("(min-width: 640px)").matches
+                const max = window.matchMedia("(min-width: 640px)").matches
                     ? Number(link.dataset.visible)
                     : 8;
-                all.forEach(function (el, idx) {
-                    list.appendChild(el);
-                    el.hidden = idx >= max;
+                all.forEach((item, index) => {
+                    list.appendChild(item);
+                    item.hidden = index >= max;
                 });
-                if (all.length > max) {
-                    more.textContent = "+" + (all.length - max);
-                    more.hidden = false;
-                } else {
-                    more.hidden = true;
-                }
+                more.hidden = all.length <= max;
+                if (!more.hidden) more.textContent = "+" + (all.length - max);
             })();
         </script>
     </div>
