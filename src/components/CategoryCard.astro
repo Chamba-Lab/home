@@ -1,0 +1,128 @@
+---
+// Tarjeta de una categoría en /resources: la "puerta" a su colección. Es la
+// única tarjeta de recursos con luz: un brillo del color de la categoría sale
+// desde la esquina del icono. Los colores salen de la paleta [data-category].
+import CategoryIcon from "./CategoryIcon.astro";
+import { categoryPath, resourceCountLabel, type Label } from "../lib/resources";
+
+interface Props {
+    category: {
+        id: string;
+        iconPath: string;
+        label: Label;
+        description: Label;
+    };
+    count: number;
+}
+
+const { category, count } = Astro.props;
+---
+
+<a
+    href={categoryPath(category.id)}
+    data-category={category.id}
+    class="category-card group relative isolate flex flex-col justify-between overflow-hidden rounded-2xl border border-(--cat-border) p-6 transition-all duration-300 hover:-translate-y-0.5"
+>
+    <span
+        class="category-glow"
+        style={`view-transition-name: cat-glow-${category.id}`}
+        aria-hidden="true"
+    ></span>
+    <div>
+        <div class="mb-5 flex items-center justify-between gap-3">
+            <CategoryIcon
+                category={category}
+                transitionName={`cat-icon-${category.id}`}
+            />
+            <span class="inline-flex items-center gap-1.5 rounded-full border border-(--cat-border) bg-(--cat-tint) px-2.5 py-1 text-[11px] font-semibold text-(--cat-accent)">
+                <span
+                    class="h-1.5 w-1.5 rounded-full bg-(--cat-accent)"
+                    aria-hidden="true"
+                ></span>
+                <span
+                    data-i18n-es={resourceCountLabel(count, "es")}
+                    data-i18n-en={resourceCountLabel(count, "en")}
+                >
+                    {resourceCountLabel(count, "es")}
+                </span>
+            </span>
+        </div>
+        <h2
+            style={`view-transition-name: cat-title-${category.id}`}
+            class="mb-2 w-fit font-display text-xl leading-snug font-bold text-white transition-colors group-hover:text-(--cat-accent)"
+            data-i18n-es={category.label.es}
+            data-i18n-en={category.label.en}
+        >
+            {category.label.es}
+        </h2>
+        <p
+            class="text-sm leading-relaxed text-slate-400"
+            data-i18n-es={category.description.es}
+            data-i18n-en={category.description.en}
+        >
+            {category.description.es}
+        </p>
+    </div>
+    <span class="mt-5 inline-flex items-center gap-1.5 border-t border-white/10 pt-5 text-xs font-bold text-(--cat-accent) transition-colors group-hover:text-white">
+        <span data-i18n-es="Ver recursos" data-i18n-en="View resources">
+            Ver recursos
+        </span>
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-3.5 w-3.5"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            aria-hidden="true"
+        >
+            <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M14 5l7 7m0 0l-7 7m7-7H3"
+            ></path>
+        </svg>
+    </span>
+</a>
+
+<style>
+    .category-card {
+        background: linear-gradient(var(--cat-wash), var(--cat-wash)), #0d1424;
+        box-shadow: 0 12px 24px -6px rgb(0 0 0 / 0.35);
+    }
+
+    .category-card:hover {
+        border-color: color-mix(in srgb, var(--cat-accent) 60%, transparent);
+    }
+
+    /* Brillo: círculo de 200 px centrado en el icono (24 px de padding + 24 px
+       de medio icono), desenfocado y recortado por la tarjeta. */
+    .category-glow {
+        position: absolute;
+        z-index: -1;
+        top: -52px;
+        left: -52px;
+        width: 200px;
+        height: 200px;
+        border-radius: 9999px;
+        background: var(--cat-glow);
+        filter: blur(60px);
+        opacity: 0.6;
+        pointer-events: none;
+        transition:
+            transform 300ms ease-out,
+            opacity 300ms ease-out;
+    }
+
+    .category-card:hover .category-glow {
+        transform: scale(1.3);
+        opacity: 0.85;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .category-card,
+        .category-glow {
+            transition: none;
+        }
+    }
+</style>

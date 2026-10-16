@@ -78,3 +78,185 @@ body {
         border-color: rgba(250, 204, 21, 0.3);
     }
 }
+
+/*
+ * Acento de página: logo, insignia LAB y botón de idioma activo. Amarillo de
+ * marca por defecto; en /resources/<categoría> el <body> lleva
+ * data-category y el acento pasa a ser el de esa categoría.
+ */
+:root {
+    --page-accent: #facc15;
+    --page-accent-base: #facc15;
+}
+
+body[data-category] {
+    --page-accent: var(--cat-accent);
+    --page-accent-base: var(--cat-base);
+}
+
+@layer utilities {
+    .badge-lab {
+        color: var(--page-accent);
+        background: color-mix(
+            in srgb,
+            var(--page-accent-base) 15%,
+            transparent
+        );
+        border: 1px solid
+            color-mix(in srgb, var(--page-accent-base) 30%, transparent);
+    }
+
+    .brand-tile-shadow {
+        box-shadow: 0 10px 15px -3px
+            color-mix(in srgb, var(--page-accent) 20%, transparent);
+    }
+}
+
+/*
+ * Paleta de cada categoría de recursos (ids de RESOURCE_CATEGORIES).
+ * --cat-accent pinta texto, iconos y acciones; --cat-base, fondos y bordes.
+ * Cualquier elemento con data-category="<id>" expone la paleta a sus hijos.
+ */
+[data-category] {
+    --cat-tint: color-mix(in srgb, var(--cat-base) 10%, transparent);
+    --cat-border: color-mix(in srgb, var(--cat-base) 30%, transparent);
+    --cat-glow: color-mix(in srgb, var(--cat-base) 55%, transparent);
+    --cat-wash: color-mix(in srgb, var(--cat-accent) 6%, transparent);
+}
+
+[data-category="cv"] {
+    --cat-accent: #facc15;
+    --cat-base: #facc15;
+}
+
+[data-category="jobs"] {
+    --cat-accent: #38bdf8;
+    --cat-base: #0ea5e9;
+}
+
+[data-category="learning"] {
+    --cat-accent: #34d399;
+    --cat-base: #10b981;
+}
+
+[data-category="certifications"] {
+    --cat-accent: #fb923c;
+    --cat-base: #f97316;
+}
+
+[data-category="scholarships"] {
+    --cat-accent: #fb7185;
+    --cat-base: #f43f5e;
+}
+
+[data-category="ai"] {
+    --cat-accent: #e879f9;
+    --cat-base: #d946ef;
+}
+
+[data-category="practice"] {
+    --cat-accent: #8a95ff;
+    --cat-base: #5865f2;
+}
+
+[data-category="opensource"] {
+    --cat-accent: #cbd5e1;
+    --cat-base: #94a3b8;
+}
+
+/*
+ * Brillo de cabecera en /resources/<categoría>: la luz de la tarjeta de la
+ * categoría llena la parte superior de su página. Centrado en el icono.
+ */
+.category-hero-glow {
+    position: absolute;
+    top: -280px;
+    left: calc(max(0px, (100% - 80rem) / 2) + 2rem + 28px - 450px);
+    width: 900px;
+    height: 900px;
+    border-radius: 9999px;
+    background: radial-gradient(circle, var(--cat-glow), transparent 70%);
+    opacity: 0.45;
+}
+
+/*
+ * Transición entre /resources y cada categoría (View Transitions entre
+ * documentos, sin JavaScript). Navegadores sin soporte navegan sin animación.
+ * Icono, título y brillo de la categoría viajan entre ambas páginas
+ * (view-transition-name cat-icon-*, cat-title-*, cat-glow-*); las categorías
+ * salen hacia la izquierda y los recursos suben.
+ */
+@view-transition {
+    navigation: auto;
+}
+
+::view-transition-group(*) {
+    animation-duration: 450ms;
+    animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+::view-transition-old(resource-categories) {
+    animation: 300ms ease-in both vt-out-left;
+}
+
+::view-transition-new(resource-categories) {
+    animation: 400ms cubic-bezier(0.22, 1, 0.36, 1) both vt-in-left;
+}
+
+::view-transition-new(resource-list) {
+    animation: 450ms cubic-bezier(0.22, 1, 0.36, 1) 60ms both vt-in-up;
+}
+
+::view-transition-old(resource-list) {
+    animation: 300ms ease-in both vt-out-down;
+}
+
+@keyframes vt-out-left {
+    to {
+        opacity: 0;
+        transform: translateX(-120px);
+    }
+}
+
+@keyframes vt-in-left {
+    from {
+        opacity: 0;
+        transform: translateX(-120px);
+    }
+}
+
+@keyframes vt-in-up {
+    from {
+        opacity: 0;
+        transform: translateY(80px);
+    }
+}
+
+@keyframes vt-out-down {
+    to {
+        opacity: 0;
+        transform: translateY(80px);
+    }
+}
+
+/* Con "reducir movimiento", solo un fundido corto. */
+@media (prefers-reduced-motion: reduce) {
+    ::view-transition-group(*) {
+        animation: none;
+    }
+
+    ::view-transition-old(*),
+    ::view-transition-new(*) {
+        animation: 200ms ease both vt-fade;
+    }
+
+    ::view-transition-new(*) {
+        animation-direction: reverse;
+    }
+}
+
+@keyframes vt-fade {
+    to {
+        opacity: 0;
+    }
+}

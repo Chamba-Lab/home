@@ -7,7 +7,7 @@ import {
 } from "../lib/constants";
 import DiscordIcon from "./icons/DiscordIcon.astro";
 import GithubIcon from "./icons/GithubIcon.astro";
-import tile from "../assets/brand/chamba-tile.svg";
+import BrandTile from "./BrandTile.astro";
 
 const rawBase = import.meta.env.BASE_URL;
 const base = rawBase.endsWith("/") ? rawBase : `${rawBase}/`;
@@ -19,17 +19,11 @@ const currentYear = new Date().getFullYear();
         <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-8 pb-10 border-b border-white/[0.06]">
             <div class="flex flex-col gap-3">
                 <a href={base} class="flex items-center gap-3 group">
-                    <img
-                        src={tile.src}
-                        alt=""
-                        width="36"
-                        height="36"
-                        class="w-9 h-9 rounded-xl shadow-md shadow-brand-yellow/15 transition-transform group-hover:scale-105"
-                    />
+                    <BrandTile class="w-9 h-9 rounded-xl brand-tile-shadow transition-transform group-hover:scale-105" />
                     <span class="font-display text-xl font-extrabold tracking-tight text-white">
                         Chamba
                     </span>
-                    <span class="text-[10px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded bg-brand-yellow/15 text-brand-yellow border border-brand-yellow/30">
+                    <span class="text-[10px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded badge-lab">
                         Lab
                     </span>
                 </a>

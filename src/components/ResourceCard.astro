@@ -1,4 +1,9 @@
 ---
+// Tarjeta de un recurso: una "hoja" de su categoría. Plana y sin brillo (la luz
+// es de las tarjetas de categoría), con el color de su categoría en un marcador
+// junto a su cara (avatar o miniatura) o a su título. Colores de la paleta
+// [data-category] de src/styles/global.css.
+import CategoryIcon from "./CategoryIcon.astro";
 import {
     ACCESS_LEVELS,
     RESOURCE_FORMATS,
@@ -22,8 +27,11 @@ interface Props {
     // Video: canal que lo publica.
     channel?: string;
     access?: ResourceAccess;
-    // En la página de una categoría todas comparten categoría: se omite la insignia.
+    // En la página de una categoría todas comparten categoría: se omite la fila
+    // de categoría (icono y nombre). En el buscador general sí se muestra.
     showCategory?: boolean;
+    // Nivel del título: 3 cuando la tarjeta va bajo un título de sección.
+    headingLevel?: 2 | 3;
 }
 
 const {
@@ -37,92 +45,78 @@ const {
     channel,
     access,
     showCategory = true,
+    headingLevel = 2,
 } = Astro.props;
+
+const Heading = headingLevel === 3 ? "h3" : "h2";
 
 const videoId = type === "video" ? youtubeVideoId(url) : undefined;
 const formatLabel = RESOURCE_FORMATS.find((f) => f.id === type)?.cardLabel;
 const accessBadge = access ? ACCESS_LEVELS[access] : undefined;
 const categoryInfo = categoryById(category);
-const badge = {
-    label: categoryInfo?.label ?? { es: category, en: category },
-    class:
-        categoryInfo?.badgeClass ??
-        "border-white/10 bg-slate-900 text-slate-300",
-};
 const isVideo = type === "video";
-const showMeta = showCategory || accessBadge || formatLabel;
 ---
 
 <div
     data-resource-card={category}
-    class={`card-glass rounded-2xl flex flex-col justify-between group transition-all duration-300 hover:border-brand-yellow/40 hover:-translate-y-0.5 shadow-lg shadow-black/20 ${isVideo ? "overflow-hidden" : "p-6"}`}
+    data-category={category}
+    class={`resource-card card-glass group relative flex flex-col justify-between overflow-hidden rounded-2xl shadow-lg shadow-black/20 transition-all duration-300 hover:-translate-y-0.5 ${isVideo ? "" : "p-6"}`}
 >
-    <div class="flex flex-col">
-        {videoId && (
-            <a
-                href={url}
-                target="_blank"
-                rel="noopener noreferrer"
-                data-video-id={videoId}
-                data-video-title={title}
-                class="video-thumb relative block aspect-video w-full overflow-hidden bg-slate-900"
-                aria-label={`Reproducir: ${title}`}
-            >
-                <img
-                    src={youtubeThumbnail(videoId)}
-                    alt=""
-                    loading="lazy"
-                    width="480"
-                    height="360"
-                    class="h-full w-full object-cover opacity-90 transition-opacity group-hover:opacity-100"
-                />
-                <span class="absolute inset-0 m-auto flex h-14 w-14 items-center justify-center rounded-full bg-red-600 shadow-lg shadow-black/40 transition-transform group-hover:scale-110">
-                    <svg
-                        class="ml-0.5 h-6 w-6 fill-white"
-                        viewBox="0 0 24 24"
-                        aria-hidden="true"
+    {videoId && (
+        <a
+            href={url}
+            target="_blank"
+            rel="noopener noreferrer"
+            data-video-id={videoId}
+            data-video-title={title}
+            class="video-thumb relative block aspect-video w-full overflow-hidden bg-slate-900"
+            aria-label={`Reproducir: ${title}`}
+        >
+            <img
+                src={youtubeThumbnail(videoId)}
+                alt=""
+                loading="lazy"
+                width="480"
+                height="360"
+                class="h-full w-full object-cover opacity-90 transition-opacity group-hover:opacity-100"
+            />
+            <span class="absolute inset-0 m-auto flex h-14 w-14 items-center justify-center rounded-full bg-red-600 shadow-lg shadow-black/40 transition-transform group-hover:scale-110">
+                <svg
+                    class="ml-0.5 h-6 w-6 fill-white"
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                >
+                    <path d="M8 5v14l11-7z" />
+                </svg>
+            </span>
+        </a>
+    )}
+    <div
+        class={`relative flex flex-1 flex-col justify-between ${isVideo ? "px-6 pt-5 pb-6" : ""}`}
+    >
+        <!-- Barra de hover: el marcador se extiende a casi toda la tarjeta -->
+        <span
+            class={`resource-bar ${isVideo ? "top-4 bottom-4 left-0" : "-top-2 -bottom-2 -left-6"}`}
+            aria-hidden="true"
+        ></span>
+        <div class="flex flex-col">
+            {showCategory && categoryInfo && (
+                <div class="mb-4 flex items-center gap-2">
+                    <CategoryIcon category={categoryInfo} class="h-7 w-7" />
+                    <span
+                        class="text-[10px] font-bold tracking-wider text-(--cat-accent) uppercase"
+                        data-i18n-es={categoryInfo.label.es}
+                        data-i18n-en={categoryInfo.label.en}
                     >
-                        <path d="M8 5v14l11-7z" />
-                    </svg>
-                </span>
-            </a>
-        )}
-        <div class={`flex flex-col ${isVideo ? "px-6 pt-5" : ""}`}>
-            {showMeta && (
-                <div class="flex items-center justify-between gap-2 mb-4">
-                    {showCategory && (
-                        <span
-                            class={`text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded border ${badge.class}`}
-                            data-i18n-es={badge.label.es}
-                            data-i18n-en={badge.label.en}
-                        >
-                            {badge.label.es}
-                        </span>
-                    )}
-                    {accessBadge && (
-                        <span
-                            class={`text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded border ${accessBadge.badgeClass}`}
-                            data-i18n-es={accessBadge.label.es}
-                            data-i18n-en={accessBadge.label.en}
-                        >
-                            {accessBadge.label.es}
-                        </span>
-                    )}
-                    {formatLabel && (
-                        <span
-                            class="text-[11px] font-semibold text-slate-400 whitespace-nowrap"
-                            data-i18n-es={formatLabel.es}
-                            data-i18n-en={formatLabel.en}
-                        >
-                            {formatLabel.es}
-                        </span>
-                    )}
+                        {categoryInfo.label.es}
+                    </span>
                 </div>
             )}
             {type === "channel" ? (
-                <div class="flex items-center gap-4 mb-3 min-w-0">
+                <div class="relative mb-3 flex min-w-0 items-center gap-4">
+                    <span class="resource-marker" aria-hidden="true" />
                     <span
-                        class="relative flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-full border-2 border-white/20 bg-slate-800 bg-clip-padding font-display text-xl font-extrabold text-white"
+                        class="relative flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-full border-2 border-(--cat-border) bg-slate-800 bg-clip-padding font-display text-xl font-extrabold text-white"
                         aria-hidden="true"
                     >
                         {title.charAt(0).toUpperCase()}
@@ -140,15 +134,16 @@ const showMeta = showCategory || accessBadge || formatLabel;
                             />
                         )}
                     </span>
-                    <h2 class="min-w-0 font-display text-lg font-bold text-white group-hover:text-brand-yellow transition-colors leading-snug">
+                    <Heading class="min-w-0 font-display text-lg leading-snug font-bold text-white transition-colors group-hover:text-(--cat-accent)">
                         {title}
-                    </h2>
+                    </Heading>
                 </div>
             ) : (
-                <div class="mb-2">
-                    <h2 class="font-display text-lg font-bold text-white group-hover:text-brand-yellow transition-colors leading-snug">
+                <div class="relative mb-2">
+                    <span class="resource-marker" aria-hidden="true" />
+                    <Heading class="font-display text-lg leading-snug font-bold text-white transition-colors group-hover:text-(--cat-accent)">
                         {title}
-                    </h2>
+                    </Heading>
                     {isVideo && channel && (
                         <p class="mt-1 text-xs font-medium text-slate-400">
                             {channel}
@@ -162,54 +157,129 @@ const showMeta = showCategory || accessBadge || formatLabel;
                 </div>
             )}
             <p
-                class="text-sm text-slate-400 leading-relaxed"
+                class="text-sm leading-relaxed text-slate-400"
                 data-i18n-en={descriptionEn}
                 data-i18n-es={descriptionEs}
             >
                 {descriptionEs ?? descriptionEn}
             </p>
         </div>
-    </div>
-    <div
-        class={`pt-5 mt-5 border-t border-white/10 flex items-center justify-between ${isVideo ? "mx-6 mb-6" : ""}`}
-    >
-        <a
-            class="inline-flex items-center gap-1.5 text-xs font-bold text-brand-yellow hover:text-white transition-colors group-hover:translate-x-0.5 transform duration-200"
-            href={url}
-            target="_blank"
-            rel="noopener noreferrer"
-        >
-            {type === "web" ? (
-                <span data-i18n="exploreResource">Explorar recurso</span>
-            ) : type === "channel" ? (
-                <span data-i18n-es="Ver canal" data-i18n-en="Visit channel">
-                    Ver canal
-                </span>
-            ) : (
-                <span
-                    data-i18n-es="Ver en YouTube"
-                    data-i18n-en="Watch on YouTube"
-                >
-                    Ver en YouTube
-                </span>
-            )}
-            <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="w-3.5 h-3.5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
+        <div class="mt-5 flex items-center justify-between gap-3 border-t border-white/10 pt-5">
+            <a
+                class="inline-flex items-center gap-1.5 text-xs font-bold text-(--cat-accent) transition-colors hover:text-white group-hover:text-white"
+                href={url}
+                target="_blank"
+                rel="noopener noreferrer"
             >
-                <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M14 5l7 7m0 0l-7 7m7-7H3"
-                ></path>
-            </svg>
-        </a>
+                {type === "web" ? (
+                    <span data-i18n="exploreResource">Explorar recurso</span>
+                ) : type === "channel" ? (
+                    <span data-i18n-es="Ver canal" data-i18n-en="Visit channel">
+                        Ver canal
+                    </span>
+                ) : (
+                    <span
+                        data-i18n-es="Ver en YouTube"
+                        data-i18n-en="Watch on YouTube"
+                    >
+                        Ver en YouTube
+                    </span>
+                )}
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-3.5 w-3.5"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    aria-hidden="true"
+                >
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2.2"
+                        d="M7 17L17 7M8 7h9v9"
+                    ></path>
+                </svg>
+            </a>
+            {(accessBadge || formatLabel) && (
+                <div class="flex items-center gap-2">
+                    {accessBadge && (
+                        <span
+                            class={`rounded border px-2 py-0.5 text-[10px] font-semibold tracking-wider uppercase ${accessBadge.badgeClass}`}
+                            data-i18n-es={accessBadge.label.es}
+                            data-i18n-en={accessBadge.label.en}
+                        >
+                            {accessBadge.label.es}
+                        </span>
+                    )}
+                    {formatLabel && (
+                        <span
+                            class="text-[11px] font-semibold whitespace-nowrap text-slate-400"
+                            data-i18n-es={formatLabel.es}
+                            data-i18n-en={formatLabel.en}
+                        >
+                            {formatLabel.es}
+                        </span>
+                    )}
+                </div>
+            )}
+        </div>
     </div>
 </div>
+
+<style>
+    .resource-card:hover {
+        border-color: var(--cat-border);
+        background:
+            linear-gradient(var(--cat-wash), var(--cat-wash)),
+            rgb(15 23 42 / 0.65);
+    }
+
+    /* Marcador: 3 px a ras del borde izquierdo (el padding de la tarjeta es
+       24 px), del alto de la cara o del bloque de título. */
+    .resource-marker {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: -1.5rem;
+        width: 3px;
+        border-radius: 0 3px 3px 0;
+        background: var(--cat-accent);
+        transition: opacity 200ms ease-out;
+    }
+
+    /* Al pasar el ratón el marcador se convierte en una barra casi completa,
+       con 16 px de margen arriba y abajo (posición en las clases del span). */
+    .resource-bar {
+        position: absolute;
+        width: 3px;
+        border-radius: 0 3px 3px 0;
+        background: var(--cat-accent);
+        opacity: 0;
+        transform: scaleY(0.3);
+        transform-origin: top;
+        transition:
+            opacity 200ms ease-out,
+            transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
+        pointer-events: none;
+    }
+
+    .resource-card:hover .resource-bar {
+        opacity: 1;
+        transform: scaleY(1);
+    }
+
+    .resource-card:hover .resource-marker {
+        opacity: 0;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .resource-bar,
+        .resource-marker {
+            transition: none;
+        }
+    }
+</style>
 
 <script>
     // Videos: la miniatura es un enlace a YouTube. Con JS, al pulsarla se

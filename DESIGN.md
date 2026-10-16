@@ -125,7 +125,7 @@ Autoalojada con `@fontsource-variable` (Inter y Plus Jakarta Sans, importadas en
 ### 5.1 Sticky Header & Navigation
 
 - **Barra Superior**: `sticky top-0 z-50 backdrop-blur-xl bg-bg/85 border-b border-white/[0.08]`.
-- **Logo**: `chamba-tile.svg` (mascota sobre tile amarillo, 40px en header / 36px en footer, `rounded-xl`) + wordmark display "Chamba" + píldora "Lab".
+- **Logo**: `chamba-tile.svg` (mascota sobre tile amarillo, 40px en header / 36px en footer, `rounded-xl`) + wordmark display "Chamba" + píldora "Lab". Se inserta como SVG en línea con `BrandTile.astro` para que el fondo del tile, la píldora "Lab" (`.badge-lab`) y el botón de idioma activo sigan el acento de página `--page-accent`: amarillo de marca en todo el sitio y el color de la categoría en `/resources/<categoría>` (ver «Recursos»).
 - **Segmented Language Switcher**: Pastilla redondeada (`rounded-full bg-slate-900/80 border border-white/10 p-0.5 text-xs`) con botones `ES` / `EN` toggleables y almacenamiento en `localStorage`.
 - **Discord Action Button**: Botón compacto con resplandor blurple al interactuar.
 
@@ -172,7 +172,7 @@ Los avatares llevan borde neutro (`border-white/25`), nunca amarillo; el fondo a
     - _Shuffle_: Flechas bidireccionales cruzadas estándar (`M16 3h5v5M4 20L21 3M21 16v5h-5M15 15l6 6M4 4l5 5`).
     - _Mascota_: ver §6.1 (reglas de uso de la marca).
     - _Discord_: Logomarca oficial SVG monocromática o en blurple.
-    - _Categorías de recursos_: un icono de trazo por categoría (documento, maletín, libro, medalla, birrete, destellos, código y rama), en un recuadro `h-12 w-12 rounded-xl border` con los colores de la categoría (`badgeClass`). El trazo vive en `iconPath` de `RESOURCE_CATEGORIES` (`src/lib/resources.ts`) y lo pinta `CategoryIcon.astro`; una categoría nueva necesita su icono (una prueba lo exige).
+    - _Categorías de recursos_: un icono de trazo por categoría (documento, maletín, libro, medalla, birrete, destellos, código y rama), en un recuadro `h-12 w-12 rounded-xl border` con los colores de la categoría (paleta `[data-category]` de `global.css`). El trazo vive en `iconPath` de `RESOURCE_CATEGORIES` (`src/lib/resources.ts`) y lo pinta `CategoryIcon.astro`; una categoría nueva necesita su icono (una prueba lo exige).
 
 ---
 
@@ -206,7 +206,8 @@ Mapache/gato peludo con taza de café y expresión _grumpy_. Masters en `src/ass
 
 1. **Duraciones**: hover ordinario `duration-200 ease-out`; menús y paneles `duration-300`; giro de la ruleta `SPIN_DURATION_MS` con `easeOutQuart(t) = 1 - Math.pow(1 - t, 4)`.
 2. **Profundidad**: elevación vertical sutil (`-translate-y-0.5`) junto con más resplandor o sombra de marca.
-3. **Pendiente**: respetar `prefers-reduced-motion` (hoy no se aplica) para desactivar partículas y giros largos.
+3. **Movimiento reducido**: las tarjetas y transiciones de recursos ya respetan `prefers-reduced-motion`; pendiente en el resto (partículas y giros largos).
+4. **Transiciones entre páginas**: View Transitions entre documentos en CSS (`@view-transition`), sin librerías. Hoy solo entre `/resources` y cada categoría: 450 ms con `cubic-bezier(0.22, 1, 0.36, 1)`; con movimiento reducido, un fundido de 200 ms.
 
 ## 8. Governance & Maintenance
 
@@ -221,3 +222,15 @@ La página /events sigue el diseño aprobado en Figma (45:326): portada con cart
 ### Encabezados sin etiquetas redundantes
 
 Los títulos de página y sección se presentan directamente, sin minietiquetas decorativas que repitan su contexto (por ejemplo, «Comunidad Tech», «Biblioteca Curada» o «Equipo»). Se conservan las etiquetas con información funcional: categorías, formato, acceso, recurrencia y disponibilidad.
+
+## Recursos: categorías y recursos
+
+Diseño aprobado en Figma (página «05 · Recursos», con la referencia «Referencia · Rediseño de recursos (para implementar)» y el prototipo «Recursos · categoría → recursos»). Idea: **una categoría es una colección y un recurso es una hoja de esa colección**.
+
+- **Paleta por categoría**: `[data-category="<id>"]` en `global.css` define `--cat-accent` (texto, iconos, acciones) y `--cat-base` (fondos y bordes), y de ellos `--cat-tint` (10 %), `--cat-border` (30 %), `--cat-glow` (55 %) y `--cat-wash` (6 % del acento). Una categoría nueva necesita su paleta (una prueba lo exige).
+- **Excepción a los CTA amarillos**: en recursos, las acciones («Ver recursos», «Explorar recurso», «Ver canal», «Ver en YouTube») van en el acento de su categoría, no en amarillo de marca.
+- **Tarjeta de categoría** (`CategoryCard.astro`): la única con luz. Brillo de 200 px desenfocado (60 px) centrado en el icono, conteo en píldora del color de la categoría, borde `--cat-border` (hover: acento al 60 %) y enlace anclado abajo; misma altura por fila.
+- **Tarjeta de recurso** (`ResourceCard.astro`): plana y sin brillo. Un marcador de 3 px a ras del borde izquierdo, del alto de la cara (avatar del canal o miniatura del video) o del bloque título + dominio; al pasar el ratón se extiende a una barra con 16 px de margen. Las webs no llevan imagen. La fila de categoría (icono de 28 px y nombre) solo aparece donde se mezclan categorías (buscador). Pie: acción con flecha ↗ a la izquierda; acceso y formato a la derecha.
+- **Secciones por formato** en `/resources/<categoría>` (`ResourceSection.astro`): Videos, Canales de YouTube y Sitios web, sin secciones vacías y sin títulos si solo hay una. Con cuatro videos o más (`VIDEO_CAROUSEL_MIN`), carrusel con scroll-snap: 3 visibles, flechas con borde de la categoría, indicador y desvanecido a la derecha; en móvil, una tarjeta y un trozo de la siguiente.
+- **Navbar y pie por categoría**: en `/resources/<categoría>` el `<body>` lleva `data-category` y el logo, la píldora «Lab» y el idioma activo toman el acento de la categoría; en `/resources` vuelven al amarillo de marca.
+- **Transición**: el icono, el título y el brillo de la categoría viajan entre `/resources` y su página (`view-transition-name` `cat-icon-*`, `cat-title-*`, `cat-glow-*`); el brillo se convierte en la luz de cabecera de la categoría, las categorías salen 120 px a la izquierda y los recursos suben 80 px.

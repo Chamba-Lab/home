@@ -9,8 +9,8 @@ export interface Label {
 
 // Categorías, en el orden en que se muestran. El `id` es en inglés porque
 // también es la ruta de la categoría (`/resources/jobs`). `iconPath` es el trazo SVG
-// del icono (viewBox 24, estilo de DESIGN.md §6) y `badgeClass` las clases de
-// color de su recuadro.
+// del icono (viewBox 24, estilo de DESIGN.md §6). Los colores de cada categoría
+// viven en la paleta [data-category] de src/styles/global.css.
 export const RESOURCE_CATEGORIES = [
     {
         id: "cv",
@@ -21,8 +21,6 @@ export const RESOURCE_CATEGORIES = [
         },
         iconPath:
             "M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z M14 3v5h5 M9 13h6 M9 17h4",
-        badgeClass:
-            "border-brand-yellow/30 bg-brand-yellow/10 text-brand-yellow",
     },
     {
         id: "jobs",
@@ -33,7 +31,6 @@ export const RESOURCE_CATEGORIES = [
         },
         iconPath:
             "M4 8h16a1 1 0 0 1 1 1v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9a1 1 0 0 1 1-1z M9 8V6a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2 M3 13h18",
-        badgeClass: "border-sky-500/30 bg-sky-500/10 text-sky-400",
     },
     {
         id: "learning",
@@ -44,7 +41,6 @@ export const RESOURCE_CATEGORIES = [
         },
         iconPath:
             "M12 6.5C10.5 5 8 4.5 4 4.5v13c4 0 6.5.5 8 2 1.5-1.5 4-2 8-2v-13c-4 0-6.5.5-8 2z M12 6.5v13",
-        badgeClass: "border-emerald-500/30 bg-emerald-500/10 text-emerald-400",
     },
     {
         id: "certifications",
@@ -55,7 +51,6 @@ export const RESOURCE_CATEGORIES = [
         },
         iconPath:
             "M12 3a6 6 0 1 0 0 12 6 6 0 0 0 0-12z M8.5 14 7 21l5-3 5 3-1.5-7",
-        badgeClass: "border-orange-500/30 bg-orange-500/10 text-orange-400",
     },
     {
         id: "scholarships",
@@ -69,7 +64,6 @@ export const RESOURCE_CATEGORIES = [
         },
         iconPath:
             "M2 9l10-5 10 5-10 5z M6 11.5V16c0 1.5 2.7 3 6 3s6-1.5 6-3v-4.5 M22 9v6",
-        badgeClass: "border-rose-500/30 bg-rose-500/10 text-rose-400",
     },
     {
         id: "ai",
@@ -80,7 +74,6 @@ export const RESOURCE_CATEGORIES = [
         },
         iconPath:
             "M12 3l1.8 4.7L18.5 9.5l-4.7 1.8L12 16l-1.8-4.7L5.5 9.5l4.7-1.8z M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z",
-        badgeClass: "border-fuchsia-500/30 bg-fuchsia-500/10 text-fuchsia-400",
     },
     {
         id: "practice",
@@ -90,8 +83,6 @@ export const RESOURCE_CATEGORIES = [
             en: "Platforms to practice algorithms, coding challenges and technical interviews.",
         },
         iconPath: "M8 8l-5 4 5 4 M16 8l5 4-5 4 M14 5l-4 14",
-        badgeClass:
-            "border-brand-discord/30 bg-brand-discord/10 text-[#8a95ff]",
     },
     {
         id: "opensource",
@@ -102,7 +93,6 @@ export const RESOURCE_CATEGORIES = [
         },
         iconPath:
             "M6 15a3 3 0 1 0 0 6 3 3 0 0 0 0-6z M18 3a3 3 0 1 0 0 6 3 3 0 0 0 0-6z M6 3v12 M18 9c0 5-4 8-9 9",
-        badgeClass: "border-slate-400/30 bg-slate-400/10 text-slate-300",
     },
 ] as const;
 
@@ -182,6 +172,29 @@ export function groupByCategory<T extends { category: string }>(items: T[]) {
     return RESOURCE_CATEGORIES.map((category) => ({
         category,
         items: items.filter((item) => item.category === category.id),
+    })).filter((group) => group.items.length > 0);
+}
+
+// Secciones de la página de una categoría, en este orden. Separar formatos
+// evita que una tarjeta de video estire la fila de una web.
+export const RESOURCE_SECTIONS = [
+    { format: "video", label: { es: "Videos", en: "Videos" } },
+    {
+        format: "channel",
+        label: { es: "Canales de YouTube", en: "YouTube channels" },
+    },
+    { format: "web", label: { es: "Sitios web", en: "Websites" } },
+] as const satisfies readonly { format: ResourceType; label: Label }[];
+
+// Con esta cantidad de videos o más, la sección se muestra como carrusel.
+export const VIDEO_CAROUSEL_MIN = 4;
+
+// Agrupa por formato en el orden de RESOURCE_SECTIONS; omite las vacías. Un
+// recurso sin `type` es una web.
+export function groupByFormat<T extends { type?: ResourceType }>(items: T[]) {
+    return RESOURCE_SECTIONS.map((section) => ({
+        ...section,
+        items: items.filter((item) => (item.type ?? "web") === section.format),
     })).filter((group) => group.items.length > 0);
 }
 

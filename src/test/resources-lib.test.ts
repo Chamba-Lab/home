@@ -1,3 +1,5 @@
+import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
 import { describe, it, expect } from "vitest";
 import {
     RESOURCE_CATEGORIES,
@@ -7,6 +9,7 @@ import {
     categoryPath,
     displayDomain,
     groupByCategory,
+    groupByFormat,
     matchesQuery,
     normalizeText,
     resourceCountLabel,
@@ -102,6 +105,23 @@ describe("categories", () => {
         expect(groups.map((g) => g.category.id)).toEqual(["cv", "ai"]);
         expect(groups[1].items.map((i) => i.n)).toEqual([1, 3]);
     });
+    it("groups by format as videos, channels and websites, skipping empty ones", () => {
+        const groups = groupByFormat([
+            { n: 1 },
+            { n: 2, type: "channel" as const },
+            { n: 3, type: "web" as const },
+            { n: 4, type: "video" as const },
+        ]);
+        expect(groups.map((g) => g.format)).toEqual([
+            "video",
+            "channel",
+            "web",
+        ]);
+        expect(groups[2].items.map((i) => i.n)).toEqual([1, 3]);
+        expect(
+            groupByFormat([{ n: 1 }, { n: 2 }]).map((g) => g.format),
+        ).toEqual(["web"]);
+    });
     it("finds a category by id and has unique ids", () => {
         expect(categoryById("scholarships")?.label.es).toBe(
             "Oportunidades académicas",
@@ -113,6 +133,18 @@ describe("categories", () => {
     it("gives every category an icon", () => {
         for (const c of RESOURCE_CATEGORIES) {
             expect(c.iconPath.length, c.id).toBeGreaterThan(10);
+        }
+    });
+    it("gives every category a color palette in global.css", () => {
+        const css = readFileSync(
+            resolve(process.cwd(), "src/styles/global.css"),
+            "utf8",
+        );
+        for (const c of RESOURCE_CATEGORIES) {
+            const rule = new RegExp(
+                `\\[data-category="${c.id}"\\]\\s*\\{[^}]*--cat-accent:[^}]*--cat-base:`,
+            );
+            expect(css, c.id).toMatch(rule);
         }
     });
     it("uses ids that are valid, English URL slugs", () => {

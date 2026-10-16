@@ -2,16 +2,19 @@
 import Layout from "../../layouts/Layout.astro";
 import ResourceCard from "../../components/ResourceCard.astro";
 import CategoryIcon from "../../components/CategoryIcon.astro";
+import ResourceSection from "../../components/ResourceSection.astro";
 import ResourceSearch from "../../components/ResourceSearch.astro";
 import ResourceEmptyState from "../../components/ResourceEmptyState.astro";
 import ResourceCriteriaNote from "../../components/ResourceCriteriaNote.astro";
 import { getCollection } from "astro:content";
 import {
     RESOURCE_CATEGORIES,
+    VIDEO_CAROUSEL_MIN,
     categoryPageDescription,
     categoryPageTitle,
     categoryPath,
     groupByCategory,
+    groupByFormat,
 } from "../../lib/resources";
 
 export async function getStaticPaths() {
@@ -23,10 +26,12 @@ export async function getStaticPaths() {
 }
 
 const { category, items } = Astro.props;
+const sections = groupByFormat(items);
 const others = RESOURCE_CATEGORIES.filter((c) => c.id !== category.id);
 ---
 
 <Layout
+    category={category.id}
     title={categoryPageTitle(category)}
     description={categoryPageDescription(category)}
     breadcrumbs={[
@@ -35,7 +40,17 @@ const others = RESOURCE_CATEGORIES.filter((c) => c.id !== category.id);
         { name: category.label.es, path: categoryPath(category.id) },
     ]}
 >
-    <main class="w-full min-w-0 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
+    <!-- Brillo de la categoría: continúa el de su tarjeta en /resources -->
+    <div
+        class="pointer-events-none absolute inset-x-0 top-20 h-[900px] overflow-hidden"
+        aria-hidden="true"
+    >
+        <span
+            class="category-hero-glow"
+            style={`view-transition-name: cat-glow-${category.id}`}
+        ></span>
+    </div>
+    <main class="relative w-full min-w-0 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
         <div class="max-w-3xl mb-12">
             <a
                 href="/resources/"
@@ -66,8 +81,10 @@ const others = RESOURCE_CATEGORIES.filter((c) => c.id !== category.id);
                 <CategoryIcon
                     category={category}
                     class="h-12 w-12 sm:h-14 sm:w-14"
+                    transitionName={`cat-icon-${category.id}`}
                 />
                 <h1
+                    style={`view-transition-name: cat-title-${category.id}`}
                     class="font-display text-4xl sm:text-5xl font-extrabold text-white tracking-tight min-w-0"
                     data-i18n-es={category.label.es}
                     data-i18n-en={category.label.en}
@@ -91,20 +108,33 @@ const others = RESOURCE_CATEGORIES.filter((c) => c.id !== category.id);
             />
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {items.map((item) => (
-                <ResourceCard
-                    title={item.title}
-                    descriptionEn={item.description.en}
-                    descriptionEs={item.description.es}
-                    url={item.url}
-                    category={item.category}
-                    type={item.type}
-                    avatar={item.avatar}
-                    channel={item.channel}
-                    access={item.access}
-                    showCategory={false}
-                />
+        <div class="space-y-14" style="view-transition-name: resource-list">
+            {sections.map((section) => (
+                <ResourceSection
+                    label={section.label}
+                    count={section.items.length}
+                    showHeading={sections.length > 1}
+                    carousel={
+                        section.format === "video" &&
+                        section.items.length >= VIDEO_CAROUSEL_MIN
+                    }
+                >
+                    {section.items.map((item) => (
+                        <ResourceCard
+                            title={item.title}
+                            descriptionEn={item.description.en}
+                            descriptionEs={item.description.es}
+                            url={item.url}
+                            category={item.category}
+                            type={item.type}
+                            avatar={item.avatar}
+                            channel={item.channel}
+                            access={item.access}
+                            showCategory={false}
+                            headingLevel={sections.length > 1 ? 3 : 2}
+                        />
+                    ))}
+                </ResourceSection>
             ))}
         </div>
 
