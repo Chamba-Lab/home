@@ -31,6 +31,7 @@ const others = RESOURCE_CATEGORIES.filter((c) => c.id !== category.id);
 ---
 
 <Layout
+    category={category.id}
     title={categoryPageTitle(category)}
     description={categoryPageDescription(category)}
     breadcrumbs={[
@@ -95,7 +96,7 @@ const others = RESOURCE_CATEGORIES.filter((c) => c.id !== category.id);
             />
         </div>
 
-        <div class="space-y-14" data-category={category.id}>
+        <div class="space-y-14">
             {sections.map((section) => (
                 <ResourceSection
                     label={section.label}

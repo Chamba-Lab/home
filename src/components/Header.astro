@@ -4,7 +4,7 @@ import DiscordIcon from "./icons/DiscordIcon.astro";
 import MenuIcon from "./icons/MenuIcon.astro";
 import CloseIcon from "./icons/CloseIcon.astro";
 
-import tile from "../assets/brand/chamba-tile.svg";
+import BrandTile from "./BrandTile.astro";
 
 const rawBase = import.meta.env.BASE_URL;
 const base = rawBase.endsWith("/") ? rawBase : `${rawBase}/`;
@@ -17,18 +17,12 @@ const base = rawBase.endsWith("/") ? rawBase : `${rawBase}/`;
             href={base}
             class="flex items-center gap-3 transition-opacity hover:opacity-90 group"
         >
-            <img
-                src={tile.src}
-                alt=""
-                width="40"
-                height="40"
-                class="w-10 h-10 rounded-xl shadow-lg shadow-brand-yellow/20 transition-transform group-hover:scale-105"
-            />
+            <BrandTile class="w-10 h-10 rounded-xl brand-tile-shadow transition-transform group-hover:scale-105" />
             <div class="flex items-center gap-1.5">
                 <span class="font-display text-2xl font-extrabold tracking-tight text-white">
                     Chamba
                 </span>
-                <span class="text-[11px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded bg-brand-yellow/15 text-brand-yellow border border-brand-yellow/30">
+                <span class="text-[11px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded badge-lab">
                     Lab
                 </span>
             </div>
@@ -66,7 +60,7 @@ const base = rawBase.endsWith("/") ? rawBase : `${rawBase}/`;
                 <button
                     type="button"
                     data-set-lang="es"
-                    class="lang-btn-es px-2.5 py-1 rounded bg-brand-yellow text-slate-950 font-bold transition-all"
+                    class="lang-btn-es px-2.5 py-1 rounded bg-(--page-accent) text-slate-950 font-bold transition-all"
                 >
                     ES
                 </button>
@@ -115,21 +109,21 @@ const base = rawBase.endsWith("/") ? rawBase : `${rawBase}/`;
             <a
                 href={`${base}resources`}
                 data-i18n="navResources"
-                class="text-base font-medium text-slate-200 hover:text-brand-yellow py-1.5 transition-colors"
+                class="text-base font-medium text-slate-200 hover:text-(--page-accent) py-1.5 transition-colors"
             >
                 Recursos
             </a>
             <a
                 href={`${base}events`}
                 data-i18n="navEvents"
-                class="text-base font-medium text-slate-200 hover:text-brand-yellow py-1.5 transition-colors"
+                class="text-base font-medium text-slate-200 hover:text-(--page-accent) py-1.5 transition-colors"
             >
                 Eventos
             </a>
             <a
                 href={`${base}activities`}
                 data-i18n="navActivities"
-                class="text-base font-medium text-slate-200 hover:text-brand-yellow py-1.5 transition-colors"
+                class="text-base font-medium text-slate-200 hover:text-(--page-accent) py-1.5 transition-colors"
             >
                 Dinámicas
             </a>
@@ -139,7 +133,7 @@ const base = rawBase.endsWith("/") ? rawBase : `${rawBase}/`;
                     <button
                         type="button"
                         data-set-lang="es"
-                        class="lang-btn-es px-2.5 py-1 rounded bg-brand-yellow text-slate-950 font-bold transition-all"
+                        class="lang-btn-es px-2.5 py-1 rounded bg-(--page-accent) text-slate-950 font-bold transition-all"
                     >
                         ES
                     </button>

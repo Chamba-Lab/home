@@ -80,6 +80,39 @@ body {
 }
 
 /*
+ * Acento de página: logo, insignia LAB y botón de idioma activo. Amarillo de
+ * marca por defecto; en /resources/<categoría> el <body> lleva
+ * data-category y el acento pasa a ser el de esa categoría.
+ */
+:root {
+    --page-accent: #facc15;
+    --page-accent-base: #facc15;
+}
+
+body[data-category] {
+    --page-accent: var(--cat-accent);
+    --page-accent-base: var(--cat-base);
+}
+
+@layer utilities {
+    .badge-lab {
+        color: var(--page-accent);
+        background: color-mix(
+            in srgb,
+            var(--page-accent-base) 15%,
+            transparent
+        );
+        border: 1px solid
+            color-mix(in srgb, var(--page-accent-base) 30%, transparent);
+    }
+
+    .brand-tile-shadow {
+        box-shadow: 0 10px 15px -3px
+            color-mix(in srgb, var(--page-accent) 20%, transparent);
+    }
+}
+
+/*
  * Paleta de cada categoría de recursos (ids de RESOURCE_CATEGORIES).
  * --cat-accent pinta texto, iconos y acciones; --cat-base, fondos y bordes.
  * Cualquier elemento con data-category="<id>" expone la paleta a sus hijos.

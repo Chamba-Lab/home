@@ -1,0 +1,27 @@
+---
+// Logo (mascota sobre su recuadro) como SVG en línea para que el fondo tome el
+// acento de la página (--page-accent): amarillo de marca en todo el sitio y el
+// color de la categoría en /resources/<categoría>. La fuente sigue siendo
+// src/assets/brand/chamba-tile.svg.
+import tileSvg from "../assets/brand/chamba-tile.svg?raw";
+
+interface Props {
+    class?: string;
+}
+
+const { class: className = "" } = Astro.props;
+
+const svg = tileSvg
+    // Sin ids: el logo aparece dos veces por página (cabecera y pie).
+    .replace(/\sid="[^"]*"/g, "")
+    .replace(
+        '<rect width="512" height="512" fill="#facc15"',
+        '<rect width="512" height="512" class="fill-(--page-accent) transition-[fill] duration-300"',
+    )
+    .replace(
+        "<svg ",
+        `<svg aria-hidden="true" focusable="false" class="${className}" `,
+    );
+---
+
+<Fragment set:html={svg} />

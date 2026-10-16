@@ -22,6 +22,8 @@ interface Props {
     jsonLd?: Record<string, unknown>[];
     /** Excluye la página de los buscadores (por ejemplo, el 404). */
     noindex?: boolean;
+    /** Categoría de recursos: logo, LAB e idioma toman su color. */
+    category?: string;
 }
 
 const {
@@ -32,6 +34,7 @@ const {
     breadcrumbs,
     jsonLd = [],
     noindex = false,
+    category,
 } = Astro.props;
 
 const rawBase = import.meta.env.BASE_URL;
@@ -100,7 +103,10 @@ const structuredData = [
             />
         )}
     </head>
-    <body class="min-h-screen flex flex-col bg-bg text-slate-200 selection:bg-brand-yellow selection:text-slate-950">
+    <body
+        data-category={category}
+        class="min-h-screen flex flex-col bg-bg text-slate-200 selection:bg-brand-yellow selection:text-slate-950"
+    >
         <Header />
         <slot />
         <Footer />
@@ -121,7 +127,7 @@ const structuredData = [
                 if (lang === "es") {
                     btnEs.forEach((el) => {
                         el.classList.add(
-                            "bg-brand-yellow",
+                            "bg-(--page-accent)",
                             "text-slate-950",
                             "font-bold",
                         );
@@ -129,7 +135,7 @@ const structuredData = [
                     });
                     btnEn.forEach((el) => {
                         el.classList.remove(
-                            "bg-brand-yellow",
+                            "bg-(--page-accent)",
                             "text-slate-950",
                             "font-bold",
                         );
@@ -138,7 +144,7 @@ const structuredData = [
                 } else {
                     btnEn.forEach((el) => {
                         el.classList.add(
-                            "bg-brand-yellow",
+                            "bg-(--page-accent)",
                             "text-slate-950",
                             "font-bold",
                         );
@@ -146,7 +152,7 @@ const structuredData = [
                     });
                     btnEs.forEach((el) => {
                         el.classList.remove(
-                            "bg-brand-yellow",
+                            "bg-(--page-accent)",
                             "text-slate-950",
                             "font-bold",
                         );
