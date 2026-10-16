@@ -44,60 +44,55 @@ const STACK_VISIBLE = 14;
         </div>
 
         <ul class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {founders.map((member) => <TeamMemberCard member={member} />)}
+            {founders.map((member) => (
+                <TeamMemberCard member={member} />
+            ))}
         </ul>
 
-        <div
-            class="mt-10 flex flex-wrap items-center justify-between gap-x-6 gap-y-4"
-        >
-            {
-                stack.length > 0 && (
-                    <a
-                        href={`${base}team`}
-                        id="team-stack"
-                        data-visible={STACK_VISIBLE}
-                        class="group inline-flex items-center gap-3"
-                        aria-label="Conoce a todo el equipo"
-                        data-i18n-aria-label-es="Conoce a todo el equipo"
-                        data-i18n-aria-label-en="Meet the whole team"
+        <div class="mt-10 flex flex-wrap items-center justify-between gap-x-6 gap-y-4">
+            {stack.length > 0 && (
+                <a
+                    href={`${base}team`}
+                    id="team-stack"
+                    data-visible={STACK_VISIBLE}
+                    class="group inline-flex items-center gap-3"
+                    aria-label="Conoce a todo el equipo"
+                    data-i18n-aria-label-es="Conoce a todo el equipo"
+                    data-i18n-aria-label-en="Meet the whole team"
+                >
+                    <ul class="flex items-center -space-x-3" aria-hidden="true">
+                        {stack.map((m, i) => (
+                            <li
+                                data-group={
+                                    m.tier === "member" ? "member" : "crew"
+                                }
+                                hidden={i >= STACK_VISIBLE}
+                                class="relative block"
+                            >
+                                <TeamAvatar
+                                    member={m}
+                                    px={40}
+                                    textClass="text-sm"
+                                    class="block w-10 h-10 rounded-full border-2 border-bg"
+                                />
+                            </li>
+                        ))}
+                    </ul>
+                    <span
+                        id="team-stack-more"
+                        class="inline-flex items-center rounded-full border border-white/10 bg-slate-900/80 px-3 py-1.5 text-xs font-bold text-slate-200"
+                        hidden={stack.length <= STACK_VISIBLE}
                     >
-                        <ul
-                            class="flex items-center -space-x-3"
-                            aria-hidden="true"
-                        >
-                            {stack.map((m, i) => (
-                                <li
-                                    data-group={
-                                        m.tier === "member" ? "member" : "crew"
-                                    }
-                                    hidden={i >= STACK_VISIBLE}
-                                    class="relative block"
-                                >
-                                    <TeamAvatar
-                                        member={m}
-                                        px={40}
-                                        textClass="text-sm"
-                                        class="block w-10 h-10 rounded-full border-2 border-bg"
-                                    />
-                                </li>
-                            ))}
-                        </ul>
-                        <span
-                            id="team-stack-more"
-                            class="inline-flex items-center rounded-full border border-white/10 bg-slate-900/80 px-3 py-1.5 text-xs font-bold text-slate-200"
-                            hidden={stack.length <= STACK_VISIBLE}
-                        >
-                            +{stack.length - STACK_VISIBLE}
-                        </span>
-                        <span
-                            class="text-sm text-slate-400 group-hover:text-slate-200 transition-colors"
-                            data-i18n="teamStackLabel"
-                        >
-                            Contributors y miembros de la comunidad
-                        </span>
-                    </a>
-                )
-            }
+                        +{stack.length - STACK_VISIBLE}
+                    </span>
+                    <span
+                        class="text-sm text-slate-400 group-hover:text-slate-200 transition-colors"
+                        data-i18n="teamStackLabel"
+                    >
+                        Contributors y miembros de la comunidad
+                    </span>
+                </a>
+            )}
             <a
                 href={`${base}team`}
                 class="inline-flex items-center gap-2 text-sm font-bold text-brand-yellow hover:text-amber-300 transition-colors"
@@ -114,7 +109,8 @@ const STACK_VISIBLE = 14;
                         stroke-linecap="round"
                         stroke-linejoin="round"
                         stroke-width="2"
-                        d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                        d="M14 5l7 7m0 0l-7 7m7-7H3"
+                    ></path>
                 </svg>
             </a>
         </div>

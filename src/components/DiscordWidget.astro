@@ -32,31 +32,19 @@ const view = buildView(discordData);
 ---
 
 <div class="w-full max-w-[370px] flex flex-col items-center">
-    <div
-        class="w-full card-glass rounded-2xl p-5 shadow-2xl border border-white/10 relative overflow-hidden group transition-all duration-300 hover:border-brand-yellow/30 bg-surface/85 backdrop-blur-xl"
-    >
+    <div class="w-full card-glass rounded-2xl p-5 shadow-2xl border border-white/10 relative overflow-hidden group transition-all duration-300 hover:border-brand-yellow/30 bg-surface/85 backdrop-blur-xl">
         <!-- Top ambient glow -->
-        <div
-            class="absolute -top-16 -right-16 w-36 h-36 bg-brand-discord/20 rounded-full blur-2xl pointer-events-none"
-        >
-        </div>
+        <div class="absolute -top-16 -right-16 w-36 h-36 bg-brand-discord/20 rounded-full blur-2xl pointer-events-none"></div>
 
         <!-- Mode Toggle (Modern Card vs Official Iframe) -->
-        <div
-            class="flex items-center justify-between pb-4 mb-4 border-b border-white/[0.08] relative z-10"
-        >
-            <div
-                class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-brand-discord/15 border border-brand-discord/30 text-[11px] font-bold text-[#8a95ff] tracking-wide"
-            >
-                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"
-                ></span>
+        <div class="flex items-center justify-between pb-4 mb-4 border-b border-white/[0.08] relative z-10">
+            <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-brand-discord/15 border border-brand-discord/30 text-[11px] font-bold text-[#8a95ff] tracking-wide">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
                 <span data-i18n="discordLiveTag">LIVE // DISCORD</span>
             </div>
 
             <!-- View switch -->
-            <div
-                class="flex items-center gap-1 bg-slate-900/80 p-0.5 rounded-lg border border-white/10 text-[10px] font-semibold"
-            >
+            <div class="flex items-center gap-1 bg-slate-900/80 p-0.5 rounded-lg border border-white/10 text-[10px] font-semibold">
                 <button
                     id="btn-view-modern"
                     type="button"
@@ -94,11 +82,8 @@ const view = buildView(discordData);
                     >
                         {discordData.name}
                     </p>
-                    <p
-                        class="text-xs text-emerald-400 flex items-center gap-1.5 font-medium mt-0.5"
-                    >
-                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"
-                        ></span>
+                    <p class="text-xs text-emerald-400 flex items-center gap-1.5 font-medium mt-0.5">
+                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
                         <span id="discord-presence-count">{view.online}</span>
                         <span data-i18n="discordOnline">miembros en línea</span>
                         <span class="text-slate-500">·</span>
@@ -149,7 +134,8 @@ const view = buildView(discordData);
                 sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"
                 class="w-full rounded-xl bg-transparent"
                 title="Discord Server Widget"
-                loading="lazy"></iframe>
+                loading="lazy"
+            ></iframe>
         </div>
     </div>
 </div>

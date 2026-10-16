@@ -12,9 +12,7 @@ const base = rawBase.endsWith("/") ? rawBase : `${rawBase}/`;
     description="La página que buscas no existe o cambió de lugar."
     noindex
 >
-    <main
-        class="flex-1 max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-24 sm:py-32 text-center"
-    >
+    <main class="flex-1 max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-24 sm:py-32 text-center">
         <p class="font-display text-sm font-bold text-brand-yellow mb-4">404</p>
         <h1
             class="font-display text-4xl sm:text-5xl font-extrabold text-white tracking-tight mb-4"
@@ -31,15 +29,15 @@ const base = rawBase.endsWith("/") ? rawBase : `${rawBase}/`;
             Puede que el enlace haya cambiado o tenga un error. Vuelve al inicio
             o sigue la conversación en Discord.
         </p>
-        <div
-            class="flex flex-col sm:flex-row items-center justify-center gap-3"
-        >
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
             <a
                 href={base}
                 class="inline-flex items-center justify-center px-6 py-3 rounded-xl bg-brand-yellow text-slate-950 font-bold hover:brightness-110 transition"
                 data-i18n-es="Volver al inicio"
-                data-i18n-en="Back to home">Volver al inicio</a
+                data-i18n-en="Back to home"
             >
+                Volver al inicio
+            </a>
             <a
                 href={DISCORD_URL}
                 target="_blank"

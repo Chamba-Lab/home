@@ -33,43 +33,41 @@ const remoteSrc =
         : undefined;
 ---
 
-{
-    member.avatarSrc ? (
-        <Image
-            src={member.avatarSrc}
-            alt={labelled ? `Foto de ${member.name}` : ""}
-            data-i18n-alt-en={labelled ? `Photo of ${member.name}` : undefined}
-            data-i18n-alt-es={labelled ? `Foto de ${member.name}` : undefined}
-            width={px * 2}
-            height={px * 2}
-            loading={lazy ? "lazy" : "eager"}
-            class={`${className} object-cover`}
-        />
-    ) : (
-        <span
-            class={`${className} relative overflow-hidden bg-clip-padding bg-brand-yellow text-slate-950 flex items-center justify-center font-display ${textClass} font-extrabold`}
-            aria-hidden={labelled ? undefined : "true"}
-        >
-            {member.name.charAt(0)}
-            {remoteSrc && (
-                <img
-                    src={remoteSrc}
-                    alt={labelled ? `Foto de ${member.name}` : ""}
-                    data-i18n-alt-en={
-                        labelled ? `Photo of ${member.name}` : undefined
-                    }
-                    data-i18n-alt-es={
-                        labelled ? `Foto de ${member.name}` : undefined
-                    }
-                    width={px}
-                    height={px}
-                    loading={lazy ? "lazy" : "eager"}
-                    decoding="async"
-                    referrerpolicy="no-referrer"
-                    onerror="this.remove()"
-                    class="absolute inset-0 w-full h-full object-cover bg-slate-900"
-                />
-            )}
-        </span>
-    )
-}
+{member.avatarSrc ? (
+    <Image
+        src={member.avatarSrc}
+        alt={labelled ? `Foto de ${member.name}` : ""}
+        data-i18n-alt-en={labelled ? `Photo of ${member.name}` : undefined}
+        data-i18n-alt-es={labelled ? `Foto de ${member.name}` : undefined}
+        width={px * 2}
+        height={px * 2}
+        loading={lazy ? "lazy" : "eager"}
+        class={`${className} object-cover`}
+    />
+) : (
+    <span
+        class={`${className} relative overflow-hidden bg-clip-padding bg-brand-yellow text-slate-950 flex items-center justify-center font-display ${textClass} font-extrabold`}
+        aria-hidden={labelled ? undefined : "true"}
+    >
+        {member.name.charAt(0)}
+        {remoteSrc && (
+            <img
+                src={remoteSrc}
+                alt={labelled ? `Foto de ${member.name}` : ""}
+                data-i18n-alt-en={
+                    labelled ? `Photo of ${member.name}` : undefined
+                }
+                data-i18n-alt-es={
+                    labelled ? `Foto de ${member.name}` : undefined
+                }
+                width={px}
+                height={px}
+                loading={lazy ? "lazy" : "eager"}
+                decoding="async"
+                referrerpolicy="no-referrer"
+                onerror="this.remove()"
+                class="absolute inset-0 w-full h-full object-cover bg-slate-900"
+            />
+        )}
+    </span>
+)}

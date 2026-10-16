@@ -58,115 +58,109 @@ const showMeta = showCategory || accessBadge || formatLabel;
     class={`card-glass rounded-2xl flex flex-col justify-between group transition-all duration-300 hover:border-brand-yellow/40 hover:-translate-y-0.5 shadow-lg shadow-black/20 ${isVideo ? "overflow-hidden" : "p-6"}`}
 >
     <div class="flex flex-col">
-        {
-            videoId && (
-                <a
-                    href={url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    data-video-id={videoId}
-                    data-video-title={title}
-                    class="video-thumb relative block aspect-video w-full overflow-hidden bg-slate-900"
-                    aria-label={`Reproducir: ${title}`}
-                >
-                    <img
-                        src={youtubeThumbnail(videoId)}
-                        alt=""
-                        loading="lazy"
-                        width="480"
-                        height="360"
-                        class="h-full w-full object-cover opacity-90 transition-opacity group-hover:opacity-100"
-                    />
-                    <span class="absolute inset-0 m-auto flex h-14 w-14 items-center justify-center rounded-full bg-red-600 shadow-lg shadow-black/40 transition-transform group-hover:scale-110">
-                        <svg
-                            class="ml-0.5 h-6 w-6 fill-white"
-                            viewBox="0 0 24 24"
-                            aria-hidden="true"
-                        >
-                            <path d="M8 5v14l11-7z" />
-                        </svg>
-                    </span>
-                </a>
-            )
-        }
+        {videoId && (
+            <a
+                href={url}
+                target="_blank"
+                rel="noopener noreferrer"
+                data-video-id={videoId}
+                data-video-title={title}
+                class="video-thumb relative block aspect-video w-full overflow-hidden bg-slate-900"
+                aria-label={`Reproducir: ${title}`}
+            >
+                <img
+                    src={youtubeThumbnail(videoId)}
+                    alt=""
+                    loading="lazy"
+                    width="480"
+                    height="360"
+                    class="h-full w-full object-cover opacity-90 transition-opacity group-hover:opacity-100"
+                />
+                <span class="absolute inset-0 m-auto flex h-14 w-14 items-center justify-center rounded-full bg-red-600 shadow-lg shadow-black/40 transition-transform group-hover:scale-110">
+                    <svg
+                        class="ml-0.5 h-6 w-6 fill-white"
+                        viewBox="0 0 24 24"
+                        aria-hidden="true"
+                    >
+                        <path d="M8 5v14l11-7z" />
+                    </svg>
+                </span>
+            </a>
+        )}
         <div class={`flex flex-col ${isVideo ? "px-6 pt-5" : ""}`}>
-            {
-                showMeta && (
-                    <div class="flex items-center justify-between gap-2 mb-4">
-                        {showCategory && (
-                            <span
-                                class={`text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded border ${badge.class}`}
-                                data-i18n-es={badge.label.es}
-                                data-i18n-en={badge.label.en}
-                            >
-                                {badge.label.es}
-                            </span>
-                        )}
-                        {accessBadge && (
-                            <span
-                                class={`text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded border ${accessBadge.badgeClass}`}
-                                data-i18n-es={accessBadge.label.es}
-                                data-i18n-en={accessBadge.label.en}
-                            >
-                                {accessBadge.label.es}
-                            </span>
-                        )}
-                        {formatLabel && (
-                            <span
-                                class="text-[11px] font-semibold text-slate-400 whitespace-nowrap"
-                                data-i18n-es={formatLabel.es}
-                                data-i18n-en={formatLabel.en}
-                            >
-                                {formatLabel.es}
-                            </span>
-                        )}
-                    </div>
-                )
-            }
-            {
-                type === "channel" ? (
-                    <div class="flex items-center gap-4 mb-3 min-w-0">
+            {showMeta && (
+                <div class="flex items-center justify-between gap-2 mb-4">
+                    {showCategory && (
                         <span
-                            class="relative flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-full border-2 border-white/20 bg-slate-800 bg-clip-padding font-display text-xl font-extrabold text-white"
-                            aria-hidden="true"
+                            class={`text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded border ${badge.class}`}
+                            data-i18n-es={badge.label.es}
+                            data-i18n-en={badge.label.en}
                         >
-                            {title.charAt(0).toUpperCase()}
-                            {avatar && (
-                                <img
-                                    src={avatar}
-                                    alt=""
-                                    width="56"
-                                    height="56"
-                                    loading="lazy"
-                                    decoding="async"
-                                    referrerpolicy="no-referrer"
-                                    onerror="this.remove()"
-                                    class="absolute inset-0 h-full w-full bg-slate-900 object-cover"
-                                />
-                            )}
+                            {badge.label.es}
                         </span>
-                        <h2 class="min-w-0 font-display text-lg font-bold text-white group-hover:text-brand-yellow transition-colors leading-snug">
-                            {title}
-                        </h2>
-                    </div>
-                ) : (
-                    <div class="mb-2">
-                        <h2 class="font-display text-lg font-bold text-white group-hover:text-brand-yellow transition-colors leading-snug">
-                            {title}
-                        </h2>
-                        {isVideo && channel && (
-                            <p class="mt-1 text-xs font-medium text-slate-400">
-                                {channel}
-                            </p>
+                    )}
+                    {accessBadge && (
+                        <span
+                            class={`text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded border ${accessBadge.badgeClass}`}
+                            data-i18n-es={accessBadge.label.es}
+                            data-i18n-en={accessBadge.label.en}
+                        >
+                            {accessBadge.label.es}
+                        </span>
+                    )}
+                    {formatLabel && (
+                        <span
+                            class="text-[11px] font-semibold text-slate-400 whitespace-nowrap"
+                            data-i18n-es={formatLabel.es}
+                            data-i18n-en={formatLabel.en}
+                        >
+                            {formatLabel.es}
+                        </span>
+                    )}
+                </div>
+            )}
+            {type === "channel" ? (
+                <div class="flex items-center gap-4 mb-3 min-w-0">
+                    <span
+                        class="relative flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-full border-2 border-white/20 bg-slate-800 bg-clip-padding font-display text-xl font-extrabold text-white"
+                        aria-hidden="true"
+                    >
+                        {title.charAt(0).toUpperCase()}
+                        {avatar && (
+                            <img
+                                src={avatar}
+                                alt=""
+                                width="56"
+                                height="56"
+                                loading="lazy"
+                                decoding="async"
+                                referrerpolicy="no-referrer"
+                                onerror="this.remove()"
+                                class="absolute inset-0 h-full w-full bg-slate-900 object-cover"
+                            />
                         )}
-                        {type === "web" && (
-                            <p class="mt-1 text-xs text-slate-500">
-                                {displayDomain(url)}
-                            </p>
-                        )}
-                    </div>
-                )
-            }
+                    </span>
+                    <h2 class="min-w-0 font-display text-lg font-bold text-white group-hover:text-brand-yellow transition-colors leading-snug">
+                        {title}
+                    </h2>
+                </div>
+            ) : (
+                <div class="mb-2">
+                    <h2 class="font-display text-lg font-bold text-white group-hover:text-brand-yellow transition-colors leading-snug">
+                        {title}
+                    </h2>
+                    {isVideo && channel && (
+                        <p class="mt-1 text-xs font-medium text-slate-400">
+                            {channel}
+                        </p>
+                    )}
+                    {type === "web" && (
+                        <p class="mt-1 text-xs text-slate-500">
+                            {displayDomain(url)}
+                        </p>
+                    )}
+                </div>
+            )}
             <p
                 class="text-sm text-slate-400 leading-relaxed"
                 data-i18n-en={descriptionEn}
@@ -185,22 +179,20 @@ const showMeta = showCategory || accessBadge || formatLabel;
             target="_blank"
             rel="noopener noreferrer"
         >
-            {
-                type === "web" ? (
-                    <span data-i18n="exploreResource">Explorar recurso</span>
-                ) : type === "channel" ? (
-                    <span data-i18n-es="Ver canal" data-i18n-en="Visit channel">
-                        Ver canal
-                    </span>
-                ) : (
-                    <span
-                        data-i18n-es="Ver en YouTube"
-                        data-i18n-en="Watch on YouTube"
-                    >
-                        Ver en YouTube
-                    </span>
-                )
-            }
+            {type === "web" ? (
+                <span data-i18n="exploreResource">Explorar recurso</span>
+            ) : type === "channel" ? (
+                <span data-i18n-es="Ver canal" data-i18n-en="Visit channel">
+                    Ver canal
+                </span>
+            ) : (
+                <span
+                    data-i18n-es="Ver en YouTube"
+                    data-i18n-en="Watch on YouTube"
+                >
+                    Ver en YouTube
+                </span>
+            )}
             <svg
                 xmlns="http://www.w3.org/2000/svg"
                 class="w-3.5 h-3.5"
@@ -212,7 +204,8 @@ const showMeta = showCategory || accessBadge || formatLabel;
                     stroke-linecap="round"
                     stroke-linejoin="round"
                     stroke-width="2"
-                    d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                    d="M14 5l7 7m0 0l-7 7m7-7H3"
+                ></path>
             </svg>
         </a>
     </div>
