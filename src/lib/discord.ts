@@ -122,8 +122,9 @@ export function buildView(data: DiscordData): DiscordView {
     };
 }
 
+// Los IDs vienen del API: se codifican para que no alteren la URL ni el HTML.
 export function channelUrl(guildId: string, channelId: string) {
-    return `https://discord.com/channels/${guildId}/${channelId}`;
+    return `https://discord.com/channels/${encodeURIComponent(guildId)}/${encodeURIComponent(channelId)}`;
 }
 
 export function escapeHtml(value: string) {
@@ -211,7 +212,7 @@ function voiceChannel(
             ? `<ul class="px-2.5 pb-2 space-y-1">${members.map((m) => voiceMember(m, lang)).join("")}</ul>`
             : "";
     return `<li class="rounded-lg bg-slate-900/60 border border-white/5 hover:border-white/15 transition-colors${members.length === 0 ? " opacity-60" : ""}">
-<a href="${channelUrl(guildId, channel.id)}" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between gap-2 px-2.5 py-1.5 min-w-0" aria-label="${escapeHtml(TEXT.join[lang])} ${name}" title="${escapeHtml(TEXT.join[lang])} ${name}">
+<a href="${escapeHtml(channelUrl(guildId, channel.id))}" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between gap-2 px-2.5 py-1.5 min-w-0" aria-label="${escapeHtml(TEXT.join[lang])} ${name}" title="${escapeHtml(TEXT.join[lang])} ${name}">
 <span class="flex items-center gap-1.5 min-w-0 text-xs font-semibold text-slate-300">${icon(ICON.speaker, "w-3.5 h-3.5 shrink-0 text-slate-400")}<span class="truncate">${name}</span></span>${count}</a>${people}</li>`;
 }
 
