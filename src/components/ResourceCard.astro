@@ -1,6 +1,4 @@
 ---
-import { Image } from "astro:assets";
-import type { ImageMetadata } from "astro";
 import {
     displayDomain,
     youtubeThumbnail,
@@ -15,7 +13,7 @@ interface Props {
     url: string;
     category: string;
     type?: ResourceType;
-    // Canal: nombre del archivo en src/assets/resources/.
+    // Canal: URL de la imagen del canal; sin ella (o si falla) se ve la inicial.
     avatar?: string;
     // Video: canal que lo publica.
     channel?: string;
@@ -34,13 +32,6 @@ const {
     access,
 } = Astro.props;
 
-const avatars = import.meta.glob<{ default: ImageMetadata }>(
-    "../assets/resources/*.webp",
-    { eager: true },
-);
-const avatarSrc = avatar
-    ? avatars[`../assets/resources/${avatar}`]?.default
-    : undefined;
 const videoId = type === "video" ? youtubeVideoId(url) : undefined;
 const formatLabel = {
     channel: { es: "Canal de YouTube", en: "YouTube channel" },
@@ -192,22 +183,25 @@ const isVideo = type === "video";
             {
                 type === "channel" ? (
                     <div class="flex items-center gap-4 mb-3 min-w-0">
-                        {avatarSrc ? (
-                            <Image
-                                src={avatarSrc}
-                                alt=""
-                                width={56}
-                                height={56}
-                                class="h-14 w-14 shrink-0 rounded-full border-2 border-white/20 object-cover"
-                            />
-                        ) : (
-                            <span
-                                class="flex h-14 w-14 shrink-0 items-center justify-center rounded-full border-2 border-white/20 bg-slate-800 font-display text-xl font-extrabold text-white"
-                                aria-hidden="true"
-                            >
-                                {title.charAt(0).toUpperCase()}
-                            </span>
-                        )}
+                        <span
+                            class="relative flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-full border-2 border-white/20 bg-slate-800 bg-clip-padding font-display text-xl font-extrabold text-white"
+                            aria-hidden="true"
+                        >
+                            {title.charAt(0).toUpperCase()}
+                            {avatar && (
+                                <img
+                                    src={avatar}
+                                    alt=""
+                                    width="56"
+                                    height="56"
+                                    loading="lazy"
+                                    decoding="async"
+                                    referrerpolicy="no-referrer"
+                                    onerror="this.remove()"
+                                    class="absolute inset-0 h-full w-full bg-slate-900 object-cover"
+                                />
+                            )}
+                        </span>
                         <h2 class="min-w-0 font-display text-lg font-bold text-white group-hover:text-brand-yellow transition-colors leading-snug">
                             {title}
                         </h2>

@@ -474,7 +474,7 @@
         },
         "url": "https://www.youtube.com/@freecodecamp",
         "type": "channel",
-        "avatar": "freecodecamp.webp",
+        "avatar": "https://yt3.googleusercontent.com/ytc/AIdro_lGRc-05M2OoE1ejQdxeFhyP7OkJg9h4Y-7CK_5je3QqFI=s112-c-k-c0x00ffffff-no-rj",
         "category": "aprendizaje"
     },
     {
@@ -486,7 +486,7 @@
         },
         "url": "https://www.youtube.com/@cs50",
         "type": "channel",
-        "avatar": "cs50.webp",
+        "avatar": "https://yt3.googleusercontent.com/ytc/AIdro_m7MWMBm4PynPndRMCxUEfNcU9Eufkk5ZkYI5RNjPchQ_c=s112-c-k-c0x00ffffff-no-rj",
         "category": "aprendizaje"
     },
     {
@@ -498,7 +498,7 @@
         },
         "url": "https://www.youtube.com/@midudev",
         "type": "channel",
-        "avatar": "midudev.webp",
+        "avatar": "https://yt3.googleusercontent.com/QkJIZgFfiFacdK8syyPRt7cJYPl3jTf0qFhdPwFdpJpyCW5jI_uylNK5a3IH8bitE2wy6Dr2Lw=s112-c-k-c0x00ffffff-no-rj",
         "category": "aprendizaje"
     },
     {
@@ -510,7 +510,7 @@
         },
         "url": "https://www.youtube.com/@mouredev",
         "type": "channel",
-        "avatar": "mouredev.webp",
+        "avatar": "https://yt3.googleusercontent.com/aPuVOhE66m_en_vzdz5SpbytqxUd-xHyAfLyn_lIVcC88dYT85WVhdYKrbZgRz7QMXvF7Ap_4fQ=s112-c-k-c0x00ffffff-no-rj",
         "category": "aprendizaje"
     },
     {
@@ -586,7 +586,7 @@
         },
         "url": "https://www.youtube.com/@Pronabec",
         "type": "channel",
-        "avatar": "pronabec.webp",
+        "avatar": "https://yt3.googleusercontent.com/ytc/AIdro_msI_8JELTU97LHXUp-9mUAxsm9kLo_4HljFahmNOHCHw=s112-c-k-c0x00ffffff-no-rj",
         "category": "becas"
     },
     {
@@ -598,7 +598,7 @@
         },
         "url": "https://www.youtube.com/@fulbrightperu",
         "type": "channel",
-        "avatar": "fulbright-peru.webp",
+        "avatar": "https://yt3.googleusercontent.com/tG-X5EsZdS49DRP8izfOiNy3vodKTofwVuJvZoOXO5BuDebtozCwH16aeadFJK8wFNf664TT_A=s112-c-k-c0x00ffffff-no-rj",
         "category": "becas"
     },
     {
@@ -610,7 +610,7 @@
         },
         "url": "https://www.youtube.com/@DAADWorldwide",
         "type": "channel",
-        "avatar": "daad.webp",
+        "avatar": "https://yt3.googleusercontent.com/ytc/AIdro_lvxhRNBMGfw9bU5jz8YOgyuWXx0qePWQZYAGXAdlUd_MQ=s112-c-k-c0x00ffffff-no-rj",
         "category": "becas"
     }
 ]

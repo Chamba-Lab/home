@@ -17,9 +17,9 @@ const resources = defineCollection({
         // Format: "web" (default), "channel" (YouTube channel) or "video"
         // (YouTube video, played on demand).
         type: z.enum(["web", "channel", "video"]).default("web"),
-        // Channel only: file name inside src/assets/resources/. Without it the
-        // card shows the initial of the title.
-        avatar: z.string().optional(),
+        // Channel only: URL of the channel image (yt3.googleusercontent.com,
+        // ?=s112 size). The browser loads it; the title initial is the fallback.
+        avatar: z.string().url().optional(),
         // Video only: name of the channel that publishes it.
         channel: z.string().optional(),
         category: z.enum([

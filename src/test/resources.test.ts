@@ -1,4 +1,3 @@
-import { existsSync } from "node:fs";
 import { describe, it, expect } from "vitest";
 import resources from "../content/resources.json";
 import { youtubeVideoId } from "../lib/resources";
@@ -78,13 +77,12 @@ describe("resources.json", () => {
         }
     });
 
-    it("points every channel avatar to an existing file", () => {
+    it("loads channel avatars only from the YouTube image host", () => {
         for (const r of resources) {
             if ("avatar" in r && r.avatar) {
-                expect(
-                    existsSync(`src/assets/resources/${r.avatar}`),
-                    r.id,
-                ).toBe(true);
+                expect(r.avatar, r.id).toMatch(
+                    /^https:\/\/yt3\.googleusercontent\.com\//,
+                );
             }
         }
     });
