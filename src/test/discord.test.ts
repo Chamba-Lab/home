@@ -63,6 +63,23 @@ describe("renderVoice", () => {
         expect(html).toContain('rel="noopener noreferrer"');
     });
 
+    it("codifica IDs del API en el enlace del canal", () => {
+        const evil = '1" onmouseover="a()';
+        const html = renderVoice(
+            buildView({
+                ...data,
+                channels: [{ id: evil, name: "General", position: 0 }],
+                members: [],
+            }),
+            "es",
+            "../x",
+        );
+        expect(html).not.toContain('" onmouseover=');
+        expect(html).toContain(
+            "https://discord.com/channels/..%2Fx/1%22%20onmouseover%3D%22a()",
+        );
+    });
+
     it("escapa nombres de usuario y de canal", () => {
         const html = renderVoice(
             buildView({
