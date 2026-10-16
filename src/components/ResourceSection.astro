@@ -1,0 +1,272 @@
+---
+// Sección de la página de una categoría (videos, canales o sitios web). Las
+// tarjetas llegan por el slot. En rejilla por defecto; con `carousel`, en una
+// fila deslizable con flechas e indicador (scroll-snap nativo, sin librerías).
+import type { Label } from "../lib/resources";
+
+interface Props {
+    label: Label;
+    count: number;
+    // Sin título cuando la página tiene una sola sección (sería redundante).
+    showHeading?: boolean;
+    carousel?: boolean;
+}
+
+const { label, count, showHeading = true, carousel = false } = Astro.props;
+---
+
+<section
+    data-resource-section
+    data-carousel={carousel ? "" : undefined}
+    class="relative"
+>
+    {(showHeading || carousel) && (
+        <div class="mb-5 flex items-center justify-between gap-4">
+            {showHeading && (
+                <div class="flex items-baseline gap-2.5">
+                    <h2
+                        class="font-display text-xl font-bold text-white"
+                        data-i18n-es={label.es}
+                        data-i18n-en={label.en}
+                    >
+                        {label.es}
+                    </h2>
+                    <span class="text-[13px] font-medium text-slate-400">
+                        {count}
+                    </span>
+                </div>
+            )}
+            {carousel && (
+                <div class="ml-auto flex items-center gap-2">
+                    <button
+                        type="button"
+                        data-carousel-prev
+                        class="carousel-btn"
+                        aria-label="Anterior"
+                        data-i18n-aria-label-es="Anterior"
+                        data-i18n-aria-label-en="Previous"
+                    >
+                        <svg
+                            class="h-[18px] w-[18px]"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            aria-hidden="true"
+                        >
+                            <path d="M15 18l-6-6 6-6" />
+                        </svg>
+                    </button>
+                    <button
+                        type="button"
+                        data-carousel-next
+                        class="carousel-btn"
+                        aria-label="Siguiente"
+                        data-i18n-aria-label-es="Siguiente"
+                        data-i18n-aria-label-en="Next"
+                    >
+                        <svg
+                            class="h-[18px] w-[18px]"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            aria-hidden="true"
+                        >
+                            <path d="M9 18l6-6-6-6" />
+                        </svg>
+                    </button>
+                </div>
+            )}
+        </div>
+    )}
+    {carousel ? (
+        <div class="relative">
+            <div data-carousel-track class="carousel-track">
+                <slot />
+            </div>
+            <span data-carousel-fade class="carousel-fade" aria-hidden="true" />
+            <div
+                data-carousel-dots
+                class="mt-5 flex justify-center gap-1.5"
+                aria-hidden="true"
+            />
+        </div>
+    ) : (
+        <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+            <slot />
+        </div>
+    )}
+</section>
+
+<style>
+    .carousel-track {
+        display: flex;
+        gap: 1.5rem;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        scroll-behavior: smooth;
+        scrollbar-width: none;
+        padding-bottom: 0.25rem;
+    }
+
+    .carousel-track::-webkit-scrollbar {
+        display: none;
+    }
+
+    /* Una tarjeta y un trozo de la siguiente en móvil; 2 y 3 visibles en
+       pantallas medianas y grandes. */
+    .carousel-track > :global(*) {
+        flex: 0 0 85%;
+        scroll-snap-align: start;
+    }
+
+    @media (min-width: 768px) {
+        .carousel-track > :global(*) {
+            flex-basis: calc((100% - 1.5rem) / 2);
+        }
+    }
+
+    @media (min-width: 1024px) {
+        .carousel-track > :global(*) {
+            flex-basis: calc((100% - 3rem) / 3);
+        }
+    }
+
+    .carousel-fade {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 1.75rem;
+        width: 8rem;
+        background: linear-gradient(to right, transparent, rgb(8 13 26 / 0.9));
+        pointer-events: none;
+        transition: opacity 200ms ease-out;
+    }
+
+    [data-carousel][data-at-end] .carousel-fade {
+        opacity: 0;
+    }
+
+    .carousel-btn {
+        display: inline-flex;
+        height: 2.5rem;
+        width: 2.5rem;
+        align-items: center;
+        justify-content: center;
+        border-radius: 9999px;
+        border: 1px solid var(--cat-border);
+        background: rgb(15 23 42 / 0.65);
+        color: #fff;
+        transition:
+            opacity 200ms ease-out,
+            border-color 200ms ease-out;
+    }
+
+    .carousel-btn:hover:not(:disabled) {
+        border-color: var(--cat-accent);
+    }
+
+    .carousel-btn:disabled {
+        opacity: 0.4;
+        border-color: rgb(255 255 255 / 0.08);
+        cursor: default;
+    }
+
+    [data-carousel-dots] :global(span) {
+        height: 4px;
+        width: 8px;
+        border-radius: 2px;
+        background: rgb(255 255 255 / 0.2);
+        transition:
+            width 200ms ease-out,
+            background-color 200ms ease-out;
+    }
+
+    [data-carousel-dots] :global(span[data-active]) {
+        width: 24px;
+        background: var(--cat-accent);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .carousel-track {
+            scroll-behavior: auto;
+        }
+    }
+</style>
+
+<script>
+    // Flechas e indicador de cada carrusel. Avanza de a una tarjeta; el
+    // indicador marca la posición entre las paradas posibles.
+    document
+        .querySelectorAll<HTMLElement>("[data-carousel]")
+        .forEach((root) => {
+            const track = root.querySelector<HTMLElement>(
+                "[data-carousel-track]",
+            );
+            const prev = root.querySelector<HTMLButtonElement>(
+                "[data-carousel-prev]",
+            );
+            const next = root.querySelector<HTMLButtonElement>(
+                "[data-carousel-next]",
+            );
+            const dots = root.querySelector<HTMLElement>(
+                "[data-carousel-dots]",
+            );
+            if (!track) return;
+
+            const step = () => {
+                const first = track.querySelector<HTMLElement>(
+                    ":scope > :not([hidden])",
+                );
+                const gap = parseFloat(getComputedStyle(track).columnGap) || 0;
+                return first ? first.offsetWidth + gap : track.clientWidth;
+            };
+
+            const update = () => {
+                const max = track.scrollWidth - track.clientWidth;
+                const atStart = track.scrollLeft <= 1;
+                const atEnd = track.scrollLeft >= max - 1;
+                if (prev) prev.disabled = atStart;
+                if (next) next.disabled = atEnd;
+                root.toggleAttribute("data-at-end", atEnd);
+                if (dots) {
+                    const stops = Math.max(1, Math.round(max / step()) + 1);
+                    if (dots.childElementCount !== stops) {
+                        dots.replaceChildren(
+                            ...Array.from({ length: stops }, () =>
+                                document.createElement("span"),
+                            ),
+                        );
+                    }
+                    const active = atEnd
+                        ? stops - 1
+                        : Math.round(track.scrollLeft / step());
+                    Array.from(dots.children).forEach((dot, i) =>
+                        dot.toggleAttribute("data-active", i === active),
+                    );
+                    dots.hidden = stops < 2;
+                }
+            };
+
+            prev?.addEventListener("click", () =>
+                track.scrollBy({ left: -step() }),
+            );
+            next?.addEventListener("click", () =>
+                track.scrollBy({ left: step() }),
+            );
+            track.addEventListener("scroll", update, { passive: true });
+            window.addEventListener("resize", update);
+            // El buscador oculta tarjetas: recalcular paradas al filtrar.
+            new MutationObserver(update).observe(track, {
+                attributes: true,
+                subtree: true,
+                attributeFilter: ["hidden"],
+            });
+            update();
+        });
+</script>

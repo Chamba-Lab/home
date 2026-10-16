@@ -9,6 +9,7 @@ import {
     categoryPath,
     displayDomain,
     groupByCategory,
+    groupByFormat,
     matchesQuery,
     normalizeText,
     resourceCountLabel,
@@ -103,6 +104,23 @@ describe("categories", () => {
         ]);
         expect(groups.map((g) => g.category.id)).toEqual(["cv", "ai"]);
         expect(groups[1].items.map((i) => i.n)).toEqual([1, 3]);
+    });
+    it("groups by format as videos, channels and websites, skipping empty ones", () => {
+        const groups = groupByFormat([
+            { n: 1 },
+            { n: 2, type: "channel" as const },
+            { n: 3, type: "web" as const },
+            { n: 4, type: "video" as const },
+        ]);
+        expect(groups.map((g) => g.format)).toEqual([
+            "video",
+            "channel",
+            "web",
+        ]);
+        expect(groups[2].items.map((i) => i.n)).toEqual([1, 3]);
+        expect(
+            groupByFormat([{ n: 1 }, { n: 2 }]).map((g) => g.format),
+        ).toEqual(["web"]);
     });
     it("finds a category by id and has unique ids", () => {
         expect(categoryById("scholarships")?.label.es).toBe(

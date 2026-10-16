@@ -175,6 +175,29 @@ export function groupByCategory<T extends { category: string }>(items: T[]) {
     })).filter((group) => group.items.length > 0);
 }
 
+// Secciones de la página de una categoría, en este orden. Separar formatos
+// evita que una tarjeta de video estire la fila de una web.
+export const RESOURCE_SECTIONS = [
+    { format: "video", label: { es: "Videos", en: "Videos" } },
+    {
+        format: "channel",
+        label: { es: "Canales de YouTube", en: "YouTube channels" },
+    },
+    { format: "web", label: { es: "Sitios web", en: "Websites" } },
+] as const satisfies readonly { format: ResourceType; label: Label }[];
+
+// Con esta cantidad de videos o más, la sección se muestra como carrusel.
+export const VIDEO_CAROUSEL_MIN = 4;
+
+// Agrupa por formato en el orden de RESOURCE_SECTIONS; omite las vacías. Un
+// recurso sin `type` es una web.
+export function groupByFormat<T extends { type?: ResourceType }>(items: T[]) {
+    return RESOURCE_SECTIONS.map((section) => ({
+        ...section,
+        items: items.filter((item) => (item.type ?? "web") === section.format),
+    })).filter((group) => group.items.length > 0);
+}
+
 // Minúsculas y sin acentos, para que la búsqueda no distinga "Habilidades" de
 // "habilidades" ni "ingles" de "inglés".
 export function normalizeText(text: string): string {

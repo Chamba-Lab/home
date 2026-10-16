@@ -30,6 +30,8 @@ interface Props {
     // En la página de una categoría todas comparten categoría: se omite la fila
     // de categoría (icono y nombre). En el buscador general sí se muestra.
     showCategory?: boolean;
+    // Nivel del título: 3 cuando la tarjeta va bajo un título de sección.
+    headingLevel?: 2 | 3;
 }
 
 const {
@@ -43,7 +45,10 @@ const {
     channel,
     access,
     showCategory = true,
+    headingLevel = 2,
 } = Astro.props;
+
+const Heading = headingLevel === 3 ? "h3" : "h2";
 
 const videoId = type === "video" ? youtubeVideoId(url) : undefined;
 const formatLabel = RESOURCE_FORMATS.find((f) => f.id === type)?.cardLabel;
@@ -129,16 +134,16 @@ const isVideo = type === "video";
                             />
                         )}
                     </span>
-                    <h2 class="min-w-0 font-display text-lg leading-snug font-bold text-white transition-colors group-hover:text-(--cat-accent)">
+                    <Heading class="min-w-0 font-display text-lg leading-snug font-bold text-white transition-colors group-hover:text-(--cat-accent)">
                         {title}
-                    </h2>
+                    </Heading>
                 </div>
             ) : (
                 <div class="relative mb-2">
                     <span class="resource-marker" aria-hidden="true" />
-                    <h2 class="font-display text-lg leading-snug font-bold text-white transition-colors group-hover:text-(--cat-accent)">
+                    <Heading class="font-display text-lg leading-snug font-bold text-white transition-colors group-hover:text-(--cat-accent)">
                         {title}
-                    </h2>
+                    </Heading>
                     {isVideo && channel && (
                         <p class="mt-1 text-xs font-medium text-slate-400">
                             {channel}
