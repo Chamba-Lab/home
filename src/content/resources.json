@@ -7,8 +7,7 @@
             "es": "Plantilla LaTeX minimalista y muy usada para armar un CV limpio, compatible con ATS."
         },
         "url": "https://github.com/posquit0/Awesome-CV",
-        "category": "cv",
-        "access": "free"
+        "category": "cv"
     },
     {
         "id": "jsonresume",
@@ -18,8 +17,7 @@
             "es": "Estándar abierto y temas de diseño para generar tu CV a partir de un solo archivo JSON."
         },
         "url": "https://jsonresume.org",
-        "category": "cv",
-        "access": "free"
+        "category": "cv"
     },
     {
         "id": "roadmap-sh",
@@ -62,8 +60,17 @@
             "es": "La plataforma más usada para practicar problemas de algoritmos de cara a entrevistas técnicas."
         },
         "url": "https://leetcode.com",
-        "category": "practica",
-        "access": "freemium"
+        "category": "practica"
+    },
+    {
+        "id": "codewars",
+        "title": "Codewars",
+        "description": {
+            "en": "Community-made coding challenges (katas) in many languages, ranked by difficulty so you can practice a little every day.",
+            "es": "Retos de código (katas) creados por la comunidad en muchos lenguajes, ordenados por dificultad para practicar un poco cada día."
+        },
+        "url": "https://www.codewars.com",
+        "category": "practica"
     },
     {
         "id": "interviewing-io",
@@ -73,8 +80,7 @@
             "es": "Entrevistas técnicas simuladas, anónimas, con ingenieros reales."
         },
         "url": "https://interviewing.io",
-        "category": "practica",
-        "access": "freemium"
+        "category": "practica"
     },
     {
         "id": "reactive-resume",
@@ -84,8 +90,7 @@
             "es": "Creador de CV gratuito y de código abierto, con plantillas limpias y exportación a PDF."
         },
         "url": "https://rxresu.me",
-        "category": "cv",
-        "access": "free"
+        "category": "cv"
     },
     {
         "id": "linkedin-jobs",
@@ -95,8 +100,7 @@
             "es": "El mayor portal de empleo profesional: búsqueda, alertas y postulación directa con tu perfil."
         },
         "url": "https://www.linkedin.com/jobs/",
-        "category": "empleo",
-        "access": "free"
+        "category": "empleo"
     },
     {
         "id": "get-on-board",
@@ -106,8 +110,7 @@
             "es": "Portal de empleo tech enfocado en Latinoamérica, con puestos remotos y rangos salariales visibles."
         },
         "url": "https://www.getonbrd.com",
-        "category": "empleo",
-        "access": "free"
+        "category": "empleo"
     },
     {
         "id": "computrabajo-pe",
@@ -117,8 +120,7 @@
             "es": "Uno de los portales de empleo más visitados de Perú y Latinoamérica, útil para puestos de entrada y locales."
         },
         "url": "https://pe.computrabajo.com",
-        "category": "empleo",
-        "access": "free"
+        "category": "empleo"
     },
     {
         "id": "bumeran-pe",
@@ -128,8 +130,7 @@
             "es": "Portal de empleo generalista con muchas ofertas en Perú, incluidas prácticas y puestos junior."
         },
         "url": "https://www.bumeran.com.pe",
-        "category": "empleo",
-        "access": "free"
+        "category": "empleo"
     },
     {
         "id": "torre",
@@ -139,8 +140,7 @@
             "es": "Red de talento con ofertas de empresas de todo el mundo, muchas de ellas remotas."
         },
         "url": "https://torre.ai",
-        "category": "empleo",
-        "access": "free"
+        "category": "empleo"
     },
     {
         "id": "we-work-remotely",
@@ -150,8 +150,7 @@
             "es": "Portal de empleo solo remoto, con una sección dedicada a programación."
         },
         "url": "https://weworkremotely.com",
-        "category": "empleo",
-        "access": "free"
+        "category": "empleo"
     },
     {
         "id": "cs50",
@@ -304,8 +303,7 @@
             "es": "Asistente de IA general para explicar conceptos, depurar y redactar; el plan gratuito tiene límites."
         },
         "url": "https://chatgpt.com",
-        "category": "ia",
-        "access": "freemium"
+        "category": "ia"
     },
     {
         "id": "claude",
@@ -315,8 +313,7 @@
             "es": "Asistente de IA de Anthropic, destacado en redacción, revisión de código y documentos largos; tiene plan gratuito."
         },
         "url": "https://claude.ai",
-        "category": "ia",
-        "access": "freemium"
+        "category": "ia"
     },
     {
         "id": "gemini",
@@ -326,8 +323,7 @@
             "es": "Asistente de IA de Google, integrado con Google Workspace y con plan gratuito."
         },
         "url": "https://gemini.google.com",
-        "category": "ia",
-        "access": "freemium"
+        "category": "ia"
     },
     {
         "id": "github-copilot",
@@ -337,8 +333,7 @@
             "es": "Programador asistido por IA dentro de tu editor, con plan gratuito y acceso ampliado para algunos estudiantes."
         },
         "url": "https://github.com/features/copilot",
-        "category": "ia",
-        "access": "freemium"
+        "category": "ia"
     },
     {
         "id": "perplexity",
@@ -348,8 +343,7 @@
             "es": "Buscador con IA que responde con fuentes citadas, útil para investigar tecnologías con rapidez."
         },
         "url": "https://www.perplexity.ai",
-        "category": "ia",
-        "access": "freemium"
+        "category": "ia"
     },
     {
         "id": "notebooklm",
@@ -359,8 +353,7 @@
             "es": "Sube tus notas y documentos y haz preguntas sobre ellos, útil para estudiar."
         },
         "url": "https://notebook.google",
-        "category": "ia",
-        "access": "freemium"
+        "category": "ia"
     },
     {
         "id": "hugging-face",
@@ -370,8 +363,7 @@
             "es": "Plataforma de modelos, datasets y cursos abiertos para aprender y experimentar con machine learning."
         },
         "url": "https://huggingface.co",
-        "category": "ia",
-        "access": "free"
+        "category": "ia"
     },
     {
         "id": "deeplearning-ai",
@@ -381,8 +373,7 @@
             "es": "Cursos cortos y prácticos de IA generativa y machine learning; muchos se pueden tomar gratis."
         },
         "url": "https://www.deeplearning.ai/courses",
-        "category": "ia",
-        "access": "freemium"
+        "category": "ia"
     },
     {
         "id": "exercism",
@@ -392,8 +383,7 @@
             "es": "Ejercicios de programación gratuitos en decenas de lenguajes, con mentoría opcional de voluntarios."
         },
         "url": "https://exercism.org",
-        "category": "practica",
-        "access": "free"
+        "category": "practica"
     },
     {
         "id": "frontend-mentor",
@@ -403,8 +393,7 @@
             "es": "Retos front-end con diseños reales, ideales para armar proyectos de portafolio."
         },
         "url": "https://www.frontendmentor.io",
-        "category": "practica",
-        "access": "freemium"
+        "category": "practica"
     },
     {
         "id": "neetcode",
@@ -414,8 +403,7 @@
             "es": "Listas curadas de problemas y explicaciones en video para preparar entrevistas de algoritmos con orden."
         },
         "url": "https://neetcode.io",
-        "category": "practica",
-        "access": "freemium"
+        "category": "practica"
     },
     {
         "id": "tech-interview-handbook",
@@ -425,8 +413,7 @@
             "es": "Guía gratuita sobre CV, entrevistas de código, preguntas de comportamiento y negociación de ofertas."
         },
         "url": "https://www.techinterviewhandbook.org",
-        "category": "practica",
-        "access": "free"
+        "category": "practica"
     },
     {
         "id": "github-skills",
@@ -436,8 +423,7 @@
             "es": "Minicursos interactivos y gratuitos que enseñan Git, GitHub y Actions en tu propio repositorio."
         },
         "url": "https://skills.github.com",
-        "category": "opensource",
-        "access": "free"
+        "category": "opensource"
     },
     {
         "id": "open-source-guides",
@@ -447,8 +433,7 @@
             "es": "Guías de GitHub sobre cómo contribuir y mantener proyectos de código abierto, disponibles en español."
         },
         "url": "https://opensource.guide/es/",
-        "category": "opensource",
-        "access": "free"
+        "category": "opensource"
     },
     {
         "id": "good-first-issue",
@@ -458,8 +443,7 @@
             "es": "Issues curados y amigables para principiantes de proyectos de código abierto, para tu primera contribución."
         },
         "url": "https://goodfirstissue.dev",
-        "category": "opensource",
-        "access": "free"
+        "category": "opensource"
     },
     {
         "id": "first-contributions",
@@ -469,8 +453,7 @@
             "es": "Tutorial paso a paso para hacer tu primer pull request en un repositorio de práctica."
         },
         "url": "https://firstcontributions.github.io",
-        "category": "opensource",
-        "access": "free"
+        "category": "opensource"
     },
     {
         "id": "github-student-pack",
@@ -480,7 +463,6 @@
             "es": "Herramientas y créditos gratuitos para estudiantes verificados, desde créditos de nube hasta herramientas de desarrollo."
         },
         "url": "https://education.github.com/pack",
-        "category": "opensource",
-        "access": "free"
+        "category": "opensource"
     }
 ]

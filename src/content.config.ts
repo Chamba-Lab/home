@@ -23,8 +23,9 @@ const resources = defineCollection({
             "practica",
             "opensource",
         ]),
-        // Cost of the main use: free, freemium (free tier with paid extras) or paid.
-        access: z.enum(["free", "freemium", "paid"]),
+        // Optional, only for courses and certifications: free, freemium
+        // (free tier with paid extras) or paid.
+        access: z.enum(["free", "freemium", "paid"]).optional(),
     }),
 });
 

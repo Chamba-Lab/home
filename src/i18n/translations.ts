@@ -28,7 +28,7 @@ export const translations = {
         resourcesSectionDesc:
             "Una selección de guías, plataformas de práctica y plantillas que la comunidad recomienda.",
         resourcesCriteria:
-            "Elegimos recursos seguros, con un propósito claro y fáciles de empezar sin pagar. Indicamos si son gratis, gratis con extras de pago o de pago. Los planes y precios cambian: confírmalos en cada sitio.",
+            "Elegimos recursos seguros, con un propósito claro y fáciles de empezar sin pagar. En cursos y certificaciones indicamos si son gratis, gratis con extras de pago o de pago. Los planes y precios cambian: confírmalos en cada sitio.",
         resourcesTitle: "Recursos",
         resourcesIntro:
             "Una selección de guías, plataformas de práctica y plantillas que la comunidad recomienda.",
@@ -149,7 +149,7 @@ export const translations = {
         resourcesIntro:
             "A curated set of guides, practice platforms, and templates the community recommends.",
         resourcesCriteria:
-            "We pick resources that are safe, have a clear purpose and are easy to start without paying. Each one is marked as free, free with paid extras, or paid. Plans and prices change, so confirm them on each site.",
+            "We pick resources that are safe, have a clear purpose and are easy to start without paying. Courses and certifications are marked as free, free with paid extras, or paid. Plans and prices change, so confirm them on each site.",
         exploreResource: "Explore resource",
         viewAllResources: "Explore all resources",
 

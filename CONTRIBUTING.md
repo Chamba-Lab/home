@@ -81,7 +81,7 @@ Cada feature nueva actualiza [AGENTS.md](./AGENTS.md), y el `README.md`, `DESIGN
 Edita `src/content/resources.json` con `id`, `title`, `description` (`en` y `es`), `url`, `category` y `access`.
 
 - **Categorías**: `cv`, `empleo`, `aprendizaje`, `certificacion`, `ia`, `practica` y `opensource`.
-- **Acceso** (`access`): `free`, `freemium` (gratis con extras de pago) o `paid`.
+- **Acceso** (`access`, solo en `aprendizaje` y `certificacion`): `free`, `freemium` (gratis con extras de pago) o `paid`. En el resto es opcional y se omite: la mayoría es gratis o freemium y no aporta.
 
 **Criterios de curación** (un recurso entra si cumple todos):
 
@@ -91,7 +91,7 @@ Edita `src/content/resources.json` con `id`, `title`, `description` (`en` y `es`
 4. **Vigente y útil para quien empieza**: se mantiene activo y sirve a Early Career sin dejar de ser útil a Mid & Senior.
 5. **Español primero, sin ser requisito**: se prefiere lo disponible en español, pero se aceptan recursos en inglés que valgan la pena.
 
-Las descripciones no repiten precios ni límites exactos, porque cambian; para eso está el campo `access`. Revisa los enlaces antes del PR.
+Las descripciones no repiten precios ni límites exactos, porque cambian; en cursos y certificaciones eso lo indica el campo `access`. Revisa los enlaces antes del PR.
 
 ### Añadir un evento
 

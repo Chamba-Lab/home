@@ -65,15 +65,6 @@ const grouped = categoryOrder.map((category) => ({
                 Una selección de guías, plataformas de práctica y plantillas que
                 la comunidad recomienda.
             </p>
-            <p
-                class="mt-3 text-sm text-slate-400 leading-relaxed"
-                data-i18n="resourcesCriteria"
-            >
-                Elegimos recursos seguros, con un propósito claro y fáciles de
-                empezar sin pagar. Indicamos si son gratis, gratis con extras de
-                pago o de pago. Los planes y precios cambian: confírmalos en
-                cada sitio.
-            </p>
         </div>
 
         <!-- Search and Filter Bar -->
@@ -131,7 +122,7 @@ const grouped = categoryOrder.map((category) => ({
         </div>
 
         <!-- Groups List -->
-        <div class="space-y-16">
+        <div class="space-y-6">
             {
                 grouped.map(
                     (group) =>
@@ -140,16 +131,6 @@ const grouped = categoryOrder.map((category) => ({
                                 data-resource-section={group.category}
                                 class="space-y-6"
                             >
-                                <div class="flex items-center gap-3 pb-3 border-b border-white/[0.08]">
-                                    <span class="w-2.5 h-2.5 rounded-full bg-brand-yellow" />
-                                    <h2
-                                        class="font-display text-2xl font-bold text-white tracking-tight"
-                                        data-i18n-en={group.label.en}
-                                        data-i18n-es={group.label.es}
-                                    >
-                                        {group.label.es}
-                                    </h2>
-                                </div>
                                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                                     {group.items.map((item) => (
                                         <ResourceCard
@@ -171,6 +152,16 @@ const grouped = categoryOrder.map((category) => ({
                 )
             }
         </div>
+
+        <p
+            class="mt-12 max-w-3xl text-sm text-slate-400 leading-relaxed"
+            data-i18n="resourcesCriteria"
+        >
+            Elegimos recursos seguros, con un propósito claro y fáciles de
+            empezar sin pagar. En cursos y certificaciones indicamos si son
+            gratis, gratis con extras de pago o de pago. Los planes y precios
+            cambian: confírmalos en cada sitio.
+        </p>
 
         <!-- Empty State -->
         <div

@@ -5,7 +5,7 @@ interface Props {
     descriptionEs?: string;
     url: string;
     category: string;
-    access: "free" | "freemium" | "paid";
+    access?: "free" | "freemium" | "paid";
 }
 
 const { title, descriptionEn, descriptionEs, url, category, access } =
@@ -28,7 +28,7 @@ const accessBadges = {
         class: "border-slate-500/40 text-slate-300",
     },
 } as const;
-const accessBadge = accessBadges[access];
+const accessBadge = access ? accessBadges[access] : undefined;
 
 const categoryBadges: Record<
     string,
@@ -91,19 +91,23 @@ const badge = categoryBadges[category] || {
             >
                 {badge.label}
             </span>
-            <span
-                class={`text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded border ${accessBadge.class}`}
-                data-i18n-es={accessBadge.es}
-                data-i18n-en={accessBadge.en}
-            >
-                {accessBadge.es}
-            </span>
+            {
+                accessBadge && (
+                    <span
+                        class={`text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded border ${accessBadge.class}`}
+                        data-i18n-es={accessBadge.es}
+                        data-i18n-en={accessBadge.en}
+                    >
+                        {accessBadge.es}
+                    </span>
+                )
+            }
         </div>
-        <h3
+        <h2
             class="font-display text-lg font-bold text-white mb-2 group-hover:text-brand-yellow transition-colors leading-snug"
         >
             {title}
-        </h3>
+        </h2>
         <p
             class="text-sm text-slate-400 leading-relaxed"
             data-i18n-en={descriptionEn}

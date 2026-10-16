@@ -29,7 +29,18 @@ describe("resources.json", () => {
     it("has a valid category and access level", () => {
         for (const r of resources) {
             expect(CATEGORIES, r.id).toContain(r.category);
-            expect(ACCESS, r.id).toContain(r.access);
+            if ("access" in r) expect(ACCESS, r.id).toContain(r.access);
+        }
+    });
+
+    it("marks access on every course and certification", () => {
+        for (const r of resources) {
+            if (
+                r.category === "aprendizaje" ||
+                r.category === "certificacion"
+            ) {
+                expect("access" in r, r.id).toBe(true);
+            }
         }
     });
 

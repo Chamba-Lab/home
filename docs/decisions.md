@@ -11,8 +11,10 @@ Registro corto de las decisiones que condicionan el proyecto y el porqué. Solo 
 
 ## Recursos
 
-- **Curación con criterios explícitos y marca de acceso.** Cada recurso debe ser seguro, tener un propósito claro, poder empezarse sin pagar y estar vigente (criterios completos en `CONTRIBUTING.md`). El campo `access` (`free`, `freemium`, `paid`) lo muestra en la tarjeta; las descripciones evitan precios y límites exactos porque cambian. Los de pago entran solo como referencia clara de su categoría.
+- **Curación con criterios explícitos y marca de acceso.** Cada recurso debe ser seguro, tener un propósito claro, poder empezarse sin pagar y estar vigente (criterios completos en `CONTRIBUTING.md`). El campo `access` (`free`, `freemium`, `paid`) se muestra en la tarjeta solo en cursos y certificaciones, donde el costo decide; en herramientas de IA o portales de empleo casi todo es gratis o freemium y la etiqueta sobra. Las descripciones evitan precios y límites exactos porque cambian. Los de pago entran solo como referencia clara de su categoría.
 - **Herramientas de IA listadas sin preferencia.** Se incluyen los asistentes más usados con el mismo criterio y en orden neutral, sin recomendar uno sobre otro.
+
+- **Página de recursos con dos niveles de lectura.** Título y subtítulo; las categorías se eligen con los filtros y cada tarjeta lleva su insignia. Sin encabezados de grupo, para no densificar la página.
 
 ## Equipo y títulos
 
