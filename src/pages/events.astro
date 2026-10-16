@@ -170,11 +170,8 @@ const upcomingEvents = months
     <main class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
         <!-- Header -->
         <div class="max-w-3xl mb-12">
-            <div
-                class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full card-glass text-xs font-semibold text-slate-300 border border-white/10 mb-6"
-            >
-                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"
-                ></span>
+            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full card-glass text-xs font-semibold text-slate-300 border border-white/10 mb-6">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
                 <span data-i18n="eventsBadge">Calendario Comunitario</span>
             </div>
             <h1
@@ -194,9 +191,7 @@ const upcomingEvents = months
         </div>
 
         <!-- Month Navigation Bar -->
-        <div
-            class="card-glass rounded-2xl p-4 flex items-center justify-between mb-8 border border-white/10 shadow-lg"
-        >
+        <div class="card-glass rounded-2xl p-4 flex items-center justify-between mb-8 border border-white/10 shadow-lg">
             <button
                 id="month-prev"
                 type="button"
@@ -243,66 +238,56 @@ const upcomingEvents = months
 
         <!-- Months Sections -->
         <div class="mb-14" data-initial-index={initialIndex}>
-            {
-                months.map((month, i) => (
-                    <ol
-                        data-month-index={i}
-                        data-month-key={month.key}
-                        data-month-label-en={month.labelEn}
-                        data-month-label-es={month.labelEs}
-                        hidden={i !== initialIndex}
-                        class="space-y-4"
-                    >
-                        {month.occurrences.length === 0 && (
-                            <li
-                                class="card-glass rounded-2xl p-12 text-center text-slate-400 border border-white/10"
-                                data-i18n="noEvents"
-                            >
-                                No hay eventos programados este mes.
-                            </li>
-                        )}
-                        {month.occurrences.map((occurrence) => (
-                            <EventItem
-                                id={occurrence.id}
-                                day={occurrence.date.getDate()}
-                                monthShortEn={occurrence.date
-                                    .toLocaleDateString("en-US", {
-                                        month: "short",
-                                    })
-                                    .toUpperCase()}
-                                monthShortEs={occurrence.date
-                                    .toLocaleDateString("es-PE", {
-                                        month: "short",
-                                    })
-                                    .toUpperCase()}
-                                titleEs={
-                                    occurrence.title.es ?? occurrence.title.en
-                                }
-                                titleEn={occurrence.title.en}
-                                descriptionEn={occurrence.description.en}
-                                descriptionEs={occurrence.description.es}
-                                recurrenceLabelEn={
-                                    occurrence.recurrenceLabel?.en
-                                }
-                                recurrenceLabelEs={
-                                    occurrence.recurrenceLabel?.es
-                                }
-                                dateIso={occurrence.dateIso}
-                                startTime={occurrence.startTime}
-                                endTime={occurrence.endTime}
-                                timezone={occurrence.timezone}
-                                isRecurring={occurrence.isRecurring}
-                            />
-                        ))}
-                    </ol>
-                ))
-            }
+            {months.map((month, i) => (
+                <ol
+                    data-month-index={i}
+                    data-month-key={month.key}
+                    data-month-label-en={month.labelEn}
+                    data-month-label-es={month.labelEs}
+                    hidden={i !== initialIndex}
+                    class="space-y-4"
+                >
+                    {month.occurrences.length === 0 && (
+                        <li
+                            class="card-glass rounded-2xl p-12 text-center text-slate-400 border border-white/10"
+                            data-i18n="noEvents"
+                        >
+                            No hay eventos programados este mes.
+                        </li>
+                    )}
+                    {month.occurrences.map((occurrence) => (
+                        <EventItem
+                            id={occurrence.id}
+                            day={occurrence.date.getDate()}
+                            monthShortEn={occurrence.date
+                                .toLocaleDateString("en-US", {
+                                    month: "short",
+                                })
+                                .toUpperCase()}
+                            monthShortEs={occurrence.date
+                                .toLocaleDateString("es-PE", {
+                                    month: "short",
+                                })
+                                .toUpperCase()}
+                            titleEs={occurrence.title.es ?? occurrence.title.en}
+                            titleEn={occurrence.title.en}
+                            descriptionEn={occurrence.description.en}
+                            descriptionEs={occurrence.description.es}
+                            recurrenceLabelEn={occurrence.recurrenceLabel?.en}
+                            recurrenceLabelEs={occurrence.recurrenceLabel?.es}
+                            dateIso={occurrence.dateIso}
+                            startTime={occurrence.startTime}
+                            endTime={occurrence.endTime}
+                            timezone={occurrence.timezone}
+                            isRecurring={occurrence.isRecurring}
+                        />
+                    ))}
+                </ol>
+            ))}
         </div>
 
         <!-- Bottom Community Discord Card -->
-        <div
-            class="card-glass rounded-2xl p-8 flex flex-col sm:flex-row items-center justify-between gap-6 border border-white/10 bg-gradient-to-br from-surface via-slate-900/80 to-brand-discord/10"
-        >
+        <div class="card-glass rounded-2xl p-8 flex flex-col sm:flex-row items-center justify-between gap-6 border border-white/10 bg-gradient-to-br from-surface via-slate-900/80 to-brand-discord/10">
             <div class="space-y-1 text-center sm:text-left">
                 <h3
                     class="font-display text-xl font-bold text-white"

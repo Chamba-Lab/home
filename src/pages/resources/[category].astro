@@ -35,9 +35,7 @@ const others = RESOURCE_CATEGORIES.filter((c) => c.id !== category.id);
         { name: category.label.es, path: categoryPath(category.id) },
     ]}
 >
-    <main
-        class="w-full min-w-0 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24"
-    >
+    <main class="w-full min-w-0 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
         <div class="max-w-3xl mb-12">
             <a
                 href="/resources/"
@@ -54,7 +52,8 @@ const others = RESOURCE_CATEGORIES.filter((c) => c.id !== category.id);
                         stroke-linecap="round"
                         stroke-linejoin="round"
                         stroke-width="2"
-                        d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                        d="M10 19l-7-7m0 0l7-7m-7 7h18"
+                    ></path>
                 </svg>
                 <span
                     data-i18n-es="Todos los recursos"
@@ -93,22 +92,20 @@ const others = RESOURCE_CATEGORIES.filter((c) => c.id !== category.id);
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {
-                items.map((item) => (
-                    <ResourceCard
-                        title={item.title}
-                        descriptionEn={item.description.en}
-                        descriptionEs={item.description.es}
-                        url={item.url}
-                        category={item.category}
-                        type={item.type}
-                        avatar={item.avatar}
-                        channel={item.channel}
-                        access={item.access}
-                        showCategory={false}
-                    />
-                ))
-            }
+            {items.map((item) => (
+                <ResourceCard
+                    title={item.title}
+                    descriptionEn={item.description.en}
+                    descriptionEs={item.description.es}
+                    url={item.url}
+                    category={item.category}
+                    type={item.type}
+                    avatar={item.avatar}
+                    channel={item.channel}
+                    access={item.access}
+                    showCategory={false}
+                />
+            ))}
         </div>
 
         <ResourceEmptyState />
@@ -123,18 +120,16 @@ const others = RESOURCE_CATEGORIES.filter((c) => c.id !== category.id);
                 Otras categorías
             </h2>
             <div class="flex flex-wrap gap-2.5">
-                {
-                    others.map((other) => (
-                        <a
-                            href={categoryPath(other.id)}
-                            class="px-4 py-2 text-xs font-bold uppercase rounded-xl bg-slate-900/80 border border-white/10 text-slate-300 hover:text-white hover:border-white/20 transition-all"
-                            data-i18n-es={other.label.es}
-                            data-i18n-en={other.label.en}
-                        >
-                            {other.label.es}
-                        </a>
-                    ))
-                }
+                {others.map((other) => (
+                    <a
+                        href={categoryPath(other.id)}
+                        class="px-4 py-2 text-xs font-bold uppercase rounded-xl bg-slate-900/80 border border-white/10 text-slate-300 hover:text-white hover:border-white/20 transition-all"
+                        data-i18n-es={other.label.es}
+                        data-i18n-en={other.label.en}
+                    >
+                        {other.label.es}
+                    </a>
+                ))}
             </div>
         </nav>
 

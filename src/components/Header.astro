@@ -10,12 +10,8 @@ const rawBase = import.meta.env.BASE_URL;
 const base = rawBase.endsWith("/") ? rawBase : `${rawBase}/`;
 ---
 
-<header
-    class="sticky top-0 z-50 w-full border-b border-white/[0.08] bg-bg/85 backdrop-blur-xl transition-all"
->
-    <div
-        class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between"
-    >
+<header class="sticky top-0 z-50 w-full border-b border-white/[0.08] bg-bg/85 backdrop-blur-xl transition-all">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
         <!-- Brand Logo: mascot tile -->
         <a
             href={base}
@@ -29,14 +25,10 @@ const base = rawBase.endsWith("/") ? rawBase : `${rawBase}/`;
                 class="w-10 h-10 rounded-xl shadow-lg shadow-brand-yellow/20 transition-transform group-hover:scale-105"
             />
             <div class="flex items-center gap-1.5">
-                <span
-                    class="font-display text-2xl font-extrabold tracking-tight text-white"
-                >
+                <span class="font-display text-2xl font-extrabold tracking-tight text-white">
                     Chamba
                 </span>
-                <span
-                    class="text-[11px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded bg-brand-yellow/15 text-brand-yellow border border-brand-yellow/30"
-                >
+                <span class="text-[11px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded bg-brand-yellow/15 text-brand-yellow border border-brand-yellow/30">
                     Lab
                 </span>
             </div>
@@ -70,9 +62,7 @@ const base = rawBase.endsWith("/") ? rawBase : `${rawBase}/`;
         <!-- Right Actions: Language Switcher + Discord CTA -->
         <div class="hidden sm:flex items-center gap-4">
             <!-- Segmented Pill Language Switcher -->
-            <div
-                class="flex items-center p-1 rounded-lg bg-slate-900/90 border border-white/10 text-xs font-semibold"
-            >
+            <div class="flex items-center p-1 rounded-lg bg-slate-900/90 border border-white/10 text-xs font-semibold">
                 <button
                     type="button"
                     data-set-lang="es"
@@ -144,12 +134,8 @@ const base = rawBase.endsWith("/") ? rawBase : `${rawBase}/`;
                 Dinámicas
             </a>
 
-            <div
-                class="pt-4 border-t border-white/10 flex items-center justify-between"
-            >
-                <div
-                    class="flex items-center p-1 rounded-lg bg-slate-900 border border-white/10 text-xs font-semibold"
-                >
+            <div class="pt-4 border-t border-white/10 flex items-center justify-between">
+                <div class="flex items-center p-1 rounded-lg bg-slate-900 border border-white/10 text-xs font-semibold">
                     <button
                         type="button"
                         data-set-lang="es"

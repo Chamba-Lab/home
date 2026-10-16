@@ -92,19 +92,15 @@ const structuredData = [
             content="Chamba Lab · Connect. Inspire. Grow."
         />
 
-        {
-            structuredData.length > 0 && (
-                <script
-                    is:inline
-                    type="application/ld+json"
-                    set:html={serializeJsonLd(structuredData)}
-                />
-            )
-        }
+        {structuredData.length > 0 && (
+            <script
+                is:inline
+                type="application/ld+json"
+                set:html={serializeJsonLd(structuredData)}
+            />
+        )}
     </head>
-    <body
-        class="min-h-screen flex flex-col bg-bg text-slate-200 selection:bg-brand-yellow selection:text-slate-950"
-    >
+    <body class="min-h-screen flex flex-col bg-bg text-slate-200 selection:bg-brand-yellow selection:text-slate-950">
         <Header />
         <slot />
         <Footer />
