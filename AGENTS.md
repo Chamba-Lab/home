@@ -78,7 +78,7 @@ Sistema **Modern Dark Glassmorphism**: dark-mode first (`#080D1A`), vidrio esmer
 
 ## 7. CI/CD
 
-GitHub Actions. En cada PR a `master` corre `PR Checks` (`Lint, Test & Build` y `PR title (Conventional Commits)`, obligatorios, y `Dependency audit (advisory)`, que solo avisa de vulnerabilidades altas o críticas en el resumen del job y nunca bloquea). Dependabot (`.github/dependabot.yml`) abre PRs semanales de npm y mensuales de GitHub Actions; los revisa y fusiona una persona del equipo. Al fusionar, `Master CI/CD` hace lint y test, versiona con `release-it` (tag y `CHANGELOG.md`), compila y despliega a GitHub Pages. El release lo publica la GitHub App **Chamba Lab CD Bot** (`RELEASE_APP_ID` / `RELEASE_APP_PRIVATE_KEY`), con bypass en el ruleset de `master`. Los commits de release llevan `[skip ci]`.
+GitHub Actions. En cada PR a `master` corre `PR Checks` (`Lint, Test & Build` y `PR title (Conventional Commits)`, obligatorios, y `Dependency audit (advisory)`, que solo avisa de vulnerabilidades altas o críticas en el resumen del job y nunca bloquea). Dependabot (`.github/dependabot.yml`) abre PRs semanales de npm y mensuales de GitHub Actions; los revisa y fusiona una persona del equipo. Las acciones de los workflows van fijadas por SHA completo con la versión en un comentario (`uses: actions/checkout@<sha> # v7.0.1`); Dependabot actualiza ambos. Al fusionar, `Master CI/CD` hace lint y test, versiona con `release-it` (tag y `CHANGELOG.md`), compila y despliega a GitHub Pages. El release lo publica la GitHub App **Chamba Lab CD Bot** (`RELEASE_APP_ID` / `RELEASE_APP_PRIVATE_KEY`), con bypass en el ruleset de `master`. Los commits de release llevan `[skip ci]`.
 
 ## 8. Documentos
 
