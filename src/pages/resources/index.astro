@@ -1,15 +1,23 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import ResourceCard from "../../components/ResourceCard.astro";
+import ResourceSection from "../../components/ResourceSection.astro";
 import CategoryCard from "../../components/CategoryCard.astro";
 import ResourceSearch from "../../components/ResourceSearch.astro";
 import ResourceEmptyState from "../../components/ResourceEmptyState.astro";
 import ResourceCriteriaNote from "../../components/ResourceCriteriaNote.astro";
 import { getCollection } from "astro:content";
-import { groupByCategory } from "../../lib/resources";
+import {
+    VIDEO_CAROUSEL_MIN,
+    groupByCategory,
+    groupByFormat,
+} from "../../lib/resources";
 
 const resources = (await getCollection("resources")).map((r) => r.data);
 const groups = groupByCategory(resources);
+// Resultados de búsqueda separados por formato, como en cada categoría, y en
+// el orden de las categorías dentro de cada sección.
+const sections = groupByFormat(groups.flatMap(({ items }) => items));
 ---
 
 <Layout
@@ -54,27 +62,35 @@ const groups = groupByCategory(resources);
             ))}
         </div>
 
-        <!-- Resultados de búsqueda: todos los recursos, ocultos hasta buscar -->
-        <div
-            data-search-only
-            hidden
-            class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-        >
-            {groups.flatMap(({ items }) =>
-                items.map((item) => (
-                    <ResourceCard
-                        title={item.title}
-                        descriptionEn={item.description.en}
-                        descriptionEs={item.description.es}
-                        url={item.url}
-                        category={item.category}
-                        type={item.type}
-                        avatar={item.avatar}
-                        channel={item.channel}
-                        access={item.access}
-                    />
-                )),
-            )}
+        <!-- Resultados de búsqueda: todos los recursos por formato, ocultos
+             hasta buscar. El buscador oculta las secciones sin coincidencias. -->
+        <div data-search-only hidden class="space-y-14">
+            {sections.map((section) => (
+                <ResourceSection
+                    label={section.label}
+                    count={section.items.length}
+                    showHeading={sections.length > 1}
+                    carousel={
+                        section.format === "video" &&
+                        section.items.length >= VIDEO_CAROUSEL_MIN
+                    }
+                >
+                    {section.items.map((item) => (
+                        <ResourceCard
+                            title={item.title}
+                            descriptionEn={item.description.en}
+                            descriptionEs={item.description.es}
+                            url={item.url}
+                            category={item.category}
+                            type={item.type}
+                            avatar={item.avatar}
+                            channel={item.channel}
+                            access={item.access}
+                            headingLevel={sections.length > 1 ? 3 : 2}
+                        />
+                    ))}
+                </ResourceSection>
+            ))}
         </div>
 
         <ResourceEmptyState />

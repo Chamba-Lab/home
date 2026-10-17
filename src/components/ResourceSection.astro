@@ -1,5 +1,6 @@
 ---
-// Sección de la página de una categoría (videos, canales o sitios web). Las
+// Sección de recursos de un formato (videos, canales o sitios web), en la
+// página de una categoría y en los resultados del buscador general. Las
 // tarjetas llegan por el slot. En rejilla por defecto; con `carousel`, en una
 // fila deslizable con flechas e indicador (scroll-snap nativo, sin librerías).
 import type { Label } from "../lib/resources";
@@ -31,7 +32,10 @@ const { label, count, showHeading = true, carousel = false } = Astro.props;
                     >
                         {label.es}
                     </h2>
-                    <span class="text-[13px] font-medium text-slate-400">
+                    <span
+                        data-section-count
+                        class="text-[13px] font-medium text-slate-400"
+                    >
                         {count}
                     </span>
                 </div>
@@ -267,6 +271,9 @@ const { label, count, showHeading = true, carousel = false } = Astro.props;
                 subtree: true,
                 attributeFilter: ["hidden"],
             });
+            // Al mostrarse (p. ej. los resultados de búsqueda, ocultos hasta
+            // escribir) el carril pasa de ancho 0 a su ancho real.
+            new ResizeObserver(update).observe(track);
             update();
         });
 </script>

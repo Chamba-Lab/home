@@ -83,13 +83,17 @@ const { placeholderEs, placeholderEn } = Astro.props;
         searchOnly.forEach((el) => (el.hidden = !searching));
         hideWhenSearching.forEach((el) => (el.hidden = searching));
         if (emptyState) emptyState.hidden = visible > 0;
-        // Secciones por formato: se ocultan si la búsqueda las deja vacías.
+        // Secciones por formato: cuentan sus coincidencias y se ocultan si la
+        // búsqueda las deja vacías.
         document
             .querySelectorAll<HTMLElement>("[data-resource-section]")
             .forEach((section) => {
-                section.hidden = !section.querySelector(
+                const matches = section.querySelectorAll(
                     "[data-resource-card]:not([hidden])",
-                );
+                ).length;
+                section.hidden = matches === 0;
+                const count = section.querySelector("[data-section-count]");
+                if (count) count.textContent = String(matches);
             });
         if (countEl) {
             const lang = document.documentElement.lang === "en" ? "en" : "es";
