@@ -5,6 +5,7 @@ import ChevronIcon from "../components/icons/ChevronIcon.astro";
 import EventPosters from "../components/EventPosters.astro";
 import { DISCORD_URL, SITE_URL } from "../lib/constants";
 import { eventJsonLd } from "../lib/seo";
+import type { EventKind } from "../lib/events";
 import { getCollection } from "astro:content";
 
 const MONTHS_AHEAD = 12;
@@ -40,6 +41,8 @@ interface Occurrence {
     title: I18nText;
     description: I18nText;
     recurrenceLabel?: I18nText;
+    kind?: EventKind;
+    tag?: I18nText;
 }
 
 const currentMonth = startOfMonth(new Date());
@@ -87,6 +90,8 @@ const months = Array.from({ length: totalMonths }, (_, i) => {
                     isRecurring: false,
                     title: event.data.title,
                     description: event.data.description,
+                    kind: event.data.kind,
+                    tag: event.data.tag,
                 });
             }
         } else if (
@@ -115,6 +120,8 @@ const months = Array.from({ length: totalMonths }, (_, i) => {
                     title: event.data.title,
                     description: event.data.description,
                     recurrenceLabel: event.data.recurrenceLabel,
+                    kind: event.data.kind,
+                    tag: event.data.tag,
                 });
                 cursor.setDate(cursor.getDate() + 7);
             }
@@ -323,6 +330,8 @@ const upcomingEvents = months
                                 endTime={occurrence.endTime}
                                 timezone={occurrence.timezone}
                                 isRecurring={occurrence.isRecurring}
+                                kind={occurrence.kind}
+                                tag={occurrence.tag}
                             />
                         ))}
                     </ol>
@@ -379,12 +388,16 @@ const upcomingEvents = months
         );
         let currentIndex = todayIndex >= 0 ? todayIndex : serverIndex;
 
-        // Eventos pasados atenuados (el navegador conoce la fecha de hoy).
+        // Eventos pasados atenuados y sin acciones de calendario (el navegador
+        // conoce la fecha de hoy).
         document
             .querySelectorAll<HTMLElement>("[data-date-iso]")
             .forEach((item) => {
                 const iso = item.dataset.dateIso;
-                if (iso && iso < todayIso) item.classList.add("opacity-60");
+                if (iso && iso < todayIso) {
+                    item.classList.add("opacity-60");
+                    item.dataset.past = "";
+                }
             });
         let currentLang: "es" | "en" = "es";
 

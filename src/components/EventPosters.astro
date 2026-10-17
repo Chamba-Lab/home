@@ -1,33 +1,46 @@
 ---
 import { getCollection } from "astro:content";
-interface Props {
-    kind?: "launch" | "coffee";
-    compact?: boolean;
+import { formatShortDate, type EventKind, type I18nText } from "../lib/events";
+
+interface PosterEvent {
+    dateIso?: string;
+    startTime?: string;
+    endTime?: string;
+    tag?: I18nText;
 }
-const { kind, compact = false } = Astro.props;
+interface Props {
+    kind?: EventKind;
+    compact?: boolean;
+    // Event shown in an agenda row. Without it (hero), each poster reads its
+    // event from the collection by kind.
+    event?: PosterEvent;
+}
+const { kind, compact = false, event } = Astro.props;
 const events = await getCollection("events");
-const launch = events.find((e) => e.id === "launch")?.data;
-const coffee = events.find((e) => e.id === "code-coffee")?.data;
-const date = launch?.date
-    ? new Date(launch.date + "T12:00:00-05:00")
-    : undefined;
-const dateEs =
-    date
-        ?.toLocaleDateString("es-PE", {
-            day: "numeric",
-            month: "short",
-            timeZone: "America/Lima",
-        })
-        .replace(".", "")
-        .toUpperCase() ?? "";
-const dateEn =
-    date
-        ?.toLocaleDateString("en-US", {
-            day: "numeric",
-            month: "short",
-            timeZone: "America/Lima",
-        })
-        .toUpperCase() ?? "";
+
+function posterEvent(wanted: EventKind): PosterEvent | undefined {
+    if (kind === wanted && event) return event;
+    const data = events.find((e) => e.data.kind === wanted)?.data;
+    return (
+        data && {
+            dateIso: data.date ?? data.startDate,
+            startTime: data.startTime,
+            endTime: data.endTime,
+            tag: data.tag,
+        }
+    );
+}
+
+const launch = posterEvent("launch");
+const coworking = posterEvent("coworking");
+const activity = posterEvent("activity");
+const launchDateEs = formatShortDate(launch?.dateIso, "es");
+const launchDateEn = formatShortDate(launch?.dateIso, "en");
+const activityDateEs = formatShortDate(activity?.dateIso, "es");
+const activityDateEn = formatShortDate(activity?.dateIso, "en");
+const activityTime = activity?.startTime
+    ? `${activity.startTime}${activity.endTime ? `—${activity.endTime}` : ""}`
+    : "";
 ---
 
 <div class:list={["posters", { compact }]} aria-hidden="true">
@@ -58,16 +71,45 @@ const dateEn =
                 <img class="poster-star" src="/images/events/star.svg" alt="" />
                 <strong
                     class="poster-date"
-                    data-i18n-es={dateEs}
-                    data-i18n-en={dateEn}
+                    data-i18n-es={launchDateEs}
+                    data-i18n-en={launchDateEn}
                 >
-                    {dateEs}
+                    {launchDateEs}
                 </strong>
                 <span class="poster-bottom">{launch?.startTime} · DISCORD</span>
             </div>
         </div>
     )}
-    {(!kind || kind === "coffee") && (
+    {kind === "activity" && (
+        <div class="poster-slot activity-slot">
+            <div class="poster activity-poster">
+                <span
+                    class="poster-label"
+                    data-i18n-es="CHAMBA LAB / ACTIVIDAD"
+                    data-i18n-en="CHAMBA LAB / ACTIVITY"
+                >
+                    CHAMBA LAB / ACTIVIDAD
+                </span>
+                <strong
+                    class="poster-title"
+                    data-i18n-es={activity?.tag?.es ?? activity?.tag?.en}
+                    data-i18n-en={activity?.tag?.en}
+                >
+                    {activity?.tag?.es ?? activity?.tag?.en}
+                </strong>
+                <span class="poster-rule" />
+                <strong
+                    class="poster-date"
+                    data-i18n-es={activityDateEs}
+                    data-i18n-en={activityDateEn}
+                >
+                    {activityDateEs}
+                </strong>
+                <span class="poster-bottom">{activityTime} · DISCORD</span>
+            </div>
+        </div>
+    )}
+    {(!kind || kind === "coworking") && (
         <div class="poster-slot coffee-slot">
             <div class="poster coffee-poster">
                 <span class="poster-label">CHAMBA LAB / COWORKING</span>
@@ -83,10 +125,10 @@ const dateEn =
                 />
                 <span
                     class="poster-bottom"
-                    data-i18n-es={`VIERNES · ${coffee?.startTime}—${coffee?.endTime}`}
-                    data-i18n-en={`FRIDAYS · ${coffee?.startTime}—${coffee?.endTime}`}
+                    data-i18n-es={`VIERNES · ${coworking?.startTime}—${coworking?.endTime}`}
+                    data-i18n-en={`FRIDAYS · ${coworking?.startTime}—${coworking?.endTime}`}
                 >
-                    VIERNES · {coffee?.startTime}—{coffee?.endTime}
+                    VIERNES · {coworking?.startTime}—{coworking?.endTime}
                 </span>
             </div>
         </div>
@@ -137,6 +179,29 @@ const dateEn =
     }
     .coffee-poster {
         background: var(--color-brand-cream);
+    }
+    .activity-poster {
+        background: var(--color-surface-card);
+        color: var(--color-content-inverse);
+        border: 1px solid var(--color-surface-border-subtle);
+    }
+    .activity-poster .poster-label,
+    .activity-poster .poster-date {
+        color: var(--color-brand-yellow);
+    }
+    .activity-poster .poster-title {
+        right: 8.28%;
+        font-size: 6.2cqw;
+        overflow-wrap: anywhere;
+    }
+    .poster-rule {
+        position: absolute;
+        left: 8.28%;
+        top: 70%;
+        width: 17%;
+        height: 0.9cqw;
+        border-radius: 1cqw;
+        background: var(--color-brand-yellow);
     }
     .poster-label {
         position: absolute;
@@ -206,6 +271,13 @@ const dateEn =
     }
     .compact .coffee-poster .poster-title {
         font-size: 13.79cqw;
+    }
+    .compact .activity-poster .poster-title {
+        font-size: 12.5cqw;
+    }
+    .compact .poster-rule {
+        height: 2.2cqw;
+        border-radius: 2cqw;
     }
     .compact .poster-date {
         font-size: 11.72cqw;

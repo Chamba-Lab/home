@@ -36,21 +36,33 @@ const resources = defineCollection({
 
 const events = defineCollection({
     loader: file("src/content/events.json"),
-    schema: z.object({
-        title: i18nText,
-        description: i18nText,
-        type: z.enum(["fixed", "recurring"]),
-        // "fixed": one-time event, ISO date.
-        date: z.string().optional(),
-        // "recurring": weekly on `weekday` (0=Sun..6=Sat), starting `startDate`.
-        weekday: z.number().min(0).max(6).optional(),
-        startDate: z.string().optional(),
-        recurrenceLabel: i18nText.optional(),
-        // Optional time fields (HH:mm format, e.g. "19:00")
-        startTime: z.string().optional(),
-        endTime: z.string().optional(),
-        timezone: z.string().default("UTC-5"),
-    }),
+    schema: z
+        .object({
+            title: i18nText,
+            description: i18nText,
+            type: z.enum(["fixed", "recurring"]),
+            // Optional poster/card kind: "launch", "coworking" (Code & Coffee)
+            // and "activity" (workshops, explorations; generic poster driven
+            // by `tag`). Without it the event has no poster.
+            kind: z.enum(["launch", "coworking", "activity"]).optional(),
+            // Activity only: short label for the poster and the card category
+            // (e.g. "AI exploration").
+            tag: i18nText.optional(),
+            // "fixed": one-time event, ISO date.
+            date: z.string().optional(),
+            // "recurring": weekly on `weekday` (0=Sun..6=Sat), starting `startDate`.
+            weekday: z.number().min(0).max(6).optional(),
+            startDate: z.string().optional(),
+            recurrenceLabel: i18nText.optional(),
+            // Optional time fields (HH:mm format, e.g. "19:00")
+            startTime: z.string().optional(),
+            endTime: z.string().optional(),
+            timezone: z.string().default("UTC-5"),
+        })
+        .refine((event) => event.kind !== "activity" || event.tag, {
+            message: "Activity events need a `tag` (poster headline)",
+            path: ["tag"],
+        }),
 });
 
 const team = defineCollection({

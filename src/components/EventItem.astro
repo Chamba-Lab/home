@@ -5,6 +5,12 @@ import {
     buildIcsDataUri,
     formatTimeDisplay,
 } from "../lib/calendar";
+import {
+    eventCategory,
+    formatWeekday,
+    type EventKind,
+    type I18nText,
+} from "../lib/events";
 
 interface Props {
     id?: string;
@@ -22,6 +28,8 @@ interface Props {
     endTime?: string;
     timezone?: string;
     isRecurring?: boolean;
+    kind?: EventKind;
+    tag?: I18nText;
 }
 
 const {
@@ -40,6 +48,8 @@ const {
     endTime,
     timezone = "UTC-5",
     isRecurring = false,
+    kind,
+    tag,
 } = Astro.props;
 
 const title = titleEs || titleEn || "Evento Chamba Lab";
@@ -68,23 +78,17 @@ const icsUrl = buildIcsDataUri({
     recurring: isRecurring,
 });
 
-const posterKind =
-    id === "launch"
-        ? "launch"
-        : id.startsWith("code-coffee-")
-          ? "coffee"
-          : undefined;
-const eventDate = dateIso ? new Date(dateIso + "T12:00:00-05:00") : undefined;
-const weekdayEs =
-    eventDate?.toLocaleDateString("es-PE", {
-        weekday: "long",
-        timeZone: "America/Lima",
-    }) ?? "";
-const weekdayEn =
-    eventDate?.toLocaleDateString("en-US", {
-        weekday: "long",
-        timeZone: "America/Lima",
-    }) ?? "";
+const category = eventCategory({
+    kind,
+    isRecurring,
+    recurrenceLabel:
+        recurrenceLabelEn !== undefined
+            ? { en: recurrenceLabelEn, es: recurrenceLabelEs }
+            : undefined,
+    tag,
+});
+const weekdayEs = formatWeekday(dateIso, "es");
+const weekdayEn = formatWeekday(dateIso, "en");
 const timeDisplay = formatTimeDisplay(startTime, endTime, timezone, "es");
 const timeDisplayEn = formatTimeDisplay(startTime, endTime, timezone, "en");
 ---
@@ -111,31 +115,21 @@ const timeDisplayEn = formatTimeDisplay(startTime, endTime, timezone, "en");
         </span>
     </time>
     <div class="event-poster">
-        {posterKind && <EventPosters kind={posterKind} compact />}
+        {kind && (
+            <EventPosters
+                kind={kind}
+                compact
+                event={{ dateIso, startTime, endTime, tag }}
+            />
+        )}
     </div>
     <div class="event-info">
         <p
             class="event-category"
-            data-i18n-es={
-                isRecurring
-                    ? `Coworking · ${recurrenceLabelEs ?? recurrenceLabelEn ?? ""}`
-                    : posterKind === "launch"
-                      ? "Encuentro de lanzamiento"
-                      : "Encuentro de la comunidad"
-            }
-            data-i18n-en={
-                isRecurring
-                    ? `Coworking · ${recurrenceLabelEn ?? ""}`
-                    : posterKind === "launch"
-                      ? "Community launch"
-                      : "Community gathering"
-            }
+            data-i18n-es={category.es}
+            data-i18n-en={category.en}
         >
-            {isRecurring
-                ? `Coworking · ${recurrenceLabelEs ?? recurrenceLabelEn ?? ""}`
-                : posterKind === "launch"
-                  ? "Encuentro de lanzamiento"
-                  : "Encuentro de la comunidad"}
+            {category.es}
         </p>
         <h3 data-i18n-es={titleEs} data-i18n-en={titleEn ?? titleEs}>
             {titleEs}
@@ -161,6 +155,13 @@ const timeDisplayEn = formatTimeDisplay(startTime, endTime, timezone, "en");
         </span>{" "}
         · {startTime}
         {endTime && `—${endTime}`}
+    </p>
+    <p
+        class="event-ended"
+        data-i18n-es="Evento realizado"
+        data-i18n-en="Event held"
+    >
+        Evento realizado
     </p>
     <div class="event-actions">
         <a
@@ -245,6 +246,19 @@ const timeDisplayEn = formatTimeDisplay(startTime, endTime, timezone, "en");
         font-size: 13px;
         font-weight: 600;
     }
+    /* Eventos pasados: sin acciones de calendario, solo una nota discreta. */
+    .event-ended {
+        display: none;
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--color-muted);
+    }
+    .agenda-event[data-past] .event-actions {
+        display: none;
+    }
+    .agenda-event[data-past] .event-ended {
+        display: block;
+    }
     .event-gcal {
         padding: 14px;
         border: 1px solid var(--color-surface-border-subtle);
@@ -318,7 +332,8 @@ const timeDisplayEn = formatTimeDisplay(startTime, endTime, timezone, "en");
             font-size: 11px;
             text-transform: capitalize;
         }
-        .event-actions {
+        .event-actions,
+        .event-ended {
             grid-column: 1/-1;
         }
         .event-category {
