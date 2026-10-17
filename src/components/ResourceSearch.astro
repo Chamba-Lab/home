@@ -1,6 +1,7 @@
 ---
 // Buscador de recursos con contador y "Limpiar filtros". Filtra las tarjetas
-// `[data-resource-card]` de la página por su texto visible. En la entrada de
+// `[data-resource-card]` de la página por su título, descripción, canal y
+// dominio (`resourceSearchText`). En la entrada de
 // recursos la lista completa va dentro de `[data-search-only]` (oculta hasta
 // que se escribe) y las categorías en `[data-hide-when-searching]`.
 interface Props {
@@ -52,7 +53,11 @@ const { placeholderEs, placeholderEn } = Astro.props;
 </div>
 
 <script>
-    import { matchesQuery, resourceCountLabel } from "../lib/resources";
+    import {
+        matchesQuery,
+        resourceCountLabel,
+        resourceSearchText,
+    } from "../lib/resources";
 
     const input = document.querySelector<HTMLInputElement>("#resource-search");
     const countEl = document.querySelector<HTMLElement>("#resource-count");
@@ -76,7 +81,7 @@ const { placeholderEs, placeholderEn } = Astro.props;
         let visible = 0;
 
         cards.forEach((card) => {
-            const show = matchesQuery(card.textContent ?? "", query);
+            const show = matchesQuery(resourceSearchText(card), query);
             card.hidden = !show;
             if (show) visible++;
         });

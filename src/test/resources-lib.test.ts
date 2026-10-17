@@ -13,6 +13,7 @@ import {
     matchesQuery,
     normalizeText,
     resourceCountLabel,
+    resourceSearchText,
     youtubeEmbedUrl,
     youtubeThumbnail,
     youtubeVideoId,
@@ -84,6 +85,29 @@ describe("matchesQuery", () => {
     });
     it("rejects text that is not there", () => {
         expect(matchesQuery(text, "python")).toBe(false);
+    });
+});
+
+describe("resourceSearchText", () => {
+    const card = document.createElement("div");
+    card.innerHTML = `
+        <span>Aprendizaje</span>
+        <h2 data-search-field>Cisco Networking Academy</h2>
+        <p data-search-field>netacad.com</p>
+        <p data-search-field>Cursos gratuitos de redes</p>
+        <span>Explorar recurso</span>`;
+
+    it("only uses the marked fields", () => {
+        expect(resourceSearchText(card)).toBe(
+            "Cisco Networking Academy netacad.com Cursos gratuitos de redes",
+        );
+    });
+    it("ignores fixed card texts", () => {
+        expect(matchesQuery(resourceSearchText(card), "curso")).toBe(true);
+        expect(matchesQuery(resourceSearchText(card), "explorar")).toBe(false);
+        expect(matchesQuery(resourceSearchText(card), "aprendizaje")).toBe(
+            false,
+        );
     });
 });
 
