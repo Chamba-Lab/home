@@ -124,8 +124,10 @@ const structuredData = [
             import { translations, type Lang } from "../i18n/translations";
             import { getStoredLang, setStoredLang } from "../i18n/lang";
             import { removeBrokenImages } from "../lib/broken-images";
+            import { forwardClicksDuringTransition } from "../lib/view-transitions";
 
             removeBrokenImages();
+            forwardClicksDuringTransition();
 
             function applyLang(lang: Lang) {
                 document.documentElement.lang = lang;

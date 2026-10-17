@@ -207,7 +207,7 @@ Mapache/gato peludo con taza de café y expresión _grumpy_. Masters en `src/ass
 1. **Duraciones**: hover ordinario `duration-200 ease-out`; menús y paneles `duration-300`; giro de la ruleta `SPIN_DURATION_MS` con `easeOutQuart(t) = 1 - Math.pow(1 - t, 4)`.
 2. **Profundidad**: elevación vertical sutil (`-translate-y-0.5`) junto con más resplandor o sombra de marca.
 3. **Movimiento reducido**: las tarjetas y transiciones de recursos ya respetan `prefers-reduced-motion`; pendiente en el resto (partículas y giros largos).
-4. **Transiciones entre páginas**: View Transitions entre documentos en CSS (`@view-transition`), sin librerías. Todas las rutas, incluida Recursos y sus categorías, usan el mismo fundido de página completa de 450 ms; con movimiento reducido, un fundido de 200 ms.
+4. **Transiciones entre páginas**: View Transitions entre documentos en CSS (`@view-transition`), sin librerías. Todas las rutas, incluida Recursos y sus categorías, usan el mismo fundido secuencial: la página anterior se va en 120 ms y la nueva entra en 200 ms, sin superponerse; el header queda fijo (`view-transition-name: site-header`). Con movimiento reducido, un fundido de 200 ms. Un clic durante el fundido lo termina y se reenvía al elemento de debajo (`src/lib/view-transitions.ts`), así la navegación nunca queda bloqueada.
 
 ## 8. Governance & Maintenance
 
