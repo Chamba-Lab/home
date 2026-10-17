@@ -156,51 +156,59 @@ const isVideo = type === "video";
                     )}
                 </div>
             )}
-            <p
-                class="text-sm leading-relaxed text-slate-400"
-                data-i18n-en={descriptionEn}
-                data-i18n-es={descriptionEs}
-            >
-                {descriptionEs ?? descriptionEn}
-            </p>
-        </div>
-        <div class="mt-5 flex items-center justify-between gap-3 border-t border-white/10 pt-5">
-            <a
-                class="inline-flex items-center gap-1.5 text-xs font-bold text-(--cat-accent) transition-colors hover:text-white group-hover:text-white"
-                href={url}
-                target="_blank"
-                rel="noopener noreferrer"
-            >
-                {type === "web" ? (
-                    <span data-i18n="exploreResource">Explorar recurso</span>
-                ) : type === "channel" ? (
-                    <span data-i18n-es="Ver canal" data-i18n-en="Visit channel">
-                        Ver canal
-                    </span>
-                ) : (
-                    <span
-                        data-i18n-es="Ver en YouTube"
-                        data-i18n-en="Watch on YouTube"
-                    >
-                        Ver en YouTube
-                    </span>
-                )}
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="h-3.5 w-3.5"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    aria-hidden="true"
+            {!isVideo && (
+                <p
+                    class="text-sm leading-relaxed text-slate-400"
+                    data-i18n-en={descriptionEn}
+                    data-i18n-es={descriptionEs}
                 >
-                    <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2.2"
-                        d="M7 17L17 7M8 7h9v9"
-                    ></path>
-                </svg>
-            </a>
+                    {descriptionEs ?? descriptionEn}
+                </p>
+            )}
+        </div>
+        <div
+            class={
+                isVideo
+                    ? "mt-3 flex flex-wrap items-center justify-end gap-3"
+                    : "mt-5 flex items-center justify-between gap-3 border-t border-white/10 pt-5"
+            }
+        >
+            {!isVideo && (
+                <a
+                    class="inline-flex items-center gap-1.5 text-xs font-bold text-(--cat-accent) transition-colors hover:text-white group-hover:text-white"
+                    href={url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    {type === "web" ? (
+                        <span data-i18n="exploreResource">
+                            Explorar recurso
+                        </span>
+                    ) : (
+                        <span
+                            data-i18n-es="Ver canal"
+                            data-i18n-en="Visit channel"
+                        >
+                            Ver canal
+                        </span>
+                    )}
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="h-3.5 w-3.5"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        aria-hidden="true"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2.2"
+                            d="M7 17L17 7M8 7h9v9"
+                        ></path>
+                    </svg>
+                </a>
+            )}
             {(accessBadge || formatLabel) && (
                 <div class="flex items-center gap-2">
                     {accessBadge && (
