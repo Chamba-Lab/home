@@ -56,6 +56,15 @@ const structuredData = [
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <!-- Al navegar, Chrome sigue mostrando la página anterior mientras
+             carga el CSS de la nueva, pero los clics ya llegan a esta sin
+             estilos (el logo SVG ocupa toda la pantalla y cada clic volvía a
+             navegar a /). Se ignoran hasta que global.css los reactiva. -->
+        <style is:inline>
+            body {
+                pointer-events: none;
+            }
+        </style>
         <title>{title}</title>
         <meta name="title" content={title} />
         <meta name="description" content={description} />

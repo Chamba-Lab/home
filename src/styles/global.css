@@ -57,6 +57,11 @@ body {
     scroll-behavior: smooth;
 }
 
+/* Reactiva los clics que Layout.astro desactiva hasta que carga este CSS. */
+body {
+    pointer-events: auto;
+}
+
 /* Custom Visual Utilities */
 @layer utilities {
     .glow-radial {
