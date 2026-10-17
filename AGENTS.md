@@ -48,6 +48,7 @@ El detalle y el roadmap están en [`docs/project.md`](./docs/project.md).
 | `/activities`          | Hub de dinámicas; hoy `/activities/roulette` (La Ruleta). Las demás aparecen como "próximamente".                                               |
 
 - Rutas, IDs y anclas van **en inglés**; el copy visible es bilingüe (ES/EN).
+- Los enlaces internos llevan **barra final** (`/resources/`, `/events/`): `trailingSlash: "always"` lo exige y evita la redirección 301 de GitHub Pages. Las páginas internas se precargan al pasar el ratón (`prefetch` en `astro.config.mjs`).
 - **Widget de Discord**: `DiscordWidget.astro` + `src/lib/discord.ts`. Muestra conectados, canales de voz con su gente (cada canal enlaza a Discord) y quienes están en línea fuera de voz. Datos de `widget.json` en build y refresco en el navegador; si la API falla se usa `FALLBACK_DATA` (datos de ejemplo, nunca se mezclan con los reales).
 - **Equipo**: datos en `src/content/team.json`. El campo `tier` define el título público: `founder`, `cofounder`, `core`, `contributor`, `member` (etiquetas en `TIER_LABEL`, `src/lib/team.ts`). Fundadores con tarjeta `full` y foto local (`avatar`); Core team y Contributors con tarjeta compacta `row`; miembros como `chip` solo-avatar. El resto toma su avatar de GitHub desde el `github` de la entrada. Las secciones vacías no se renderizan. Sumar a alguien: añadir su entrada (ver [CONTRIBUTING.md](./CONTRIBUTING.md#sumarte-al-equipo)).
 - **La Ruleta**: datos en `src/content/roulette.json` (packs de preguntas y modo libre), React sobre Canvas 2D.

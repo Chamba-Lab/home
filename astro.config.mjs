@@ -12,6 +12,13 @@ export default defineConfig({
     // Enlace público estable: si la invitación de Discord cambia, solo se
     // actualiza DISCORD_URL y chambalab.org/discord sigue funcionando.
     redirects: { "/discord": DISCORD_URL },
+    // GitHub Pages sirve cada página como carpeta y redirige /ruta a /ruta/
+    // con un 301 (un viaje de red extra por clic). Con "always" los enlaces
+    // internos llevan barra final y en dev una ruta sin ella da 404.
+    trailingSlash: "always",
+    // Descarga el HTML de una página interna al pasar el ratón (o tocar) su
+    // enlace, para que al hacer clic ya esté. Respeta el ahorro de datos.
+    prefetch: { prefetchAll: true, defaultStrategy: "hover" },
     integrations: [react(), sitemap()],
     // Sin Markdown con código: Shiki no se usa y es incompatible con la CSP.
     markdown: { syntaxHighlight: false },
