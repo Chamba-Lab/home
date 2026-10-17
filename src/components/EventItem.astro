@@ -115,15 +115,13 @@ const timeDisplayEn = formatTimeDisplay(startTime, endTime, timezone, "en");
         </span>
     </time>
     <div class="event-poster">
-        {
-            kind && (
-                <EventPosters
-                    kind={kind}
-                    compact
-                    event={{ dateIso, startTime, endTime, tag }}
-                />
-            )
-        }
+        {kind && (
+            <EventPosters
+                kind={kind}
+                compact
+                event={{ dateIso, startTime, endTime, tag }}
+            />
+        )}
     </div>
     <div class="event-info">
         <p
