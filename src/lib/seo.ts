@@ -1,6 +1,11 @@
 /** Datos estructurados (JSON-LD) para buscadores. Lógica pura, sin Astro. */
 
-import { DISCORD_PUBLIC_URL, DISCORD_URL, GITHUB_ORG_URL } from "./constants";
+import {
+    DISCORD_PUBLIC_URL,
+    DISCORD_URL,
+    GITHUB_ORG_URL,
+    LINKEDIN_URL,
+} from "./constants";
 
 type JsonLd = Record<string, unknown>;
 
@@ -51,7 +56,7 @@ export function organizationJsonLd(siteUrl: string): JsonLd {
         slogan: SLOGAN,
         description:
             "Comunidad tech para conectar, inspirarte y crecer en tu carrera.",
-        sameAs: [DISCORD_URL, GITHUB_ORG_URL],
+        sameAs: [DISCORD_URL, GITHUB_ORG_URL, LINKEDIN_URL],
     };
 }
 

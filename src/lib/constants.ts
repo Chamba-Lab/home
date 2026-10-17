@@ -9,6 +9,7 @@ export const DISCORD_URL = "https://discord.gg/fNd8CXBbsQ";
  */
 export const DISCORD_PUBLIC_URL = `${SITE_URL}/discord`;
 export const GITHUB_ORG_URL = "https://github.com/Chamba-Lab";
+export const LINKEDIN_URL = "https://www.linkedin.com/company/chambalab";
 export const GITHUB_URL = `${GITHUB_ORG_URL}/home`;
 export const CONTRIBUTING_URL = `${GITHUB_URL}/blob/master/CONTRIBUTING.md`;
 export const CODE_OF_CONDUCT_URL = `${GITHUB_URL}/blob/master/CODE_OF_CONDUCT.md`;

@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { DISCORD_PUBLIC_URL } from "../lib/constants";
+import { DISCORD_PUBLIC_URL, LINKEDIN_URL } from "../lib/constants";
 import {
     breadcrumbJsonLd,
     eventJsonLd,
@@ -52,6 +52,14 @@ describe("eventJsonLd", () => {
         });
         expect(data.startDate).toBe("2026-11-01");
         expect(data).not.toHaveProperty("endDate");
+    });
+});
+
+describe("organizationJsonLd", () => {
+    it("enlaza los perfiles oficiales en sameAs", () => {
+        const data = organizationJsonLd(SITE);
+        expect(data.sameAs).toContain(LINKEDIN_URL);
+        expect(data.sameAs).toContain("https://github.com/Chamba-Lab");
     });
 });
 
