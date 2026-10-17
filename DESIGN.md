@@ -217,7 +217,7 @@ Mapache/gato peludo con taza de café y expresión _grumpy_. Masters en `src/ass
 
 ## Eventos: portada editorial
 
-La página /events sigue el diseño aprobado en Figma (45:326): portada con carteles de lanzamiento y Code & Coffee, agenda mensual en filas separadas por líneas e invitación sobre fondo crema. Se conserva el header y footer compartido. Los carteles usan los vectores exportados a public/images/events, texto bilingüe y horarios del catálogo real. En móvil se ocultan los carteles de las filas y la fecha se presenta junto al horario. El token event-recurring (#8a95ff) identifica encuentros recurrentes.
+La página /events sigue el diseño aprobado en Figma (45:326): portada con carteles de lanzamiento y Code & Coffee, agenda mensual en filas separadas por líneas e invitación sobre fondo crema. Se conserva el header y footer compartido. Los carteles usan los vectores exportados a public/images/events, texto bilingüe y horarios del catálogo real. En móvil se ocultan los carteles de las filas y la fecha se presenta junto al horario. El token event-recurring (#8a95ff) identifica encuentros recurrentes. Los talleres, exploraciones y demás actividades puntuales usan un cartel propio: superficie oscura (`--color-surface-card`) con borde sutil y acento amarillo, para no confundirse con el amarillo del lanzamiento ni el crema de Code & Coffee. Su titular es la etiqueta corta (`tag`) del evento y la categoría de la fila repite esa etiqueta; se activa con `"kind": "activity"` en `events.json`. Los eventos ya pasados se atenúan, ocultan los botones de Google Calendar e iCal y muestran «Evento realizado».
 
 ### Encabezados sin etiquetas redundantes
 

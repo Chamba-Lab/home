@@ -22,6 +22,9 @@ interface Props {
     endTime?: string;
     timezone?: string;
     isRecurring?: boolean;
+    kind?: "activity";
+    tagEn?: string;
+    tagEs?: string;
 }
 
 const {
@@ -40,6 +43,9 @@ const {
     endTime,
     timezone = "UTC-5",
     isRecurring = false,
+    kind,
+    tagEn,
+    tagEs,
 } = Astro.props;
 
 const title = titleEs || titleEn || "Evento Chamba Lab";
@@ -69,11 +75,13 @@ const icsUrl = buildIcsDataUri({
 });
 
 const posterKind =
-    id === "launch"
-        ? "launch"
-        : id.startsWith("code-coffee-")
-          ? "coffee"
-          : undefined;
+    kind === "activity"
+        ? "activity"
+        : id === "launch"
+          ? "launch"
+          : id.startsWith("code-coffee-")
+            ? "coffee"
+            : undefined;
 const eventDate = dateIso ? new Date(dateIso + "T12:00:00-05:00") : undefined;
 const weekdayEs =
     eventDate?.toLocaleDateString("es-PE", {
@@ -85,6 +93,20 @@ const weekdayEn =
         weekday: "long",
         timeZone: "America/Lima",
     }) ?? "";
+const categoryEs = isRecurring
+    ? `Coworking · ${recurrenceLabelEs ?? recurrenceLabelEn ?? ""}`
+    : posterKind === "launch"
+      ? "Encuentro de lanzamiento"
+      : posterKind === "activity"
+        ? (tagEs ?? tagEn ?? "Actividad")
+        : "Encuentro de la comunidad";
+const categoryEn = isRecurring
+    ? `Coworking · ${recurrenceLabelEn ?? ""}`
+    : posterKind === "launch"
+      ? "Community launch"
+      : posterKind === "activity"
+        ? (tagEn ?? "Activity")
+        : "Community gathering";
 const timeDisplay = formatTimeDisplay(startTime, endTime, timezone, "es");
 const timeDisplayEn = formatTimeDisplay(startTime, endTime, timezone, "en");
 ---
@@ -111,31 +133,29 @@ const timeDisplayEn = formatTimeDisplay(startTime, endTime, timezone, "en");
         </span>
     </time>
     <div class="event-poster">
-        {posterKind && <EventPosters kind={posterKind} compact />}
+        {
+            posterKind && (
+                <EventPosters
+                    kind={posterKind}
+                    compact
+                    activity={{
+                        tagEs: tagEs ?? tagEn,
+                        tagEn,
+                        dateIso,
+                        startTime,
+                        endTime,
+                    }}
+                />
+            )
+        }
     </div>
     <div class="event-info">
         <p
             class="event-category"
-            data-i18n-es={
-                isRecurring
-                    ? `Coworking · ${recurrenceLabelEs ?? recurrenceLabelEn ?? ""}`
-                    : posterKind === "launch"
-                      ? "Encuentro de lanzamiento"
-                      : "Encuentro de la comunidad"
-            }
-            data-i18n-en={
-                isRecurring
-                    ? `Coworking · ${recurrenceLabelEn ?? ""}`
-                    : posterKind === "launch"
-                      ? "Community launch"
-                      : "Community gathering"
-            }
+            data-i18n-es={categoryEs}
+            data-i18n-en={categoryEn}
         >
-            {isRecurring
-                ? `Coworking · ${recurrenceLabelEs ?? recurrenceLabelEn ?? ""}`
-                : posterKind === "launch"
-                  ? "Encuentro de lanzamiento"
-                  : "Encuentro de la comunidad"}
+            {categoryEs}
         </p>
         <h3 data-i18n-es={titleEs} data-i18n-en={titleEn ?? titleEs}>
             {titleEs}
@@ -161,6 +181,13 @@ const timeDisplayEn = formatTimeDisplay(startTime, endTime, timezone, "en");
         </span>{" "}
         · {startTime}
         {endTime && `—${endTime}`}
+    </p>
+    <p
+        class="event-ended"
+        data-i18n-es="Evento realizado"
+        data-i18n-en="Event held"
+    >
+        Evento realizado
     </p>
     <div class="event-actions">
         <a
@@ -245,6 +272,19 @@ const timeDisplayEn = formatTimeDisplay(startTime, endTime, timezone, "en");
         font-size: 13px;
         font-weight: 600;
     }
+    /* Eventos pasados: sin acciones de calendario, solo una nota discreta. */
+    .event-ended {
+        display: none;
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--color-muted);
+    }
+    :global(.agenda-event.is-past) .event-actions {
+        display: none;
+    }
+    :global(.agenda-event.is-past) .event-ended {
+        display: block;
+    }
     .event-gcal {
         padding: 14px;
         border: 1px solid var(--color-surface-border-subtle);
@@ -318,7 +358,8 @@ const timeDisplayEn = formatTimeDisplay(startTime, endTime, timezone, "en");
             font-size: 11px;
             text-transform: capitalize;
         }
-        .event-actions {
+        .event-actions,
+        .event-ended {
             grid-column: 1/-1;
         }
         .event-category {

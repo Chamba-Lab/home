@@ -40,6 +40,8 @@ interface Occurrence {
     title: I18nText;
     description: I18nText;
     recurrenceLabel?: I18nText;
+    kind?: "activity";
+    tag?: I18nText;
 }
 
 const currentMonth = startOfMonth(new Date());
@@ -87,6 +89,8 @@ const months = Array.from({ length: totalMonths }, (_, i) => {
                     isRecurring: false,
                     title: event.data.title,
                     description: event.data.description,
+                    kind: event.data.kind,
+                    tag: event.data.tag,
                 });
             }
         } else if (
@@ -323,6 +327,9 @@ const upcomingEvents = months
                                 endTime={occurrence.endTime}
                                 timezone={occurrence.timezone}
                                 isRecurring={occurrence.isRecurring}
+                                kind={occurrence.kind}
+                                tagEn={occurrence.tag?.en}
+                                tagEs={occurrence.tag?.es}
                             />
                         ))}
                     </ol>
@@ -379,12 +386,15 @@ const upcomingEvents = months
         );
         let currentIndex = todayIndex >= 0 ? todayIndex : serverIndex;
 
-        // Eventos pasados atenuados (el navegador conoce la fecha de hoy).
+        // Eventos pasados atenuados y sin acciones de calendario (el navegador
+        // conoce la fecha de hoy).
         document
             .querySelectorAll<HTMLElement>("[data-date-iso]")
             .forEach((item) => {
                 const iso = item.dataset.dateIso;
-                if (iso && iso < todayIso) item.classList.add("opacity-60");
+                if (iso && iso < todayIso) {
+                    item.classList.add("opacity-60", "is-past");
+                }
             });
         let currentLang: "es" | "en" = "es";
 

@@ -1,10 +1,18 @@
 ---
 import { getCollection } from "astro:content";
 interface Props {
-    kind?: "launch" | "coffee";
+    kind?: "launch" | "coffee" | "activity";
     compact?: boolean;
+    // Generic poster for workshops, explorations and similar sessions.
+    activity?: {
+        tagEs?: string;
+        tagEn?: string;
+        dateIso?: string;
+        startTime?: string;
+        endTime?: string;
+    };
 }
-const { kind, compact = false } = Astro.props;
+const { kind, compact = false, activity } = Astro.props;
 const events = await getCollection("events");
 const launch = events.find((e) => e.id === "launch")?.data;
 const coffee = events.find((e) => e.id === "code-coffee")?.data;
@@ -28,6 +36,23 @@ const dateEn =
             timeZone: "America/Lima",
         })
         .toUpperCase() ?? "";
+const activityDate = activity?.dateIso
+    ? new Date(activity.dateIso + "T12:00:00-05:00")
+    : undefined;
+const formatShort = (lang: "es" | "en") =>
+    activityDate
+        ?.toLocaleDateString(lang === "es" ? "es-PE" : "en-US", {
+            day: "numeric",
+            month: "short",
+            timeZone: "America/Lima",
+        })
+        .replace(".", "")
+        .toUpperCase() ?? "";
+const activityDateEs = formatShort("es");
+const activityDateEn = formatShort("en");
+const activityTime = activity?.startTime
+    ? `${activity.startTime}${activity.endTime ? `—${activity.endTime}` : ""}`
+    : "";
 ---
 
 <div class:list={["posters", { compact }]} aria-hidden="true">
@@ -64,6 +89,35 @@ const dateEn =
                     {dateEs}
                 </strong>
                 <span class="poster-bottom">{launch?.startTime} · DISCORD</span>
+            </div>
+        </div>
+    )}
+    {kind === "activity" && (
+        <div class="poster-slot activity-slot">
+            <div class="poster activity-poster">
+                <span
+                    class="poster-label"
+                    data-i18n-es="CHAMBA LAB / ACTIVIDAD"
+                    data-i18n-en="CHAMBA LAB / ACTIVITY"
+                >
+                    CHAMBA LAB / ACTIVIDAD
+                </span>
+                <strong
+                    class="poster-title"
+                    data-i18n-es={activity?.tagEs}
+                    data-i18n-en={activity?.tagEn ?? activity?.tagEs}
+                >
+                    {activity?.tagEs}
+                </strong>
+                <span class="poster-rule" />
+                <strong
+                    class="poster-date"
+                    data-i18n-es={activityDateEs}
+                    data-i18n-en={activityDateEn}
+                >
+                    {activityDateEs}
+                </strong>
+                <span class="poster-bottom">{activityTime} · DISCORD</span>
             </div>
         </div>
     )}
@@ -138,6 +192,29 @@ const dateEn =
     .coffee-poster {
         background: var(--color-brand-cream);
     }
+    .activity-poster {
+        background: var(--color-surface-card);
+        color: var(--color-content-inverse);
+        border: 1px solid var(--color-surface-border-subtle);
+    }
+    .activity-poster .poster-label,
+    .activity-poster .poster-date {
+        color: var(--color-brand-yellow);
+    }
+    .activity-poster .poster-title {
+        right: 8.28%;
+        font-size: 6.2cqw;
+        overflow-wrap: anywhere;
+    }
+    .poster-rule {
+        position: absolute;
+        left: 8.28%;
+        top: 70%;
+        width: 17%;
+        height: 0.9cqw;
+        border-radius: 1cqw;
+        background: var(--color-brand-yellow);
+    }
     .poster-label {
         position: absolute;
         left: 8.28%;
@@ -206,6 +283,13 @@ const dateEn =
     }
     .compact .coffee-poster .poster-title {
         font-size: 13.79cqw;
+    }
+    .compact .activity-poster .poster-title {
+        font-size: 12.5cqw;
+    }
+    .compact .poster-rule {
+        height: 2.2cqw;
+        border-radius: 2cqw;
     }
     .compact .poster-date {
         font-size: 11.72cqw;
