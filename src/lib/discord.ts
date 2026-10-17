@@ -176,7 +176,8 @@ function icon(path: string, cls: string) {
 function avatar(member: DiscordMember, size: string) {
     const src = safeAvatar(member.avatar_url);
     if (src) {
-        return `<img src="${src}" alt="" class="${size} rounded-full object-cover shrink-0" loading="lazy" referrerpolicy="no-referrer">`;
+        const px = size.includes("w-5") ? 20 : 16;
+        return `<img src="${src}" alt="" width="${px}" height="${px}" class="${size} rounded-full object-cover shrink-0" loading="lazy" referrerpolicy="no-referrer">`;
     }
     const initial = escapeHtml(
         (member.username || "?").charAt(0).toUpperCase(),

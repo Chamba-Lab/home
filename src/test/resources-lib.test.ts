@@ -186,7 +186,7 @@ describe("categories", () => {
             expect(categoryPageTitle(c).length, c.id).toBeLessThanOrEqual(65);
             const d = categoryPageDescription(c).length;
             expect(d, c.id).toBeGreaterThanOrEqual(100);
-            expect(d, c.id).toBeLessThanOrEqual(175);
+            expect(d, c.id).toBeLessThanOrEqual(160);
         }
     });
 });

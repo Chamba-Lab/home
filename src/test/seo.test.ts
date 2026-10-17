@@ -3,6 +3,7 @@ import { DISCORD_PUBLIC_URL, LINKEDIN_URL } from "../lib/constants";
 import {
     breadcrumbJsonLd,
     eventJsonLd,
+    aboutPageJsonLd,
     organizationJsonLd,
     serializeJsonLd,
     utcOffset,
@@ -60,6 +61,23 @@ describe("organizationJsonLd", () => {
         const data = organizationJsonLd(SITE);
         expect(data.sameAs).toContain(LINKEDIN_URL);
         expect(data.sameAs).toContain("https://github.com/Chamba-Lab");
+    });
+
+    it("dice que es una comunidad en Discord y la distingue por nombre", () => {
+        const data = organizationJsonLd(SITE);
+        expect(data.description).toContain("comunidad tech en Discord");
+        expect(data.alternateName).toContain("ChambaLab");
+        expect(data.disambiguatingDescription).toContain("Discord");
+    });
+});
+
+describe("aboutPageJsonLd", () => {
+    it("apunta a la organización y al sitio por @id", () => {
+        const data = aboutPageJsonLd(SITE);
+        expect(data["@type"]).toBe("AboutPage");
+        expect(data.url).toBe(`${SITE}/about/`);
+        expect(data.about).toEqual({ "@id": `${SITE}/#organization` });
+        expect(data.isPartOf).toEqual({ "@id": `${SITE}/#website` });
     });
 });
 

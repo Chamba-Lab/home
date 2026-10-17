@@ -161,10 +161,16 @@ export function categoryPageTitle(category: { label: Label }): string {
     return `${category.label.es}: recursos curados | Chamba Lab`;
 }
 
+// Google recorta las meta descriptions a unos 160 caracteres.
+const DESCRIPTION_MAX = 160;
+
 export function categoryPageDescription(category: {
     description: Label;
 }): string {
-    return `${category.description.es} Selección curada por la comunidad de Chamba Lab.`;
+    const full = `${category.description.es} Selección curada por la comunidad de Chamba Lab.`;
+    return full.length <= DESCRIPTION_MAX
+        ? full
+        : `${category.description.es} Selección curada por Chamba Lab.`;
 }
 
 // Agrupa por categoría respetando el orden del catálogo; omite las vacías.

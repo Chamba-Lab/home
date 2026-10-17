@@ -54,9 +54,24 @@ export function organizationJsonLd(siteUrl: string): JsonLd {
         url: `${siteUrl}/`,
         logo: `${siteUrl}/icon-512.png`,
         slogan: SLOGAN,
+        alternateName: ["ChambaLab", "Chamba Lab comunidad tech"],
         description:
-            "Comunidad tech para conectar, inspirarte y crecer en tu carrera.",
+            "Chamba Lab es una comunidad tech en Discord para conectar, inspirarte y crecer en tu carrera.",
+        disambiguatingDescription:
+            "Comunidad independiente y sin fines de lucro en Discord, con sitio propio en chambalab.org.",
         sameAs: [DISCORD_URL, GITHUB_ORG_URL, LINKEDIN_URL],
+    };
+}
+
+export function aboutPageJsonLd(siteUrl: string): JsonLd {
+    return {
+        "@type": "AboutPage",
+        "@id": `${siteUrl}/about/#webpage`,
+        url: `${siteUrl}/about/`,
+        name: "Quiénes somos",
+        inLanguage: "es",
+        about: { "@id": `${siteUrl}/#organization` },
+        isPartOf: { "@id": `${siteUrl}/#website` },
     };
 }
 

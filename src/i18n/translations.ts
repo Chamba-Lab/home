@@ -8,13 +8,12 @@ export const translations = {
         heroTitlePrefix: "Conecta, inspírate y crece en",
         heroTitleHighlight: "tecnología",
         heroSubtitle:
-            "Una comunidad abierta de personas en tecnología que se conectan, se inspiran y crecen juntas. Todo ocurre en nuestro Discord.",
+            "Chamba Lab es una comunidad tech en Discord para personas que empiezan y personas con experiencia: se conectan, se inspiran y crecen juntas.",
 
         ctaDiscord: "Unirse a Discord",
         ctaResources: "Ver Recursos",
 
         // Discord Card
-        discordLiveTag: "LIVE // DISCORD",
         discordOnline: "miembros en línea",
         discordInVoice: "en voz",
         discordChannels: "Canales de voz y estudio",
@@ -39,6 +38,26 @@ export const translations = {
         teamDesc: "Las personas que sostienen la comunidad.",
         viewFullTeam: "Conoce a todo el equipo",
         teamStackLabel: "Contributors y miembros de la comunidad",
+        navAbout: "Quiénes somos",
+        aboutTitle: "Quiénes somos",
+        aboutIntro:
+            "Chamba Lab es una comunidad tech en Discord para conectar, inspirarte y crecer en tu carrera. Es una iniciativa independiente y sin fines de lucro, sostenida por quienes la conforman.",
+        aboutWhoTitle: "¿Para quién es?",
+        aboutWhoEarly:
+            "estudiantes de últimos años, técnicos, egresados y quienes están en su primer año laboral. Buscan mentoría, orientación de carrera, feedback y pares.",
+        aboutWhoSenior:
+            "profesionales con experiencia que quieren seguir creciendo, compartir lo que saben y conocer a otras personas del sector.",
+        aboutDoTitle: "Qué hacemos",
+        aboutDoConnect:
+            "un punto de encuentro en Discord, coworking, eventos y sesiones.",
+        aboutDoInspire:
+            "conversaciones de carrera y arquitectura, mentoría abierta y dinámicas.",
+        aboutDoGrow:
+            "revisión de CV, LinkedIn y GitHub, feedback de código, mock interviews y recursos curados.",
+        aboutNotTitle: "Qué no somos",
+        aboutNotBody:
+            "Chamba Lab no es una bolsa de empleo, una agencia ni una consultora, y no promete trabajo ni resultados. Tampoco tiene relación con otras cuentas o proyectos que usen un nombre parecido: nuestros perfiles oficiales son los que figuran abajo.",
+        aboutLinksTitle: "Perfiles oficiales",
         teamPageTitle: "El equipo de Chamba Lab",
         teamPageIntro:
             "Personas que dedican su tiempo a sostener la comunidad.",
@@ -122,13 +141,12 @@ export const translations = {
         heroTitlePrefix: "Connect, get inspired and grow in",
         heroTitleHighlight: "tech",
         heroSubtitle:
-            "An open community of people in tech who connect, get inspired and grow together. It all happens on our Discord.",
+            "Chamba Lab is a tech community on Discord for people starting out and people with experience, who connect, get inspired and grow together.",
 
         ctaDiscord: "Join Discord",
         ctaResources: "Explore Resources",
 
         // Discord Card
-        discordLiveTag: "LIVE // DISCORD",
         discordOnline: "members online",
         discordInVoice: "in voice",
         discordChannels: "Voice & study channels",
@@ -153,6 +171,26 @@ export const translations = {
         teamDesc: "The people who keep the community going.",
         viewFullTeam: "Meet the whole team",
         teamStackLabel: "Contributors and community members",
+        navAbout: "About us",
+        aboutTitle: "About us",
+        aboutIntro:
+            "Chamba Lab is a tech community on Discord to connect, get inspired and grow in your career. It is an independent, non-profit initiative sustained by the people who take part in it.",
+        aboutWhoTitle: "Who is it for?",
+        aboutWhoEarly:
+            "final-year students, technicians, graduates and people in their first year of work. They look for mentoring, career guidance, feedback and peers.",
+        aboutWhoSenior:
+            "experienced professionals who want to keep growing, share what they know and meet other people in the field.",
+        aboutDoTitle: "What we do",
+        aboutDoConnect:
+            "a meeting point on Discord, coworking, events and sessions.",
+        aboutDoInspire:
+            "career and architecture conversations, open mentoring and activities.",
+        aboutDoGrow:
+            "CV, LinkedIn and GitHub reviews, code feedback, mock interviews and curated resources.",
+        aboutNotTitle: "What we are not",
+        aboutNotBody:
+            "Chamba Lab is not a job board, an agency or a consultancy, and it does not promise jobs or results. It is also unrelated to other accounts or projects with a similar name: our official profiles are the ones listed below.",
+        aboutLinksTitle: "Official profiles",
         teamPageTitle: "The Chamba Lab team",
         teamPageIntro:
             "People who give their time to keep the community going.",

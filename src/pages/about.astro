@@ -1,0 +1,160 @@
+---
+import Layout from "../layouts/Layout.astro";
+import DiscordIcon from "../components/icons/DiscordIcon.astro";
+import GithubIcon from "../components/icons/GithubIcon.astro";
+import LinkedinIcon from "../components/icons/LinkedinIcon.astro";
+import {
+    DISCORD_PUBLIC_URL,
+    DISCORD_URL,
+    GITHUB_ORG_URL,
+    LINKEDIN_URL,
+    SITE_URL,
+} from "../lib/constants";
+import { aboutPageJsonLd } from "../lib/seo";
+
+const siteOrigin = Astro.site?.origin ?? SITE_URL;
+const officialProfiles = [
+    { name: "Discord", href: DISCORD_PUBLIC_URL, Icon: DiscordIcon },
+    { name: "GitHub", href: GITHUB_ORG_URL, Icon: GithubIcon },
+    { name: "LinkedIn", href: LINKEDIN_URL, Icon: LinkedinIcon },
+];
+---
+
+<Layout
+    title="Quiénes somos: comunidad tech en Discord | Chamba Lab"
+    description="Chamba Lab es una comunidad tech en Discord, independiente y sin fines de lucro. Conoce para quién es, qué hacemos y cuáles son nuestros perfiles oficiales."
+    breadcrumbs={[
+        { name: "Inicio", path: "/" },
+        { name: "Quiénes somos", path: "/about/" },
+    ]}
+    jsonLd={[aboutPageJsonLd(siteOrigin)]}
+>
+    <main class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
+        <h1
+            class="font-display text-4xl sm:text-5xl font-extrabold text-white tracking-tight mb-6"
+            data-i18n="aboutTitle"
+        >
+            Quiénes somos
+        </h1>
+        <p
+            class="text-lg text-slate-300 leading-relaxed mb-14"
+            data-i18n="aboutIntro"
+        >
+            Chamba Lab es una comunidad tech en Discord para conectar,
+            inspirarte y crecer en tu carrera. Es una iniciativa independiente y
+            sin fines de lucro, sostenida por quienes la conforman.
+        </p>
+
+        <section class="mb-12" aria-labelledby="about-who">
+            <h2
+                id="about-who"
+                class="font-display text-2xl font-bold text-white mb-4"
+                data-i18n="aboutWhoTitle"
+            >
+                ¿Para quién es?
+            </h2>
+            <ul class="space-y-3 text-slate-300 leading-relaxed">
+                <li>
+                    <strong class="text-white">Early Career:</strong>{" "}
+                    <span data-i18n="aboutWhoEarly">
+                        estudiantes de últimos años, técnicos, egresados y
+                        quienes están en su primer año laboral. Buscan mentoría,
+                        orientación de carrera, feedback y pares.
+                    </span>
+                </li>
+                <li>
+                    <strong class="text-white">Mid &amp; Senior:</strong>{" "}
+                    <span data-i18n="aboutWhoSenior">
+                        profesionales con experiencia que quieren seguir
+                        creciendo, compartir lo que saben y conocer a otras
+                        personas del sector.
+                    </span>
+                </li>
+            </ul>
+        </section>
+
+        <section class="mb-12" aria-labelledby="about-do">
+            <h2
+                id="about-do"
+                class="font-display text-2xl font-bold text-white mb-4"
+                data-i18n="aboutDoTitle"
+            >
+                Qué hacemos
+            </h2>
+            <ul class="space-y-3 text-slate-300 leading-relaxed">
+                <li>
+                    <strong class="text-white">Connect:</strong>{" "}
+                    <span data-i18n="aboutDoConnect">
+                        un punto de encuentro en Discord, coworking, eventos y
+                        sesiones.
+                    </span>
+                </li>
+                <li>
+                    <strong class="text-white">Inspire:</strong>{" "}
+                    <span data-i18n="aboutDoInspire">
+                        conversaciones de carrera y arquitectura, mentoría
+                        abierta y dinámicas.
+                    </span>
+                </li>
+                <li>
+                    <strong class="text-white">Grow:</strong>{" "}
+                    <span data-i18n="aboutDoGrow">
+                        revisión de CV, LinkedIn y GitHub, feedback de código,
+                        mock interviews y recursos curados.
+                    </span>
+                </li>
+            </ul>
+        </section>
+
+        <section class="mb-12" aria-labelledby="about-not">
+            <h2
+                id="about-not"
+                class="font-display text-2xl font-bold text-white mb-4"
+                data-i18n="aboutNotTitle"
+            >
+                Qué no somos
+            </h2>
+            <p class="text-slate-300 leading-relaxed" data-i18n="aboutNotBody">
+                Chamba Lab no es una bolsa de empleo, una agencia ni una
+                consultora, y no promete trabajo ni resultados. Tampoco tiene
+                relación con otras cuentas o proyectos que usen un nombre
+                parecido: nuestros perfiles oficiales son los que figuran abajo.
+            </p>
+        </section>
+
+        <section class="mb-14" aria-labelledby="about-links">
+            <h2
+                id="about-links"
+                class="font-display text-2xl font-bold text-white mb-4"
+                data-i18n="aboutLinksTitle"
+            >
+                Perfiles oficiales
+            </h2>
+            <ul class="flex flex-wrap gap-3">
+                {officialProfiles.map(({ name, href, Icon }) => (
+                    <li>
+                        <a
+                            href={href}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-white/10 bg-white/[0.03] text-sm font-semibold text-slate-200 hover:text-white hover:border-white/20 transition-colors"
+                        >
+                            <Icon class="w-4 h-4" />
+                            {name}
+                        </a>
+                    </li>
+                ))}
+            </ul>
+        </section>
+
+        <a
+            href={DISCORD_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-brand-discord hover:bg-brand-discord-hover text-white text-sm font-semibold transition-colors"
+        >
+            <DiscordIcon class="w-4 h-4" />
+            <span data-i18n="joinDiscord">Unirse a Discord</span>
+        </a>
+    </main>
+</Layout>
