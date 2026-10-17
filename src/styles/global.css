@@ -57,6 +57,11 @@ body {
     scroll-behavior: smooth;
 }
 
+/* Reactiva los clics que Layout.astro desactiva hasta que carga este CSS. */
+body {
+    pointer-events: auto;
+}
+
 /* Custom Visual Utilities */
 @layer utilities {
     .glow-radial {
@@ -179,14 +184,23 @@ body[data-category] {
     opacity: 0.45;
 }
 
-/* Fundido uniforme entre páginas, sin desplazamientos de elementos. */
+/* Fundido uniforme entre páginas, sin desplazamientos de elementos. Es
+   secuencial: la página anterior se va antes de que entre la nueva, para que
+   no se vean las dos superpuestas. El header es igual en todas y queda fijo. */
 @view-transition {
     navigation: auto;
 }
 
-::view-transition-group(root) {
-    animation-duration: 450ms;
-    animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+body > header {
+    view-transition-name: site-header;
+}
+
+::view-transition-old(root) {
+    animation: 120ms ease-in both vt-fade;
+}
+
+::view-transition-new(root) {
+    animation: 200ms 80ms cubic-bezier(0.22, 1, 0.36, 1) both vt-fade reverse;
 }
 
 /* Con "reducir movimiento", solo un fundido corto. */
