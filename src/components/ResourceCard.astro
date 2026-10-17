@@ -2,7 +2,8 @@
 // Tarjeta de un recurso: una "hoja" de su categoría. Plana y sin brillo (la luz
 // es de las tarjetas de categoría), con el color de su categoría en un marcador
 // junto a su cara (avatar o miniatura) o a su título. Colores de la paleta
-// [data-category] de src/styles/global.css.
+// [data-category] de src/styles/global.css. El buscador solo compara con los
+// textos marcados con `data-search-field` (título, descripción, canal y dominio).
 import CategoryIcon from "./CategoryIcon.astro";
 import {
     ACCESS_LEVELS,
@@ -126,23 +127,35 @@ const isVideo = type === "video";
                             />
                         )}
                     </span>
-                    <Heading class="min-w-0 font-display text-lg leading-snug font-bold text-white transition-colors group-hover:text-(--cat-accent)">
+                    <Heading
+                        data-search-field
+                        class="min-w-0 font-display text-lg leading-snug font-bold text-white transition-colors group-hover:text-(--cat-accent)"
+                    >
                         {title}
                     </Heading>
                 </div>
             ) : (
                 <div class="relative mb-2">
                     <span class="resource-marker" aria-hidden="true" />
-                    <Heading class="font-display text-lg leading-snug font-bold text-white transition-colors group-hover:text-(--cat-accent)">
+                    <Heading
+                        data-search-field
+                        class="font-display text-lg leading-snug font-bold text-white transition-colors group-hover:text-(--cat-accent)"
+                    >
                         {title}
                     </Heading>
                     {isVideo && channel && (
-                        <p class="mt-1 text-xs font-medium text-slate-400">
+                        <p
+                            data-search-field
+                            class="mt-1 text-xs font-medium text-slate-400"
+                        >
                             {channel}
                         </p>
                     )}
                     {type === "web" && (
-                        <p class="mt-1 text-xs text-slate-500">
+                        <p
+                            data-search-field
+                            class="mt-1 text-xs text-slate-500"
+                        >
                             {displayDomain(url)}
                         </p>
                     )}
@@ -150,6 +163,7 @@ const isVideo = type === "video";
             )}
             {!isVideo && (
                 <p
+                    data-search-field
                     class="text-sm leading-relaxed text-slate-400"
                     data-i18n-en={descriptionEn}
                     data-i18n-es={descriptionEs}

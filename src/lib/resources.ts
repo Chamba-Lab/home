@@ -211,6 +211,16 @@ export function matchesQuery(text: string, query: string): boolean {
     return q === "" || normalizeText(text).includes(q);
 }
 
+// Texto con el que se busca una tarjeta: solo sus campos `data-search-field`
+// (título, descripción, canal y dominio), no los textos fijos como «Explorar
+// recurso» o «Ver canal», que harían coincidir cualquier tarjeta.
+export function resourceSearchText(card: ParentNode): string {
+    return Array.from(
+        card.querySelectorAll("[data-search-field]"),
+        (field) => field.textContent ?? "",
+    ).join(" ");
+}
+
 // "58 recursos" / "1 recurso" / "58 resources" / "1 resource".
 export function resourceCountLabel(count: number, lang: "es" | "en"): string {
     if (lang === "en")
