@@ -41,9 +41,10 @@ const events = defineCollection({
             title: i18nText,
             description: i18nText,
             type: z.enum(["fixed", "recurring"]),
-            // Optional: "activity" gives workshops, explorations and similar
-            // sessions their own card (generic poster driven by `tag`).
-            kind: z.enum(["activity"]).optional(),
+            // Optional poster/card kind: "launch", "coworking" (Code & Coffee)
+            // and "activity" (workshops, explorations; generic poster driven
+            // by `tag`). Without it the event has no poster.
+            kind: z.enum(["launch", "coworking", "activity"]).optional(),
             // Activity only: short label for the poster and the card category
             // (e.g. "AI exploration").
             tag: i18nText.optional(),

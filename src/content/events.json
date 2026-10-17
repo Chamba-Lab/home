@@ -47,6 +47,7 @@
             "es": "El evento inaugural de Chamba Lab: presentamos la comunidad, cómo funciona y qué viene después."
         },
         "type": "fixed",
+        "kind": "launch",
         "date": "2026-10-23",
         "startTime": "19:00",
         "endTime": "20:30",
@@ -62,6 +63,7 @@
             "es": "Sesión recurrente de coworking: cada quien avanza en lo suyo, con compañía y música de fondo."
         },
         "type": "recurring",
+        "kind": "coworking",
         "weekday": 5,
         "startDate": "2026-10-30",
         "recurrenceLabel": {

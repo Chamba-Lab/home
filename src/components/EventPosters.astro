@@ -1,55 +1,43 @@
 ---
 import { getCollection } from "astro:content";
-interface Props {
-    kind?: "launch" | "coffee" | "activity";
-    compact?: boolean;
-    // Generic poster for workshops, explorations and similar sessions.
-    activity?: {
-        tagEs?: string;
-        tagEn?: string;
-        dateIso?: string;
-        startTime?: string;
-        endTime?: string;
-    };
+import { formatShortDate, type EventKind, type I18nText } from "../lib/events";
+
+interface PosterEvent {
+    dateIso?: string;
+    startTime?: string;
+    endTime?: string;
+    tag?: I18nText;
 }
-const { kind, compact = false, activity } = Astro.props;
+interface Props {
+    kind?: EventKind;
+    compact?: boolean;
+    // Event shown in an agenda row. Without it (hero), each poster reads its
+    // event from the collection by kind.
+    event?: PosterEvent;
+}
+const { kind, compact = false, event } = Astro.props;
 const events = await getCollection("events");
-const launch = events.find((e) => e.id === "launch")?.data;
-const coffee = events.find((e) => e.id === "code-coffee")?.data;
-const date = launch?.date
-    ? new Date(launch.date + "T12:00:00-05:00")
-    : undefined;
-const dateEs =
-    date
-        ?.toLocaleDateString("es-PE", {
-            day: "numeric",
-            month: "short",
-            timeZone: "America/Lima",
-        })
-        .replace(".", "")
-        .toUpperCase() ?? "";
-const dateEn =
-    date
-        ?.toLocaleDateString("en-US", {
-            day: "numeric",
-            month: "short",
-            timeZone: "America/Lima",
-        })
-        .toUpperCase() ?? "";
-const activityDate = activity?.dateIso
-    ? new Date(activity.dateIso + "T12:00:00-05:00")
-    : undefined;
-const formatShort = (lang: "es" | "en") =>
-    activityDate
-        ?.toLocaleDateString(lang === "es" ? "es-PE" : "en-US", {
-            day: "numeric",
-            month: "short",
-            timeZone: "America/Lima",
-        })
-        .replace(".", "")
-        .toUpperCase() ?? "";
-const activityDateEs = formatShort("es");
-const activityDateEn = formatShort("en");
+
+function posterEvent(wanted: EventKind): PosterEvent | undefined {
+    if (kind === wanted && event) return event;
+    const data = events.find((e) => e.data.kind === wanted)?.data;
+    return (
+        data && {
+            dateIso: data.date ?? data.startDate,
+            startTime: data.startTime,
+            endTime: data.endTime,
+            tag: data.tag,
+        }
+    );
+}
+
+const launch = posterEvent("launch");
+const coworking = posterEvent("coworking");
+const activity = posterEvent("activity");
+const launchDateEs = formatShortDate(launch?.dateIso, "es");
+const launchDateEn = formatShortDate(launch?.dateIso, "en");
+const activityDateEs = formatShortDate(activity?.dateIso, "es");
+const activityDateEn = formatShortDate(activity?.dateIso, "en");
 const activityTime = activity?.startTime
     ? `${activity.startTime}${activity.endTime ? `—${activity.endTime}` : ""}`
     : "";
@@ -83,10 +71,10 @@ const activityTime = activity?.startTime
                 <img class="poster-star" src="/images/events/star.svg" alt="" />
                 <strong
                     class="poster-date"
-                    data-i18n-es={dateEs}
-                    data-i18n-en={dateEn}
+                    data-i18n-es={launchDateEs}
+                    data-i18n-en={launchDateEn}
                 >
-                    {dateEs}
+                    {launchDateEs}
                 </strong>
                 <span class="poster-bottom">{launch?.startTime} · DISCORD</span>
             </div>
@@ -104,10 +92,10 @@ const activityTime = activity?.startTime
                 </span>
                 <strong
                     class="poster-title"
-                    data-i18n-es={activity?.tagEs}
-                    data-i18n-en={activity?.tagEn ?? activity?.tagEs}
+                    data-i18n-es={activity?.tag?.es ?? activity?.tag?.en}
+                    data-i18n-en={activity?.tag?.en}
                 >
-                    {activity?.tagEs}
+                    {activity?.tag?.es ?? activity?.tag?.en}
                 </strong>
                 <span class="poster-rule" />
                 <strong
@@ -121,7 +109,7 @@ const activityTime = activity?.startTime
             </div>
         </div>
     )}
-    {(!kind || kind === "coffee") && (
+    {(!kind || kind === "coworking") && (
         <div class="poster-slot coffee-slot">
             <div class="poster coffee-poster">
                 <span class="poster-label">CHAMBA LAB / COWORKING</span>
@@ -137,10 +125,10 @@ const activityTime = activity?.startTime
                 />
                 <span
                     class="poster-bottom"
-                    data-i18n-es={`VIERNES · ${coffee?.startTime}—${coffee?.endTime}`}
-                    data-i18n-en={`FRIDAYS · ${coffee?.startTime}—${coffee?.endTime}`}
+                    data-i18n-es={`VIERNES · ${coworking?.startTime}—${coworking?.endTime}`}
+                    data-i18n-en={`FRIDAYS · ${coworking?.startTime}—${coworking?.endTime}`}
                 >
-                    VIERNES · {coffee?.startTime}—{coffee?.endTime}
+                    VIERNES · {coworking?.startTime}—{coworking?.endTime}
                 </span>
             </div>
         </div>

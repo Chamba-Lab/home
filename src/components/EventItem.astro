@@ -5,6 +5,12 @@ import {
     buildIcsDataUri,
     formatTimeDisplay,
 } from "../lib/calendar";
+import {
+    eventCategory,
+    formatWeekday,
+    type EventKind,
+    type I18nText,
+} from "../lib/events";
 
 interface Props {
     id?: string;
@@ -22,9 +28,8 @@ interface Props {
     endTime?: string;
     timezone?: string;
     isRecurring?: boolean;
-    kind?: "activity";
-    tagEn?: string;
-    tagEs?: string;
+    kind?: EventKind;
+    tag?: I18nText;
 }
 
 const {
@@ -44,8 +49,7 @@ const {
     timezone = "UTC-5",
     isRecurring = false,
     kind,
-    tagEn,
-    tagEs,
+    tag,
 } = Astro.props;
 
 const title = titleEs || titleEn || "Evento Chamba Lab";
@@ -74,39 +78,17 @@ const icsUrl = buildIcsDataUri({
     recurring: isRecurring,
 });
 
-const posterKind =
-    kind === "activity"
-        ? "activity"
-        : id === "launch"
-          ? "launch"
-          : id.startsWith("code-coffee-")
-            ? "coffee"
-            : undefined;
-const eventDate = dateIso ? new Date(dateIso + "T12:00:00-05:00") : undefined;
-const weekdayEs =
-    eventDate?.toLocaleDateString("es-PE", {
-        weekday: "long",
-        timeZone: "America/Lima",
-    }) ?? "";
-const weekdayEn =
-    eventDate?.toLocaleDateString("en-US", {
-        weekday: "long",
-        timeZone: "America/Lima",
-    }) ?? "";
-const categoryEs = isRecurring
-    ? `Coworking · ${recurrenceLabelEs ?? recurrenceLabelEn ?? ""}`
-    : posterKind === "launch"
-      ? "Encuentro de lanzamiento"
-      : posterKind === "activity"
-        ? (tagEs ?? tagEn ?? "Actividad")
-        : "Encuentro de la comunidad";
-const categoryEn = isRecurring
-    ? `Coworking · ${recurrenceLabelEn ?? ""}`
-    : posterKind === "launch"
-      ? "Community launch"
-      : posterKind === "activity"
-        ? (tagEn ?? "Activity")
-        : "Community gathering";
+const category = eventCategory({
+    kind,
+    isRecurring,
+    recurrenceLabel:
+        recurrenceLabelEn !== undefined
+            ? { en: recurrenceLabelEn, es: recurrenceLabelEs }
+            : undefined,
+    tag,
+});
+const weekdayEs = formatWeekday(dateIso, "es");
+const weekdayEn = formatWeekday(dateIso, "en");
 const timeDisplay = formatTimeDisplay(startTime, endTime, timezone, "es");
 const timeDisplayEn = formatTimeDisplay(startTime, endTime, timezone, "en");
 ---
@@ -134,17 +116,11 @@ const timeDisplayEn = formatTimeDisplay(startTime, endTime, timezone, "en");
     </time>
     <div class="event-poster">
         {
-            posterKind && (
+            kind && (
                 <EventPosters
-                    kind={posterKind}
+                    kind={kind}
                     compact
-                    activity={{
-                        tagEs: tagEs ?? tagEn,
-                        tagEn,
-                        dateIso,
-                        startTime,
-                        endTime,
-                    }}
+                    event={{ dateIso, startTime, endTime, tag }}
                 />
             )
         }
@@ -152,10 +128,10 @@ const timeDisplayEn = formatTimeDisplay(startTime, endTime, timezone, "en");
     <div class="event-info">
         <p
             class="event-category"
-            data-i18n-es={categoryEs}
-            data-i18n-en={categoryEn}
+            data-i18n-es={category.es}
+            data-i18n-en={category.en}
         >
-            {categoryEs}
+            {category.es}
         </p>
         <h3 data-i18n-es={titleEs} data-i18n-en={titleEn ?? titleEs}>
             {titleEs}
@@ -279,10 +255,10 @@ const timeDisplayEn = formatTimeDisplay(startTime, endTime, timezone, "en");
         font-weight: 600;
         color: var(--color-muted);
     }
-    :global(.agenda-event.is-past) .event-actions {
+    .agenda-event[data-past] .event-actions {
         display: none;
     }
-    :global(.agenda-event.is-past) .event-ended {
+    .agenda-event[data-past] .event-ended {
         display: block;
     }
     .event-gcal {
