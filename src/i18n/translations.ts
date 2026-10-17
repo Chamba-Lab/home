@@ -14,7 +14,6 @@ export const translations = {
         ctaResources: "Ver Recursos",
 
         // Discord Card
-        discordLiveTag: "LIVE // DISCORD",
         discordOnline: "miembros en línea",
         discordInVoice: "en voz",
         discordChannels: "Canales de voz y estudio",
@@ -148,7 +147,6 @@ export const translations = {
         ctaResources: "Explore Resources",
 
         // Discord Card
-        discordLiveTag: "LIVE // DISCORD",
         discordOnline: "members online",
         discordInVoice: "in voice",
         discordChannels: "Voice & study channels",
