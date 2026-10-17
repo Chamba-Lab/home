@@ -106,7 +106,7 @@ export const RESOURCE_CATEGORY_IDS = RESOURCE_CATEGORIES.map((c) => c.id) as [
 // Formatos: "web" (por defecto), "channel" (canal de YouTube) y "video"
 // (video de YouTube con reproductor diferido).
 export const RESOURCE_FORMATS = [
-    { id: "web" },
+    { id: "web", cardLabel: undefined },
     {
         id: "channel",
         cardLabel: { es: "Canal de YouTube", en: "YouTube channel" },
