@@ -425,7 +425,7 @@
             "en": "Interactive, free mini-courses that teach Git, GitHub and Actions inside your own repository.",
             "es": "Minicursos interactivos y gratuitos que enseñan Git, GitHub y Actions en tu propio repositorio."
         },
-        "url": "https://skills.github.com",
+        "url": "https://learn.github.com/skills",
         "category": "opensource"
     },
     {
@@ -551,13 +551,23 @@
         "category": "scholarships"
     },
     {
+        "id": "pronabec-convocatorias",
+        "title": "Pronabec: concursos de becas y créditos",
+        "description": {
+            "en": "Official Pronabec portal with the open calls for scholarships and educational loans, and their requirements.",
+            "es": "Portal oficial de Pronabec con los concursos abiertos de becas y créditos educativos, y sus requisitos."
+        },
+        "url": "https://www.pronabec.gob.pe/concursos-becas-creditos/",
+        "category": "scholarships"
+    },
+    {
         "id": "daad",
         "title": "DAAD",
         "description": {
             "en": "The German academic exchange service: scholarships for master's, PhD and research stays in Germany.",
             "es": "El servicio alemán de intercambio académico: becas de maestría, doctorado y estancias de investigación en Alemania."
         },
-        "url": "https://www.daad.de/es/",
+        "url": "https://www.daad.de/en/",
         "category": "scholarships"
     },
     {
@@ -581,27 +591,13 @@
         "category": "scholarships"
     },
     {
-        "id": "pronabec-youtube",
-        "title": "Pronabec Perú",
-        "description": {
-            "en": "Official channel with guides and announcements for scholarship calls.",
-            "es": "Canal oficial con guías y anuncios de las convocatorias de becas."
-        },
-        "url": "https://www.youtube.com/@Pronabec",
-        "type": "channel",
-        "avatar": "https://yt3.googleusercontent.com/ytc/AIdro_msI_8JELTU97LHXUp-9mUAxsm9kLo_4HljFahmNOHCHw=s112-c-k-c0x00ffffff-no-rj",
-        "category": "scholarships"
-    },
-    {
-        "id": "fulbright-peru-youtube",
+        "id": "fulbright-peru",
         "title": "Fulbright Perú",
         "description": {
-            "en": "Official channel of the Fulbright Commission in Peru, with information on grants to study in the United States.",
-            "es": "Canal oficial de la Comisión Fulbright en Perú, con información sobre becas para estudiar en Estados Unidos."
+            "en": "Official site of the Fulbright Commission in Peru, with grants to study a master's or PhD in the United States.",
+            "es": "Sitio oficial de la Comisión Fulbright en Perú, con becas para estudiar una maestría o un doctorado en Estados Unidos."
         },
-        "url": "https://www.youtube.com/@fulbrightperu",
-        "type": "channel",
-        "avatar": "https://yt3.googleusercontent.com/tG-X5EsZdS49DRP8izfOiNy3vodKTofwVuJvZoOXO5BuDebtozCwH16aeadFJK8wFNf664TT_A=s112-c-k-c0x00ffffff-no-rj",
+        "url": "https://www.fulbright.pe",
         "category": "scholarships"
     },
     {
