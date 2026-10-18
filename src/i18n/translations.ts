@@ -8,7 +8,7 @@ export const translations = {
         heroTitlePrefix: "Conecta, inspírate y crece en",
         heroTitleHighlight: "tecnología",
         heroSubtitle:
-            "Chamba Lab es una comunidad tech en Discord para personas que empiezan y personas con experiencia: se conectan, se inspiran y crecen juntas.",
+            "Chamba Lab es una comunidad tech en Discord para conectar con otras personas del sector, inspirarte y crecer en tu carrera, vengas de donde vengas.",
 
         ctaDiscord: "Unirse a Discord",
         ctaResources: "Ver Recursos",
@@ -141,7 +141,7 @@ export const translations = {
         heroTitlePrefix: "Connect, get inspired and grow in",
         heroTitleHighlight: "tech",
         heroSubtitle:
-            "Chamba Lab is a tech community on Discord for people starting out and people with experience, who connect, get inspired and grow together.",
+            "Chamba Lab is a tech community on Discord to connect with others in the field, get inspired and grow in your career, wherever you start from.",
 
         ctaDiscord: "Join Discord",
         ctaResources: "Explore Resources",
