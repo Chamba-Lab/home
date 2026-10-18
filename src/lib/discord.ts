@@ -44,9 +44,8 @@ export const FALLBACK_DATA: DiscordData = {
     presence_count: 3,
     channels: [
         { id: "1548810529097781390", name: "🗿 General", position: 0 },
-        { id: "1548819408896397422", name: "🎮DOTITA", position: 1 },
-        { id: "1550163239600390265", name: "🧊Minecraft", position: 2 },
-        { id: "1551276099198259230", name: "clasecitas", position: 3 },
+        { id: "1551276099198259230", name: "☕code-and-coffee", position: 1 },
+        { id: "1560563282438258758", name: "Stage", position: 2 },
     ],
     members: [
         { id: "0", username: "Jockie Music", status: "online" },
