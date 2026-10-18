@@ -42,6 +42,43 @@ export function formatWeekday(dateIso: string | undefined, lang: Lang) {
     );
 }
 
+/** Today's date in Lima as YYYY-MM-DD (the community's calendar day). */
+export function limaToday(now: Date = new Date()): string {
+    return now.toLocaleDateString("en-CA", { timeZone: LIMA_TZ });
+}
+
+/** Long date with weekday: "viernes 23 de octubre" (es), "Friday, October 23" (en). */
+export function formatLongDate(dateIso: string | undefined, lang: Lang) {
+    if (!dateIso) return "";
+    const text = limaNoon(dateIso).toLocaleDateString(
+        lang === "es" ? "es-PE" : "en-US",
+        { weekday: "long", day: "numeric", month: "long", timeZone: LIMA_TZ },
+    );
+    return lang === "es" ? text.replace(",", "") : text;
+}
+
+interface DatedEvent {
+    data: { type: string; date?: string };
+}
+
+/**
+ * One-time events that have not happened yet (today still counts), soonest
+ * first. The home shows the first one as the next session.
+ */
+export function upcomingFixedEvents<T extends DatedEvent>(
+    events: T[],
+    todayIso: string,
+): T[] {
+    return events
+        .filter(
+            (event) =>
+                event.data.type === "fixed" &&
+                event.data.date !== undefined &&
+                event.data.date >= todayIso,
+        )
+        .sort((a, b) => (a.data.date! < b.data.date! ? -1 : 1));
+}
+
 interface CategoryInput {
     kind?: EventKind;
     isRecurring?: boolean;
