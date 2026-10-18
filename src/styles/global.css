@@ -62,6 +62,25 @@ body {
     pointer-events: auto;
 }
 
+/* El footer siempre pegado abajo, tenga o no contenido la página: cada
+ * página pone <main> como único hijo directo del <body>, entre el header y
+ * el footer. Reglas sin capa (fuera de @layer) para que ganen siempre sobre
+ * las utilidades de Tailwind, sin depender de que cada página repita clases. */
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+body > main {
+    flex: 1 0 auto;
+}
+
+body > footer {
+    flex-shrink: 0;
+    margin-top: auto;
+}
+
 /* Custom Visual Utilities */
 @layer utilities {
     .glow-radial {
