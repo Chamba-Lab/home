@@ -40,6 +40,30 @@ describe("buildView", () => {
         expect(buildView(data).others.map((m) => m.username)).toEqual(["Bot"]);
     });
 
+    it("no lista los canales ocultos y deja a su gente como en línea", () => {
+        const view = buildView(data, ["c3"]);
+        expect(view.voice.map((v) => v.channel.id)).toEqual(["c1", "c2"]);
+        expect(view.inVoice).toBe(0);
+        expect(view.others.map((m) => m.username)).toEqual([
+            "Ana",
+            "Beto",
+            "Bot",
+        ]);
+    });
+
+    it("oculta DOTITA y Minecraft por defecto", () => {
+        const view = buildView({
+            ...data,
+            channels: [
+                { id: "1548819408896397422", name: "DOTITA", position: 0 },
+                { id: "1550163239600390265", name: "Minecraft", position: 1 },
+                { id: "c1", name: "General", position: 2 },
+            ],
+            members: [],
+        });
+        expect(view.voice.map((v) => v.channel.id)).toEqual(["c1"]);
+    });
+
     it("el respaldo tiene a dos personas en General", () => {
         const view = buildView(FALLBACK_DATA);
         expect(view.voice[0].channel.name).toContain("General");
