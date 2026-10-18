@@ -46,8 +46,6 @@ export const FALLBACK_DATA: DiscordData = {
         { id: "1548810529097781390", name: "🗿 General", position: 0 },
         { id: "1551276099198259230", name: "☕code-and-coffee", position: 1 },
         { id: "1560563282438258758", name: "Stage", position: 2 },
-        // ID de ejemplo: el canal real no sale en el widget público.
-        { id: "0", name: "ask-feedback", position: 3 },
     ],
     members: [
         { id: "0", username: "Jockie Music", status: "online" },
