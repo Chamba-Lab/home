@@ -80,6 +80,8 @@ Cada feature nueva actualiza [AGENTS.md](./AGENTS.md), y el `README.md`, `DESIGN
 
 Edita `src/content/resources.json` con `id`, `title`, `description` (`en` y `es`), `url`, `category` y `access`.
 
+- **Destacado en el home** (`starred: true`, opcional): los recursos marcados salen en la sección «Recursos Curados» del inicio, en el orden del archivo y hasta 6 (`HOME_STARRED_MAX`). Sin ninguno, la sección no se muestra. Marca solo los que mejor representen la biblioteca.
+
 - **Categorías**: `cv`, `jobs`, `learning`, `certifications`, `scholarships` (oportunidades académicas), `ai`, `practice` y `opensource` (son también la ruta de cada categoría: `/resources/jobs`).
 - **Formato** (`type`, opcional, por defecto `web`): `web`; `channel` (canal de YouTube, `url` del tipo `https://www.youtube.com/@handle`, con `avatar` opcional: la URL de la imagen del canal, que se saca del `og:image` de su página de YouTube (`yt3.googleusercontent.com/…=s112-c-k-c0x00ffffff-no-rj`); el navegador la carga y, si falta o falla, se muestra la inicial; `video` (video de YouTube, `url` con el ID y `channel` con el nombre del canal). La miniatura sale del ID y el reproductor solo se carga al pulsar, con `youtube-nocookie.com`.
 - **Acceso** (`access`, solo en `learning` y `certifications`): `free`, `freemium` (gratis con extras de pago) o `paid`. En el resto es opcional y se omite: la mayoría es gratis o freemium y no aporta.
