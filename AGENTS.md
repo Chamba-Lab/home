@@ -12,7 +12,7 @@ Este archivo es lo primero que lee cualquier persona o agente antes de tocar el 
 - **Público**: principalmente hispanohablante, empezando por Perú (horario UTC-5, compartido con Colombia). Copy neutro, sin jerga local; "Chamba" (el nombre) es la única excepción.
 - **Este repo es la landing**: la vista pública de la comunidad. Explica quiénes somos y redirige a Discord, donde ocurre la interacción y las actividades.
 
-**Perfiles** (el diagrama del home agrupa Mid y Senior porque comparten lo que aportan y necesitan):
+**Perfiles** (son tres: Early Career, Mid y Senior; `/about` los lista por separado y solo el diagrama del home agrupa Mid y Senior porque comparten lo que aportan y necesitan):
 
 | Perfil           | Quiénes                                                              | Necesitan                                                                 | Aportan                                                              |
 | :--------------- | :------------------------------------------------------------------- | :------------------------------------------------------------------------ | :------------------------------------------------------------------- |
