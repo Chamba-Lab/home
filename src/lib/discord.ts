@@ -4,7 +4,7 @@
  * marcado vive en un solo lugar. Los textos salen en el idioma pedido y llevan
  * `data-i18n-es/en` para que el selector ES/EN los cambie en vivo.
  */
-import { DISCORD_GUILD_ID, DISCORD_WIDGET_HIDDEN_CHANNELS } from "./constants";
+import { DISCORD_GUILD_ID } from "./constants";
 
 export type Lang = "es" | "en";
 
@@ -90,19 +90,12 @@ export interface DiscordView {
     others: DiscordMember[];
 }
 
-/**
- * Agrupa miembros por canal de voz: canales con gente primero, luego vacíos.
- * Los canales ocultos no se listan y quien está en uno cuenta como en línea
- * fuera de voz.
- */
-export function buildView(
-    data: DiscordData,
-    hidden: readonly string[] = DISCORD_WIDGET_HIDDEN_CHANNELS,
-): DiscordView {
+/** Agrupa miembros por canal de voz: canales con gente primero, luego vacíos. */
+export function buildView(data: DiscordData): DiscordView {
     const byChannel = new Map<string, DiscordMember[]>();
     const others: DiscordMember[] = [];
     for (const member of data.members) {
-        if (member.channel_id && !hidden.includes(member.channel_id)) {
+        if (member.channel_id) {
             const list = byChannel.get(member.channel_id) ?? [];
             list.push(member);
             byChannel.set(member.channel_id, list);
@@ -111,8 +104,7 @@ export function buildView(
         }
     }
 
-    const voice = data.channels
-        .filter((channel) => !hidden.includes(channel.id))
+    const voice = [...data.channels]
         .sort((a, b) => a.position - b.position)
         .map((channel) => ({
             channel,
