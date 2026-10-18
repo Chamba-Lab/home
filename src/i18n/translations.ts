@@ -44,9 +44,11 @@ export const translations = {
             "Chamba Lab es una comunidad tech en Discord para conectar, inspirarte y crecer en tu carrera. Es una iniciativa independiente y sin fines de lucro, sostenida por quienes la conforman.",
         aboutWhoTitle: "¿Para quién es?",
         aboutWhoEarly:
-            "estudiantes de últimos años, técnicos, egresados y quienes están en su primer año laboral. Buscan mentoría, orientación de carrera, feedback y pares.",
+            "estudiantes de últimos años, técnicos, egresados y quienes están en su primer año laboral. Buscan orientación de carrera, feedback y pares.",
+        aboutWhoMid:
+            "profesionales con algunos años de experiencia que quieren consolidar su camino, crecer en su especialidad y conocer a otras personas del sector.",
         aboutWhoSenior:
-            "profesionales con experiencia que quieren seguir creciendo, compartir lo que saben y conocer a otras personas del sector.",
+            "profesionales con experiencia consolidada que quieren seguir creciendo, compartir lo que saben y aportar su visión del sector.",
         aboutDoTitle: "Qué hacemos",
         aboutDoConnect:
             "un punto de encuentro en Discord, coworking, eventos y sesiones.",
@@ -177,9 +179,11 @@ export const translations = {
             "Chamba Lab is a tech community on Discord to connect, get inspired and grow in your career. It is an independent, non-profit initiative sustained by the people who take part in it.",
         aboutWhoTitle: "Who is it for?",
         aboutWhoEarly:
-            "final-year students, technicians, graduates and people in their first year of work. They look for mentoring, career guidance, feedback and peers.",
+            "final-year students, technicians, graduates and people in their first year of work. They look for career guidance, feedback and peers.",
+        aboutWhoMid:
+            "professionals with some years of experience who want to consolidate their path, grow in their specialty and meet other people in the field.",
         aboutWhoSenior:
-            "experienced professionals who want to keep growing, share what they know and meet other people in the field.",
+            "professionals with consolidated experience who want to keep growing, share what they know and bring their view of the industry.",
         aboutDoTitle: "What we do",
         aboutDoConnect:
             "a meeting point on Discord, coworking, events and sessions.",
