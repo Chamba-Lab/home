@@ -15,7 +15,6 @@ const ECOSYSTEM_DATA: Record<
         sectionTitle: string;
         sectionHighlight: string;
         sectionDesc: string;
-        pillars: Array<{ title: string; desc: string }>;
         advisingActivities: string[];
         growingActivities: string[];
         nodes: Record<NodeKey, NodeDetail>;
@@ -26,20 +25,6 @@ const ECOSYSTEM_DATA: Record<
         sectionHighlight: "Chamba Lab",
         sectionDesc:
             "Un ciclo continuo: quienes empiezan aprenden de quienes ya recorrieron el camino, y quienes ya lo recorrieron siguen creciendo al compartirlo.",
-        pillars: [
-            {
-                title: "Conecta",
-                desc: "Un punto de encuentro para conversar, coordinar y trabajar en compañía.",
-            },
-            {
-                title: "Inspírate",
-                desc: "Aprende de las historias y los criterios de otras personas del sector.",
-            },
-            {
-                title: "Crece",
-                desc: "Avanza en tu carrera con apoyo concreto de otras personas.",
-            },
-        ],
         advisingActivities: [
             "Revisión comunitaria de CV, perfil de LinkedIn y GitHub",
             "Convocatorias y oportunidades compartidas por la comunidad",
@@ -106,20 +91,6 @@ const ECOSYSTEM_DATA: Record<
         sectionHighlight: "Chamba Lab Ecosystem",
         sectionDesc:
             "A continuous cycle: those starting out learn from those further along, and those further along keep growing by sharing.",
-        pillars: [
-            {
-                title: "Connect",
-                desc: "A meeting point to talk, coordinate and work together.",
-            },
-            {
-                title: "Get inspired",
-                desc: "Learn from the stories and judgment of others in the field.",
-            },
-            {
-                title: "Grow",
-                desc: "Move your career forward with practical help from others.",
-            },
-        ],
         advisingActivities: [
             "Community reviews for CVs, LinkedIn, and GitHub profiles",
             "Job openings and opportunities shared by the community",
@@ -272,7 +243,7 @@ export default function CommunityEcosystem() {
 
             <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                 {/* Section Header */}
-                <div className="text-center max-w-2xl mx-auto">
+                <div className="text-center max-w-2xl mx-auto mb-6 sm:mb-8">
                     <h2 className="font-display text-3xl sm:text-4xl font-extrabold tracking-tight text-white mb-2">
                         {t.sectionTitle}{" "}
                         <span className="text-brand-yellow">
@@ -283,24 +254,6 @@ export default function CommunityEcosystem() {
                     <p className="text-sm sm:text-base text-slate-300 leading-relaxed max-w-2xl mx-auto">
                         {t.sectionDesc}
                     </p>
-                </div>
-
-                <div className="mb-5 sm:mb-6">
-                    <ul className="grid grid-cols-1 sm:grid-cols-3 gap-3 max-w-4xl mx-auto mt-5 text-left">
-                        {t.pillars.map((pillar) => (
-                            <li
-                                key={pillar.title}
-                                className="rounded-xl border border-white/[0.08] bg-white/[0.02] px-4 py-3"
-                            >
-                                <h3 className="font-display text-sm font-bold text-white mb-0.5">
-                                    {pillar.title}
-                                </h3>
-                                <p className="text-xs text-slate-400 leading-relaxed">
-                                    {pillar.desc}
-                                </p>
-                            </li>
-                        ))}
-                    </ul>
                 </div>
 
                 {/* ============================================================== */}
@@ -444,7 +397,7 @@ export default function CommunityEcosystem() {
                         <div className="w-full flex justify-center items-center overflow-x-auto">
                             <svg
                                 viewBox="0 0 880 340"
-                                className="w-full max-w-3xl h-auto min-w-[680px] select-none block mx-auto"
+                                className="w-full max-w-5xl h-auto min-w-[680px] select-none block mx-auto"
                                 style={{
                                     filter: "drop-shadow(0 15px 25px rgba(0,0,0,0.45))",
                                 }}
@@ -679,7 +632,7 @@ export default function CommunityEcosystem() {
                                         y="0"
                                         textAnchor="middle"
                                         fill="#34D399"
-                                        fontSize="12.5"
+                                        fontSize="13.5"
                                         fontWeight="700"
                                         style={{
                                             textShadow:
@@ -747,7 +700,7 @@ export default function CommunityEcosystem() {
                                         y="298"
                                         textAnchor="middle"
                                         fill="#818CF8"
-                                        fontSize="12.5"
+                                        fontSize="13.5"
                                         fontWeight="700"
                                         style={{
                                             textShadow:
@@ -829,7 +782,7 @@ export default function CommunityEcosystem() {
                                         y="28"
                                         textAnchor="middle"
                                         fill="#FACC15"
-                                        fontSize="11"
+                                        fontSize="12"
                                         fontWeight="700"
                                     >
                                         Trainee & Junior
@@ -891,7 +844,7 @@ export default function CommunityEcosystem() {
                                         y="4"
                                         textAnchor="middle"
                                         fill="#34D399"
-                                        fontSize="13.5"
+                                        fontSize="14.5"
                                         fontWeight="800"
                                     >
                                         Advising
@@ -966,7 +919,7 @@ export default function CommunityEcosystem() {
                                         y="28"
                                         textAnchor="middle"
                                         fill="#818CF8"
-                                        fontSize="11"
+                                        fontSize="12"
                                         fontWeight="700"
                                     >
                                         {isEs
@@ -1032,7 +985,7 @@ export default function CommunityEcosystem() {
                                         y="4"
                                         textAnchor="middle"
                                         fill="#FACC15"
-                                        fontSize="13.5"
+                                        fontSize="14.5"
                                         fontWeight="800"
                                     >
                                         Growing
