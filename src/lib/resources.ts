@@ -174,6 +174,17 @@ export function categoryPageDescription(category: {
 }
 
 // Agrupa por categoría respetando el orden del catálogo; omite las vacías.
+// Recursos destacados del home: los marcados con `starred`, en el orden del
+// catálogo y hasta HOME_STARRED_MAX (el resto se ignora).
+export const HOME_STARRED_MAX = 6;
+
+export function starredResources<T extends { starred?: boolean }>(
+    items: T[],
+    max = HOME_STARRED_MAX,
+): T[] {
+    return items.filter((item) => item.starred).slice(0, max);
+}
+
 export function groupByCategory<T extends { category: string }>(items: T[]) {
     return RESOURCE_CATEGORIES.map((category) => ({
         category,

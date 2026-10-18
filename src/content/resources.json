@@ -7,7 +7,8 @@
             "es": "Plantilla LaTeX minimalista y muy usada para armar un CV limpio, compatible con ATS."
         },
         "url": "https://github.com/posquit0/Awesome-CV",
-        "category": "cv"
+        "category": "cv",
+        "starred": true
     },
     {
         "id": "jsonresume",
@@ -28,7 +29,8 @@
         },
         "url": "https://roadmap.sh",
         "category": "learning",
-        "access": "free"
+        "access": "free",
+        "starred": true
     },
     {
         "id": "mdn-es",
@@ -60,7 +62,8 @@
             "es": "La plataforma más usada para practicar problemas de algoritmos de cara a entrevistas técnicas."
         },
         "url": "https://leetcode.com",
-        "category": "practice"
+        "category": "practice",
+        "starred": true
     },
     {
         "id": "codewars",

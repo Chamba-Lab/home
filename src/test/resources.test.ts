@@ -2,6 +2,7 @@ import { describe, it, expect } from "vitest";
 import resources from "../content/resources.json";
 import {
     ACCESS_IDS,
+    HOME_STARRED_MAX,
     RESOURCE_CATEGORY_IDS,
     youtubeVideoId,
 } from "../lib/resources";
@@ -15,6 +16,12 @@ describe("resources.json", () => {
         const urls = resources.map((r) => r.url);
         expect(new Set(ids).size).toBe(ids.length);
         expect(new Set(urls).size).toBe(urls.length);
+    });
+
+    it("stars at least one resource and no more than the home can show", () => {
+        const starred = resources.filter((r) => "starred" in r && r.starred);
+        expect(starred.length).toBeGreaterThan(0);
+        expect(starred.length).toBeLessThanOrEqual(HOME_STARRED_MAX);
     });
 
     it("uses only https URLs", () => {

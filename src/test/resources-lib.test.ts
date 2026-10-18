@@ -14,6 +14,7 @@ import {
     normalizeText,
     resourceCountLabel,
     resourceSearchText,
+    starredResources,
     youtubeEmbedUrl,
     youtubeThumbnail,
     youtubeVideoId,
@@ -188,5 +189,26 @@ describe("categories", () => {
             expect(d, c.id).toBeGreaterThanOrEqual(100);
             expect(d, c.id).toBeLessThanOrEqual(160);
         }
+    });
+});
+
+describe("starredResources", () => {
+    const items = [
+        { id: "a", starred: true },
+        { id: "b" },
+        { id: "c", starred: false },
+        { id: "d", starred: true },
+    ];
+
+    it("keeps only the starred ones, in catalog order", () => {
+        expect(starredResources(items).map((i) => i.id)).toEqual(["a", "d"]);
+    });
+
+    it("caps the list at the given maximum", () => {
+        expect(starredResources(items, 1).map((i) => i.id)).toEqual(["a"]);
+    });
+
+    it("returns nothing when none is starred", () => {
+        expect(starredResources([{ id: "x" }])).toEqual([]);
     });
 });
