@@ -71,7 +71,7 @@ Sistema **Modern Dark Glassmorphism**: dark-mode first (`#080D1A`), vidrio esmer
 ## 6. Reglas de trabajo (personas y agentes)
 
 1. **`master` está protegida: nunca se hace push directo**, tampoco un agente. Todo va en una rama (`feat/…`, `fix/…`, `docs/…`, `chore/…`) creada desde `master` actualizada y entra por Pull Request. El merge lo hace una persona del equipo.
-2. **Commits atómicos y Conventional Commits** (`feat:`, `fix:`, `docs:`, `chore:`…), en inglés y en imperativo. El título del PR también, porque pasa a ser el commit del squash y alimenta el changelog y la versión.
+2. **Commits atómicos y Conventional Commits** (`feat:`, `fix:`, `docs:`, `chore:`…), en inglés y en imperativo. El título del PR también, porque pasa a ser el commit del squash y alimenta el changelog y la versión. La descripción del PR rellena la plantilla de `.github/pull_request_template.md` (todas sus secciones, sin reemplazarla por un texto propio): se marca solo lo que se verificó y lo no comprobado se deja sin marcar y se dice. Con `gh pr create`, parte del contenido de la plantilla en vez de usar `--body` a secas.
 3. **Antes de subir**: `npm run lint`, `npm run test` y `npm run build` deben pasar. No usar `astro check` (pide una instalación interactiva y se cuelga).
 4. **Documentación viva**: una feature nueva actualiza este archivo (y `DESIGN.md`, `README.md` o `docs/` si aplica). Una decisión importante se registra en [`docs/decisions.md`](./docs/decisions.md).
 5. **Sin atribución de IA**: los commits y PRs no llevan líneas de co-autor ni "generated with".
