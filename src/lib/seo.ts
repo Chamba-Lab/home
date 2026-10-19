@@ -4,7 +4,10 @@ import {
     DISCORD_PUBLIC_URL,
     DISCORD_URL,
     GITHUB_ORG_URL,
+    INSTAGRAM_URL,
     LINKEDIN_URL,
+    TIKTOK_URL,
+    X_URL,
 } from "./constants";
 
 type JsonLd = Record<string, unknown>;
@@ -59,7 +62,14 @@ export function organizationJsonLd(siteUrl: string): JsonLd {
             "Chamba Lab es una comunidad tech en Discord para conectar, inspirarte y crecer en tu carrera.",
         disambiguatingDescription:
             "Comunidad independiente y sin fines de lucro en Discord, con sitio propio en chambalab.org.",
-        sameAs: [DISCORD_URL, GITHUB_ORG_URL, LINKEDIN_URL],
+        sameAs: [
+            DISCORD_URL,
+            GITHUB_ORG_URL,
+            LINKEDIN_URL,
+            INSTAGRAM_URL,
+            TIKTOK_URL,
+            X_URL,
+        ],
     };
 }
 

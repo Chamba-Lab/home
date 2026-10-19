@@ -2,12 +2,18 @@
 import Layout from "../layouts/Layout.astro";
 import DiscordIcon from "../components/icons/DiscordIcon.astro";
 import GithubIcon from "../components/icons/GithubIcon.astro";
+import InstagramIcon from "../components/icons/InstagramIcon.astro";
 import LinkedinIcon from "../components/icons/LinkedinIcon.astro";
+import TiktokIcon from "../components/icons/TiktokIcon.astro";
+import XIcon from "../components/icons/XIcon.astro";
 import {
     DISCORD_PUBLIC_URL,
     DISCORD_URL,
     GITHUB_ORG_URL,
+    INSTAGRAM_URL,
     LINKEDIN_URL,
+    TIKTOK_URL,
+    X_URL,
     SITE_URL,
 } from "../lib/constants";
 import { aboutPageJsonLd } from "../lib/seo";
@@ -17,6 +23,9 @@ const officialProfiles = [
     { name: "Discord", href: DISCORD_PUBLIC_URL, Icon: DiscordIcon },
     { name: "GitHub", href: GITHUB_ORG_URL, Icon: GithubIcon },
     { name: "LinkedIn", href: LINKEDIN_URL, Icon: LinkedinIcon },
+    { name: "Instagram", href: INSTAGRAM_URL, Icon: InstagramIcon },
+    { name: "TikTok", href: TIKTOK_URL, Icon: TiktokIcon },
+    { name: "X", href: X_URL, Icon: XIcon },
 ];
 ---
 

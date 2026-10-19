@@ -1,5 +1,11 @@
 import { describe, it, expect } from "vitest";
-import { DISCORD_PUBLIC_URL, LINKEDIN_URL } from "../lib/constants";
+import {
+    DISCORD_PUBLIC_URL,
+    INSTAGRAM_URL,
+    LINKEDIN_URL,
+    TIKTOK_URL,
+    X_URL,
+} from "../lib/constants";
 import {
     breadcrumbJsonLd,
     eventJsonLd,
@@ -60,6 +66,9 @@ describe("organizationJsonLd", () => {
     it("enlaza los perfiles oficiales en sameAs", () => {
         const data = organizationJsonLd(SITE);
         expect(data.sameAs).toContain(LINKEDIN_URL);
+        expect(data.sameAs).toContain(INSTAGRAM_URL);
+        expect(data.sameAs).toContain(TIKTOK_URL);
+        expect(data.sameAs).toContain(X_URL);
         expect(data.sameAs).toContain("https://github.com/Chamba-Lab");
     });
 
