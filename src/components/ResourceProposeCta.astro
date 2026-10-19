@@ -1,0 +1,39 @@
+---
+// Invitación a proponer un recurso, al final de las páginas de recursos. Abre
+// la plantilla de issue "Proponer un recurso" de GitHub.
+import { RESOURCE_PROPOSAL_URL } from "../lib/constants";
+---
+
+<aside class="card-glass rounded-2xl mt-12 p-6 sm:p-8 border border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-5">
+    <div class="max-w-xl space-y-1">
+        <h2
+            class="font-display text-lg font-bold text-white"
+            data-i18n-es="¿Falta algún recurso?"
+            data-i18n-en="Is a resource missing?"
+        >
+            ¿Falta algún recurso?
+        </h2>
+        <p
+            class="text-sm text-slate-400"
+            data-i18n-es="Propón una guía, plantilla o plataforma con un issue en GitHub. Revisamos que cumpla los criterios de abajo."
+            data-i18n-en="Suggest a guide, template or platform with a GitHub issue. We check it against the criteria below."
+        >
+            Propón una guía, plantilla o plataforma con un issue en GitHub.
+            Revisamos que cumpla los criterios de abajo.
+        </p>
+    </div>
+    <a
+        href={RESOURCE_PROPOSAL_URL}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-flex items-center justify-center gap-2 shrink-0 bg-brand-yellow hover:bg-amber-300 text-slate-950 px-6 py-3 rounded-xl text-sm font-bold transition-all"
+    >
+        <span
+            data-i18n-es="Proponer un recurso"
+            data-i18n-en="Suggest a resource"
+        >
+            Proponer un recurso
+        </span>{" "}
+        ↗
+    </a>
+</aside>

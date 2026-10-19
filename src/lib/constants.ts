@@ -15,6 +15,8 @@ export const INSTAGRAM_URL = "https://www.instagram.com/chambalab.dev/";
 export const X_URL = "https://x.com/chambalabdev";
 export const GITHUB_URL = `${GITHUB_ORG_URL}/home`;
 export const CONTRIBUTING_URL = `${GITHUB_URL}/blob/master/CONTRIBUTING.md`;
+export const RESOURCE_PROPOSAL_URL = `${GITHUB_URL}/issues/new?template=resource.yml`;
+export const EVENT_PROPOSAL_URL = `${GITHUB_URL}/issues/new?template=event.yml`;
 export const CODE_OF_CONDUCT_URL = `${GITHUB_URL}/blob/master/CODE_OF_CONDUCT.md`;
 
 export const DISCORD_GUILD_ID = "1473927361106808832";

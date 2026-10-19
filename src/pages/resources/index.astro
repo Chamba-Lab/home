@@ -6,6 +6,7 @@ import CategoryCard from "../../components/CategoryCard.astro";
 import ResourceSearch from "../../components/ResourceSearch.astro";
 import ResourceEmptyState from "../../components/ResourceEmptyState.astro";
 import ResourceCriteriaNote from "../../components/ResourceCriteriaNote.astro";
+import ResourceProposeCta from "../../components/ResourceProposeCta.astro";
 import { getCollection } from "astro:content";
 import {
     VIDEO_CAROUSEL_MIN,
@@ -94,6 +95,7 @@ const sections = groupByFormat(groups.flatMap(({ items }) => items));
         </div>
 
         <ResourceEmptyState />
+        <ResourceProposeCta />
         <ResourceCriteriaNote />
     </main>
 </Layout>

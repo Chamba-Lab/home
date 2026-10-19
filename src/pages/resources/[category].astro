@@ -6,6 +6,7 @@ import ResourceSection from "../../components/ResourceSection.astro";
 import ResourceSearch from "../../components/ResourceSearch.astro";
 import ResourceEmptyState from "../../components/ResourceEmptyState.astro";
 import ResourceCriteriaNote from "../../components/ResourceCriteriaNote.astro";
+import ResourceProposeCta from "../../components/ResourceProposeCta.astro";
 import { getCollection } from "astro:content";
 import {
     RESOURCE_CATEGORIES,
@@ -158,6 +159,7 @@ const others = RESOURCE_CATEGORIES.filter((c) => c.id !== category.id);
             </div>
         </nav>
 
+        <ResourceProposeCta />
         <ResourceCriteriaNote />
     </main>
 </Layout>
