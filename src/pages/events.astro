@@ -3,7 +3,7 @@ import Layout from "../layouts/Layout.astro";
 import EventItem from "../components/EventItem.astro";
 import ChevronIcon from "../components/icons/ChevronIcon.astro";
 import EventPosters from "../components/EventPosters.astro";
-import { DISCORD_URL, SITE_URL } from "../lib/constants";
+import { DISCORD_URL, EVENT_PROPOSAL_URL, SITE_URL } from "../lib/constants";
 import { eventJsonLd } from "../lib/seo";
 import type { EventKind } from "../lib/events";
 import { getCollection } from "astro:content";
@@ -353,6 +353,23 @@ const upcomingEvents = months
                         Propón un taller o una sesión en el canal #eventos de
                         Discord.
                     </p>
+                    <p class="events-propose-alt">
+                        <span
+                            data-i18n-es="¿Prefieres dejarlo por escrito?"
+                            data-i18n-en="Prefer to write it down?"
+                        >
+                            ¿Prefieres dejarlo por escrito?
+                        </span>{" "}
+                        <a
+                            href={EVENT_PROPOSAL_URL}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            data-i18n-es="Abre un issue en GitHub."
+                            data-i18n-en="Open an issue on GitHub."
+                        >
+                            Abre un issue en GitHub.
+                        </a>
+                    </p>
                 </div>
                 <a href={DISCORD_URL} target="_blank" rel="noopener noreferrer">
                     <span
@@ -583,7 +600,15 @@ const upcomingEvents = months
         font-size: 15px;
         line-height: 1.55;
     }
-    .events-propose a {
+    .events-propose-alt {
+        margin-top: 8px;
+        font-size: 13px;
+    }
+    .events-propose-alt a {
+        text-decoration: underline;
+        text-underline-offset: 3px;
+    }
+    .events-propose > a {
         flex-shrink: 0;
         background: var(--color-on-accent);
         color: var(--color-brand-cream);
@@ -673,7 +698,7 @@ const upcomingEvents = months
         .events-propose p {
             font-size: 14px;
         }
-        .events-propose a {
+        .events-propose > a {
             display: inline-flex;
             gap: 12px;
             margin-top: 20px;
