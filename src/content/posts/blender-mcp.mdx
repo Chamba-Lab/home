@@ -7,7 +7,6 @@ cover: ./blender-mcp/11-final-frente.webp
 coverAlt: Render 3D de la mascota de Chamba Lab, un personaje gris azulado con orejas puntiagudas y antifaz blanco, de pie y de frente.
 author: Melio Díaz
 lang: es
-# Pendiente antes de fusionar: enlazar la skill de Antonio (ver "Enlaces").
 draft: false
 ---
 
@@ -20,14 +19,12 @@ El 16 de octubre hicimos la primera actividad de la comunidad: una sesión prác
 
 - [Claude Code](https://claude.com/product/claude-code): el agente que maneja Blender y ejecuta la skill.
 - [Blender](https://www.blender.org) y su [MCP oficial](https://www.blender.org/lab/mcp-server/), de Blender Lab: la conexión que deja a Claude crear y editar la escena. Pide Blender 5.1 o superior.
-- **La skill de Antonio:** guía a Claude por fases, de la forma básica a las poses.
+- [La skill de Antonio](https://github.com/Chamba-Lab/blender-pet/tree/main/skills/personaje-vinilo-blender): el método con el que hizo su conejo. Guía a Claude por fases, del brief y el blockout a la hoja de personaje, las poses y las capas para animarlo en la web, y pide la aprobación de la persona en cada fase.
 - [Higgsfield](https://higgsfield.ai) con Nano Banana 2.1: para generar las imágenes de referencia. Usamos un **plan de prueba**: 100 créditos durante 3 días y una generación de video gratis. Alcanza para probarlo en un fin de semana libre, aunque la oferta puede cambiar.
-
-{/* PENDIENTE: enlazar la skill de Antonio en la viñeta de arriba cuando esté publicada. */}
 
 ## Punto de partida
 
-[Antonio](https://github.com/AntonioPow24), uno de los fundadores, modeló con Blender y su MCP la mascota de su [portafolio](https://bunnyrecords.dev/es), un conejo. Lo hizo con una skill propia que guía a Claude por fases: blockout del cuerpo, detallado, vistas de control (frente, costado y espalda) y renders de poses. Repetimos el proceso en vivo.
+[Antonio](https://github.com/AntonioPow24), uno de los fundadores, modeló con Blender y su MCP la mascota de su [portafolio](https://bunnyrecords.dev/es), un conejo. Lo hizo con una skill propia que guía a Claude fase por fase, de la forma básica a las poses. Repetimos el proceso en vivo.
 
 ## 1. Una foto y la skill sin tocar
 
@@ -63,7 +60,7 @@ El 16 de octubre hicimos la primera actividad de la comunidad: una sesión prác
 - **Insumos:** una hoja de referencia en cuatro vistas generada en Higgsfield con Nano Banana 2.1 (razonamiento alto, 2K; entre 2 y 3 créditos del plan de prueba por generación). El personaje era demasiado complejo: fue un error nuestro.
 - **Cómo:** blockout, luego la cara (con unas mejillas algo cachetonas y poca fe de que se pareciera a la referencia) y, al final, la skill sola hasta terminar.
 - **Tiempo:** de 1 a 2 h, entre pausas. Buena parte se fue en diseñar el prompt de las referencias.
-- **Resultado:** a medias. Buena estructura, pero los mechones blancos de la cara quedaron como piezas sueltas. La skill pasaba al siguiente paso con solo un 85 % de similitud: era un umbral bajo, o el parecido no se medía bien.
+- **Resultado:** a medias. Buena estructura, pero los mechones blancos de la cara quedaron como piezas sueltas. En la variante de la skill que usamos, el agente pasaba al siguiente paso con solo un 85 % de similitud con la referencia: era un umbral bajo, o el parecido no se medía bien. La skill publicada en el repo es una versión de referencia que pide aprobación humana en cada fase.
 
 ![La hoja de referencia completa: el personaje peludo de pelaje oscuro, cejas y hocico claros y cola anillada, visto desde cuatro ángulos.](./blender-mcp/08-hoja-de-referencia.webp)
 
@@ -102,7 +99,7 @@ Los tiempos son estimaciones: no los medimos de corrido.
 1. **Una referencia simple vale más que una espectacular.** El enfoque 4 salió bien con una referencia simple; el 3 falló en parte por la suya.
 2. **Varias vistas ayudan.** La cola, la espalda y la cabeza por separado dieron mejor resultado que una sola imagen frontal.
 3. **Más control, mejor resultado.** El paso a paso (1 y 4) superó al disparo único (2) y a la skill sola (3), aunque lleve más tiempo.
-4. **Un umbral bajo deja pasar lo que no está bien.** Si la skill se autoevalúa, hay que exigir más y revisar cómo se mide el parecido.
+4. **Un umbral bajo deja pasar lo que no está bien.** Si el agente se autoevalúa, hay que exigir más y revisar cómo se mide el parecido.
 5. **Con una referencia plana, el modelo pinta en vez de modelar.** Lo vimos con el logo.
 6. **Preparar la herramienta pesa más que iterar,** y no hace falta hacerlo de corrido: se puede dejar y retomar.
 
@@ -110,7 +107,8 @@ Los tiempos son estimaciones: no los medimos de corrido.
 
 El modelo terminado (el mapache de la comunidad), con su escena de Blender, los scripts y los renders, está en el repositorio [blender-pet](https://github.com/Chamba-Lab/blender-pet).
 
-{/* PENDIENTE: la skill de Antonio (cuando esté publicada), como primera línea de esta lista. */}
+El modelo y los renders se comparten bajo CC BY 4.0, y los scripts y la skill, bajo MIT.
 
+- [La skill de Antonio](https://github.com/Chamba-Lab/blender-pet/tree/main/skills/personaje-vinilo-blender), con su guía de instalación y uso.
 - [blender-pet](https://github.com/Chamba-Lab/blender-pet): el modelo, los scripts y los renders.
 - [Portafolio de Antonio](https://bunnyrecords.dev/es) y su [GitHub](https://github.com/AntonioPow24).
