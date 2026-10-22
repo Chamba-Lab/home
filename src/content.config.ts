@@ -1,5 +1,5 @@
-import { defineCollection, z } from "astro:content";
-import { file } from "astro/loaders";
+import { defineCollection, reference, z } from "astro:content";
+import { file, glob } from "astro/loaders";
 import {
     ACCESS_IDS,
     RESOURCE_CATEGORY_IDS,
@@ -61,10 +61,29 @@ const events = defineCollection({
             startTime: z.string().optional(),
             endTime: z.string().optional(),
             timezone: z.string().default("UTC-5"),
+            // Optional: the native Discord event
+            // (https://discord.com/events/<server>/<event>). The site links to
+            // it so people can mark "Interested" and get Discord's own
+            // reminder, with no bot or sync involved.
+            discordEvent: z
+                .string()
+                .regex(
+                    /^https:\/\/discord\.com\/events\/\d+\/\d+$/,
+                    "Use the Discord event link: https://discord.com/events/<server>/<event>",
+                )
+                .optional(),
+            // Optional: the blog entry that documents this event (the id of a
+            // file in src/content/posts/, without the extension). The entry
+            // knows nothing about events; the link lives here.
+            post: reference("posts").optional(),
         })
         .refine((event) => event.kind !== "activity" || event.tag, {
             message: "Activity events need a `tag` (poster headline)",
             path: ["tag"],
+        })
+        .refine((event) => !event.post || event.type === "fixed", {
+            message: "Only one-time (`fixed`) events can link a blog entry",
+            path: ["post"],
         }),
 });
 
@@ -115,4 +134,41 @@ const roulette = defineCollection({
     }),
 });
 
-export const collections = { resources, events, team, activities, roulette };
+// Blog. One MDX file per entry in src/content/posts/; files that
+// start with "_" (like the template) are ignored. Images live next to the
+// entry, in a folder with its name. An entry knows nothing about events: the
+// link lives in the event (see `post` in events.json).
+const posts = defineCollection({
+    loader: glob({ pattern: "**/[^_]*.mdx", base: "./src/content/posts" }),
+    schema: ({ image }) =>
+        z
+            .object({
+                title: z.string(),
+                // SEO description of the page.
+                description: z.string().min(120).max(160),
+                date: z.coerce.date(),
+                tags: z.array(z.string()).default([]),
+                cover: image().optional(),
+                // Required with `cover`: alt text of the image.
+                coverAlt: z.string().optional(),
+                // Name as it appears in team.json.
+                author: z.string().optional(),
+                // Language the entry is written in (entries are not translated).
+                lang: z.enum(["es", "en"]).default("es"),
+                // Drafts are not published anywhere.
+                draft: z.boolean().default(false),
+            })
+            .refine((post) => !post.cover || post.coverAlt, {
+                message: "A `cover` needs a `coverAlt` (alt text)",
+                path: ["coverAlt"],
+            }),
+});
+
+export const collections = {
+    resources,
+    events,
+    team,
+    activities,
+    roulette,
+    posts,
+};

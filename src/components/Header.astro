@@ -5,9 +5,13 @@ import MenuIcon from "./icons/MenuIcon.astro";
 import CloseIcon from "./icons/CloseIcon.astro";
 
 import BrandTile from "./BrandTile.astro";
+import { getCollection } from "astro:content";
+import { publishedPosts } from "../lib/posts";
 
 const rawBase = import.meta.env.BASE_URL;
 const base = rawBase.endsWith("/") ? rawBase : `${rawBase}/`;
+// El enlace al blog solo aparece en el menú cuando hay alguna entrada publicada.
+const hasPosts = publishedPosts(await getCollection("posts")).length > 0;
 ---
 
 <header class="sticky top-0 z-50 w-full border-b border-white/[0.08] bg-bg/85 backdrop-blur-xl transition-all">
@@ -51,6 +55,15 @@ const base = rawBase.endsWith("/") ? rawBase : `${rawBase}/`;
             >
                 Dinámicas
             </a>
+            {hasPosts && (
+                <a
+                    href={`${base}blog/`}
+                    data-i18n="navBlog"
+                    class="text-sm font-semibold text-slate-300 hover:text-white transition-colors"
+                >
+                    Blog
+                </a>
+            )}
         </nav>
 
         <!-- Right Actions: Language Switcher + Discord CTA -->
@@ -127,6 +140,15 @@ const base = rawBase.endsWith("/") ? rawBase : `${rawBase}/`;
             >
                 Dinámicas
             </a>
+            {hasPosts && (
+                <a
+                    href={`${base}blog/`}
+                    data-i18n="navBlog"
+                    class="text-base font-medium text-slate-200 hover:text-(--page-accent) py-1.5 transition-colors"
+                >
+                    Blog
+                </a>
+            )}
 
             <div class="pt-4 border-t border-white/10 flex items-center justify-between">
                 <div class="flex items-center p-1 rounded-lg bg-slate-900 border border-white/10 text-xs font-semibold">

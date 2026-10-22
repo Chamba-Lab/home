@@ -1,0 +1,107 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { getCollection } from "astro:content";
+import { formatLongDate } from "../../lib/events";
+import { postDateIso, postPath, publishedPosts } from "../../lib/posts";
+
+const rawBase = import.meta.env.BASE_URL;
+const base = rawBase.endsWith("/") ? rawBase : `${rawBase}/`;
+
+const posts = publishedPosts(await getCollection("posts"));
+---
+
+<Layout
+    title="Blog: lo que probamos y aprendimos | Chamba Lab"
+    description="El blog de Chamba Lab: documentamos las actividades de la comunidad, lo que probamos, lo que construimos y lo que aprendimos en cada una."
+    breadcrumbs={[
+        { name: "Inicio", path: "/" },
+        { name: "Blog", path: "/blog/" },
+    ]}
+    noindex={posts.length === 0}
+    rss
+>
+    <main class="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
+        <div class="max-w-3xl mb-12">
+            <h1
+                class="font-display text-4xl sm:text-5xl font-extrabold text-white tracking-tight mb-4"
+                data-i18n="blogTitle"
+            >
+                Blog
+            </h1>
+            <p
+                class="text-lg text-slate-300 leading-relaxed"
+                data-i18n="blogIntro"
+            >
+                Lo que probamos, construimos y aprendemos en la comunidad: cada
+                actividad, documentada.
+            </p>
+            <a
+                href={`${base}rss.xml`}
+                class="mt-4 inline-block text-sm font-semibold text-slate-400 hover:text-brand-yellow transition-colors"
+                data-i18n="blogRss"
+            >
+                Suscribirse por RSS
+            </a>
+        </div>
+
+        {posts.length === 0 ? (
+            <p
+                class="card-glass rounded-2xl p-12 text-center text-slate-400 border border-white/10"
+                data-i18n="blogEmpty"
+            >
+                Aún no hay entradas publicadas. Vuelve pronto.
+            </p>
+        ) : (
+            <ul class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {posts.map((post) => {
+                    const iso = postDateIso(post.data.date);
+                    return (
+                        <li>
+                            <a
+                                href={postPath(post.id, base)}
+                                class="card-glass rounded-2xl p-7 flex h-full flex-col justify-between group transition-all duration-300 hover:border-brand-yellow/40 hover:-translate-y-0.5 shadow-lg shadow-black/20"
+                            >
+                                <div>
+                                    <p
+                                        class="text-[11px] font-bold uppercase tracking-wider text-brand-yellow mb-3"
+                                        data-i18n-es={formatLongDate(iso, "es")}
+                                        data-i18n-en={formatLongDate(iso, "en")}
+                                    >
+                                        {formatLongDate(iso, "es")}
+                                    </p>
+                                    <h2
+                                        lang={post.data.lang}
+                                        class="font-display text-2xl font-bold text-white mb-2 group-hover:text-brand-yellow transition-colors leading-snug"
+                                    >
+                                        {post.data.title}
+                                    </h2>
+                                    <p
+                                        lang={post.data.lang}
+                                        class="text-sm text-slate-400 leading-relaxed mb-6"
+                                    >
+                                        {post.data.description}
+                                    </p>
+                                </div>
+                                <div class="pt-5 border-t border-white/10 flex flex-wrap items-center justify-between gap-3">
+                                    <span class="flex flex-wrap gap-2">
+                                        {post.data.tags.map((tag) => (
+                                            <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded bg-slate-800 text-slate-300 border border-white/10">
+                                                {tag}
+                                            </span>
+                                        ))}
+                                    </span>
+                                    <span
+                                        class="inline-flex items-center gap-1.5 text-xs font-bold text-brand-yellow group-hover:translate-x-1 transition-transform"
+                                        data-i18n="blogRead"
+                                    >
+                                        Leer entrada
+                                    </span>
+                                </div>
+                            </a>
+                        </li>
+                    );
+                })}
+            </ul>
+        )}
+    </main>
+</Layout>

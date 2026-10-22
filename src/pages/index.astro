@@ -290,6 +290,22 @@ const recIcsUrl = recurringEvent
                             </div>
                             <div class="relative z-10 pt-6 border-t border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                                 <div class="flex flex-wrap items-center gap-2.5">
+                                    {ev.data.discordEvent && (
+                                        <a
+                                            class="inline-flex items-center gap-1.5 text-xs font-semibold text-white bg-brand-discord hover:bg-brand-discord-hover transition-colors px-3.5 py-2 rounded-xl"
+                                            href={ev.data.discordEvent}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                        >
+                                            <span
+                                                data-i18n-es="Ver en Discord"
+                                                data-i18n-en="View on Discord"
+                                            >
+                                                Ver en Discord
+                                            </span>
+                                            <span aria-hidden="true">↗</span>
+                                        </a>
+                                    )}
                                     <a
                                         class="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-200 hover:text-brand-yellow transition-colors border border-white/10 hover:border-brand-yellow/30 px-3.5 py-2 rounded-xl bg-slate-900/90"
                                         href={gcalUrl}
@@ -417,6 +433,22 @@ const recIcsUrl = recurringEvent
                                 </p>
                             </div>
                             <div class="pt-6 border-t border-white/10 flex flex-col gap-3">
+                                {recurringEvent.data.discordEvent && (
+                                    <a
+                                        class="inline-flex items-center justify-center gap-1.5 text-xs font-semibold text-white bg-brand-discord hover:bg-brand-discord-hover transition-colors px-3 py-2 rounded-xl"
+                                        href={recurringEvent.data.discordEvent}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                    >
+                                        <span
+                                            data-i18n-es="Ver en Discord"
+                                            data-i18n-en="View on Discord"
+                                        >
+                                            Ver en Discord
+                                        </span>
+                                        <span aria-hidden="true">↗</span>
+                                    </a>
+                                )}
                                 <div class="flex items-center gap-2">
                                     <a
                                         class="flex-1 inline-flex items-center justify-center gap-1.5 text-xs font-semibold text-slate-200 hover:text-brand-yellow transition-colors border border-white/10 hover:border-brand-yellow/30 px-3 py-2 rounded-xl bg-slate-900/90"

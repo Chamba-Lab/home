@@ -1,0 +1,18 @@
+---
+// Enlace de las entradas del blog. Se ofrece a MDX como `a`, así que todos los
+// enlaces de Markdown pasan por aquí: los que van a otros sitios se abren en
+// una pestaña nueva (con noopener y noreferrer); los internos, no.
+import { isExternalUrl } from "../../lib/links";
+
+const { href, target, rel, ...rest } = Astro.props;
+const external = isExternalUrl(href);
+---
+
+<a
+    href={href}
+    target={external ? "_blank" : target}
+    rel={external ? "noopener noreferrer" : rel}
+    {...rest}
+>
+    <slot />
+</a>

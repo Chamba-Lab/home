@@ -1,0 +1,73 @@
+---
+// Video corto en bucle para entradas del blog (en lugar de un GIF). Se
+// reproduce solo y sin sonido; con movimiento reducido (o sin JavaScript) no
+// arranca y muestra los controles. Los archivos van en
+// public/blog/<entrada>/ porque Astro no optimiza video.
+interface Props {
+    /** Ruta del mp4, por ejemplo "/blog/mi-entrada/demo.mp4". */
+    src: string;
+    /** Ruta opcional de la misma pieza en webm (más liviana). */
+    webm?: string;
+    /** Descripción corta del video, para lectores de pantalla. */
+    title: string;
+    /** Ruta opcional de la imagen que se ve antes de reproducir. */
+    poster?: string;
+}
+
+const { src, webm, title, poster } = Astro.props;
+---
+
+<figure class="clip">
+    <video
+        data-clip
+        muted
+        loop
+        playsinline
+        controls
+        preload="metadata"
+        poster={poster}
+        aria-label={title}
+    >
+        {webm && <source src={webm} type="video/webm" />}
+        <source src={src} type="video/mp4" />
+    </video>
+    <figcaption>{title}</figcaption>
+</figure>
+
+<style>
+    .clip {
+        margin: 2rem 0;
+    }
+    video {
+        display: block;
+        width: 100%;
+        height: auto;
+        border-radius: 1rem;
+        border: 1px solid var(--color-surface-border-subtle);
+        background: var(--color-surface-subtle);
+    }
+    figcaption {
+        margin-top: 0.75rem;
+        font-size: 0.875rem;
+        color: var(--color-muted);
+        text-align: center;
+    }
+</style>
+
+<script>
+    const reduceMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)",
+    ).matches;
+
+    if (!reduceMotion) {
+        document
+            .querySelectorAll<HTMLVideoElement>("[data-clip]")
+            .forEach((video) => {
+                video.controls = false;
+                video.play().catch(() => {
+                    // El navegador no permitió el autoplay: se dejan los controles.
+                    video.controls = true;
+                });
+            });
+    }
+</script>

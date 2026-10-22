@@ -30,6 +30,18 @@ export interface SeoEvent {
     timezone?: string;
 }
 
+export interface SeoPost {
+    title: string;
+    description: string;
+    /** YYYY-MM-DD */
+    date: string;
+    /** Ruta absoluta del sitio, por ejemplo "/blog/mi-entrada/". */
+    path: string;
+    /** URL absoluta de la portada, si tiene. */
+    image?: string;
+    lang: string;
+}
+
 const SLOGAN = "Connect. Inspire. Grow.";
 
 /** "UTC-5" -> "-05:00". Si no se reconoce, usa UTC-5 (el horario de la comunidad). */
@@ -133,5 +145,23 @@ export function eventJsonLd(
         image: [`${siteUrl}/og-image.png`],
         url: `${siteUrl}${pagePath}`,
         organizer: { "@id": `${siteUrl}/#organization` },
+    };
+}
+
+/** Entrada del blog. La publica la comunidad, por eso autor y editor son la organización. */
+export function blogPostingJsonLd(siteUrl: string, post: SeoPost): JsonLd {
+    return {
+        "@type": "BlogPosting",
+        "@id": `${siteUrl}${post.path}#article`,
+        headline: post.title,
+        description: post.description,
+        datePublished: post.date,
+        inLanguage: post.lang,
+        url: `${siteUrl}${post.path}`,
+        mainEntityOfPage: `${siteUrl}${post.path}`,
+        ...(post.image ? { image: [post.image] } : {}),
+        author: { "@id": `${siteUrl}/#organization` },
+        publisher: { "@id": `${siteUrl}/#organization` },
+        isPartOf: { "@id": `${siteUrl}/#website` },
     };
 }

@@ -6,6 +6,7 @@ import EventPosters from "../components/EventPosters.astro";
 import { DISCORD_URL, EVENT_PROPOSAL_URL, SITE_URL } from "../lib/constants";
 import { eventJsonLd } from "../lib/seo";
 import type { EventKind } from "../lib/events";
+import { postPath, publishedPosts } from "../lib/posts";
 import { getCollection } from "astro:content";
 
 const MONTHS_AHEAD = 12;
@@ -14,6 +15,24 @@ const SEO_EVENTS_LIMIT = 10;
 const siteOrigin = Astro.site?.origin ?? SITE_URL;
 
 const events = await getCollection("events");
+
+const rawBase = import.meta.env.BASE_URL;
+const base = rawBase.endsWith("/") ? rawBase : `${rawBase}/`;
+
+// Entradas del blog publicadas, por id: un evento puede enlazar la suya (campo
+// `post` de events.json). Si apunta a una que no está publicada, el build
+// falla en vez de enlazar a una página que no existe.
+const postsById = new Map(
+    publishedPosts(await getCollection("posts")).map((post) => [post.id, post]),
+);
+for (const event of events) {
+    const postId = event.data.post?.id;
+    if (postId && !postsById.has(postId)) {
+        throw new Error(
+            `El evento "${event.id}" enlaza la entrada "${postId}", que no existe o está en borrador (draft: true).`,
+        );
+    }
+}
 
 function startOfMonth(d: Date) {
     return new Date(d.getFullYear(), d.getMonth(), 1);
@@ -43,6 +62,12 @@ interface Occurrence {
     recurrenceLabel?: I18nText;
     kind?: EventKind;
     tag?: I18nText;
+    // Evento nativo de Discord (para marcar «Me interesa» y recibir su aviso).
+    discordEvent?: string;
+    // Entrada del blog que documenta el evento (solo eventos únicos).
+    postUrl?: string;
+    postTitle?: string;
+    postLang?: string;
 }
 
 const currentMonth = startOfMonth(new Date());
@@ -92,6 +117,13 @@ const months = Array.from({ length: totalMonths }, (_, i) => {
                     description: event.data.description,
                     kind: event.data.kind,
                     tag: event.data.tag,
+                    discordEvent: event.data.discordEvent,
+                    ...(event.data.post && {
+                        postUrl: postPath(event.data.post.id, base),
+                        postTitle: postsById.get(event.data.post.id)?.data
+                            .title,
+                        postLang: postsById.get(event.data.post.id)?.data.lang,
+                    }),
                 });
             }
         } else if (
@@ -122,6 +154,7 @@ const months = Array.from({ length: totalMonths }, (_, i) => {
                     recurrenceLabel: event.data.recurrenceLabel,
                     kind: event.data.kind,
                     tag: event.data.tag,
+                    discordEvent: event.data.discordEvent,
                 });
                 cursor.setDate(cursor.getDate() + 7);
             }
@@ -332,6 +365,10 @@ const upcomingEvents = months
                                 isRecurring={occurrence.isRecurring}
                                 kind={occurrence.kind}
                                 tag={occurrence.tag}
+                                discordEvent={occurrence.discordEvent}
+                                postUrl={occurrence.postUrl}
+                                postTitle={occurrence.postTitle}
+                                postLang={occurrence.postLang}
                             />
                         ))}
                     </ol>
@@ -405,14 +442,14 @@ const upcomingEvents = months
         );
         let currentIndex = todayIndex >= 0 ? todayIndex : serverIndex;
 
-        // Eventos pasados atenuados y sin acciones de calendario (el navegador
-        // conoce la fecha de hoy).
+        // Eventos pasados: sin acciones de calendario y con la fecha en gris
+        // (el navegador conoce la fecha de hoy). La fila no se atenúa, para que
+        // la entrada del blog de un evento pasado se lea con claridad.
         document
             .querySelectorAll<HTMLElement>("[data-date-iso]")
             .forEach((item) => {
                 const iso = item.dataset.dateIso;
                 if (iso && iso < todayIso) {
-                    item.classList.add("opacity-60");
                     item.dataset.past = "";
                 }
             });

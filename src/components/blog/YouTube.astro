@@ -1,0 +1,130 @@
+---
+// Video de YouTube para entradas del blog. Misma idea que las tarjetas de
+// recursos: se ve la miniatura y el reproductor (sin cookies de seguimiento)
+// solo se carga al pulsar. Sin JavaScript, el enlace abre YouTube.
+import { youtubeThumbnail, youtubeVideoId } from "../../lib/resources";
+
+interface Props {
+    url: string;
+    title: string;
+}
+
+const { url, title } = Astro.props;
+const videoId = youtubeVideoId(url);
+if (!videoId) {
+    throw new Error(`YouTube: URL de video no válida (${url})`);
+}
+---
+
+<figure class="yt" data-yt>
+    <div class="yt-thumb" data-yt-thumb>
+        <img
+            src={youtubeThumbnail(videoId)}
+            alt=""
+            width="480"
+            height="360"
+            loading="lazy"
+            data-remove-on-error
+        />
+        <a
+            class="yt-link"
+            href={url}
+            target="_blank"
+            rel="noopener noreferrer"
+            data-yt-link
+            data-video-id={videoId}
+            data-video-title={title}
+            aria-label={`Reproducir: ${title}`}
+            data-i18n-aria-label-es={`Reproducir: ${title}`}
+            data-i18n-aria-label-en={`Play: ${title}`}
+        >
+            <span class="yt-play" aria-hidden="true">
+                <svg
+                    viewBox="0 0 24 24"
+                    width="28"
+                    height="28"
+                    fill="currentColor"
+                >
+                    <path d="M8 5v14l11-7z"></path>
+                </svg>
+            </span>
+        </a>
+    </div>
+    <figcaption>{title}</figcaption>
+</figure>
+
+<style>
+    .yt {
+        margin: 2rem 0;
+    }
+    .yt-thumb {
+        position: relative;
+        aspect-ratio: 16 / 9;
+        overflow: hidden;
+        border-radius: 1rem;
+        border: 1px solid var(--color-surface-border-subtle);
+        background: var(--color-surface-subtle);
+    }
+    .yt-thumb img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    .yt-link {
+        position: absolute;
+        inset: 0;
+        display: grid;
+        place-items: center;
+    }
+    .yt-play {
+        display: grid;
+        place-items: center;
+        width: 4rem;
+        height: 4rem;
+        border-radius: 9999px;
+        background: var(--color-brand-yellow);
+        color: var(--color-on-accent);
+        box-shadow: 0 4px 20px rgb(0 0 0 / 0.5);
+        transition: transform 200ms ease-out;
+    }
+    .yt-link:hover .yt-play {
+        transform: scale(1.08);
+    }
+    .yt-link:focus-visible {
+        outline: 2px solid var(--color-brand-yellow);
+        outline-offset: -4px;
+    }
+    figcaption {
+        margin-top: 0.75rem;
+        font-size: 0.875rem;
+        color: var(--color-muted);
+        text-align: center;
+    }
+    @media (prefers-reduced-motion: reduce) {
+        .yt-play {
+            transition: none;
+        }
+    }
+</style>
+
+<script>
+    import { mountVideoPlayer } from "../../lib/video-player";
+
+    document
+        .querySelectorAll<HTMLAnchorElement>("[data-yt-link]")
+        .forEach((link) => {
+            link.addEventListener("click", (event) => {
+                const thumb = link
+                    .closest("[data-yt]")
+                    ?.querySelector("[data-yt-thumb]");
+                if (!thumb) return;
+                event.preventDefault();
+                mountVideoPlayer(
+                    thumb,
+                    link.dataset.videoId ?? "",
+                    link.dataset.videoTitle ?? "Video",
+                );
+                link.remove();
+            });
+        });
+</script>
