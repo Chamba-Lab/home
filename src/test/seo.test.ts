@@ -7,6 +7,7 @@ import {
     X_URL,
 } from "../lib/constants";
 import {
+    blogPostingJsonLd,
     breadcrumbJsonLd,
     eventJsonLd,
     aboutPageJsonLd,
@@ -59,6 +60,40 @@ describe("eventJsonLd", () => {
         });
         expect(data.startDate).toBe("2026-11-01");
         expect(data).not.toHaveProperty("endDate");
+    });
+});
+
+describe("blogPostingJsonLd", () => {
+    const post = {
+        title: "Modelar una mascota en 3D",
+        description: "Probamos cuatro formas de modelar una mascota en 3D.",
+        date: "2026-10-16",
+        path: "/blog/blender-mcp/",
+        lang: "es",
+    };
+
+    it("describe la entrada con URL absoluta e idioma", () => {
+        const data = blogPostingJsonLd(SITE, post);
+        expect(data["@type"]).toBe("BlogPosting");
+        expect(data.headline).toBe(post.title);
+        expect(data.datePublished).toBe("2026-10-16");
+        expect(data.inLanguage).toBe("es");
+        expect(data.url).toBe(`${SITE}/blog/blender-mcp/`);
+    });
+
+    it("apunta autor y editor a la organización", () => {
+        const data = blogPostingJsonLd(SITE, post);
+        expect(data.author).toEqual({ "@id": `${SITE}/#organization` });
+        expect(data.publisher).toEqual({ "@id": `${SITE}/#organization` });
+    });
+
+    it("incluye la imagen solo si la entrada tiene portada", () => {
+        expect(blogPostingJsonLd(SITE, post)).not.toHaveProperty("image");
+        const withImage = blogPostingJsonLd(SITE, {
+            ...post,
+            image: `${SITE}/_astro/portada.jpg`,
+        });
+        expect(withImage.image).toEqual([`${SITE}/_astro/portada.jpg`]);
     });
 });
 

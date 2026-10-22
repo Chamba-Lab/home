@@ -39,6 +39,15 @@ export const translations = {
         viewFullTeam: "Conoce a todo el equipo",
         teamStackLabel: "Contributors y miembros de la comunidad",
         navAbout: "Quiénes somos",
+        navBlog: "Blog",
+        blogTitle: "Blog",
+        blogIntro:
+            "Lo que probamos, construimos y aprendemos en la comunidad: cada actividad, documentada.",
+        blogEmpty: "Aún no hay entradas publicadas. Vuelve pronto.",
+        blogRead: "Leer entrada",
+        blogBack: "Volver al blog",
+        blogBy: "Por",
+        blogRss: "Suscribirse por RSS",
         aboutTitle: "Quiénes somos",
         aboutIntro:
             "Chamba Lab es una comunidad tech en Discord para conectar, inspirarte y crecer en tu carrera. Es una iniciativa independiente y sin fines de lucro, sostenida por quienes la conforman.",
@@ -174,6 +183,15 @@ export const translations = {
         viewFullTeam: "Meet the whole team",
         teamStackLabel: "Contributors and community members",
         navAbout: "About us",
+        navBlog: "Blog",
+        blogTitle: "Blog",
+        blogIntro:
+            "What we try, build and learn together: every activity, documented.",
+        blogEmpty: "No entries published yet. Check back soon.",
+        blogRead: "Read entry",
+        blogBack: "Back to the blog",
+        blogBy: "By",
+        blogRss: "Subscribe via RSS",
         aboutTitle: "About us",
         aboutIntro:
             "Chamba Lab is a tech community on Discord to connect, get inspired and grow in your career. It is an independent, non-profit initiative sustained by the people who take part in it.",

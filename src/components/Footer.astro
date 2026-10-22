@@ -16,10 +16,14 @@ import LinkedinIcon from "./icons/LinkedinIcon.astro";
 import TiktokIcon from "./icons/TiktokIcon.astro";
 import XIcon from "./icons/XIcon.astro";
 import BrandTile from "./BrandTile.astro";
+import { getCollection } from "astro:content";
+import { publishedPosts } from "../lib/posts";
 
 const rawBase = import.meta.env.BASE_URL;
 const base = rawBase.endsWith("/") ? rawBase : `${rawBase}/`;
 const currentYear = new Date().getFullYear();
+// El enlace al blog solo aparece en el pie cuando hay alguna entrada publicada.
+const hasPosts = publishedPosts(await getCollection("posts")).length > 0;
 ---
 
 <footer class="border-t border-white/[0.08] bg-[#050811] mt-auto py-14">
@@ -67,6 +71,15 @@ const currentYear = new Date().getFullYear();
                 >
                     Dinámicas
                 </a>
+                {hasPosts && (
+                    <a
+                        href={`${base}blog/`}
+                        data-i18n="navBlog"
+                        class="text-slate-400 hover:text-white transition-colors"
+                    >
+                        Blog
+                    </a>
+                )}
                 <a
                     href={`${base}about/`}
                     data-i18n="navAbout"

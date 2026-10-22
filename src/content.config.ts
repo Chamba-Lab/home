@@ -1,5 +1,5 @@
 import { defineCollection, z } from "astro:content";
-import { file } from "astro/loaders";
+import { file, glob } from "astro/loaders";
 import {
     ACCESS_IDS,
     RESOURCE_CATEGORY_IDS,
@@ -115,4 +115,41 @@ const roulette = defineCollection({
     }),
 });
 
-export const collections = { resources, events, team, activities, roulette };
+// Blog. One MDX file per entry in src/content/posts/; files that
+// start with "_" (like the template) are ignored. Images live next to the
+// entry, in a folder with its name. An entry knows nothing about events: the
+// link lives in the event (see `post` in events.json).
+const posts = defineCollection({
+    loader: glob({ pattern: "**/[^_]*.mdx", base: "./src/content/posts" }),
+    schema: ({ image }) =>
+        z
+            .object({
+                title: z.string(),
+                // SEO description of the page.
+                description: z.string().min(120).max(160),
+                date: z.coerce.date(),
+                tags: z.array(z.string()).default([]),
+                cover: image().optional(),
+                // Required with `cover`: alt text of the image.
+                coverAlt: z.string().optional(),
+                // Name as it appears in team.json.
+                author: z.string().optional(),
+                // Language the entry is written in (entries are not translated).
+                lang: z.enum(["es", "en"]).default("es"),
+                // Drafts are not published anywhere.
+                draft: z.boolean().default(false),
+            })
+            .refine((post) => !post.cover || post.coverAlt, {
+                message: "A `cover` needs a `coverAlt` (alt text)",
+                path: ["coverAlt"],
+            }),
+});
+
+export const collections = {
+    resources,
+    events,
+    team,
+    activities,
+    roulette,
+    posts,
+};

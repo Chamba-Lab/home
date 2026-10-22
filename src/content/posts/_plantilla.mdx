@@ -1,0 +1,75 @@
+---
+# Copia este archivo como src/content/posts/<id-de-la-entrada>.mdx (el nombre
+# del archivo es el id y la ruta: /blog/<id-de-la-entrada>/). Los archivos que
+# empiezan por "_" no se publican. Las imágenes van en una carpeta con el mismo
+# nombre que la entrada, junto al archivo: src/content/posts/<id-de-la-entrada>/
+title: Título de la entrada
+# Entre 120 y 160 caracteres: es la descripción que ven los buscadores.
+description: Una o dos frases que cuentan qué hicimos y qué se llevará quien la lea, de entre ciento veinte y ciento sesenta caracteres en total.
+# Fecha de la actividad o de la publicación (AAAA-MM-DD).
+date: 2026-01-01
+tags: [IA, Ejemplo]
+# Opcional. Con portada, coverAlt (texto alternativo) es obligatorio:
+# cover: ./<id-de-la-entrada>/portada.webp
+# coverAlt: Descripción de la portada para lectores de pantalla.
+# Opcional. Nombre tal como aparece en team.json.
+author: Nombre Apellido
+# Idioma en que está escrita: "es" (por defecto) o "en". No se traduce.
+lang: es
+# Mientras sea true, la entrada no se publica en ningún lado.
+draft: true
+#
+# COMPONENTES. BeforeAfter, YouTube y Clip se usan directamente en el texto,
+# sin importarlos. Solo las imágenes de BeforeAfter se importan, justo después
+# de este bloque de metadatos, así:
+#
+#   import antes from "./<id-de-la-entrada>/antes.webp";
+#   import despues from "./<id-de-la-entrada>/despues.webp";
+#
+# Comparador antes/después (las dos imágenes con la misma proporción):
+#
+#   <BeforeAfter before={antes} after={despues}
+#     beforeAlt="Qué se ve en la imagen de antes"
+#     afterAlt="Qué se ve en la imagen de después" />
+#
+# Video de YouTube (el reproductor se carga al pulsar):
+#
+#   <YouTube url="https://www.youtube.com/watch?v=XXXXXXXXXXX" title="Título" />
+#
+# Video corto en bucle, en lugar de un GIF (archivo en
+# public/blog/<id-de-la-entrada>/):
+#
+#   <Clip src="/blog/<id-de-la-entrada>/demo.mp4" title="Qué muestra" />
+---
+
+Resumen de la actividad en dos o tres líneas: qué se hizo, quiénes participaron
+y cuándo.
+
+## Qué hicimos
+
+Cómo fue la actividad, paso a paso. Una imagen se pone así, con texto alternativo
+que describa lo que se ve:
+
+![Descripción de la imagen](./<id-de-la-entrada>/imagen.webp)
+
+## Resultados
+
+Qué salió, con capturas, renders o enlaces.
+
+## Comparativa
+
+Si probaron varias formas de hacer algo, una tabla ayuda:
+
+| Enfoque | Cómo se trabajó | Resultado |
+| ------- | --------------- | --------- |
+| Uno     | Descripción     | Qué salió |
+| Dos     | Descripción     | Qué salió |
+
+## Enlaces
+
+- [Nombre del recurso](https://ejemplo.org)
+
+## Aprendizajes
+
+1. Lo primero que aprendimos.
+2. Lo segundo que aprendimos.
