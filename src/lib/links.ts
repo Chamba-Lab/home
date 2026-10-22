@@ -43,3 +43,28 @@ export function linkKind(href: unknown): LinkKind | undefined {
     if (!owner) return undefined;
     return repo ? "github-repo" : "github-profile";
 }
+
+/** Host de una URL sin "www.", o `undefined` si no es una URL http(s) válida. */
+function bareHost(href: unknown): string | undefined {
+    if (typeof href !== "string" || !/^https?:\/\//i.test(href)) {
+        return undefined;
+    }
+    try {
+        return new URL(href).hostname.replace(/^www\./, "");
+    } catch {
+        return undefined;
+    }
+}
+
+/**
+ * Persona del equipo cuyo portafolio es el sitio al que apunta el enlace (se
+ * compara solo el dominio, sin "www." ni ruta), para ponerle su insignia.
+ */
+export function matchPortfolio<T extends { portfolio?: string }>(
+    href: unknown,
+    members: T[],
+): T | undefined {
+    const host = bareHost(href);
+    if (!host) return undefined;
+    return members.find((m) => bareHost(m.portfolio) === host);
+}
