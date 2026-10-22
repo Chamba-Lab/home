@@ -47,7 +47,7 @@ Rutas siempre en inglés, con soporte bilingüe (`ES`/`EN`). Detalle técnico en
 ## 🚀 Comenzando
 
 ### Prerrequisitos
-- **Node.js**: v22.12+ (ver `engines` en `package.json`)
+- **Node.js**: v22.23.4+ (ver `engines` en `package.json`). Astro 7 se niega a compilar con una versión menor.
 - **Gestor de paquetes**: npm (recomendado)
 
 ### Instalación Local

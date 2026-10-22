@@ -18,7 +18,7 @@ No necesitas permiso previo para arreglar un bug evidente o un typo. Para cambio
 
 ## Preparar el entorno
 
-Requisitos: **Node.js >= 22.12** y npm.
+Requisitos: **Node.js >= 22.23.4** y npm. Con una versión menor, `npm run build` y `npm run dev` se niegan a arrancar («Node.js … is not supported by Astro»).
 
 ```bash
 git clone https://github.com/Chamba-Lab/home.git
@@ -99,6 +99,21 @@ Las descripciones no repiten precios ni límites exactos, porque cambian; en cur
 ### Añadir un evento
 
 Edita `src/content/events.json`. Los eventos son `fixed` (con `date`) o `recurring` (con `weekday` y `startDate`). Las horas van en la zona comunitaria **UTC-5**. Los identificadores deben mantenerse estables: se usan como `UID` en los archivos `.ics`.
+
+### Escribir una entrada del blog
+
+El blog (`/blog/`) documenta lo que hacemos en la comunidad. Las entradas las escriben, por ahora, quienes ya pueden abrir pull requests.
+
+1. Copia `src/content/posts/_plantilla.mdx` como `src/content/posts/<id-de-la-entrada>.mdx`. El nombre del archivo es el `id` y la ruta (`/blog/<id-de-la-entrada>/`): en minúsculas, con guiones y estable.
+2. Completa el frontmatter. La `description` debe tener entre **120 y 160 caracteres** (es lo que ven los buscadores) y, si pones `cover`, `coverAlt` es obligatorio. Escribe en el idioma de `lang`: las entradas no se traducen.
+3. Las imágenes van en una carpeta con el nombre de la entrada, junto al archivo (`src/content/posts/<id-de-la-entrada>/`), y se enlazan con rutas relativas: `![Descripción](./<id-de-la-entrada>/imagen.webp)`. Astro las optimiza. Escribe siempre un texto alternativo que describa lo que se ve.
+4. Componentes (se usan sin importarlos; solo las imágenes de `BeforeAfter` se importan, justo después del frontmatter):
+    - `<BeforeAfter before={antes} after={despues} beforeAlt="…" afterAlt="…" />`: comparador antes/después. Las dos imágenes deben tener la misma proporción. Etiquetas opcionales: `beforeLabel` y `afterLabel` (`{{ es: "…", en: "…" }}`).
+    - `<YouTube url="https://www.youtube.com/watch?v=…" title="…" />`: el reproductor solo se carga al pulsar.
+    - `<Clip src="/blog/<id-de-la-entrada>/demo.mp4" title="…" />`: video corto en bucle, en lugar de un GIF. Los archivos van en `public/blog/<id-de-la-entrada>/` (opcional: `webm` y `poster`). Mantenlos livianos.
+5. Mientras la entrada no esté lista, déjala con `draft: true`: no se publica en ningún lado. Para publicarla, `draft: false` en un PR.
+6. La entrada no incluye datos del evento al que corresponde. Ese vínculo se añade en el evento (`events.json`).
+7. Nada de datos de prueba al commitear: revierte entradas o videos temporales antes del PR.
 
 ### Sumarte al equipo
 
