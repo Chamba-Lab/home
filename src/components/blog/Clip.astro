@@ -18,19 +18,43 @@ const { src, webm, title, poster } = Astro.props;
 ---
 
 <figure class="clip">
-    <video
-        data-clip
-        muted
-        loop
-        playsinline
-        controls
-        preload="metadata"
-        poster={poster}
-        aria-label={title}
-    >
-        {webm && <source src={webm} type="video/webm" />}
-        <source src={src} type="video/mp4" />
-    </video>
+    <div class="zoom-wrap">
+        <video
+            data-clip
+            muted
+            loop
+            playsinline
+            controls
+            preload="metadata"
+            poster={poster}
+            aria-label={title}
+        >
+            {webm && <source src={webm} type="video/webm" />}
+            <source src={src} type="video/mp4" />
+        </video>
+        <button
+            type="button"
+            class="zoom-btn"
+            data-zoom-btn="video"
+            aria-label="Ampliar video"
+            data-i18n-aria-label-es="Ampliar video"
+            data-i18n-aria-label-en="Enlarge video"
+        >
+            <svg
+                viewBox="0 0 24 24"
+                width="16"
+                height="16"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+            >
+                <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"></path>
+            </svg>
+        </button>
+    </div>
     <figcaption>{title}</figcaption>
 </figure>
 
@@ -38,10 +62,15 @@ const { src, webm, title, poster } = Astro.props;
     .clip {
         margin: 2rem 0;
     }
+    /* Un clip vertical no puede ocupar más de una pantalla: se limita el alto y
+       el ancho sigue la proporción del video. */
     video {
         display: block;
-        width: 100%;
+        width: auto;
+        max-width: 100%;
+        max-height: min(32rem, 70vh);
         height: auto;
+        margin: 0 auto;
         border-radius: 1rem;
         border: 1px solid var(--color-surface-border-subtle);
         background: var(--color-surface-subtle);
