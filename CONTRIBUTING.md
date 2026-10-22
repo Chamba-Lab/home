@@ -100,6 +100,8 @@ Las descripciones no repiten precios ni límites exactos, porque cambian; en cur
 
 Edita `src/content/events.json`. Los eventos son `fixed` (con `date`) o `recurring` (con `weekday` y `startDate`). Las horas van en la zona comunitaria **UTC-5**. Los identificadores deben mantenerse estables: se usan como `UID` en los archivos `.ics`.
 
+El flujo es **Discord primero y el sitio después**: crea el evento en Discord (así la gente puede marcar «Me interesa» y recibe el aviso de Discord) y añade luego su entrada en `events.json`. Para enlazarlos, copia el enlace del evento de Discord (menú del evento → Copiar enlace) y ponlo en el campo opcional `discordEvent`, con la forma `https://discord.com/events/<servidor>/<evento>`: el evento muestra entonces un botón «Ver en Discord», que desaparece cuando el evento pasa.
+
 Si el evento ya tiene su entrada en el blog, enlázala con el campo opcional `post`: el `id` de la entrada, que es el nombre de su archivo en `src/content/posts/` sin la extensión (por ejemplo, `"post": "blender-mcp"`). En `/events` el evento muestra entonces una tarjeta con el título de la entrada y «Leer la entrada →». Solo funciona con eventos `fixed`, y la entrada debe estar publicada (`draft: false`); si no, el build falla con un mensaje claro.
 
 ### Escribir una entrada del blog

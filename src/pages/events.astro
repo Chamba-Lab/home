@@ -62,6 +62,8 @@ interface Occurrence {
     recurrenceLabel?: I18nText;
     kind?: EventKind;
     tag?: I18nText;
+    // Evento nativo de Discord (para marcar «Me interesa» y recibir su aviso).
+    discordEvent?: string;
     // Entrada del blog que documenta el evento (solo eventos únicos).
     postUrl?: string;
     postTitle?: string;
@@ -115,6 +117,7 @@ const months = Array.from({ length: totalMonths }, (_, i) => {
                     description: event.data.description,
                     kind: event.data.kind,
                     tag: event.data.tag,
+                    discordEvent: event.data.discordEvent,
                     ...(event.data.post && {
                         postUrl: postPath(event.data.post.id, base),
                         postTitle: postsById.get(event.data.post.id)?.data
@@ -151,6 +154,7 @@ const months = Array.from({ length: totalMonths }, (_, i) => {
                     recurrenceLabel: event.data.recurrenceLabel,
                     kind: event.data.kind,
                     tag: event.data.tag,
+                    discordEvent: event.data.discordEvent,
                 });
                 cursor.setDate(cursor.getDate() + 7);
             }
@@ -361,6 +365,7 @@ const upcomingEvents = months
                                 isRecurring={occurrence.isRecurring}
                                 kind={occurrence.kind}
                                 tag={occurrence.tag}
+                                discordEvent={occurrence.discordEvent}
                                 postUrl={occurrence.postUrl}
                                 postTitle={occurrence.postTitle}
                                 postLang={occurrence.postLang}
@@ -437,14 +442,14 @@ const upcomingEvents = months
         );
         let currentIndex = todayIndex >= 0 ? todayIndex : serverIndex;
 
-        // Eventos pasados atenuados y sin acciones de calendario (el navegador
-        // conoce la fecha de hoy).
+        // Eventos pasados: sin acciones de calendario y con la fecha en gris
+        // (el navegador conoce la fecha de hoy). La fila no se atenúa, para que
+        // la entrada del blog de un evento pasado se lea con claridad.
         document
             .querySelectorAll<HTMLElement>("[data-date-iso]")
             .forEach((item) => {
                 const iso = item.dataset.dateIso;
                 if (iso && iso < todayIso) {
-                    item.classList.add("opacity-60");
                     item.dataset.past = "";
                 }
             });

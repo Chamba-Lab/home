@@ -30,6 +30,9 @@ interface Props {
     isRecurring?: boolean;
     kind?: EventKind;
     tag?: I18nText;
+    // Evento nativo de Discord: «Ver en Discord» permite marcar «Me interesa» y
+    // recibir el aviso de Discord, sin bot ni sincronización.
+    discordEvent?: string;
     // Entrada del blog que documenta el evento (solo eventos únicos).
     postUrl?: string;
     postTitle?: string;
@@ -54,6 +57,7 @@ const {
     isRecurring = false,
     kind,
     tag,
+    discordEvent,
     postUrl,
     postTitle,
     postLang,
@@ -195,6 +199,22 @@ const timeDisplayEn = formatTimeDisplay(startTime, endTime, timezone, "en");
         Evento realizado
     </p>
     <div class="event-actions">
+        {discordEvent && (
+            <a
+                class="event-discord"
+                href={discordEvent}
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+                <span
+                    data-i18n-es="Ver en Discord"
+                    data-i18n-en="View on Discord"
+                >
+                    Ver en Discord
+                </span>{" "}
+                <span aria-hidden="true">↗</span>
+            </a>
+        )}
         <a
             class="event-gcal"
             href={gcalUrl}
@@ -323,12 +343,26 @@ const timeDisplayEn = formatTimeDisplay(startTime, endTime, timezone, "en");
     .agenda-event[data-past] .event-actions {
         display: none;
     }
+    /* La fecha de un evento pasado pasa de amarillo a gris. */
+    .agenda-event[data-past] .event-date {
+        color: var(--color-muted);
+    }
     .agenda-event[data-past] .event-ended {
         display: block;
     }
     /* Con entrada del blog, esa tarjeta ya cuenta que el evento se hizo. */
     .agenda-event.has-post[data-past] .event-ended {
         display: none;
+    }
+    /* El blurple es solo para Discord (ver DESIGN.md). */
+    .event-discord {
+        padding: 14px;
+        border-radius: 10px;
+        background: var(--color-brand-discord);
+        color: #fff;
+    }
+    .event-discord:hover {
+        background: var(--color-brand-discord-hover);
     }
     .event-gcal {
         padding: 14px;

@@ -61,6 +61,17 @@ const events = defineCollection({
             startTime: z.string().optional(),
             endTime: z.string().optional(),
             timezone: z.string().default("UTC-5"),
+            // Optional: the native Discord event
+            // (https://discord.com/events/<server>/<event>). The site links to
+            // it so people can mark "Interested" and get Discord's own
+            // reminder, with no bot or sync involved.
+            discordEvent: z
+                .string()
+                .regex(
+                    /^https:\/\/discord\.com\/events\/\d+\/\d+$/,
+                    "Use the Discord event link: https://discord.com/events/<server>/<event>",
+                )
+                .optional(),
             // Optional: the blog entry that documents this event (the id of a
             // file in src/content/posts/, without the extension). The entry
             // knows nothing about events; the link lives here.

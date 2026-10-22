@@ -37,3 +37,23 @@ describe("events.json", () => {
         expect(new Set(posts).size).toBe(posts.length);
     });
 });
+
+// `discordEvent` is optional too: the link of the native Discord event.
+const withDiscord = (events as { id: string; discordEvent?: string }[]).filter(
+    (event) => event.discordEvent,
+);
+
+describe("events.json Discord links", () => {
+    it("uses native Discord event links (discord.com/events/<server>/<event>)", () => {
+        for (const event of withDiscord) {
+            expect(event.discordEvent, event.id).toMatch(
+                /^https:\/\/discord\.com\/events\/\d+\/\d+$/,
+            );
+        }
+    });
+
+    it("does not repeat a Discord event across events", () => {
+        const links = withDiscord.map((event) => event.discordEvent);
+        expect(new Set(links).size).toBe(links.length);
+    });
+});
