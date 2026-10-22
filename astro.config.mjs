@@ -1,6 +1,7 @@
 // @ts-check
 import { defineConfig } from "astro/config";
 
+import mdx from "@astrojs/mdx";
 import react from "@astrojs/react";
 import sitemap from "@astrojs/sitemap";
 import tailwindcss from "@tailwindcss/vite";
@@ -19,8 +20,9 @@ export default defineConfig({
     // Descarga el HTML de una página interna al pasar el ratón (o tocar) su
     // enlace, para que al hacer clic ya esté. Respeta el ahorro de datos.
     prefetch: { prefetchAll: true, defaultStrategy: "hover" },
-    integrations: [react(), sitemap()],
-    // Sin Markdown con código: Shiki no se usa y es incompatible con la CSP.
+    integrations: [react(), sitemap(), mdx()],
+    // Sin resaltado de código: Shiki no se usa y es incompatible con la CSP.
+    // El MDX del blog hereda esta opción.
     markdown: { syntaxHighlight: false },
 
     // CSP en un <meta> por página (GitHub Pages no permite cabeceras). Astro
