@@ -326,6 +326,8 @@ const isVideo = type === "video";
 </style>
 
 <script>
+    import { mountVideoPlayer } from "../lib/video-player";
+
     // Videos: la tarjeta es un enlace a YouTube. Con JS, al pulsarla se carga
     // el reproductor (sin cookies de seguimiento) en su miniatura y se quita el
     // enlace para poder usar el reproductor; antes de eso no se envía nada a
@@ -339,14 +341,11 @@ const isVideo = type === "video";
                     ?.querySelector(".video-thumb");
                 if (!thumb) return;
                 event.preventDefault();
-                const iframe = document.createElement("iframe");
-                iframe.src = `https://www.youtube-nocookie.com/embed/${link.dataset.videoId}?autoplay=1&rel=0`;
-                iframe.title = link.dataset.videoTitle ?? "Video";
-                iframe.allow =
-                    "accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; fullscreen";
-                iframe.allowFullscreen = true;
-                iframe.className = "absolute inset-0 h-full w-full";
-                thumb.replaceChildren(iframe);
+                mountVideoPlayer(
+                    thumb,
+                    link.dataset.videoId ?? "",
+                    link.dataset.videoTitle ?? "Video",
+                );
                 link.remove();
             });
         });
