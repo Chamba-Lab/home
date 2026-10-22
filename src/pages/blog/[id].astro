@@ -229,24 +229,51 @@ const shareImageUrl = new URL(shareImage?.src ?? "/og-image.png", siteOrigin)
         border-radius: 1rem;
         border: 1px solid var(--color-surface-border-subtle);
     }
+    /* Tablas: una tarjeta con cabecera marcada, filas alternas y la primera
+       columna destacada. Pensadas para pocas columnas y celdas cortas; en
+       pantallas estrechas hacen scroll horizontal dentro de la tarjeta para
+       no ensanchar la página. */
     .post-body :global(table) {
-        display: block;
-        overflow-x: auto;
         width: 100%;
-        border-collapse: collapse;
+        border-collapse: separate;
+        border-spacing: 0;
+        overflow: hidden;
+        border: 1px solid var(--color-surface-border-subtle);
+        border-radius: 0.75rem;
+        background: var(--color-surface);
         font-size: 0.9375rem;
+        line-height: 1.5;
+    }
+    @media (max-width: 640px) {
+        .post-body :global(table) {
+            display: block;
+            overflow-x: auto;
+        }
     }
     .post-body :global(th),
     .post-body :global(td) {
-        padding: 0.625rem 0.875rem;
-        border-bottom: 1px solid var(--color-surface-border-subtle);
+        padding: 0.75rem 1rem;
         text-align: left;
         vertical-align: top;
     }
-    .post-body :global(th) {
-        color: var(--color-content-inverse);
+    .post-body :global(thead th) {
+        background: var(--color-surface-card);
+        color: var(--color-muted);
+        font-size: 0.75rem;
         font-weight: 700;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
         white-space: nowrap;
+    }
+    .post-body :global(tbody td) {
+        border-top: 1px solid var(--color-surface-border-subtle);
+    }
+    .post-body :global(tbody tr:nth-child(even) td) {
+        background: rgb(255 255 255 / 0.025);
+    }
+    .post-body :global(tbody td:first-child) {
+        color: var(--color-content-inverse);
+        font-weight: 600;
     }
     .post-body :global(hr) {
         margin: 2.5rem 0;
