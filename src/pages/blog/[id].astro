@@ -20,8 +20,8 @@ interface Props {
     post: CollectionEntry<"posts">;
 }
 
-// Proporción mínima (ancho/alto) de una portada para usarla en vistas previas.
-const SHARE_MIN_RATIO = 1.5;
+// Ancho máximo de la imagen de las vistas previas.
+const SHARE_MAX_WIDTH = 1200;
 
 const { post } = Astro.props;
 const { Content } = await render(post);
@@ -30,33 +30,39 @@ const rawBase = import.meta.env.BASE_URL;
 const base = rawBase.endsWith("/") ? rawBase : `${rawBase}/`;
 const siteOrigin = Astro.site?.origin ?? SITE_URL;
 
-const { title, description, date, cover, coverAlt, tags, author, lang } =
-    post.data;
+const {
+    title,
+    description,
+    date,
+    cover,
+    coverAlt,
+    ogImage,
+    tags,
+    author,
+    lang,
+} = post.data;
 const iso = postDateIso(date);
 
-// Imagen para las vistas previas (1200x630). La portada solo se usa si es
-// horizontal: recortar una vertical a 1200x630 corta al personaje. Si no, se
-// queda la imagen general del sitio (la que pone Layout por defecto).
-const wideCover =
-    cover && cover.width / cover.height >= SHARE_MIN_RATIO ? cover : undefined;
-const shareImage = wideCover
+// Imagen para las vistas previas: solo la del campo `ogImage`, tal cual, sin
+// recortarla. Sin ella, Layout usa la imagen general del sitio.
+const share = ogImage
     ? await getImage({
-          src: wideCover,
-          width: 1200,
-          height: 630,
-          fit: "cover",
+          src: ogImage,
+          width: Math.min(ogImage.width, SHARE_MAX_WIDTH),
           format: "jpg",
       })
     : undefined;
-const shareImageUrl = new URL(shareImage?.src ?? "/og-image.png", siteOrigin)
-    .href;
+const shareImageUrl = new URL(share?.src ?? "/og-image.png", siteOrigin).href;
 ---
 
 <Layout
     title={`${title} | Chamba Lab`}
     description={description}
     type="article"
-    image={shareImage?.src}
+    image={share?.src}
+    imageWidth={share?.attributes.width}
+    imageHeight={share?.attributes.height}
+    imageAlt={title}
     breadcrumbs={[
         { name: "Inicio", path: "/" },
         { name: "Blog", path: "/blog/" },
@@ -176,6 +182,33 @@ const shareImageUrl = new URL(shareImage?.src ?? "/og-image.png", siteOrigin)
         outline: 2px solid var(--color-brand-yellow);
         outline-offset: 3px;
         border-radius: 2px;
+    }
+    /* Insignia de los enlaces a GitHub y YouTube (los marca Link.astro con
+       data-kind): una píldora con el icono antes del texto. */
+    .post-body :global(a[data-kind]) {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        padding: 0.0625rem 0.625rem 0.0625rem 0.5rem;
+        border-radius: 999px;
+        border: 1px solid var(--color-surface-border-subtle);
+        background: var(--color-surface-card);
+        color: var(--color-content-inverse);
+        font-size: 0.95em;
+        font-weight: 600;
+        text-decoration: none;
+        transition:
+            border-color 0.15s,
+            color 0.15s;
+    }
+    .post-body :global(a[data-kind]:hover) {
+        border-color: var(--color-brand-yellow);
+        color: var(--color-brand-yellow);
+    }
+    .post-body :global(a[data-kind] svg) {
+        flex: none;
+        width: 1em;
+        height: 1em;
     }
     .post-body :global(strong) {
         color: var(--color-content-inverse);

@@ -10,3 +10,36 @@ export function isExternalUrl(href: unknown, siteUrl = SITE_URL): boolean {
         return false;
     }
 }
+
+export type LinkKind = "github-profile" | "github-repo" | "youtube";
+
+const GITHUB_HOSTS = new Set(["github.com", "www.github.com"]);
+const YOUTUBE_HOSTS = new Set([
+    "youtube.com",
+    "www.youtube.com",
+    "m.youtube.com",
+    "youtu.be",
+]);
+
+/**
+ * Tipo de recurso al que apunta un enlace, para ponerle su insignia en el
+ * blog: un perfil de GitHub (`github.com/usuario`), un repositorio
+ * (`github.com/usuario/repo`, también con subrutas) o YouTube. Cualquier otro
+ * enlace devuelve `undefined`.
+ */
+export function linkKind(href: unknown): LinkKind | undefined {
+    if (typeof href !== "string" || !/^https?:\/\//i.test(href)) {
+        return undefined;
+    }
+    let url: URL;
+    try {
+        url = new URL(href);
+    } catch {
+        return undefined;
+    }
+    if (YOUTUBE_HOSTS.has(url.hostname)) return "youtube";
+    if (!GITHUB_HOSTS.has(url.hostname)) return undefined;
+    const [owner, repo] = url.pathname.split("/").filter(Boolean);
+    if (!owner) return undefined;
+    return repo ? "github-repo" : "github-profile";
+}
