@@ -12,6 +12,13 @@ updates:
       commit-message:
           prefix: chore
           include: scope
+      # TypeScript 7 (la reescritura nativa) aún no lo soporta typescript-eslint:
+      # su peer es `typescript <6.1.0` y `npm ci` falla con ERESOLVE. Se quedan
+      # los parches de la 6.0; quitar esta regla cuando typescript-eslint
+      # publique soporte para 7.
+      ignore:
+          - dependency-name: typescript
+            versions: [">=6.1.0"]
       # Parches y menores juntos en un solo PR; las mayores van por separado.
       groups:
           npm-minor-patch:
