@@ -105,7 +105,7 @@ Edita `src/content/events.json`. Los eventos son `fixed` (con `date`) o `recurri
 El blog (`/blog/`) documenta lo que hacemos en la comunidad. Las entradas las escriben, por ahora, quienes ya pueden abrir pull requests.
 
 1. Copia `src/content/posts/_plantilla.mdx` como `src/content/posts/<id-de-la-entrada>.mdx`. El nombre del archivo es el `id` y la ruta (`/blog/<id-de-la-entrada>/`): en minúsculas, con guiones y estable.
-2. Completa el frontmatter. La `description` debe tener entre **120 y 160 caracteres** (es lo que ven los buscadores) y, si pones `cover`, `coverAlt` es obligatorio. Escribe en el idioma de `lang`: las entradas no se traducen.
+2. Completa el frontmatter. La `description` debe tener entre **120 y 160 caracteres** (es lo que ven los buscadores) y, si pones `cover`, `coverAlt` es obligatorio. Escribe en el idioma de `lang`: las entradas no se traducen. Los enlaces a otros sitios que pongas en el texto con Markdown (`[texto](https://…)`) se abren solos en una pestaña nueva.
 3. Las imágenes van en una carpeta con el nombre de la entrada, junto al archivo (`src/content/posts/<id-de-la-entrada>/`), y se enlazan con rutas relativas: `![Descripción](./<id-de-la-entrada>/imagen.webp)`. Astro las optimiza. Escribe siempre un texto alternativo que describa lo que se ve.
 4. Componentes (se usan sin importarlos; solo las imágenes de `BeforeAfter` se importan, justo después del frontmatter):
     - `<BeforeAfter before={antes} after={despues} beforeAlt="…" afterAlt="…" />`: comparador antes/después. Las dos imágenes deben tener la misma proporción. Etiquetas opcionales: `beforeLabel` y `afterLabel` (`{{ es: "…", en: "…" }}`).

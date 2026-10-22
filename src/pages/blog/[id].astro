@@ -4,6 +4,7 @@ import { getImage, Image } from "astro:assets";
 import Layout from "../../layouts/Layout.astro";
 import BeforeAfter from "../../components/blog/BeforeAfter.astro";
 import Clip from "../../components/blog/Clip.astro";
+import Link from "../../components/blog/Link.astro";
 import YouTube from "../../components/blog/YouTube.astro";
 import { SITE_URL } from "../../lib/constants";
 import { formatLongDate } from "../../lib/events";
@@ -123,7 +124,7 @@ const shareImageUrl = new URL(shareImage?.src ?? "/og-image.png", siteOrigin)
             )}
 
             <div class="post-body">
-                <Content components={{ BeforeAfter, Clip, YouTube }} />
+                <Content components={{ a: Link, BeforeAfter, Clip, YouTube }} />
             </div>
         </article>
     </main>

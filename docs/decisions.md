@@ -23,6 +23,7 @@ Registro corto de las decisiones que condicionan el proyecto y el porqué. Solo 
 - **Cada entrada se muestra en el idioma en que se escribió.** La interfaz sigue siendo bilingüe, pero traducir cada entrada duplicaría el trabajo de quien escribe. El idioma se declara en `lang` y el cuerpo lleva ese `lang` para lectores de pantalla.
 - **La `description` de una entrada mide entre 120 y 160 caracteres, y se valida en el esquema.** Es la descripción que ven los buscadores (mismo criterio que `AGENTS.md` para las páginas) y un contenido nuevo no debería poder publicarse sin ella.
 - **La portada solo se usa en vistas previas si es horizontal.** Recortar una portada vertical a 1200×630 corta al personaje (y las zonas transparentes se vuelven negras en JPEG), y la opción `contain` de Astro no rellena el lienzo. Sin portada horizontal se usa la imagen general del sitio.
+- **Los enlaces externos de una entrada se abren en una pestaña nueva.** Lo hace `src/components/blog/Link.astro`, que se ofrece a MDX como `a` (con `isExternalUrl` de `src/lib/links.ts`); los internos, no. No es un plugin de rehype porque Astro 7 usa Sätteri como procesador de Markdown y los plugins de rehype exigen instalar `@astrojs/markdown-remark`: no se añade una dependencia para esto.
 - **El video corto va como `<video>` y no como GIF.** Un GIF pesa varias veces más. Astro no optimiza video, así que los archivos van en `public/blog/<id>/`. Con `prefers-reduced-motion` no arranca solo.
 
 ## Recursos
