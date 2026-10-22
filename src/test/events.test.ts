@@ -56,10 +56,10 @@ describe("eventCategory", () => {
         ).toBe("Coworking · Every Friday");
     });
 
-    it("nombra el lanzamiento", () => {
+    it("nombra la apertura", () => {
         expect(eventCategory({ kind: "launch" })).toEqual({
-            es: "Encuentro de lanzamiento",
-            en: "Community launch",
+            es: "Encuentro de apertura",
+            en: "Community opening",
         });
     });
 

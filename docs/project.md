@@ -37,12 +37,12 @@ Mid y Senior van juntos en el diagrama del home: pasar de uno a otro es cuestió
 
 **Hecho**: landing con widget de Discord, ecosistema, eventos, equipo y recursos; páginas de recursos, eventos, equipo y dinámicas (La Ruleta); bilingüe ES/EN; identidad de marca; dominio propio `chambalab.org` y enlace público `chambalab.org/discord`; SEO técnico (datos estructurados, 404, metadatos); biblioteca de recursos curada con criterios, organizada por categorías (cada una con su ruta y buscador), en tres formatos (web, canal y video) y con una categoría de becas; guía de contribución y `master` protegida.
 
-**Enfoque del lanzamiento**: es casual y de baja escala. La comunidad pasa a ser un proyecto público y serio (dominio, redes de los fundadores, eventos con más orden), con el enlace abierto para que entre gente poco a poco. No se busca captar más de lo que se puede atender, ni hay actividades diarias o semanales obligatorias.
+**Enfoque de crecimiento**: orgánico y continuo, sin un lanzamiento como hito. La comunidad abrió el 13 de octubre de 2026 y crece con redes, contenido y actividades pequeñas que se documentan y se promocionan, con el enlace abierto para que entre gente poco a poco. No se busca captar más de lo que se puede atender, ni hay actividades diarias o semanales obligatorias.
 
 **Siguiente (corto plazo)**
 
 - Dejar el servidor de Discord listo para abrir: reglas, estructura, seguridad y Onboarding.
-- Mantener los eventos fijos del sitio al día (lanzamiento y Code & Coffee) y definir otras sesiones internamente.
+- Mantener los eventos fijos del sitio al día (la apertura, las actividades y Code & Coffee) y definir otras sesiones internamente.
 - Seguir ampliando y revisando los recursos curados.
 
 **Después (mediano plazo)**

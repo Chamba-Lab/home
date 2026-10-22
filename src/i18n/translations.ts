@@ -83,7 +83,7 @@ export const translations = {
             "Workshops en vivo, simulacros técnicos y espacios de coworking.",
         eventsTitle: "Próximos eventos",
         eventsIntro:
-            "El lanzamiento y las sesiones recurrentes de la comunidad. Fechas exactas siempre confirmadas en el canal #eventos de Discord.",
+            "Las actividades y sesiones recurrentes de la comunidad. Fechas exactas siempre confirmadas en el canal #eventos de Discord.",
         nextLiveSession: "Próxima Sesión",
         weeklySession: "Sesión Semanal",
         addToGCal: "Google Calendar",
@@ -218,7 +218,7 @@ export const translations = {
             "Live workshops, technical mock interviews, and coworking spaces.",
         eventsTitle: "Upcoming events",
         eventsIntro:
-            "The launch and recurring sessions of the community. Exact dates are always confirmed in the #eventos channel on Discord.",
+            "The activities and recurring sessions of the community. Exact dates are always confirmed in the #eventos channel on Discord.",
         nextLiveSession: "Next Live Session",
         weeklySession: "Weekly Session",
         addToGCal: "Google Calendar",

@@ -39,16 +39,16 @@
     {
         "id": "launch",
         "title": {
-            "en": "Community Launch",
-            "es": "Lanzamiento de la comunidad"
+            "en": "Community Opening",
+            "es": "Apertura de la comunidad"
         },
         "description": {
-            "en": "Chamba Lab's kickoff event: we introduce the community, how it works, and what's next.",
-            "es": "El evento inaugural de Chamba Lab: presentamos la comunidad, cómo funciona y qué viene después."
+            "en": "Chamba Lab opens its doors: we introduce the community, how it works, and what's next.",
+            "es": "Chamba Lab abre sus puertas: presentamos la comunidad, cómo funciona y qué viene después."
         },
         "type": "fixed",
         "kind": "launch",
-        "date": "2026-10-30",
+        "date": "2026-10-13",
         "startTime": "19:00",
         "endTime": "20:30",
         "timezone": "UTC-5"
