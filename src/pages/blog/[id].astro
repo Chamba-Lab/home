@@ -205,10 +205,20 @@ const shareImageUrl = new URL(share?.src ?? "/og-image.png", siteOrigin).href;
         border-color: var(--color-brand-yellow);
         color: var(--color-brand-yellow);
     }
-    .post-body :global(a[data-kind] svg) {
+    .post-body :global(a[data-kind] svg),
+    .post-body :global(a[data-kind] img) {
         flex: none;
         width: 1em;
         height: 1em;
+        object-fit: contain;
+    }
+    /* El logo no es una imagen de la entrada: sin los márgenes ni el borde de
+       `.post-body img`. */
+    .post-body :global(a[data-kind] img) {
+        max-height: none;
+        margin: 0;
+        border: 0;
+        border-radius: 0.25rem;
     }
     .post-body :global(strong) {
         color: var(--color-content-inverse);

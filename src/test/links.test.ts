@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { isExternalUrl, linkKind } from "../lib/links";
+import { isExternalUrl, linkKind, matchPortfolio } from "../lib/links";
 
 const SITE = "https://chambalab.org";
 
@@ -58,5 +58,37 @@ describe("linkKind", () => {
         expect(linkKind("https://example.org/github.com/a")).toBeUndefined();
         expect(linkKind("/blog/")).toBeUndefined();
         expect(linkKind(undefined)).toBeUndefined();
+    });
+});
+
+describe("matchPortfolio", () => {
+    const team = [
+        { name: "Antonio", portfolio: "https://bunnyrecords.dev/es" },
+        { name: "Melio", portfolio: "https://www.meliodiaz.com/" },
+        { name: "Sin sitio" },
+    ];
+
+    it("encuentra al dueño por el dominio, con cualquier ruta", () => {
+        expect(matchPortfolio("https://bunnyrecords.dev/es", team)?.name).toBe(
+            "Antonio",
+        );
+        expect(matchPortfolio("https://bunnyrecords.dev/", team)?.name).toBe(
+            "Antonio",
+        );
+    });
+
+    it("ignora el www. de cualquiera de los dos lados", () => {
+        expect(matchPortfolio("https://meliodiaz.com", team)?.name).toBe(
+            "Melio",
+        );
+        expect(
+            matchPortfolio("https://www.bunnyrecords.dev/es", team)?.name,
+        ).toBe("Antonio");
+    });
+
+    it("no confunde otros sitios ni enlaces que no son http", () => {
+        expect(matchPortfolio("https://example.org", team)).toBeUndefined();
+        expect(matchPortfolio("/blog/", team)).toBeUndefined();
+        expect(matchPortfolio(undefined, team)).toBeUndefined();
     });
 });
