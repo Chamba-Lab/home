@@ -1,0 +1,234 @@
+---
+// Comparador antes/después para entradas del blog. Dos imágenes
+// optimizadas superpuestas y un control deslizante (input range) que recorta
+// la de arriba: se maneja con ratón, dedo y flechas del teclado. Sin
+// JavaScript se ven las dos imágenes una debajo de otra.
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
+
+interface Label {
+    es: string;
+    en: string;
+}
+
+interface Props {
+    before: ImageMetadata;
+    after: ImageMetadata;
+    beforeAlt: string;
+    afterAlt: string;
+    beforeLabel?: Label;
+    afterLabel?: Label;
+}
+
+const {
+    before,
+    after,
+    beforeAlt,
+    afterAlt,
+    beforeLabel = { es: "Antes", en: "Before" },
+    afterLabel = { es: "Después", en: "After" },
+} = Astro.props;
+
+// Las dos imágenes deben tener la misma proporción; manda la de "después".
+const portrait = after.height > after.width;
+const sizes = portrait
+    ? "(min-width: 640px) 448px, 100vw"
+    : "(min-width: 768px) 720px, 100vw";
+---
+
+<figure
+    class:list={["ba", { "ba-portrait": portrait }]}
+    data-ba
+    style={`--ar: ${after.width} / ${after.height}`}
+>
+    <div class="ba-stage">
+        <div class="ba-layer ba-after">
+            <Image
+                src={after}
+                alt={afterAlt}
+                class="ba-img"
+                widths={[480, 720, 1080]}
+                sizes={sizes}
+                loading="lazy"
+            />
+            <span
+                class="ba-tag ba-tag-after"
+                data-i18n-es={afterLabel.es}
+                data-i18n-en={afterLabel.en}
+            >
+                {afterLabel.es}
+            </span>
+        </div>
+        <div class="ba-layer ba-before">
+            <Image
+                src={before}
+                alt={beforeAlt}
+                class="ba-img"
+                widths={[480, 720, 1080]}
+                sizes={sizes}
+                loading="lazy"
+            />
+            <span
+                class="ba-tag ba-tag-before"
+                data-i18n-es={beforeLabel.es}
+                data-i18n-en={beforeLabel.en}
+            >
+                {beforeLabel.es}
+            </span>
+        </div>
+        <div class="ba-line" aria-hidden="true">
+            <span class="ba-knob"></span>
+        </div>
+        <input
+            class="ba-range"
+            type="range"
+            min="0"
+            max="100"
+            step="1"
+            value="50"
+            aria-label="Comparar antes y después"
+            data-i18n-aria-label-es="Comparar antes y después"
+            data-i18n-aria-label-en="Compare before and after"
+        />
+    </div>
+</figure>
+
+<style>
+    .ba {
+        margin: 2rem auto;
+    }
+    .ba-portrait {
+        max-width: 28rem;
+    }
+    .ba-stage {
+        display: grid;
+        gap: 1rem;
+    }
+    .ba-layer {
+        position: relative;
+        overflow: hidden;
+        border-radius: 1rem;
+        border: 1px solid var(--color-surface-border-subtle);
+    }
+    .ba-layer :global(.ba-img) {
+        display: block;
+        width: 100%;
+        height: auto;
+    }
+    .ba-tag {
+        position: absolute;
+        top: 0.75rem;
+        padding: 0.25rem 0.6rem;
+        border-radius: 0.5rem;
+        background: rgb(8 13 26 / 0.8);
+        color: var(--color-content-inverse);
+        font-size: 0.6875rem;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+    }
+    .ba-tag-before {
+        left: 0.75rem;
+    }
+    .ba-tag-after {
+        right: 0.75rem;
+    }
+    .ba-line,
+    .ba-range {
+        display: none;
+    }
+
+    /* Con JavaScript: las imágenes se superponen y el control recorta la de
+       arriba. */
+    .ba[data-ready] .ba-stage {
+        position: relative;
+        display: block;
+        aspect-ratio: var(--ar);
+        overflow: hidden;
+        border-radius: 1rem;
+        border: 1px solid var(--color-surface-border-subtle);
+        user-select: none;
+    }
+    .ba[data-ready] .ba-layer {
+        position: absolute;
+        inset: 0;
+        border: 0;
+        border-radius: 0;
+    }
+    .ba[data-ready] .ba-layer :global(.ba-img) {
+        height: 100%;
+        object-fit: cover;
+    }
+    .ba[data-ready] .ba-before {
+        clip-path: inset(0 calc(100% - var(--pos, 50%)) 0 0);
+    }
+    .ba[data-ready] .ba-line {
+        display: block;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: var(--pos, 50%);
+        width: 2px;
+        margin-left: -1px;
+        background: var(--color-brand-yellow);
+        pointer-events: none;
+    }
+    .ba-knob {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 2.5rem;
+        height: 2.5rem;
+        margin: -1.25rem 0 0 -1.25rem;
+        border-radius: 9999px;
+        background: var(--color-brand-yellow);
+        color: var(--color-on-accent);
+        box-shadow: 0 2px 12px rgb(0 0 0 / 0.5);
+    }
+    .ba-knob::before,
+    .ba-knob::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        width: 0;
+        height: 0;
+        margin-top: -5px;
+        border: 5px solid transparent;
+    }
+    .ba-knob::before {
+        left: 7px;
+        border-right-color: currentColor;
+    }
+    .ba-knob::after {
+        right: 7px;
+        border-left-color: currentColor;
+    }
+    .ba[data-ready] .ba-range {
+        display: block;
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        opacity: 0;
+        cursor: ew-resize;
+        /* El scroll vertical de la página sigue funcionando sobre la imagen. */
+        touch-action: pan-y;
+    }
+    .ba[data-ready] .ba-stage:has(.ba-range:focus-visible) .ba-knob {
+        outline: 2px solid var(--color-content-inverse);
+        outline-offset: 3px;
+    }
+</style>
+
+<script>
+    document.querySelectorAll<HTMLElement>("[data-ba]").forEach((figure) => {
+        const range = figure.querySelector<HTMLInputElement>(".ba-range");
+        if (!range) return;
+        const update = () =>
+            figure.style.setProperty("--pos", `${range.value}%`);
+        range.addEventListener("input", update);
+        update();
+        figure.dataset.ready = "";
+    });
+</script>
