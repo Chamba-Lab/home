@@ -154,6 +154,10 @@ const sizes = portrait
         inset: 0;
         border: 0;
         border-radius: 0;
+        /* Fondo opaco: muchas imágenes (renders con transparencia) dejarían
+           ver la de abajo a través de la de arriba y la comparación se vería
+           como una doble exposición. */
+        background: var(--color-surface-card);
     }
     .ba[data-ready] .ba-layer :global(.ba-img) {
         height: 100%;
