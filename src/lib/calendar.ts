@@ -191,7 +191,7 @@ export function formatTimeDisplay(
     lang: "es" | "en" = "es",
 ): string {
     if (!startTime) {
-        return lang === "es" ? "Hora por confirmar" : "Time TBA";
+        return lang === "es" ? "Sin hora fija" : "No fixed time";
     }
     if (endTime) {
         return `${startTime} - ${endTime} (${timezone})`;
