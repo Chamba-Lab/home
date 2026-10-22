@@ -73,6 +73,28 @@
         },
         "startTime": "20:00",
         "endTime": "22:00",
-        "timezone": "UTC-5"
+        "timezone": "UTC-5",
+        "discordEvent": "https://discord.com/events/1473927361106808832/1562916812658581596"
+    },
+    {
+        "id": "english-practice-claude-skill",
+        "title": {
+            "en": "Practicing English with a custom skill in Claude",
+            "es": "Practicando inglés con un custom skill en Claude"
+        },
+        "description": {
+            "en": "We define a custom Claude skill to practice English while you use it: non-intrusive corrections, only on the critical points.",
+            "es": "Definimos un custom skill de Claude para practicar inglés mientras lo consultas: correcciones no invasivas y solo sobre los puntos críticos."
+        },
+        "type": "fixed",
+        "kind": "activity",
+        "tag": {
+            "en": "AI practice",
+            "es": "Práctica con IA"
+        },
+        "date": "2026-10-23",
+        "startTime": "18:30",
+        "timezone": "UTC-5",
+        "discordEvent": "https://discord.com/events/1473927361106808832/1561845667754934342"
     }
 ]
