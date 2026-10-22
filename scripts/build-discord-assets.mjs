@@ -9,6 +9,7 @@ const pieces = [
     ["invite-splash", 1920, 1080],
     ["launch-announcement", 1200, 675],
     ["launch-event-cover", 1600, 640],
+    ["code-coffee-event-cover", 1600, 640],
 ];
 
 for (const [name, w, h] of pieces) {
