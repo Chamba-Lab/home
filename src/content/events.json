@@ -38,6 +38,26 @@
         "post": "blender-mcp"
     },
     {
+        "id": "higgsfield-exploration",
+        "title": {
+            "en": "Exploring Higgsfield with trial credits",
+            "es": "Exploración de Higgsfield con créditos de prueba"
+        },
+        "description": {
+            "en": "An asynchronous exploration of Higgsfield: images and video of our mascot with Nano Banana, Seedream, Seedance and motion-transfer templates, spending the trial credits.",
+            "es": "Exploración asíncrona de Higgsfield: imágenes y video de nuestra mascota con Nano Banana, Seedream, Seedance y plantillas de Motion Transfer, aprovechando los créditos de prueba."
+        },
+        "type": "fixed",
+        "kind": "activity",
+        "tag": {
+            "en": "AI exploration",
+            "es": "Exploración con IA"
+        },
+        "date": "2026-10-17",
+        "timezone": "UTC-5",
+        "post": "higgsfield"
+    },
+    {
         "id": "launch",
         "title": {
             "en": "Community Opening",
