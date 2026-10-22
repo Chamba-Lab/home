@@ -1,4 +1,4 @@
-import { defineCollection, z } from "astro:content";
+import { defineCollection, reference, z } from "astro:content";
 import { file, glob } from "astro/loaders";
 import {
     ACCESS_IDS,
@@ -61,10 +61,18 @@ const events = defineCollection({
             startTime: z.string().optional(),
             endTime: z.string().optional(),
             timezone: z.string().default("UTC-5"),
+            // Optional: the blog entry that documents this event (the id of a
+            // file in src/content/posts/, without the extension). The entry
+            // knows nothing about events; the link lives here.
+            post: reference("posts").optional(),
         })
         .refine((event) => event.kind !== "activity" || event.tag, {
             message: "Activity events need a `tag` (poster headline)",
             path: ["tag"],
+        })
+        .refine((event) => !event.post || event.type === "fixed", {
+            message: "Only one-time (`fixed`) events can link a blog entry",
+            path: ["post"],
         }),
 });
 

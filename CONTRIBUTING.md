@@ -100,6 +100,8 @@ Las descripciones no repiten precios ni límites exactos, porque cambian; en cur
 
 Edita `src/content/events.json`. Los eventos son `fixed` (con `date`) o `recurring` (con `weekday` y `startDate`). Las horas van en la zona comunitaria **UTC-5**. Los identificadores deben mantenerse estables: se usan como `UID` en los archivos `.ics`.
 
+Si el evento ya tiene su entrada en el blog, enlázala con el campo opcional `post`: el `id` de la entrada, que es el nombre de su archivo en `src/content/posts/` sin la extensión (por ejemplo, `"post": "blender-mcp"`). En `/events` el evento muestra entonces una tarjeta con el título de la entrada y «Leer la entrada →». Solo funciona con eventos `fixed`, y la entrada debe estar publicada (`draft: false`); si no, el build falla con un mensaje claro.
+
 ### Escribir una entrada del blog
 
 El blog (`/blog/`) documenta lo que hacemos en la comunidad. Las entradas las escriben, por ahora, quienes ya pueden abrir pull requests.
@@ -112,7 +114,7 @@ El blog (`/blog/`) documenta lo que hacemos en la comunidad. Las entradas las es
     - `<YouTube url="https://www.youtube.com/watch?v=…" title="…" />`: el reproductor solo se carga al pulsar.
     - `<Clip src="/blog/<id-de-la-entrada>/demo.mp4" title="…" />`: video corto en bucle, en lugar de un GIF. Los archivos van en `public/blog/<id-de-la-entrada>/` (opcional: `webm` y `poster`). Mantenlos livianos.
 5. Mientras la entrada no esté lista, déjala con `draft: true`: no se publica en ningún lado. Para publicarla, `draft: false` en un PR.
-6. La entrada no incluye datos del evento al que corresponde. Ese vínculo se añade en el evento (`events.json`).
+6. La entrada no incluye datos del evento al que corresponde. Ese vínculo se añade en el evento, con su campo `post` (ver [Añadir un evento](#añadir-un-evento)).
 7. Nada de datos de prueba al commitear: revierte entradas o videos temporales antes del PR.
 
 ### Sumarte al equipo

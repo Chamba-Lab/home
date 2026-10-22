@@ -30,6 +30,10 @@ interface Props {
     isRecurring?: boolean;
     kind?: EventKind;
     tag?: I18nText;
+    // Entrada del blog que documenta el evento (solo eventos únicos).
+    postUrl?: string;
+    postTitle?: string;
+    postLang?: string;
 }
 
 const {
@@ -50,6 +54,9 @@ const {
     isRecurring = false,
     kind,
     tag,
+    postUrl,
+    postTitle,
+    postLang,
 } = Astro.props;
 
 const title = titleEs || titleEn || "Evento Chamba Lab";
@@ -95,7 +102,10 @@ const timeDisplayEn = formatTimeDisplay(startTime, endTime, timezone, "en");
 
 <li
     data-date-iso={dateIso}
-    class:list={["agenda-event", { recurring: isRecurring }]}
+    class:list={[
+        "agenda-event",
+        { recurring: isRecurring, "has-post": !!postUrl },
+    ]}
 >
     <time class="event-date" datetime={dateIso}>
         <span
@@ -148,6 +158,27 @@ const timeDisplayEn = formatTimeDisplay(startTime, endTime, timezone, "en");
         >
             {descriptionEs ?? descriptionEn}
         </p>
+        {postUrl && (
+            <a class="event-post" href={postUrl}>
+                <span
+                    class="event-post-label"
+                    data-i18n-es="Blog"
+                    data-i18n-en="Blog"
+                >
+                    Blog
+                </span>
+                <span class="event-post-title" lang={postLang}>
+                    {postTitle}
+                </span>
+                <span
+                    class="event-post-cta"
+                    data-i18n-es="Leer la entrada →"
+                    data-i18n-en="Read the entry →"
+                >
+                    Leer la entrada →
+                </span>
+            </a>
+        )}
     </div>
     <p class="event-mobile-time">
         <span data-i18n-es={weekdayEs} data-i18n-en={weekdayEn}>
@@ -238,6 +269,42 @@ const timeDisplayEn = formatTimeDisplay(startTime, endTime, timezone, "en");
         line-height: 1.55;
         color: var(--color-muted);
     }
+    /* Entrada del blog que documenta el evento: una tarjeta pequeña bajo la
+       descripción. Se ve igual en eventos pasados y futuros. */
+    .event-post {
+        display: inline-flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 6px 12px;
+        max-width: 100%;
+        margin-top: 18px;
+        padding: 12px 14px;
+        border: 1px solid var(--color-surface-border-subtle);
+        border-radius: 10px;
+        background: var(--color-surface-subtle);
+        font-size: 13px;
+    }
+    .event-post:hover {
+        border-color: var(--color-brand-yellow);
+    }
+    .event-post:focus-visible {
+        outline: 2px solid var(--color-brand-yellow);
+        outline-offset: 4px;
+    }
+    .event-post-label {
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        color: var(--color-brand-yellow);
+    }
+    .event-post-title {
+        font-weight: 600;
+        color: var(--color-content-inverse);
+    }
+    .event-post-cta {
+        color: var(--color-muted);
+    }
     .event-actions {
         display: flex;
         flex-direction: column;
@@ -258,6 +325,10 @@ const timeDisplayEn = formatTimeDisplay(startTime, endTime, timezone, "en");
     }
     .agenda-event[data-past] .event-ended {
         display: block;
+    }
+    /* Con entrada del blog, esa tarjeta ya cuenta que el evento se hizo. */
+    .agenda-event.has-post[data-past] .event-ended {
+        display: none;
     }
     .event-gcal {
         padding: 14px;

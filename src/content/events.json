@@ -34,7 +34,8 @@
         "date": "2026-10-16",
         "startTime": "15:00",
         "endTime": "18:00",
-        "timezone": "UTC-5"
+        "timezone": "UTC-5",
+        "post": "blender-mcp"
     },
     {
         "id": "launch",
