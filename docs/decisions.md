@@ -64,3 +64,4 @@ Registro corto de las decisiones que condicionan el proyecto y el porqué. Solo 
 
 - **`master` protegida con ruleset.** PR obligatorio con revisión, checks `Lint, Test & Build` y `PR title (Conventional Commits)`, solo squash. El release lo publica una GitHub App con bypass, no una cuenta personal.
 - **Versionado y changelog automáticos** a partir de Conventional Commits; por eso el título del PR importa.
+- **CI sin caché de npm y con el título en su propio workflow.** El repo es público, así que los minutos de Actions no tienen cuota; aun así había 118 cachés de ~100 MB (10,8 GB, sobre el límite de 10 GB) porque cada release cambia `package-lock.json` y con ello la clave de la caché, y cada edición de un PR relanzaba lint, tests y build. Ahora `pr-title.yml` valida solo el título (y escucha `edited`), `PR Checks` no escucha `edited`, no se usa `cache: "npm"` y el job de `master` no cancela un release en curso.

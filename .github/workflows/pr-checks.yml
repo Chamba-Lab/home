@@ -1,10 +1,16 @@
 name: PR Checks
 
+# Lint, tests, build y audit corren al abrir el PR o al subir commits. El título
+# se valida en pr-title.yml, que además escucha las ediciones: así editar la
+# descripción o el título no relanza todo. Sin caché de npm: cada release cambia
+# package-lock.json (su campo version) y creaba una caché nueva de ~100 MB por
+# release, hasta pasar el límite de 10 GB del repositorio.
+
 on:
     pull_request:
         branches:
             - master
-        types: [opened, synchronize, reopened, edited]
+        types: [opened, synchronize, reopened]
 
 permissions:
     contents: read
@@ -25,7 +31,6 @@ jobs:
               uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
               with:
                   node-version: "lts/*"
-                  cache: "npm"
 
             - name: Install dependencies
               run: npm ci
@@ -69,21 +74,4 @@ jobs:
                           cat audit.txt
                           echo '```'
                       } >> "$GITHUB_STEP_SUMMARY"
-                  fi
-
-    pr-title:
-        name: PR title (Conventional Commits)
-        runs-on: ubuntu-latest
-        steps:
-            # El título del PR se convierte en el mensaje del commit al hacer squash
-            # y alimenta el changelog, por eso debe seguir Conventional Commits.
-            - name: Validate title
-              env:
-                  TITLE: ${{ github.event.pull_request.title }}
-              run: |
-                  pattern='^(feat|fix|docs|perf|refactor|chore|test|style|build|ci|revert)(\([a-z0-9._/-]+\))?!?: .+'
-                  if ! printf '%s' "$TITLE" | grep -Eq "$pattern"; then
-                      echo "::error::El título del PR debe seguir Conventional Commits, por ejemplo: 'feat: add team logos'."
-                      echo "Título actual: $TITLE"
-                      exit 1
                   fi
