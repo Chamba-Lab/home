@@ -8,6 +8,7 @@ Registro corto de las decisiones que condicionan el proyecto y el porqué. Solo 
 - **Lema: _Connect. Inspire. Grow._** Resume la comunidad (conectar, inspirar, crecer juntos). Está en la imagen OG (`brand/og.svg`), los metadatos de `Layout.astro` y el README.
 - **Valores: Comunidad y Práctico.** El lema _Connect. Inspire. Grow._ estructura la propuesta de la comunidad (ver `AGENTS.md`).
 - **Copy neutro en español.** Sin jerga local para no limitar el crecimiento hacia otros países; "Chamba" (el nombre) es la única excepción.
+- **Crecimiento orgánico, sin lanzamiento como hito.** La comunidad abrió el 13 de octubre de 2026 (evento `launch` de `events.json`, ya pasado) y crece con continuidad: redes, contenido y actividades pequeñas que se documentan y promocionan. Un lanzamiento con fecha concentraba el foco en un pico y generaba deuda cada vez que se aplazaba. No se programan nuevos hitos de lanzamiento; el ritmo lo marcan Code & Coffee y las actividades.
 
 ## Recursos
 

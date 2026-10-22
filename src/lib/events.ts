@@ -100,7 +100,7 @@ export function eventCategory({
         };
     }
     if (kind === "launch") {
-        return { es: "Encuentro de lanzamiento", en: "Community launch" };
+        return { es: "Encuentro de apertura", en: "Community opening" };
     }
     if (kind === "activity" && tag) {
         return { es: tag.es ?? tag.en, en: tag.en };
