@@ -16,11 +16,18 @@ import final from "./blender-mcp/04-render-final.webp";
 
 El 16 de octubre hicimos la primera actividad de la comunidad: una sesión práctica de tres horas para modelar un personaje en 3D con Claude Code y el MCP oficial de Blender. Probamos cuatro formas de hacerlo. Estos son los datos clave.
 
+## Herramientas utilizadas
+
+- [Claude Code](https://claude.com/product/claude-code): el agente que maneja Blender y ejecuta la skill.
+- [Blender](https://www.blender.org) y su [MCP oficial](https://www.blender.org/lab/mcp-server/), de Blender Lab: la conexión que deja a Claude crear y editar la escena. Pide Blender 5.1 o superior.
+- **La skill de Antonio:** guía a Claude por fases, de la forma básica a las poses.
+- [Higgsfield](https://higgsfield.ai) con Nano Banana 2.1: para generar las imágenes de referencia. Usamos un **plan de prueba**: 100 créditos durante 3 días y una generación de video gratis. Alcanza para probarlo en un fin de semana libre, aunque la oferta puede cambiar.
+
+{/* PENDIENTE: enlazar la skill de Antonio en la viñeta de arriba cuando esté publicada. */}
+
 ## Punto de partida
 
-[Antonio](https://bunnyrecords.dev/es), uno de los fundadores, modeló con Blender y su MCP la mascota de su portafolio, un conejo. Lo hizo con una skill propia que guía a Claude por fases: blockout del cuerpo, detallado, vistas de control (frente, costado y espalda) y renders de poses. Repetimos el proceso en vivo.
-
-**Stack:** Claude Code, el [MCP oficial de Blender](https://www.blender.org/lab/mcp-server/), la skill de Antonio y [Higgsfield](https://higgsfield.ai) (Nano Banana 2.1) para generar referencias.
+[Antonio](https://github.com/AntonioPow24), uno de los fundadores, modeló con Blender y su MCP la mascota de su [portafolio](https://bunnyrecords.dev/es), un conejo. Lo hizo con una skill propia que guía a Claude por fases: blockout del cuerpo, detallado, vistas de control (frente, costado y espalda) y renders de poses. Repetimos el proceso en vivo.
 
 ## 1. Una foto y la skill sin tocar
 
@@ -45,7 +52,7 @@ El 16 de octubre hicimos la primera actividad de la comunidad: una sesión prác
 
 - **Insumos:** el logo de la comunidad, un dibujo plano con pelo en picos, y la skill ajustada para formas irregulares.
 - **Tiempo:** unos 30 min, con una iteración muy corta.
-- **Resultado:** flojo. El modelo hizo un cuerpo en forma de globo y pegó el logo encima como una calcomanía, en lugar de modelar la cara y el pelo.
+- **Resultado:** flojo, y bastante gracioso: nos quedó un globo de fiesta. El modelo infló un cuerpo en forma de globo y pegó el logo encima como una calcomanía, en lugar de modelar la cara y el pelo.
 
 ![El logo de Chamba Lab: una mascota peluda de cejas fruncidas sosteniendo una taza de café humeante, en tinta azul oscura sobre fondo blanco.](./blender-mcp/05-logo.webp)
 
@@ -53,7 +60,7 @@ El 16 de octubre hicimos la primera actividad de la comunidad: una sesión prác
 
 ## 3. Referencias generadas con IA
 
-- **Insumos:** una hoja de referencia en cuatro vistas generada en Higgsfield con Nano Banana 2.1 (razonamiento alto, 2K; entre 2 y 3 créditos por generación). El personaje era demasiado complejo: fue un error nuestro.
+- **Insumos:** una hoja de referencia en cuatro vistas generada en Higgsfield con Nano Banana 2.1 (razonamiento alto, 2K; entre 2 y 3 créditos del plan de prueba por generación). El personaje era demasiado complejo: fue un error nuestro.
 - **Cómo:** blockout, luego la cara y, al final, la skill sola hasta terminar.
 - **Tiempo:** de 1 a 2 h, entre pausas. Buena parte se fue en diseñar el prompt de las referencias.
 - **Resultado:** a medias. Buena estructura, pero los mechones blancos de la cara quedaron como piezas sueltas. La skill pasaba al siguiente paso con solo un 85 % de similitud: era un umbral bajo, o el parecido no se medía bien.
@@ -78,7 +85,7 @@ El 16 de octubre hicimos la primera actividad de la comunidad: una sesión prác
 | Enfoque                           | Tiempo        | Resultado                                    |
 | --------------------------------- | ------------- | -------------------------------------------- |
 | 1. Una foto y la skill            | 30 min        | Muy bueno: pulido y con poses                |
-| 2. El logo, de un solo intento    | 30 min        | Flojo: un globo con el logo pegado           |
+| 2. El logo, de un solo intento    | 30 min        | Flojo: un globo de fiesta con el logo pegado |
 | 3. Referencia generada con IA     | 1 a 2 h       | A medias: buena estructura, detalles sueltos |
 | 4. Referencia simple, paso a paso | 2 a 3 h o más | Muy bueno: limpio, varias poses              |
 
@@ -100,6 +107,4 @@ El modelo terminado (el mapache de la comunidad), con su escena de Blender, los 
 {/* PENDIENTE: la skill de Antonio (cuando esté publicada), como primera línea de esta lista. */}
 
 - [blender-pet](https://github.com/Chamba-Lab/blender-pet): el modelo, los scripts y los renders.
-- [Portafolio de Antonio](https://bunnyrecords.dev/es).
-- [MCP oficial de Blender](https://www.blender.org/lab/mcp-server/), de Blender Lab.
-- [Higgsfield](https://higgsfield.ai).
+- [Portafolio de Antonio](https://bunnyrecords.dev/es) y su [GitHub](https://github.com/AntonioPow24).
