@@ -247,4 +247,4 @@ Componentes MDX (`src/components/blog/`):
 - **`YouTube`**: miniatura con botón de play amarillo; el reproductor (`youtube-nocookie.com`) se carga solo al pulsar. Comparte la lógica con las tarjetas de recursos (`src/lib/video-player.ts`).
 - **`Clip`**: video en bucle sin sonido. Con `prefers-reduced-motion` no arranca solo y muestra los controles.
 
-Portada: se muestra completa (`object-fit: contain`, hasta 32 rem de alto) para no recortar a un personaje. En las vistas previas (Open Graph) se usa la portada solo si es horizontal (proporción de 1,5:1 o más); si no, la imagen general del sitio.
+Portada: se muestra completa (`object-fit: contain`, hasta 32 rem de alto) para no recortar a un personaje. La vista previa al compartir (Open Graph) no depende de la portada: usa el campo opcional `ogImage` de la entrada, tal cual y sin recortar (lo ideal es 1200×630), y sin él la imagen general del sitio. Los enlaces a GitHub (perfil o repositorio) y YouTube se pintan como una píldora con su icono (`Link.astro`, reconocidos por `linkKind` en `src/lib/links.ts`); el resto, como enlace subrayado.

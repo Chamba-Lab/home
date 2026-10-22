@@ -151,6 +151,10 @@ const posts = defineCollection({
                 cover: image().optional(),
                 // Required with `cover`: alt text of the image.
                 coverAlt: z.string().optional(),
+                // Opcional: imagen de las vistas previas al compartir (OG).
+                // Se usa tal cual, sin recortar; lo ideal es 1200x630. Sin ella
+                // se usa la imagen general del sitio.
+                ogImage: image().optional(),
                 // Name as it appears in team.json.
                 author: z.string().optional(),
                 // Language the entry is written in (entries are not translated).

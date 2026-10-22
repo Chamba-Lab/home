@@ -15,6 +15,10 @@ interface Props {
     title: string;
     description?: string;
     image?: string;
+    /** Medidas y texto alternativo de `image` (por defecto, la imagen general). */
+    imageWidth?: number;
+    imageHeight?: number;
+    imageAlt?: string;
     type?: "website" | "article";
     /** Migas de pan (JSON-LD). La primera debe ser el inicio. */
     breadcrumbs?: BreadcrumbItem[];
@@ -32,6 +36,9 @@ const {
     title,
     description = "Chamba Lab: comunidad tech para conectar, inspirarte y crecer. Conversa, aprende y avanza junto a otras personas en tecnología. Únete en Discord.",
     image,
+    imageWidth = 1200,
+    imageHeight = 630,
+    imageAlt = "Chamba Lab · Connect. Inspire. Grow.",
     type = "website",
     breadcrumbs,
     jsonLd = [],
@@ -95,12 +102,9 @@ const structuredData = [
         <meta property="og:title" content={title} />
         <meta property="og:description" content={description} />
         <meta property="og:image" content={ogImageUrl.href} />
-        <meta property="og:image:width" content="1200" />
-        <meta property="og:image:height" content="630" />
-        <meta
-            property="og:image:alt"
-            content="Chamba Lab · Connect. Inspire. Grow."
-        />
+        <meta property="og:image:width" content={imageWidth} />
+        <meta property="og:image:height" content={imageHeight} />
+        <meta property="og:image:alt" content={imageAlt} />
         <meta property="og:locale" content="es_PE" />
         <meta property="og:locale:alternate" content="en_US" />
 
@@ -110,10 +114,7 @@ const structuredData = [
         <meta name="twitter:title" content={title} />
         <meta name="twitter:description" content={description} />
         <meta name="twitter:image" content={ogImageUrl.href} />
-        <meta
-            name="twitter:image:alt"
-            content="Chamba Lab · Connect. Inspire. Grow."
-        />
+        <meta name="twitter:image:alt" content={imageAlt} />
 
         {structuredData.length > 0 && (
             <script
