@@ -1,0 +1,209 @@
+---
+// Entrada en el listado del blog. Tres formas: `featured` (la más reciente,
+// vista revista), `grid` (tarjeta de la cuadrícula) y `row` (fila de la vista
+// bitácora). El enlace del título cubre toda la tarjeta; las etiquetas son
+// botones que filtran el listado (`data-filter-tag`, ver blog/index.astro).
+import { Image } from "astro:assets";
+import type { CollectionEntry } from "astro:content";
+import TeamAvatar from "./TeamAvatar.astro";
+import { formatPostDate, postPath } from "../lib/posts";
+import type { TeamMember } from "../lib/team";
+
+interface Props {
+    post: CollectionEntry<"posts">;
+    variant: "featured" | "grid" | "row";
+    minutes: number;
+    // Autor como miembro del equipo, para su avatar (si está en team.json).
+    member?: TeamMember;
+    base: string;
+}
+
+const { post, variant, minutes, member, base } = Astro.props;
+const { title, description, date, tags, cover, coverAlt, author, lang } =
+    post.data;
+const href = postPath(post.id, base);
+const withYear = variant !== "row";
+const dateEs = formatPostDate(date, "es", withYear);
+const dateEn = formatPostDate(date, "en", withYear);
+// En la cuadrícula caben dos etiquetas; las demás siguen contando para filtrar.
+const shownTags = variant === "grid" ? tags.slice(0, 2) : tags;
+
+const tagClass =
+    "relative z-10 text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded bg-slate-800 text-slate-300 border border-white/10 hover:border-brand-yellow/50 hover:text-brand-yellow transition-colors";
+// Las portadas suelen ser renders verticales: se encuadran hacia arriba.
+const coverClass =
+    "object-cover object-[50%_25%] transition-transform duration-500 group-hover:scale-105";
+---
+
+{variant === "row" ? (
+    <article class="group relative flex items-start gap-4 sm:gap-6 py-5 border-b border-white/[0.08]">
+        <div class="w-24 h-16 sm:w-40 sm:h-24 shrink-0 rounded-xl overflow-hidden border border-white/10 bg-slate-900">
+            {cover ? (
+                <Image
+                    src={cover}
+                    alt=""
+                    widths={[192, 320]}
+                    sizes="(min-width: 640px) 160px, 96px"
+                    class={`w-full h-full ${coverClass}`}
+                />
+            ) : (
+                <div class="w-full h-full grid place-items-center bg-linear-to-br from-brand-yellow/20 to-transparent text-[10px] font-bold uppercase tracking-wider text-brand-yellow">
+                    {tags[0]}
+                </div>
+            )}
+        </div>
+        <div class="min-w-0 flex-1">
+            <p
+                class="text-[11px] font-bold uppercase tracking-wider text-brand-yellow mb-1"
+                data-i18n-es={dateEs}
+                data-i18n-en={dateEn}
+            >
+                {dateEs}
+            </p>
+            <h3
+                lang={lang}
+                class="font-display text-base sm:text-xl font-bold text-white leading-snug group-hover:text-brand-yellow transition-colors"
+            >
+                <a href={href} class="after:absolute after:inset-0">
+                    {title}
+                </a>
+            </h3>
+            <p
+                lang={lang}
+                class="hidden sm:block mt-1 text-sm text-slate-400 leading-relaxed line-clamp-2"
+            >
+                {description}
+            </p>
+            <div class="mt-2 flex flex-wrap items-center gap-x-2 gap-y-1.5 text-xs text-slate-500">
+                {author && <span class="text-slate-300">{author}</span>}
+                {author && <span aria-hidden="true">·</span>}
+                <span>{minutes} min</span>
+                <span class="hidden sm:inline-flex flex-wrap gap-1.5 ml-1">
+                    {shownTags.map((tag) => (
+                        <button
+                            type="button"
+                            data-filter-tag={tag}
+                            aria-label={`Filtrar por ${tag}`}
+                            data-i18n-aria-label-es={`Filtrar por ${tag}`}
+                            data-i18n-aria-label-en={`Filter by ${tag}`}
+                            class={tagClass}
+                        >
+                            {tag}
+                        </button>
+                    ))}
+                </span>
+            </div>
+        </div>
+    </article>
+) : (
+    <article
+        class:list={[
+            "group relative card-glass rounded-2xl overflow-hidden flex h-full shadow-lg shadow-black/20 transition-all duration-300 hover:border-brand-yellow/40 hover:-translate-y-0.5",
+            variant === "featured" ? "flex-col md:flex-row" : "flex-col",
+        ]}
+    >
+        <div
+            class:list={[
+                "relative shrink-0 overflow-hidden bg-slate-900",
+                variant === "featured"
+                    ? "aspect-video md:aspect-auto md:w-3/5 md:min-h-[340px]"
+                    : "aspect-video",
+            ]}
+        >
+            {cover ? (
+                <Image
+                    src={cover}
+                    alt={coverAlt ?? ""}
+                    widths={[480, 768, 1200]}
+                    sizes={
+                        variant === "featured"
+                            ? "(min-width: 1280px) 740px, (min-width: 768px) 60vw, 100vw"
+                            : "(min-width: 1024px) 400px, (min-width: 768px) 50vw, 100vw"
+                    }
+                    class={`absolute inset-0 w-full h-full ${coverClass}`}
+                />
+            ) : (
+                <div class="absolute inset-0 grid place-items-center bg-linear-to-br from-brand-yellow/25 via-transparent to-brand-discord/20">
+                    <span class="font-display text-2xl font-extrabold text-white/80">
+                        {tags[0]}
+                    </span>
+                </div>
+            )}
+            {variant === "featured" && (
+                <span
+                    class="absolute top-4 left-4 text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-brand-yellow text-slate-950"
+                    data-i18n="blogLatest"
+                >
+                    Lo último
+                </span>
+            )}
+        </div>
+        <div
+            class:list={[
+                "flex flex-1 flex-col justify-between",
+                variant === "featured" ? "p-7 md:p-9" : "p-6",
+            ]}
+        >
+            <div>
+                <p
+                    class="text-[11px] font-bold uppercase tracking-wider text-brand-yellow mb-3"
+                    data-i18n-es={dateEs}
+                    data-i18n-en={dateEn}
+                >
+                    {dateEs}
+                </p>
+                <h2
+                    lang={lang}
+                    class:list={[
+                        "font-display font-bold text-white mb-2 leading-snug group-hover:text-brand-yellow transition-colors",
+                        variant === "featured"
+                            ? "text-2xl md:text-3xl"
+                            : "text-lg",
+                    ]}
+                >
+                    <a href={href} class="after:absolute after:inset-0">
+                        {title}
+                    </a>
+                </h2>
+                <p
+                    lang={lang}
+                    class:list={[
+                        "text-sm text-slate-400 leading-relaxed",
+                        variant === "grid" && "line-clamp-2",
+                    ]}
+                >
+                    {description}
+                </p>
+            </div>
+            <div class="mt-5 pt-4 border-t border-white/10 flex flex-wrap items-center justify-between gap-3">
+                <span class="flex items-center gap-2 text-xs text-slate-400 whitespace-nowrap">
+                    {member && (
+                        <TeamAvatar
+                            member={member}
+                            px={24}
+                            textClass="text-[10px]"
+                            class="w-6 h-6 rounded-full"
+                        />
+                    )}
+                    {author && <span class="text-slate-200">{author}</span>}
+                    {author && <span aria-hidden="true">·</span>}
+                    <span>{minutes} min</span>
+                </span>
+                <span class="flex flex-wrap gap-1.5">
+                    {shownTags.map((tag) => (
+                        <button
+                            type="button"
+                            data-filter-tag={tag}
+                            aria-label={`Filtrar por ${tag}`}
+                            data-i18n-aria-label-es={`Filtrar por ${tag}`}
+                            data-i18n-aria-label-en={`Filter by ${tag}`}
+                            class={tagClass}
+                        >
+                            {tag}
+                        </button>
+                    ))}
+                </span>
+            </div>
+        </div>
+    </article>
+)}

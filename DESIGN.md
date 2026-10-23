@@ -237,7 +237,16 @@ Diseño aprobado en Figma (página «05 · Recursos», con la referencia «Refer
 
 ## Blog
 
-`/blog/` es el listado y `/blog/<id>/` cada entrada. Mismo lenguaje que el resto del sitio: tarjetas de vidrio (`.card-glass`) en el listado, con la fecha en amarillo de marca, título en Plus Jakarta Sans y etiquetas pequeñas; el título de página y sus encabezados siguen la regla de «Encabezados sin etiquetas redundantes».
+`/blog/` es el listado y `/blog/<id>/` cada entrada. Mismo lenguaje que el resto del sitio: tarjetas de vidrio (`.card-glass`), fecha con año en amarillo de marca, título en Plus Jakarta Sans y etiquetas pequeñas; el título de página y sus encabezados siguen la regla de «Encabezados sin etiquetas redundantes».
+
+El listado tiene dos vistas que elige quien lee (`src/pages/blog/index.astro`, tarjetas en `PostCard.astro`):
+
+- **Revista**: la entrada más reciente destacada (imagen a la izquierda en escritorio, insignia amarilla «Lo último») y el resto en una cuadrícula de 1, 2 o 3 columnas con portada 16:9, fecha, título, descripción en dos líneas, autor con su avatar del equipo, minutos de lectura y hasta dos etiquetas.
+- **Bitácora**: filas compactas agrupadas por año (miniatura, fecha sin año, título, autor y minutos), separadas por líneas finas. Ocupa menos de la mitad de alto.
+
+Sin una elección guardada, la vista es revista en escritorio y bitácora en móvil, donde la revista se vuelve muy larga; lo resuelve CSS (`data-view="auto"`) para que no haya salto al cargar. La elección se guarda en `localStorage` (`chamba-lab-blog-view`).
+
+El filtro ocupa una sola línea sobre el listado: buscador, botón «Temas» (menú desplegable con casillas y el conteo de cada etiqueta; en móvil solo el icono, con un número amarillo cuando hay temas marcados), contador y el selector de vista (dos iconos, el activo en amarillo). Las etiquetas de las tarjetas también filtran al pulsarlas. Los temas activos aparecen como píldoras amarillas translúcidas con «×» y «Limpiar», solo mientras hay alguno. Al filtrar se oculta la destacada y todas las coincidencias van a la cuadrícula. El estado vive en la URL (`?tag=IA&q=…&view=log`) para poder compartirlo. Las portadas se encuadran hacia arriba (`object-position: 50% 25%`) porque suelen ser renders verticales; sin portada, la tarjeta muestra un degradado amarillo con su primera etiqueta.
 
 La entrada es una columna de lectura de `max-w-3xl`. Su cuerpo (`.post-body` en `src/pages/blog/[id].astro`) tiene estilos acotados con los tokens de `global.css`, sin plugin de tipografía: enlaces y marcadores de lista en amarillo de marca, citas con borde amarillo, tablas con scroll horizontal propio (para que no ensanchen la página en móvil) e imágenes redondeadas con borde sutil. Los bloques de código van sin resaltado, porque Shiki no es compatible con la CSP. El `<main>` lleva `w-full`: sin él, en móvil se ajustaba al ancho de la tabla y desbordaba.
 
