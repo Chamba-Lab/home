@@ -80,6 +80,7 @@ Cada feature nueva actualiza [AGENTS.md](./AGENTS.md), y el `README.md`, `DESIGN
 
 Edita `src/content/resources.json` con `id`, `title`, `description` (`en` y `es`), `url`, `category` y `access`.
 
+- **Recomendado** (`recommended: true`, opcional): la tarjeta lleva una estrella discreta y un leve brillo, y va primero dentro de su sección. Es lo que más recomendamos en esa categoría; se usa con moderación (como máximo un tercio de los recursos de la categoría, y una prueba lo comprueba). No es lo mismo que «destacado en el home»: uno marca lo mejor de una categoría y el otro, lo que se ve en el inicio.
 - **Destacado en el home** (`starred: true`, opcional): los recursos marcados salen en la sección «Recursos Curados» del inicio, en el orden del archivo y hasta 6 (`HOME_STARRED_MAX`). Sin ninguno, la sección no se muestra. Marca solo los que mejor representen la biblioteca.
 
 - **Hecho por la comunidad** (`community: true`, opcional): muestra el distintivo «Hecho por la comunidad» en la tarjeta. Solo para proyectos de código abierto de la comunidad; las condiciones están en los criterios de más abajo.

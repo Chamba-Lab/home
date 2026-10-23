@@ -173,6 +173,19 @@ describe("categories", () => {
             ]).map((g) => g.format),
         ).toEqual(["web"]);
     });
+    it("puts recommended resources first within a section, keeping the rest in order", () => {
+        const groups = groupByFormat([
+            { n: 1 },
+            { n: 2, recommended: true },
+            { n: 3 },
+            { n: 4, recommended: true },
+            { n: 5, type: "channel" as const },
+            { n: 6, type: "channel" as const, recommended: true },
+        ]);
+        expect(groups.map((g) => g.format)).toEqual(["channel", "web"]);
+        expect(groups[0].items.map((i) => i.n)).toEqual([6, 5]);
+        expect(groups[1].items.map((i) => i.n)).toEqual([2, 4, 1, 3]);
+    });
     it("finds a category by id and has unique ids", () => {
         expect(categoryById("scholarships")?.label.es).toBe(
             "Oportunidades académicas",
