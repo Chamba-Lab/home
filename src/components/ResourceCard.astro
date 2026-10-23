@@ -29,6 +29,8 @@ interface Props {
     // Video: canal que lo publica.
     channel?: string;
     access?: ResourceAccess;
+    // Proyecto hecho por la comunidad: muestra el distintivo.
+    community?: boolean;
     // En la página de una categoría todas comparten categoría: se omite la fila
     // de categoría (icono y nombre). En el buscador general sí se muestra.
     showCategory?: boolean;
@@ -46,6 +48,7 @@ const {
     avatar,
     channel,
     access,
+    community = false,
     showCategory = true,
     headingLevel = 2,
 } = Astro.props;
@@ -161,6 +164,15 @@ const isVideo = type === "video";
                                 ? (githubRepoName(url) ?? displayDomain(url))
                                 : displayDomain(url)}
                         </p>
+                    )}
+                    {community && (
+                        <span
+                            class="mt-2 inline-block rounded border border-(--cat-border) bg-(--cat-tint) px-2 py-0.5 text-[10px] font-semibold tracking-wider text-(--cat-accent) uppercase"
+                            data-i18n-es="Hecho por la comunidad"
+                            data-i18n-en="Made by the community"
+                        >
+                            Hecho por la comunidad
+                        </span>
                     )}
                 </div>
             )}
