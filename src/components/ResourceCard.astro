@@ -10,6 +10,7 @@ import {
     RESOURCE_FORMATS,
     categoryById,
     displayDomain,
+    githubRepoName,
     youtubeThumbnail,
     youtubeVideoId,
     type ResourceAccess,
@@ -151,12 +152,14 @@ const isVideo = type === "video";
                             {channel}
                         </p>
                     )}
-                    {type === "web" && (
+                    {(type === "web" || type === "repo") && (
                         <p
                             data-search-field
                             class="mt-1 text-xs text-slate-500"
                         >
-                            {displayDomain(url)}
+                            {type === "repo"
+                                ? (githubRepoName(url) ?? displayDomain(url))
+                                : displayDomain(url)}
                         </p>
                     )}
                 </div>
@@ -184,6 +187,13 @@ const isVideo = type === "video";
                     {type === "web" ? (
                         <span data-i18n="exploreResource">
                             Explorar recurso
+                        </span>
+                    ) : type === "repo" ? (
+                        <span
+                            data-i18n-es="Ver repositorio"
+                            data-i18n-en="View repository"
+                        >
+                            Ver repositorio
                         </span>
                     ) : (
                         <span

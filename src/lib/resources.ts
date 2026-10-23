@@ -103,10 +103,14 @@ export const RESOURCE_CATEGORY_IDS = RESOURCE_CATEGORIES.map((c) => c.id) as [
     ...ResourceCategory[],
 ];
 
-// Formatos: "web" (por defecto), "channel" (canal de YouTube) y "video"
-// (video de YouTube con reproductor diferido).
+// Formatos: "web" (por defecto), "channel" (canal de YouTube), "video" (video
+// de YouTube con reproductor diferido) y "repo" (repositorio de GitHub).
 export const RESOURCE_FORMATS = [
     { id: "web", cardLabel: undefined },
+    {
+        id: "repo",
+        cardLabel: { es: "Repositorio de GitHub", en: "GitHub repository" },
+    },
     {
         id: "channel",
         cardLabel: { es: "Canal de YouTube", en: "YouTube channel" },
@@ -201,6 +205,10 @@ export const RESOURCE_SECTIONS = [
         label: { es: "Canales de YouTube", en: "YouTube channels" },
     },
     { format: "web", label: { es: "Sitios web", en: "Websites" } },
+    {
+        format: "repo",
+        label: { es: "Repositorios de GitHub", en: "GitHub repositories" },
+    },
 ] as const satisfies readonly { format: ResourceType; label: Label }[];
 
 // Con esta cantidad de videos o más, la sección se muestra como carrusel.
@@ -280,6 +288,21 @@ export function youtubeThumbnail(id: string): string {
 // Reproductor sin cookies de seguimiento hasta que la persona pulsa play.
 export function youtubeEmbedUrl(id: string): string {
     return `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0`;
+}
+
+// "propietario/repositorio" de un enlace a un repositorio de GitHub, para
+// mostrarlo bajo el título. Devuelve undefined si no es de esa forma.
+export function githubRepoName(url: string): string | undefined {
+    let parsed: URL;
+    try {
+        parsed = new URL(url);
+    } catch {
+        return undefined;
+    }
+    if (parsed.hostname.replace(/^www\./, "") !== "github.com")
+        return undefined;
+    const [owner, repo, ...rest] = parsed.pathname.split("/").filter(Boolean);
+    return owner && repo && rest.length === 0 ? `${owner}/${repo}` : undefined;
 }
 
 // Nombre del dominio para mostrar bajo el título de una web.

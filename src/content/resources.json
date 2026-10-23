@@ -7,6 +7,7 @@
             "es": "Plantilla LaTeX minimalista y muy usada para armar un CV limpio, compatible con ATS."
         },
         "url": "https://github.com/posquit0/Awesome-CV",
+        "type": "repo",
         "category": "cv",
         "starred": true
     },
@@ -587,6 +588,422 @@
         "url": "https://www.youtube.com/@DAADWorldwide",
         "type": "channel",
         "avatar": "https://yt3.googleusercontent.com/ytc/AIdro_lvxhRNBMGfw9bU5jz8YOgyuWXx0qePWQZYAGXAdlUd_MQ=s112-c-k-c0x00ffffff-no-rj",
+        "category": "scholarships"
+    },
+    {
+        "id": "tech-interview-handbook-resume",
+        "title": "Tech Interview Handbook: CV",
+        "description": {
+            "en": "A practical guide to writing a software engineer resume, with examples and the mistakes to avoid.",
+            "es": "Guía práctica para escribir un CV de ingeniería de software, con ejemplos y los errores que conviene evitar."
+        },
+        "url": "https://www.techinterviewhandbook.org/resume/",
+        "category": "cv"
+    },
+    {
+        "id": "wellfound",
+        "title": "Wellfound",
+        "description": {
+            "en": "Job platform focused on startups, with openings at early-stage companies around the world.",
+            "es": "Plataforma de empleo centrada en startups, con ofertas de empresas en etapa temprana de todo el mundo."
+        },
+        "url": "https://wellfound.com",
+        "category": "jobs"
+    },
+    {
+        "id": "levels-fyi",
+        "title": "Levels.fyi",
+        "description": {
+            "en": "Salary and career-level data by company, role and location, useful to size up an offer before negotiating.",
+            "es": "Datos de salarios y niveles por empresa, puesto y ubicación, útiles para evaluar una oferta antes de negociar."
+        },
+        "url": "https://www.levels.fyi",
+        "category": "jobs"
+    },
+    {
+        "id": "full-stack-open",
+        "title": "Full Stack Open",
+        "description": {
+            "en": "The University of Helsinki's free online course on modern web development with JavaScript, available in Spanish.",
+            "es": "Curso en línea gratuito de la Universidad de Helsinki sobre desarrollo web moderno con JavaScript, disponible en español."
+        },
+        "url": "https://fullstackopen.com/es/",
+        "category": "learning",
+        "access": "free"
+    },
+    {
+        "id": "missing-semester",
+        "title": "The Missing Semester",
+        "description": {
+            "en": "MIT course on the tools almost nobody teaches in class: the shell, Git, editors, debugging and more.",
+            "es": "Curso del MIT sobre las herramientas que casi nadie enseña en clase: la terminal, Git, editores, depuración y más."
+        },
+        "url": "https://missing.csail.mit.edu",
+        "category": "learning",
+        "access": "free"
+    },
+    {
+        "id": "javascript-info",
+        "title": "JavaScript.info",
+        "description": {
+            "en": "A detailed modern JavaScript tutorial with exercises, from the basics to closures, events and object-oriented programming.",
+            "es": "Tutorial detallado de JavaScript moderno con ejercicios, desde lo básico hasta closures, eventos y programación orientada a objetos."
+        },
+        "url": "https://es.javascript.info/",
+        "category": "learning",
+        "access": "free"
+    },
+    {
+        "id": "pro-git",
+        "title": "Pro Git",
+        "description": {
+            "en": "The free reference book on Git, from the first commands to its internals, translated into Spanish.",
+            "es": "El libro de referencia gratuito sobre Git, desde los primeros comandos hasta su funcionamiento interno, traducido al español."
+        },
+        "url": "https://git-scm.com/book/es/v2",
+        "category": "learning",
+        "access": "free"
+    },
+    {
+        "id": "free-programming-books",
+        "title": "free-programming-books",
+        "description": {
+            "en": "Community-maintained list of free books, courses and resources on programming, with editions in Spanish.",
+            "es": "Lista mantenida por la comunidad con libros, cursos y recursos gratuitos de programación, con ediciones en español."
+        },
+        "url": "https://github.com/EbookFoundation/free-programming-books",
+        "type": "repo",
+        "category": "learning"
+    },
+    {
+        "id": "ossu-computer-science",
+        "title": "OSSU Computer Science",
+        "description": {
+            "en": "A free, self-taught path to a complete computer science education, built from open university courses.",
+            "es": "Una ruta gratuita y autodidacta para una formación completa en ciencias de la computación, armada con cursos abiertos de universidades."
+        },
+        "url": "https://github.com/ossu/computer-science",
+        "type": "repo",
+        "category": "learning"
+    },
+    {
+        "id": "3blue1brown-youtube",
+        "title": "3Blue1Brown",
+        "description": {
+            "en": "Visual explanations of mathematics and machine learning, from linear algebra to neural networks.",
+            "es": "Explicaciones visuales de matemáticas y machine learning, del álgebra lineal a las redes neuronales (en inglés)."
+        },
+        "url": "https://www.youtube.com/@3blue1brown",
+        "type": "channel",
+        "avatar": "https://yt3.googleusercontent.com/ytc/AIdro_nFzZFPLxPZRHcE3SSwzdrbuWqfoWYwLAu0_2iO6blQYAU=s112-c-k-c0x00ffffff-no-rj",
+        "category": "learning"
+    },
+    {
+        "id": "computerphile-youtube",
+        "title": "Computerphile",
+        "description": {
+            "en": "Computer science explained by researchers and engineers, from algorithms to security and AI.",
+            "es": "Ciencias de la computación explicadas por investigadores e ingenieros, de los algoritmos a la seguridad y la IA (en inglés)."
+        },
+        "url": "https://www.youtube.com/@Computerphile",
+        "type": "channel",
+        "avatar": "https://yt3.googleusercontent.com/ebHMyRfch3u2UTZN1WQJDp9J5U7o38T_WnGkd2QhAIQwBgvozdaOCOnfDMtngtoHWutJvLl4i0c=s112-c-k-c0x00ffffff-no-rj",
+        "category": "learning"
+    },
+    {
+        "id": "bytebytego-youtube",
+        "title": "ByteByteGo",
+        "description": {
+            "en": "System design and software architecture explained with clear diagrams.",
+            "es": "Diseño de sistemas y arquitectura de software explicados con diagramas claros (en inglés)."
+        },
+        "url": "https://www.youtube.com/@ByteByteGo",
+        "type": "channel",
+        "avatar": "https://yt3.googleusercontent.com/ZDRUyBUwc2WXZzvNKP9VS9myI6Mg2puQLaWyp4hibRu-owlsasZ3DVNGSQJwzO1IU-tqoMiGgdc=s112-c-k-c0x00ffffff-no-rj",
+        "category": "learning"
+    },
+    {
+        "id": "hussein-nasser-youtube",
+        "title": "Hussein Nasser",
+        "description": {
+            "en": "Backend engineering in depth: databases, networking, proxies and how real systems work.",
+            "es": "Ingeniería backend a fondo: bases de datos, redes, proxies y cómo funcionan los sistemas reales (en inglés)."
+        },
+        "url": "https://www.youtube.com/@hnasr",
+        "type": "channel",
+        "avatar": "https://yt3.googleusercontent.com/wdZxAigelIgebOT-NlWwVnvOijYuHttaa5jSpCuxlYajSEbfp75dVPSItmer-6jCrKACKChheAE=s112-c-k-c0x00ffffff-no-rj",
+        "category": "learning"
+    },
+    {
+        "id": "techworld-with-nana-youtube",
+        "title": "TechWorld with Nana",
+        "description": {
+            "en": "DevOps, Docker, Kubernetes and the cloud, taught step by step.",
+            "es": "DevOps, Docker, Kubernetes y la nube, explicados paso a paso (en inglés)."
+        },
+        "url": "https://www.youtube.com/@TechWorldwithNana",
+        "type": "channel",
+        "avatar": "https://yt3.googleusercontent.com/ZAuMKdMcyV3mhX857oCGWzQAQ4AqZhiDIO76MTC_DqckrujSNg5Mh2AQh6ngWYv7bzfu7TBoj24=s112-c-k-c0x00ffffff-no-rj",
+        "category": "learning"
+    },
+    {
+        "id": "codelytv-youtube",
+        "title": "CodelyTV",
+        "description": {
+            "en": "Software craftsmanship in Spanish: clean code, testing, architecture and domain-driven design.",
+            "es": "Craftsmanship de software en español: código limpio, testing, arquitectura y diseño guiado por el dominio."
+        },
+        "url": "https://www.youtube.com/@CodelyTV",
+        "type": "channel",
+        "avatar": "https://yt3.googleusercontent.com/DGnXieIWjL1Femn2HZBGUObeg9biIKtbsLp25r99dBBwwqp2jWysEQQ_d-qEqcfrq81zZZYVtg=s112-c-k-c0x00ffffff-no-rj",
+        "category": "learning"
+    },
+    {
+        "id": "missing-semester-shell-video",
+        "title": "The Missing Semester, lecture 1: the shell",
+        "description": {
+            "en": "The first lecture of MIT's Missing Semester: how to work comfortably in the terminal.",
+            "es": "La primera clase de The Missing Semester del MIT: cómo moverte con soltura en la terminal (en inglés)."
+        },
+        "url": "https://www.youtube.com/watch?v=MSgoeuMqUmU",
+        "type": "video",
+        "channel": "Missing Semester",
+        "category": "learning"
+    },
+    {
+        "id": "fcc-sql-es-video",
+        "title": "Aprende SQL: curso desde cero con MySQL, PostgreSQL, Backend y Docker",
+        "description": {
+            "en": "A SQL course in Spanish, from zero to working with MySQL, PostgreSQL, a backend and Docker.",
+            "es": "Un curso de SQL en español, desde cero hasta trabajar con MySQL, PostgreSQL, un backend y Docker."
+        },
+        "url": "https://www.youtube.com/watch?v=6JBsoPOwPew",
+        "type": "video",
+        "channel": "freeCodeCamp Español",
+        "category": "learning"
+    },
+    {
+        "id": "google-cloud-certifications",
+        "title": "Google Cloud Certifications",
+        "description": {
+            "en": "Google Cloud certifications by role, from foundational to professional level; the exams have a fee.",
+            "es": "Certificaciones de Google Cloud por rol, de nivel fundamental a profesional; los exámenes tienen costo."
+        },
+        "url": "https://cloud.google.com/learn/certification",
+        "category": "certifications",
+        "access": "paid"
+    },
+    {
+        "id": "comptia-certifications",
+        "title": "CompTIA",
+        "description": {
+            "en": "Vendor-neutral IT certifications such as A+, Network+ and Security+, a common starting point for support and security roles.",
+            "es": "Certificaciones de TI independientes de proveedor, como A+, Network+ y Security+, un punto de partida habitual para soporte y seguridad."
+        },
+        "url": "https://www.comptia.org/en-us/certifications/",
+        "category": "certifications",
+        "access": "paid"
+    },
+    {
+        "id": "claude-academy",
+        "title": "Claude Academy",
+        "description": {
+            "en": "Free courses from Anthropic on how AI works and how to use it with intention, with a focus on Claude.",
+            "es": "Cursos gratuitos de Anthropic sobre cómo funciona la IA y cómo usarla con criterio, con foco en Claude."
+        },
+        "url": "https://academy.claude.com/",
+        "category": "ai"
+    },
+    {
+        "id": "openai-academy",
+        "title": "OpenAI Academy",
+        "description": {
+            "en": "OpenAI's learning hub to build AI skills and learn to get more out of its tools.",
+            "es": "El espacio de aprendizaje de OpenAI para desarrollar habilidades de IA y sacarle más provecho a sus herramientas."
+        },
+        "url": "https://academy.openai.com",
+        "category": "ai"
+    },
+    {
+        "id": "kaggle-learn",
+        "title": "Kaggle Learn",
+        "description": {
+            "en": "Short, free, hands-on micro-courses on Python, SQL, pandas and machine learning.",
+            "es": "Microcursos cortos, gratuitos y prácticos de Python, SQL, pandas y machine learning."
+        },
+        "url": "https://www.kaggle.com/learn",
+        "category": "ai"
+    },
+    {
+        "id": "fast-ai",
+        "title": "fast.ai: Practical Deep Learning",
+        "description": {
+            "en": "A free course for people with coding experience who want to apply deep learning to practical problems.",
+            "es": "Un curso gratuito para quienes ya programan y quieren aplicar deep learning a problemas prácticos."
+        },
+        "url": "https://course.fast.ai",
+        "category": "ai"
+    },
+    {
+        "id": "ollama",
+        "title": "Ollama",
+        "description": {
+            "en": "Run open AI models locally on your own computer (macOS, Windows or Linux) and build with them.",
+            "es": "Ejecuta modelos de IA abiertos en tu propia computadora (macOS, Windows o Linux) y construye con ellos."
+        },
+        "url": "https://ollama.com",
+        "category": "ai"
+    },
+    {
+        "id": "prompt-engineering-guide",
+        "title": "Prompt Engineering Guide",
+        "description": {
+            "en": "An open, comprehensive guide to prompt engineering techniques, with examples, available in Spanish.",
+            "es": "Una guía abierta y completa de técnicas de prompt engineering, con ejemplos, disponible en español."
+        },
+        "url": "https://www.promptingguide.ai/es",
+        "category": "ai"
+    },
+    {
+        "id": "karpathy-youtube",
+        "title": "Andrej Karpathy",
+        "description": {
+            "en": "Long, hands-on lessons on neural networks and large language models, built from scratch.",
+            "es": "Lecciones largas y prácticas sobre redes neuronales y modelos de lenguaje, construidos desde cero (en inglés)."
+        },
+        "url": "https://www.youtube.com/@AndrejKarpathy",
+        "type": "channel",
+        "avatar": "https://yt3.googleusercontent.com/ytc/AIdro_nDvyq2NoPL626bk1IbxQ94SfQsD-B0qgZchghtQNkLWoEz=s112-c-k-c0x00ffffff-no-rj",
+        "category": "ai"
+    },
+    {
+        "id": "karpathy-deep-dive-llms-video",
+        "title": "Deep Dive into LLMs like ChatGPT",
+        "description": {
+            "en": "A 3.5-hour tour of how ChatGPT-style models are built, from training data to how they answer.",
+            "es": "Un recorrido de 3,5 horas por cómo se construyen los modelos tipo ChatGPT, desde los datos de entrenamiento hasta cómo responden (en inglés)."
+        },
+        "url": "https://www.youtube.com/watch?v=7xTGNNLPyMI",
+        "type": "video",
+        "channel": "Andrej Karpathy",
+        "category": "ai"
+    },
+    {
+        "id": "karpathy-how-i-use-llms-video",
+        "title": "How I use LLMs",
+        "description": {
+            "en": "A practical walkthrough of how an expert uses language models day to day, with real examples.",
+            "es": "Un recorrido práctico de cómo un experto usa los modelos de lenguaje en el día a día, con ejemplos reales (en inglés)."
+        },
+        "url": "https://www.youtube.com/watch?v=EWvNQjAaOHw",
+        "type": "video",
+        "channel": "Andrej Karpathy",
+        "category": "ai"
+    },
+    {
+        "id": "3blue1brown-llm-video",
+        "title": "Large Language Models explained briefly",
+        "description": {
+            "en": "A short, visual introduction to how large language models work.",
+            "es": "Una introducción corta y visual a cómo funcionan los modelos de lenguaje grandes (en inglés)."
+        },
+        "url": "https://www.youtube.com/watch?v=LPZh9BOjkQs",
+        "type": "video",
+        "channel": "3Blue1Brown",
+        "category": "ai"
+    },
+    {
+        "id": "advent-of-code",
+        "title": "Advent of Code",
+        "description": {
+            "en": "An annual Advent calendar of programming puzzles each December, a fun way to practice in any language.",
+            "es": "Un calendario de adviento anual con acertijos de programación cada diciembre, ideal para practicar en cualquier lenguaje."
+        },
+        "url": "https://adventofcode.com",
+        "category": "practice"
+    },
+    {
+        "id": "tryhackme",
+        "title": "TryHackMe",
+        "description": {
+            "en": "Learn cybersecurity through hands-on labs that run in your browser, from beginner to advanced paths.",
+            "es": "Aprende ciberseguridad con laboratorios prácticos que corren en tu navegador, de rutas para principiantes a avanzadas."
+        },
+        "url": "https://tryhackme.com",
+        "category": "practice"
+    },
+    {
+        "id": "system-design-primer",
+        "title": "system-design-primer",
+        "description": {
+            "en": "Learn how to design large-scale systems and prepare for the system design interview, with flashcards.",
+            "es": "Aprende a diseñar sistemas a gran escala y prepárate para la entrevista de diseño de sistemas, con tarjetas de estudio."
+        },
+        "url": "https://github.com/donnemartin/system-design-primer",
+        "type": "repo",
+        "category": "practice"
+    },
+    {
+        "id": "project-based-learning",
+        "title": "project-based-learning",
+        "description": {
+            "en": "A curated list of project-based tutorials, organized by programming language.",
+            "es": "Una lista curada de tutoriales basados en proyectos, organizada por lenguaje de programación."
+        },
+        "url": "https://github.com/practical-tutorials/project-based-learning",
+        "type": "repo",
+        "category": "practice"
+    },
+    {
+        "id": "google-summer-of-code",
+        "title": "Google Summer of Code",
+        "description": {
+            "en": "Google's global program that brings new contributors into open source projects, with mentors and a stipend.",
+            "es": "El programa global de Google que acerca a nuevas personas a proyectos de código abierto, con mentores y una beca económica."
+        },
+        "url": "https://summerofcode.withgoogle.com",
+        "category": "opensource"
+    },
+    {
+        "id": "outreachy",
+        "title": "Outreachy",
+        "description": {
+            "en": "Paid remote internships in free and open source software that support diversity in tech.",
+            "es": "Pasantías remotas y remuneradas en software libre y de código abierto que apoyan la diversidad en tecnología."
+        },
+        "url": "https://www.outreachy.org",
+        "category": "opensource"
+    },
+    {
+        "id": "hacktoberfest",
+        "title": "Hacktoberfest",
+        "description": {
+            "en": "The annual October event to build with open source, with in-person and online community events.",
+            "es": "El evento anual de octubre para construir con código abierto, con encuentros presenciales y en línea."
+        },
+        "url": "https://hacktoberfest.com",
+        "category": "opensource"
+    },
+    {
+        "id": "fcc-git-github-video",
+        "title": "Git & GitHub Crash Course for Beginners",
+        "description": {
+            "en": "A beginner-friendly crash course on Git and GitHub, updated for 2026.",
+            "es": "Un curso exprés de Git y GitHub para principiantes, actualizado para 2026 (en inglés)."
+        },
+        "url": "https://www.youtube.com/watch?v=mAFoROnOfHs",
+        "type": "video",
+        "channel": "freeCodeCamp.org",
+        "category": "opensource"
+    },
+    {
+        "id": "chevening-peru",
+        "title": "Chevening Perú",
+        "description": {
+            "en": "The UK government's scholarships for Peruvians to study a master's degree in the United Kingdom.",
+            "es": "Las becas del gobierno del Reino Unido para que peruanas y peruanos estudien una maestría en el Reino Unido."
+        },
+        "url": "https://www.chevening.org/scholarship/peru/",
         "category": "scholarships"
     }
 ]
