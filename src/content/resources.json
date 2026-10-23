@@ -211,17 +211,6 @@
         "access": "freemium"
     },
     {
-        "id": "platzi",
-        "title": "Platzi",
-        "description": {
-            "en": "Spanish-language tech and career courses by subscription, with some free classes to try it out.",
-            "es": "Cursos de tecnología y carrera en español por suscripción, con algunas clases gratuitas para probar."
-        },
-        "url": "https://platzi.com",
-        "category": "learning",
-        "access": "paid"
-    },
-    {
         "id": "udemy",
         "title": "Udemy",
         "description": {
@@ -473,7 +462,7 @@
         "title": "freeCodeCamp.org",
         "description": {
             "en": "Full-length programming courses, from beginner to advanced, free on YouTube.",
-            "es": "Cursos completos de programación, de principiante a avanzado, gratis en YouTube."
+            "es": "Cursos completos de programación, de principiante a avanzado, gratis en YouTube (en inglés)."
         },
         "url": "https://www.youtube.com/@freecodecamp",
         "type": "channel",
@@ -485,7 +474,7 @@
         "title": "CS50",
         "description": {
             "en": "Harvard CS50 lectures and seminars, recorded and free.",
-            "es": "Clases y seminarios de CS50 de Harvard, grabados y gratuitos."
+            "es": "Clases y seminarios de CS50 de Harvard, grabados y gratuitos (en inglés)."
         },
         "url": "https://www.youtube.com/@cs50",
         "type": "channel",
@@ -505,23 +494,11 @@
         "category": "learning"
     },
     {
-        "id": "mouredev-youtube",
-        "title": "MoureDev",
-        "description": {
-            "en": "Long programming courses and roadmaps in Spanish, from zero to your first job.",
-            "es": "Cursos largos de programación y hojas de ruta en español, desde cero hasta el primer empleo."
-        },
-        "url": "https://www.youtube.com/@mouredev",
-        "type": "channel",
-        "avatar": "https://yt3.googleusercontent.com/aPuVOhE66m_en_vzdz5SpbytqxUd-xHyAfLyn_lIVcC88dYT85WVhdYKrbZgRz7QMXvF7Ap_4fQ=s112-c-k-c0x00ffffff-no-rj",
-        "category": "learning"
-    },
-    {
         "id": "fcc-python-video",
         "title": "Learn Python: Full Course for Beginners",
         "description": {
             "en": "A complete beginner course in Python, in a single video.",
-            "es": "Un curso completo de Python para principiantes, en un solo video."
+            "es": "Un curso completo de Python para principiantes, en un solo video (en inglés)."
         },
         "url": "https://www.youtube.com/watch?v=rfscVS0vtbw",
         "type": "video",
@@ -605,7 +582,7 @@
         "title": "DAAD Worldwide",
         "description": {
             "en": "Official DAAD channel with videos about studying and researching in Germany.",
-            "es": "Canal oficial del DAAD con videos sobre estudiar e investigar en Alemania."
+            "es": "Canal oficial del DAAD con videos sobre estudiar e investigar en Alemania (en inglés)."
         },
         "url": "https://www.youtube.com/@DAADWorldwide",
         "type": "channel",
