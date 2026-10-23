@@ -86,13 +86,17 @@ Edita `src/content/resources.json` con `id`, `title`, `description` (`en` y `es`
 - **Formato** (`type`, opcional, por defecto `web`): `web`; `channel` (canal de YouTube, `url` del tipo `https://www.youtube.com/@handle`, con `avatar` opcional: la URL de la imagen del canal, que se saca del `og:image` de su página de YouTube (`yt3.googleusercontent.com/…=s112-c-k-c0x00ffffff-no-rj`); el navegador la carga y, si falta o falla, se muestra la inicial; `video` (video de YouTube, `url` con el ID y `channel` con el nombre del canal). La miniatura sale del ID y el reproductor solo se carga al pulsar, con `youtube-nocookie.com`.
 - **Acceso** (`access`, solo en `learning` y `certifications`): `free`, `freemium` (gratis con extras de pago) o `paid`. En el resto es opcional y se omite: la mayoría es gratis o freemium y no aporta.
 
-**Criterios de curación** (un recurso entra si cumple todos):
+**Criterios de curación** (un recurso entra si cumple todos). La biblioteca es corta a propósito: preferimos pocos recursos con impacto que muchos que llenen espacio.
 
 1. **Seguro**: sitio oficial y reconocido, con `https`, sin pedir datos sensibles de más ni pagos engañosos. Los enlaces van al sitio original, nunca a copias o acortadores.
 2. **Propósito claro**: ayuda a conectar, inspirarse o crecer en la carrera, y se explica en una frase.
-3. **Acceso**: se puede empezar sin pagar (gratis o con una parte gratuita real). Los de pago entran solo si son una referencia clara de su categoría y se marcan como `paid`.
-4. **Vigente y útil para quien empieza**: se mantiene activo y sirve a Early Career sin dejar de ser útil a Mid & Senior.
-5. **Español primero, sin ser requisito**: se prefiere lo disponible en español, pero se aceptan recursos en inglés que valgan la pena.
+3. **Impacto**: es una referencia reconocida en el sector a nivel global o en la región (Perú y Latinoamérica), no solo popular en redes. La prueba es si se lo recomendaríamos a alguien que nos pregunta por dónde seguir en esa categoría. No se repite una función: si la lista ya tiene una referencia para lo mismo, la nueva debe aportar algo claramente distinto.
+4. **Acceso**: se puede empezar sin pagar (gratis o con una parte gratuita real). Los de pago entran solo si son una referencia clara de su categoría y se marcan como `paid`.
+5. **Vigente y útil para quien empieza**: se prioriza lo que sigue activo, con contenido nuevo en los últimos dos o tres años. Los recursos de referencia, de contenido base que casi no cambia (fundamentos, teoría, herramientas estables), entran aunque su contenido tenga cinco o siete años. En temas que cambian rápido, como IA o frameworks, se exige lo reciente. Debe servir a Early Career sin dejar de ser útil a Mid & Senior.
+6. **Idioma**: español o inglés. El inglés es bienvenido, porque en tecnología se necesita; en videos y canales se indica con «(en inglés)» al final de `description.es`, y si ofrece subtítulos o traducción al español, mejor.
+7. **Canales y videos, más exigentes**: se elige por el valor del contenido, no por la audiencia. Cuenta la profundidad técnica, la precisión y que quien lo hace tenga experiencia comprobable; no entra el relleno ni el contenido superficial. Se prefieren canales con producción sostenida en los últimos dos o tres años; uno de referencia con contenido base puede entrar aunque publique poco. Cada canal debe poder justificarse en una frase de qué aporta que los demás no.
+
+Al revisar la biblioteca (se hace de vez en cuando y siempre en un PR), lo que ya no cumple se propone para retirarse con su motivo y lo decide una persona.
 
 Las descripciones no repiten precios ni límites exactos, porque cambian; en cursos y certificaciones eso lo indica el campo `access`. Revisa los enlaces antes del PR.
 
