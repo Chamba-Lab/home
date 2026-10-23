@@ -26,7 +26,7 @@ export const translations = {
         resourcesSectionDesc:
             "Una selección de guías, plataformas de práctica y plantillas que la comunidad recomienda.",
         resourcesCriteria:
-            "Elegimos pocos recursos y con impacto: referencias reconocidas, con un propósito claro y fáciles de empezar sin pagar. Los hay en español y en inglés. En cursos y certificaciones indicamos si son gratis, gratis con extras de pago o de pago. Los planes y precios cambian: confírmalos en cada sitio.",
+            "Elegimos pocos recursos y con impacto: referencias reconocidas, con un propósito claro y fáciles de empezar sin pagar. Los hay en español y en inglés. La estrella marca lo que más recomendamos. En cursos y certificaciones indicamos si son gratis, gratis con extras de pago o de pago. Los planes y precios cambian: confírmalos en cada sitio.",
         resourcesTitle: "Recursos",
         resourcesIntro:
             "Una selección de guías, plataformas de práctica y plantillas que la comunidad recomienda.",
@@ -176,7 +176,7 @@ export const translations = {
         resourcesIntro:
             "A curated set of guides, practice platforms, and templates the community recommends.",
         resourcesCriteria:
-            "We pick few resources, with real impact: recognized references with a clear purpose that are easy to start without paying. They come in Spanish and English. Courses and certifications are marked as free, free with paid extras, or paid. Plans and prices change, so confirm them on each site.",
+            "We pick few resources, with real impact: recognized references with a clear purpose that are easy to start without paying. They come in Spanish and English. The star marks what we recommend most. Courses and certifications are marked as free, free with paid extras, or paid. Plans and prices change, so confirm them on each site.",
         exploreResource: "Explore resource",
         viewAllResources: "Explore all resources",
 

@@ -38,6 +38,10 @@ const resources = defineCollection({
         // by a member). Shows a badge and is exempt from the impact criterion
         // (see CONTRIBUTING.md).
         community: z.boolean().optional(),
+        // Optional: recommended by the community. The card shows a small
+        // star and a soft glow, and it goes first within its section. Use it
+        // sparingly (see CONTRIBUTING.md).
+        recommended: z.boolean().optional(),
     }),
 });
 

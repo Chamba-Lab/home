@@ -66,6 +66,18 @@ describe("resources.json", () => {
         }
     });
 
+    it("recommends with moderation: at most a third of each category", () => {
+        for (const c of CATEGORIES) {
+            const inCategory = resources.filter((r) => r.category === c);
+            const recommended = inCategory.filter(
+                (r) => "recommended" in r && r.recommended,
+            );
+            expect(recommended.length, c).toBeLessThanOrEqual(
+                Math.floor(inCategory.length / 3),
+            );
+        }
+    });
+
     it("keeps formats consistent with their fields", () => {
         for (const r of resources) {
             const type = ("type" in r ? r.type : "web") as string;

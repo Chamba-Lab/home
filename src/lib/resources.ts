@@ -216,10 +216,16 @@ export const VIDEO_CAROUSEL_MIN = 4;
 
 // Agrupa por formato en el orden de RESOURCE_SECTIONS; omite las vacías. Un
 // recurso sin `type` es una web.
-export function groupByFormat<T extends { type?: ResourceType }>(items: T[]) {
+export function groupByFormat<
+    T extends { type?: ResourceType; recommended?: boolean },
+>(items: T[]) {
     return RESOURCE_SECTIONS.map((section) => ({
         ...section,
-        items: items.filter((item) => (item.type ?? "web") === section.format),
+        // Los recomendados van primero dentro de su sección; el resto
+        // conserva el orden del catálogo (el orden es estable).
+        items: items
+            .filter((item) => (item.type ?? "web") === section.format)
+            .sort((a, b) => Number(!!b.recommended) - Number(!!a.recommended)),
     })).filter((group) => group.items.length > 0);
 }
 
