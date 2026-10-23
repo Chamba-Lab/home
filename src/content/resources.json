@@ -96,7 +96,9 @@
             "es": "Creador de CV gratuito y de código abierto, con plantillas limpias y exportación a PDF."
         },
         "url": "https://rxresu.me",
-        "category": "cv"
+        "category": "cv",
+        "recommended": true,
+        "featured": true
     },
     {
         "id": "linkedin-jobs",
@@ -301,7 +303,9 @@
         },
         "url": "https://www.freecodecamp.org/learn",
         "category": "certifications",
-        "access": "free"
+        "access": "free",
+        "recommended": true,
+        "featured": true
     },
     {
         "id": "linux-foundation-training",
@@ -925,7 +929,8 @@
         "type": "channel",
         "avatar": "https://yt3.googleusercontent.com/ytc/AIdro_nlI29kkP3d2OAKZTdDVgkDA6D7g7TfNvSKNBGTY-5cQHY=s112-c-k-c0x00ffffff-no-rj",
         "category": "ai",
-        "recommended": true
+        "recommended": true,
+        "featured": true
     },
     {
         "id": "fazt-ia-nivel-video",
