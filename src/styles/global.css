@@ -205,11 +205,9 @@ body[data-category] {
 
 /* Fundido uniforme entre páginas, sin desplazamientos de elementos. Es
    secuencial: la página anterior se va antes de que entre la nueva, para que
-   no se vean las dos superpuestas. El header es igual en todas y queda fijo. */
-@view-transition {
-    navigation: auto;
-}
-
+   no se vean las dos superpuestas. El header es igual en todas y queda fijo.
+   La activación (`@view-transition`) va en línea en Layout.astro, para que
+   Chrome la vea aunque este CSS aún no esté en caché. */
 body > header {
     view-transition-name: site-header;
 }
