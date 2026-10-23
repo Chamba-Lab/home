@@ -8,8 +8,7 @@
         },
         "url": "https://github.com/posquit0/Awesome-CV",
         "type": "repo",
-        "category": "cv",
-        "starred": true
+        "category": "cv"
     },
     {
         "id": "jsonresume",
@@ -31,7 +30,8 @@
         "url": "https://roadmap.sh",
         "category": "learning",
         "access": "free",
-        "starred": true
+        "recommended": true,
+        "featured": true
     },
     {
         "id": "mdn-es",
@@ -64,8 +64,8 @@
         },
         "url": "https://leetcode.com",
         "category": "practice",
-        "starred": true,
-        "recommended": true
+        "recommended": true,
+        "featured": true
     },
     {
         "id": "codewars",
@@ -106,7 +106,9 @@
             "es": "El mayor portal de empleo profesional: búsqueda, alertas y postulación directa con tu perfil."
         },
         "url": "https://www.linkedin.com/jobs/",
-        "category": "jobs"
+        "category": "jobs",
+        "recommended": true,
+        "featured": true
     },
     {
         "id": "get-on-board",

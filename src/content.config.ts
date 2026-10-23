@@ -31,9 +31,10 @@ const resources = defineCollection({
         // Optional, only for courses and certifications: free, freemium
         // (free tier with paid extras) or paid.
         access: z.enum(ACCESS_IDS).optional(),
-        // Optional: starred resources are the ones shown on the home page
-        // (in file order, up to HOME_STARRED_MAX).
-        starred: z.boolean().optional(),
+        // Optional: featured resources are the ones shown on the home page
+        // (in file order, up to HOME_FEATURED_MAX). A featured resource must
+        // also be recommended.
+        featured: z.boolean().optional(),
         // Optional: a project made by the community (an open source project
         // by a member). Shows a badge and is exempt from the impact criterion
         // (see CONTRIBUTING.md).
