@@ -471,18 +471,6 @@
         "category": "learning"
     },
     {
-        "id": "cs50-youtube",
-        "title": "CS50",
-        "description": {
-            "en": "Harvard CS50 lectures and seminars, recorded and free.",
-            "es": "Clases y seminarios de CS50 de Harvard, grabados y gratuitos (en inglés)."
-        },
-        "url": "https://www.youtube.com/@cs50",
-        "type": "channel",
-        "avatar": "https://yt3.googleusercontent.com/ytc/AIdro_m7MWMBm4PynPndRMCxUEfNcU9Eufkk5ZkYI5RNjPchQ_c=s112-c-k-c0x00ffffff-no-rj",
-        "category": "learning"
-    },
-    {
         "id": "midudev-youtube",
         "title": "midudev",
         "description": {
@@ -516,6 +504,30 @@
         "url": "https://www.youtube.com/watch?v=ivdTnPl1ND0",
         "type": "video",
         "channel": "freeCodeCamp Español",
+        "category": "learning"
+    },
+    {
+        "id": "cs50x-clase-0-video",
+        "title": "CS50x en Español: Clase 0, Scratch",
+        "description": {
+            "en": "The first lecture of Harvard's CS50x, in Spanish: the fundamentals of computer science and programming through Scratch.",
+            "es": "La primera clase de CS50x de Harvard, en español: los fundamentos de las ciencias de la computación y la programación a través de Scratch."
+        },
+        "url": "https://www.youtube.com/watch?v=nfYOp3_SyqM",
+        "type": "video",
+        "channel": "CS50",
+        "category": "learning"
+    },
+    {
+        "id": "cs50p-lecture-0-video",
+        "title": "CS50P: Lecture 0, Functions and Variables",
+        "description": {
+            "en": "The first lecture of CS50's Introduction to Programming with Python: functions and variables.",
+            "es": "La primera clase de Introducción a la programación con Python de CS50: funciones y variables (en inglés)."
+        },
+        "url": "https://www.youtube.com/watch?v=JP7ITIXGpHk",
+        "type": "video",
+        "channel": "CS50",
         "category": "learning"
     },
     {
@@ -613,17 +625,6 @@
         "access": "free"
     },
     {
-        "id": "javascript-info",
-        "title": "JavaScript.info",
-        "description": {
-            "en": "A detailed modern JavaScript tutorial with exercises, from the basics to closures, events and object-oriented programming.",
-            "es": "Tutorial detallado de JavaScript moderno con ejercicios, desde lo básico hasta closures, eventos y programación orientada a objetos."
-        },
-        "url": "https://es.javascript.info/",
-        "category": "learning",
-        "access": "free"
-    },
-    {
         "id": "pro-git",
         "title": "Pro Git",
         "description": {
@@ -690,30 +691,6 @@
         "url": "https://www.youtube.com/@ByteByteGo",
         "type": "channel",
         "avatar": "https://yt3.googleusercontent.com/ZDRUyBUwc2WXZzvNKP9VS9myI6Mg2puQLaWyp4hibRu-owlsasZ3DVNGSQJwzO1IU-tqoMiGgdc=s112-c-k-c0x00ffffff-no-rj",
-        "category": "learning"
-    },
-    {
-        "id": "hussein-nasser-youtube",
-        "title": "Hussein Nasser",
-        "description": {
-            "en": "Backend engineering in depth: databases, networking, proxies and how real systems work.",
-            "es": "Ingeniería backend a fondo: bases de datos, redes, proxies y cómo funcionan los sistemas reales (en inglés)."
-        },
-        "url": "https://www.youtube.com/@hnasr",
-        "type": "channel",
-        "avatar": "https://yt3.googleusercontent.com/wdZxAigelIgebOT-NlWwVnvOijYuHttaa5jSpCuxlYajSEbfp75dVPSItmer-6jCrKACKChheAE=s112-c-k-c0x00ffffff-no-rj",
-        "category": "learning"
-    },
-    {
-        "id": "techworld-with-nana-youtube",
-        "title": "TechWorld with Nana",
-        "description": {
-            "en": "DevOps, Docker, Kubernetes and the cloud, taught step by step.",
-            "es": "DevOps, Docker, Kubernetes y la nube, explicados paso a paso (en inglés)."
-        },
-        "url": "https://www.youtube.com/@TechWorldwithNana",
-        "type": "channel",
-        "avatar": "https://yt3.googleusercontent.com/ZAuMKdMcyV3mhX857oCGWzQAQ4AqZhiDIO76MTC_DqckrujSNg5Mh2AQh6ngWYv7bzfu7TBoj24=s112-c-k-c0x00ffffff-no-rj",
         "category": "learning"
     },
     {
