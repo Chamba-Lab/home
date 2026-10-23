@@ -137,13 +137,13 @@
         "category": "jobs"
     },
     {
-        "id": "torre",
-        "title": "Torre",
+        "id": "indeed-pe",
+        "title": "Indeed Perú",
         "description": {
-            "en": "Talent network with openings from companies worldwide, many of them remote.",
-            "es": "Red de talento con ofertas de empresas de todo el mundo, muchas de ellas remotas."
+            "en": "Global job search engine with a Peruvian site, to search openings, set alerts and apply.",
+            "es": "Buscador de empleo global con sitio para Perú, para buscar ofertas, crear alertas y postular."
         },
-        "url": "https://torre.ai",
+        "url": "https://pe.indeed.com",
         "category": "jobs"
     },
     {
@@ -589,26 +589,6 @@
         },
         "url": "https://www.techinterviewhandbook.org/resume/",
         "category": "cv"
-    },
-    {
-        "id": "wellfound",
-        "title": "Wellfound",
-        "description": {
-            "en": "Job platform focused on startups, with openings at early-stage companies around the world.",
-            "es": "Plataforma de empleo centrada en startups, con ofertas de empresas en etapa temprana de todo el mundo."
-        },
-        "url": "https://wellfound.com",
-        "category": "jobs"
-    },
-    {
-        "id": "levels-fyi",
-        "title": "Levels.fyi",
-        "description": {
-            "en": "Salary and career-level data by company, role and location, useful to size up an offer before negotiating.",
-            "es": "Datos de salarios y niveles por empresa, puesto y ubicación, útiles para evaluar una oferta antes de negociar."
-        },
-        "url": "https://www.levels.fyi",
-        "category": "jobs"
     },
     {
         "id": "full-stack-open",
