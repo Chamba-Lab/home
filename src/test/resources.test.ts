@@ -4,6 +4,7 @@ import {
     ACCESS_IDS,
     HOME_STARRED_MAX,
     RESOURCE_CATEGORY_IDS,
+    githubRepoName,
     youtubeVideoId,
 } from "../lib/resources";
 
@@ -68,7 +69,10 @@ describe("resources.json", () => {
     it("keeps formats consistent with their fields", () => {
         for (const r of resources) {
             const type = ("type" in r ? r.type : "web") as string;
-            expect(["web", "channel", "video"], r.id).toContain(type);
+            expect(["web", "channel", "video", "repo"], r.id).toContain(type);
+            if (type === "repo") {
+                expect(githubRepoName(r.url), r.id).toBeDefined();
+            }
             if (type === "video") {
                 expect(youtubeVideoId(r.url), r.id).toBeDefined();
                 expect("channel" in r, r.id).toBe(true);

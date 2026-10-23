@@ -19,8 +19,8 @@ const resources = defineCollection({
         title: z.string(),
         description: i18nText,
         url: z.string().url(),
-        // Format: "web" (default), "channel" (YouTube channel) or "video"
-        // (YouTube video, played on demand).
+        // Format: "web" (default), "channel" (YouTube channel), "video"
+        // (YouTube video, played on demand) or "repo" (GitHub repository).
         type: z.enum(RESOURCE_TYPE_IDS).default("web"),
         // Channel only: URL of the channel image (yt3.googleusercontent.com,
         // ?=s112 size). The browser loads it; the title initial is the fallback.

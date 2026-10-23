@@ -8,6 +8,7 @@ import {
     categoryPageTitle,
     categoryPath,
     displayDomain,
+    githubRepoName,
     groupByCategory,
     groupByFormat,
     matchesQuery,
@@ -53,6 +54,25 @@ describe("youtube urls", () => {
         expect(youtubeEmbedUrl("abcdefghijk")).toContain(
             "https://www.youtube-nocookie.com/embed/abcdefghijk",
         );
+    });
+});
+
+describe("githubRepoName", () => {
+    it("returns owner/repo for a repository link", () => {
+        expect(githubRepoName("https://github.com/posquit0/Awesome-CV")).toBe(
+            "posquit0/Awesome-CV",
+        );
+        expect(
+            githubRepoName("https://www.github.com/ossu/computer-science/"),
+        ).toBe("ossu/computer-science");
+    });
+    it("rejects other hosts, bare profiles and deeper paths", () => {
+        expect(githubRepoName("https://gitlab.com/a/b")).toBeUndefined();
+        expect(githubRepoName("https://github.com/ossu")).toBeUndefined();
+        expect(
+            githubRepoName("https://github.com/ossu/computer-science/issues"),
+        ).toBeUndefined();
+        expect(githubRepoName("not a url")).toBeUndefined();
     });
 });
 
@@ -131,17 +151,19 @@ describe("categories", () => {
         expect(groups.map((g) => g.category.id)).toEqual(["cv", "ai"]);
         expect(groups[1].items.map((i) => i.n)).toEqual([1, 3]);
     });
-    it("groups by format as videos, channels and websites, skipping empty ones", () => {
+    it("groups by format as videos, channels, websites and repositories, skipping empty ones", () => {
         const groups = groupByFormat([
             { n: 1 },
             { n: 2, type: "channel" as const },
             { n: 3, type: "web" as const },
             { n: 4, type: "video" as const },
+            { n: 5, type: "repo" as const },
         ]);
         expect(groups.map((g) => g.format)).toEqual([
             "video",
             "channel",
             "web",
+            "repo",
         ]);
         expect(groups[2].items.map((i) => i.n)).toEqual([1, 3]);
         expect(
