@@ -519,21 +519,11 @@
         "category": "learning"
     },
     {
-        "id": "pronabec",
+        "id": "pronabec-convocatorias",
         "title": "Pronabec",
         "description": {
-            "en": "Peru's national scholarship program: Beca 18, postgraduate and international calls.",
-            "es": "El programa nacional de becas del Perú: Beca 18, posgrado y convocatorias internacionales."
-        },
-        "url": "https://www.gob.pe/pronabec",
-        "category": "scholarships"
-    },
-    {
-        "id": "pronabec-convocatorias",
-        "title": "Pronabec: concursos de becas y créditos",
-        "description": {
-            "en": "Official Pronabec portal with the open calls for scholarships and educational loans, and their requirements.",
-            "es": "Portal oficial de Pronabec con los concursos abiertos de becas y créditos educativos, y sus requisitos."
+            "en": "Official portal of Peru's national scholarship program, with the open calls for scholarships and educational loans (Beca 18, postgraduate and international) and their requirements.",
+            "es": "Portal oficial del programa nacional de becas del Perú, con los concursos abiertos de becas y créditos educativos (Beca 18, posgrado e internacionales) y sus requisitos."
         },
         "url": "https://www.pronabec.gob.pe/concursos-becas-creditos/",
         "category": "scholarships"
@@ -1005,5 +995,29 @@
         },
         "url": "https://www.chevening.org/scholarship/peru/",
         "category": "scholarships"
+    },
+    {
+        "id": "karina-canales-cv-video",
+        "title": "Todo sobre cómo armar un CV efectivo al nivel de las mejores empresas en USA",
+        "description": {
+            "en": "A Spanish-language walkthrough of about 80 minutes on building a CV that meets the bar of top US companies.",
+            "es": "Una guía en español de unos 80 minutos para armar un CV que cumpla el nivel de las mejores empresas de Estados Unidos."
+        },
+        "url": "https://www.youtube.com/watch?v=EY4X9vBg-w4",
+        "type": "video",
+        "channel": "Karina Canales",
+        "category": "cv"
+    },
+    {
+        "id": "cv-factory",
+        "title": "CV Factory",
+        "description": {
+            "en": "Write your CV once as JSON Resume data and generate tailored, ATS-friendly PDFs per role and language.",
+            "es": "Escribe tu CV una sola vez como datos en JSON Resume y genera PDFs a medida, compatibles con ATS, por puesto e idioma."
+        },
+        "url": "https://github.com/MeloDev2111/cv-factory",
+        "type": "repo",
+        "category": "cv",
+        "community": true
     }
 ]
