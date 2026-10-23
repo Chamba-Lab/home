@@ -278,6 +278,28 @@
         "access": "paid"
     },
     {
+        "id": "cisco-netacad-certifications",
+        "title": "Cisco Networking Academy: certificaciones",
+        "description": {
+            "en": "Cisco Networking Academy's courses and certificates, a path toward Cisco certifications such as CCNA.",
+            "es": "Cursos y certificados de Cisco Networking Academy, un camino hacia certificaciones de Cisco como CCNA."
+        },
+        "url": "https://www.netacad.com/certifications",
+        "category": "certifications",
+        "access": "freemium"
+    },
+    {
+        "id": "freecodecamp-certifications",
+        "title": "freeCodeCamp: certificaciones",
+        "description": {
+            "en": "Free certifications you earn by building projects, in web development, data and more.",
+            "es": "Certificaciones gratuitas que se obtienen construyendo proyectos, en desarrollo web, datos y más."
+        },
+        "url": "https://www.freecodecamp.org/learn",
+        "category": "certifications",
+        "access": "free"
+    },
+    {
         "id": "linux-foundation-training",
         "title": "Linux Foundation Training",
         "description": {
@@ -367,46 +389,6 @@
         },
         "url": "https://www.deeplearning.ai/courses",
         "category": "ai"
-    },
-    {
-        "id": "exercism",
-        "title": "Exercism",
-        "description": {
-            "en": "Free coding exercises in dozens of languages, with optional mentoring from volunteers.",
-            "es": "Ejercicios de programación gratuitos en decenas de lenguajes, con mentoría opcional de voluntarios."
-        },
-        "url": "https://exercism.org",
-        "category": "practice"
-    },
-    {
-        "id": "frontend-mentor",
-        "title": "Frontend Mentor",
-        "description": {
-            "en": "Real-world front-end challenges with designs, ideal for building portfolio projects.",
-            "es": "Retos front-end con diseños reales, ideales para armar proyectos de portafolio."
-        },
-        "url": "https://www.frontendmentor.io",
-        "category": "practice"
-    },
-    {
-        "id": "neetcode",
-        "title": "NeetCode",
-        "description": {
-            "en": "Curated problem lists and video explanations to prepare for algorithm interviews in an orderly way.",
-            "es": "Listas curadas de problemas y explicaciones en video para preparar entrevistas de algoritmos con orden."
-        },
-        "url": "https://neetcode.io",
-        "category": "practice"
-    },
-    {
-        "id": "tech-interview-handbook",
-        "title": "Tech Interview Handbook",
-        "description": {
-            "en": "Free guide to resumes, coding interviews, behavioral questions and negotiating offers.",
-            "es": "Guía gratuita sobre CV, entrevistas de código, preguntas de comportamiento y negociación de ofertas."
-        },
-        "url": "https://www.techinterviewhandbook.org",
-        "category": "practice"
     },
     {
         "id": "github-skills",
@@ -741,17 +723,6 @@
         "access": "paid"
     },
     {
-        "id": "comptia-certifications",
-        "title": "CompTIA",
-        "description": {
-            "en": "Vendor-neutral IT certifications such as A+, Network+ and Security+, a common starting point for support and security roles.",
-            "es": "Certificaciones de TI independientes de proveedor, como A+, Network+ y Security+, un punto de partida habitual para soporte y seguridad."
-        },
-        "url": "https://www.comptia.org/en-us/certifications/",
-        "category": "certifications",
-        "access": "paid"
-    },
-    {
         "id": "claude-academy",
         "title": "Claude Academy",
         "description": {
@@ -782,16 +753,6 @@
         "category": "ai"
     },
     {
-        "id": "fast-ai",
-        "title": "fast.ai: Practical Deep Learning",
-        "description": {
-            "en": "A free course for people with coding experience who want to apply deep learning to practical problems.",
-            "es": "Un curso gratuito para quienes ya programan y quieren aplicar deep learning a problemas prácticos."
-        },
-        "url": "https://course.fast.ai",
-        "category": "ai"
-    },
-    {
         "id": "ollama",
         "title": "Ollama",
         "description": {
@@ -799,16 +760,6 @@
             "es": "Ejecuta modelos de IA abiertos en tu propia computadora (macOS, Windows o Linux) y construye con ellos."
         },
         "url": "https://ollama.com",
-        "category": "ai"
-    },
-    {
-        "id": "prompt-engineering-guide",
-        "title": "Prompt Engineering Guide",
-        "description": {
-            "en": "An open, comprehensive guide to prompt engineering techniques, with examples, available in Spanish.",
-            "es": "Una guía abierta y completa de técnicas de prompt engineering, con ejemplos, disponible en español."
-        },
-        "url": "https://www.promptingguide.ai/es",
         "category": "ai"
     },
     {
@@ -821,18 +772,6 @@
         "url": "https://www.youtube.com/@AndrejKarpathy",
         "type": "channel",
         "avatar": "https://yt3.googleusercontent.com/ytc/AIdro_nDvyq2NoPL626bk1IbxQ94SfQsD-B0qgZchghtQNkLWoEz=s112-c-k-c0x00ffffff-no-rj",
-        "category": "ai"
-    },
-    {
-        "id": "karpathy-deep-dive-llms-video",
-        "title": "Deep Dive into LLMs like ChatGPT",
-        "description": {
-            "en": "A 3.5-hour tour of how ChatGPT-style models are built, from training data to how they answer.",
-            "es": "Un recorrido de 3,5 horas por cómo se construyen los modelos tipo ChatGPT, desde los datos de entrenamiento hasta cómo responden (en inglés)."
-        },
-        "url": "https://www.youtube.com/watch?v=7xTGNNLPyMI",
-        "type": "video",
-        "channel": "Andrej Karpathy",
         "category": "ai"
     },
     {
@@ -912,16 +851,6 @@
         "category": "opensource"
     },
     {
-        "id": "outreachy",
-        "title": "Outreachy",
-        "description": {
-            "en": "Paid remote internships in free and open source software that support diversity in tech.",
-            "es": "Pasantías remotas y remuneradas en software libre y de código abierto que apoyan la diversidad en tecnología."
-        },
-        "url": "https://www.outreachy.org",
-        "category": "opensource"
-    },
-    {
         "id": "hacktoberfest",
         "title": "Hacktoberfest",
         "description": {
@@ -976,5 +905,63 @@
         "type": "repo",
         "category": "cv",
         "community": true
+    },
+    {
+        "id": "fazt-youtube",
+        "title": "Fazt",
+        "description": {
+            "en": "Programming and the practical use of AI to build software, in Spanish.",
+            "es": "Programación y uso práctico de la IA para construir software, en español."
+        },
+        "url": "https://www.youtube.com/@fazttech",
+        "type": "channel",
+        "avatar": "https://yt3.googleusercontent.com/ytc/AIdro_nlI29kkP3d2OAKZTdDVgkDA6D7g7TfNvSKNBGTY-5cQHY=s112-c-k-c0x00ffffff-no-rj",
+        "category": "ai"
+    },
+    {
+        "id": "fazt-ia-nivel-video",
+        "title": "¿Qué herramienta de IA deberías usar según tu nivel?",
+        "description": {
+            "en": "A Spanish-language guide to choosing AI tools for programming according to your experience level.",
+            "es": "Una guía en español para elegir herramientas de IA para programar según tu nivel de experiencia."
+        },
+        "url": "https://www.youtube.com/watch?v=4RIR55_f27A",
+        "type": "video",
+        "channel": "Fazt",
+        "category": "ai"
+    },
+    {
+        "id": "hackerrank",
+        "title": "HackerRank",
+        "description": {
+            "en": "Coding challenges and skills practice in many languages, widely used in technical hiring.",
+            "es": "Retos de código y práctica de habilidades en muchos lenguajes, muy usados en procesos de selección técnica."
+        },
+        "url": "https://www.hackerrank.com",
+        "category": "practice"
+    },
+    {
+        "id": "vivi-rojas-youtube",
+        "title": "Vivi Rojas",
+        "description": {
+            "en": "Scholarships, personal branding and employability, with step-by-step guides to international programs, in Spanish.",
+            "es": "Becas, marca personal y empleabilidad, con guías paso a paso de programas internacionales, en español."
+        },
+        "url": "https://www.youtube.com/@personalbrandingpe",
+        "type": "channel",
+        "avatar": "https://yt3.googleusercontent.com/HM6swFhrQWBQ0DgfJ-4Sh4F_-kQi19RTAIDgiQL_v3wF2YJfg6NVdgllNpPbJUjC--u5k7fGjQ=s112-c-k-c0x00ffffff-no-rj",
+        "category": "scholarships"
+    },
+    {
+        "id": "vivi-rojas-erasmus-mundus-video",
+        "title": "Cómo ganar una beca Erasmus Mundus: todo lo que necesitas saber",
+        "description": {
+            "en": "A Spanish-language explanation of the Erasmus Mundus scholarship and how to apply, step by step.",
+            "es": "Una explicación en español de la beca Erasmus Mundus y de cómo postular, paso a paso."
+        },
+        "url": "https://www.youtube.com/watch?v=ywC9bOXoqSM",
+        "type": "video",
+        "channel": "Vivi Rojas",
+        "category": "scholarships"
     }
 ]
