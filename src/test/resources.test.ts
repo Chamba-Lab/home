@@ -2,7 +2,7 @@ import { describe, it, expect } from "vitest";
 import resources from "../content/resources.json";
 import {
     ACCESS_IDS,
-    HOME_STARRED_MAX,
+    HOME_FEATURED_MAX,
     RESOURCE_CATEGORY_IDS,
     githubRepoName,
     youtubeVideoId,
@@ -19,10 +19,18 @@ describe("resources.json", () => {
         expect(new Set(urls).size).toBe(urls.length);
     });
 
-    it("stars at least one resource and no more than the home can show", () => {
-        const starred = resources.filter((r) => "starred" in r && r.starred);
-        expect(starred.length).toBeGreaterThan(0);
-        expect(starred.length).toBeLessThanOrEqual(HOME_STARRED_MAX);
+    it("features at least one resource and no more than the home can show", () => {
+        const featured = resources.filter((r) => "featured" in r && r.featured);
+        expect(featured.length).toBeGreaterThan(0);
+        expect(featured.length).toBeLessThanOrEqual(HOME_FEATURED_MAX);
+    });
+
+    it("only features resources that are also recommended", () => {
+        for (const r of resources) {
+            if ("featured" in r && r.featured) {
+                expect("recommended" in r && r.recommended, r.id).toBe(true);
+            }
+        }
     });
 
     it("uses only https URLs", () => {

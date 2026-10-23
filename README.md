@@ -33,7 +33,7 @@ Sitio estático, rápido y bilingüe (ES/EN).
 
 | Ruta | Contenido |
 | :--- | :--- |
-| `/` | Landing con hero, widget de Discord, ecosistema (el diagrama de perfiles y etapas), eventos, equipo y recursos destacados |
+| `/` | Landing con hero, widget de Discord, ecosistema (el diagrama de perfiles y etapas), eventos, equipo y recursos recomendados |
 | `/resources` | Biblioteca completa de guías, plantillas y plataformas curadas con filtros |
 | `/events` | Calendario de eventos y sesiones recurrentes con exportación a Google Calendar / iCal |
 | `/activities` | Hub de mini actividades comunitarias (dinámicas) |

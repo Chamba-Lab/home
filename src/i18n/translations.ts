@@ -22,7 +22,7 @@ export const translations = {
         discordWidgetTabOfficial: "Widget Oficial",
 
         // Resources Section
-        resourcesSectionTitle: "Recursos Curados",
+        resourcesSectionTitle: "Recursos recomendados",
         resourcesSectionDesc:
             "Una selección de guías, plataformas de práctica y plantillas que la comunidad recomienda.",
         resourcesCriteria:
@@ -169,7 +169,7 @@ export const translations = {
         discordWidgetTabOfficial: "Official Widget",
 
         // Resources Section
-        resourcesSectionTitle: "Curated Resources",
+        resourcesSectionTitle: "Recommended resources",
         resourcesSectionDesc:
             "A curated set of guides, practice platforms, and templates recommended by the community.",
         resourcesTitle: "Resources",

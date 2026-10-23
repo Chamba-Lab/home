@@ -6,7 +6,7 @@ import TeamSection from "../components/TeamSection.astro";
 import DiscordIcon from "../components/icons/DiscordIcon.astro";
 import { DISCORD_URL, SITE_URL } from "../lib/constants";
 import { organizationJsonLd, websiteJsonLd } from "../lib/seo";
-import { categoryById, starredResources } from "../lib/resources";
+import { categoryById, featuredResources } from "../lib/resources";
 import { getCollection } from "astro:content";
 import { formatLongDate, limaToday, upcomingFixedEvents } from "../lib/events";
 import {
@@ -23,9 +23,9 @@ const siteOrigin = Astro.site?.origin ?? SITE_URL;
 const allResources = await getCollection("resources");
 const allEvents = await getCollection("events");
 
-// Home shows the starred resources (see `starred` in resources.json)
-const featuredResources = starredResources(
-    allResources.map((r) => ({ ...r, starred: r.data.starred })),
+// Home shows the featured resources (see `featured` in resources.json)
+const homeResources = featuredResources(
+    allResources.map((r) => ({ ...r, featured: r.data.featured })),
 );
 
 // Next sessions: every one-time event still to come, soonest first. The first
@@ -498,7 +498,7 @@ const recIcsUrl = recurringEvent
         <!-- ============================================================== -->
         <!-- RECURSOS CURADOS (Dynamic data from resources.json)            -->
         <!-- ============================================================== -->
-        {featuredResources.length > 0 && (
+        {homeResources.length > 0 && (
             <section class="py-20 border-t border-white/[0.06]">
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
@@ -507,7 +507,7 @@ const recIcsUrl = recurringEvent
                                 class="font-display text-3xl sm:text-4xl font-extrabold text-white tracking-tight mb-2"
                                 data-i18n="resourcesSectionTitle"
                             >
-                                Recursos Curados
+                                Recursos recomendados
                             </h2>
                             <p
                                 class="text-sm sm:text-base text-slate-400 max-w-xl leading-relaxed"
@@ -544,7 +544,7 @@ const recIcsUrl = recurringEvent
 
                     <!-- 3 Feature Cards Grid -->
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        {featuredResources.map((res) => (
+                        {homeResources.map((res) => (
                             <div class="card-glass rounded-2xl p-7 flex flex-col justify-between group transition-all duration-300 hover:border-brand-yellow/40 hover:-translate-y-0.5 shadow-lg shadow-black/20">
                                 <div class="flex flex-col">
                                     <div class="flex items-center justify-between mb-4">

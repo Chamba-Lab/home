@@ -15,7 +15,7 @@ import {
     normalizeText,
     resourceCountLabel,
     resourceSearchText,
-    starredResources,
+    featuredResources,
     youtubeEmbedUrl,
     youtubeThumbnail,
     youtubeVideoId,
@@ -227,23 +227,23 @@ describe("categories", () => {
     });
 });
 
-describe("starredResources", () => {
+describe("featuredResources", () => {
     const items = [
-        { id: "a", starred: true },
+        { id: "a", featured: true },
         { id: "b" },
-        { id: "c", starred: false },
-        { id: "d", starred: true },
+        { id: "c", featured: false },
+        { id: "d", featured: true },
     ];
 
-    it("keeps only the starred ones, in catalog order", () => {
-        expect(starredResources(items).map((i) => i.id)).toEqual(["a", "d"]);
+    it("keeps only the featured ones, in catalog order", () => {
+        expect(featuredResources(items).map((i) => i.id)).toEqual(["a", "d"]);
     });
 
     it("caps the list at the given maximum", () => {
-        expect(starredResources(items, 1).map((i) => i.id)).toEqual(["a"]);
+        expect(featuredResources(items, 1).map((i) => i.id)).toEqual(["a"]);
     });
 
-    it("returns nothing when none is starred", () => {
-        expect(starredResources([{ id: "x" }])).toEqual([]);
+    it("returns nothing when none is featured", () => {
+        expect(featuredResources([{ id: "x" }])).toEqual([]);
     });
 });
