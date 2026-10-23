@@ -1,13 +1,47 @@
 ---
 import Layout from "../../layouts/Layout.astro";
+import PostCard from "../../components/PostCard.astro";
+import CloseIcon from "../../components/icons/CloseIcon.astro";
 import { getCollection } from "astro:content";
-import { formatLongDate } from "../../lib/events";
-import { postDateIso, postPath, publishedPosts } from "../../lib/posts";
+import {
+    postsByYear,
+    publishedPosts,
+    readingMinutes,
+    tagCounts,
+} from "../../lib/posts";
+import { getTeamMembers } from "../../lib/team";
 
 const rawBase = import.meta.env.BASE_URL;
 const base = rawBase.endsWith("/") ? rawBase : `${rawBase}/`;
 
 const posts = publishedPosts(await getCollection("posts"));
+const team = await getTeamMembers();
+const [latest] = posts;
+const tags = tagCounts(posts);
+
+// Datos de cada entrada para las tarjetas y para el filtro del navegador.
+const meta = new Map(
+    posts.map((post) => [
+        post.id,
+        {
+            minutes: readingMinutes(post.body ?? ""),
+            member: team.find((m) => m.name === post.data.author),
+            filter: {
+                "data-post": "",
+                "data-tags": JSON.stringify(post.data.tags),
+                "data-text": [
+                    post.data.title,
+                    post.data.description,
+                    ...post.data.tags,
+                ].join(" "),
+            },
+        },
+    ]),
+);
+const card = (post: (typeof posts)[number]) => {
+    const { minutes, member } = meta.get(post.id)!;
+    return { post, minutes, member, base };
+};
 ---
 
 <Layout
@@ -21,7 +55,7 @@ const posts = publishedPosts(await getCollection("posts"));
     rss
 >
     <main class="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
-        <div class="max-w-3xl mb-12">
+        <div class="max-w-3xl mb-10">
             <h1
                 class="font-display text-4xl sm:text-5xl font-extrabold text-white tracking-tight mb-4"
                 data-i18n="blogTitle"
@@ -37,10 +71,17 @@ const posts = publishedPosts(await getCollection("posts"));
             </p>
             <a
                 href={`${base}rss.xml`}
-                class="mt-4 inline-block text-sm font-semibold text-slate-400 hover:text-brand-yellow transition-colors"
-                data-i18n="blogRss"
+                class="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-slate-400 hover:text-brand-yellow transition-colors"
             >
-                Suscribirse por RSS
+                <svg
+                    class="w-3.5 h-3.5"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    aria-hidden="true"
+                >
+                    <path d="M6.18 15.64a2.18 2.18 0 1 1 0 4.36 2.18 2.18 0 0 1 0-4.36ZM4 4.44A15.56 15.56 0 0 1 19.56 20h-2.83A12.73 12.73 0 0 0 4 7.27V4.44Zm0 5.66a9.9 9.9 0 0 1 9.9 9.9h-2.83A7.07 7.07 0 0 0 4 12.93V10.1Z"></path>
+                </svg>
+                <span data-i18n="blogRss">Suscribirse por RSS</span>
             </a>
         </div>
 
@@ -52,56 +93,529 @@ const posts = publishedPosts(await getCollection("posts"));
                 Aún no hay entradas publicadas. Vuelve pronto.
             </p>
         ) : (
-            <ul class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {posts.map((post) => {
-                    const iso = postDateIso(post.data.date);
-                    return (
-                        <li>
-                            <a
-                                href={postPath(post.id, base)}
-                                class="card-glass rounded-2xl p-7 flex h-full flex-col justify-between group transition-all duration-300 hover:border-brand-yellow/40 hover:-translate-y-0.5 shadow-lg shadow-black/20"
+            <div id="blog-listing" data-view="auto" class="scroll-mt-28">
+                {/* Barra: búsqueda y temas; a la derecha, contador y vista */}
+                <div class="flex items-center gap-2">
+                    <label class="relative flex-1 sm:flex-none sm:w-72">
+                        <span
+                            class="sr-only"
+                            data-i18n-es="Buscar entradas"
+                            data-i18n-en="Search entries"
+                        >
+                            Buscar entradas
+                        </span>
+                        <svg
+                            class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500 pointer-events-none"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            aria-hidden="true"
+                        >
+                            <circle cx="11" cy="11" r="7" />
+                            <path d="m20 20-3.5-3.5" />
+                        </svg>
+                        <input
+                            id="blog-search"
+                            type="search"
+                            autocomplete="off"
+                            placeholder="Buscar entradas"
+                            data-i18n-placeholder-es="Buscar entradas"
+                            data-i18n-placeholder-en="Search entries"
+                            class="w-full h-10 pl-9 pr-3 rounded-xl bg-slate-900/70 border border-white/10 text-sm text-white placeholder:text-slate-500 focus:outline-none focus:border-brand-yellow/50 transition-colors"
+                        />
+                    </label>
+
+                    <div class="relative">
+                        <button
+                            id="blog-topics-btn"
+                            type="button"
+                            aria-expanded="false"
+                            aria-controls="blog-topics"
+                            aria-label="Temas"
+                            data-i18n-aria-label-es="Temas"
+                            data-i18n-aria-label-en="Topics"
+                            class="h-10 inline-flex items-center gap-2 px-3 rounded-xl bg-slate-900/70 border border-white/10 text-sm font-semibold text-slate-300 hover:text-white hover:border-white/20 transition-colors"
+                        >
+                            <svg
+                                class="w-4 h-4"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                aria-hidden="true"
                             >
-                                <div>
-                                    <p
-                                        class="text-[11px] font-bold uppercase tracking-wider text-brand-yellow mb-3"
-                                        data-i18n-es={formatLongDate(iso, "es")}
-                                        data-i18n-en={formatLongDate(iso, "en")}
-                                    >
-                                        {formatLongDate(iso, "es")}
-                                    </p>
-                                    <h2
-                                        lang={post.data.lang}
-                                        class="font-display text-2xl font-bold text-white mb-2 group-hover:text-brand-yellow transition-colors leading-snug"
-                                    >
-                                        {post.data.title}
-                                    </h2>
-                                    <p
-                                        lang={post.data.lang}
-                                        class="text-sm text-slate-400 leading-relaxed mb-6"
-                                    >
-                                        {post.data.description}
-                                    </p>
-                                </div>
-                                <div class="pt-5 border-t border-white/10 flex flex-wrap items-center justify-between gap-3">
-                                    <span class="flex flex-wrap gap-2">
-                                        {post.data.tags.map((tag) => (
-                                            <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded bg-slate-800 text-slate-300 border border-white/10">
-                                                {tag}
+                                <path d="M3 5h18M6 12h12M10 19h4" />
+                            </svg>
+                            <span
+                                class="hidden sm:inline"
+                                data-i18n="blogTopics"
+                            >
+                                Temas
+                            </span>
+                            <span
+                                id="blog-topics-count"
+                                hidden
+                                class="min-w-5 h-5 px-1.5 rounded-full bg-brand-yellow text-slate-950 text-[11px] font-bold leading-5 text-center"
+                            />
+                        </button>
+                        <div
+                            id="blog-topics"
+                            hidden
+                            class="absolute z-40 mt-2 right-0 w-64 max-w-[calc(100vw-2rem)] rounded-xl bg-slate-900 border border-white/10 shadow-2xl shadow-black/50 p-2"
+                        >
+                            <ul class="max-h-72 overflow-y-auto">
+                                {tags.map(([tag, count]) => (
+                                    <li>
+                                        <label class="flex items-center gap-3 px-2.5 py-2 rounded-lg text-sm text-slate-300 hover:bg-white/5 cursor-pointer">
+                                            <input
+                                                type="checkbox"
+                                                value={tag}
+                                                class="w-4 h-4 accent-brand-yellow"
+                                            />
+                                            <span class="flex-1">{tag}</span>
+                                            <span class="text-xs text-slate-500">
+                                                {count}
                                             </span>
-                                        ))}
-                                    </span>
-                                    <span
-                                        class="inline-flex items-center gap-1.5 text-xs font-bold text-brand-yellow group-hover:translate-x-1 transition-transform"
-                                        data-i18n="blogRead"
-                                    >
-                                        Leer entrada
-                                    </span>
-                                </div>
-                            </a>
-                        </li>
-                    );
-                })}
-            </ul>
+                                        </label>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    </div>
+
+                    <p
+                        id="blog-count"
+                        aria-live="polite"
+                        class="hidden sm:block ml-auto text-xs text-slate-500"
+                    />
+
+                    <div
+                        role="group"
+                        aria-label="Vista"
+                        data-i18n-aria-label-es="Vista"
+                        data-i18n-aria-label-en="View"
+                        class="ml-auto sm:ml-0 flex p-1 rounded-xl bg-slate-900/70 border border-white/10"
+                    >
+                        <button
+                            type="button"
+                            data-view-btn="magazine"
+                            aria-pressed="false"
+                            aria-label="Vista revista"
+                            title="Revista"
+                            data-i18n-aria-label-es="Vista revista"
+                            data-i18n-aria-label-en="Magazine view"
+                            data-i18n-title-es="Revista"
+                            data-i18n-title-en="Magazine"
+                            class="view-btn"
+                        >
+                            <svg
+                                class="w-4 h-4"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                aria-hidden="true"
+                            >
+                                <rect
+                                    x="3"
+                                    y="3"
+                                    width="18"
+                                    height="8"
+                                    rx="1.5"
+                                />
+                                <rect
+                                    x="3"
+                                    y="14"
+                                    width="8"
+                                    height="7"
+                                    rx="1.5"
+                                />
+                                <rect
+                                    x="13"
+                                    y="14"
+                                    width="8"
+                                    height="7"
+                                    rx="1.5"
+                                />
+                            </svg>
+                        </button>
+                        <button
+                            type="button"
+                            data-view-btn="log"
+                            aria-pressed="false"
+                            aria-label="Vista bitácora"
+                            title="Bitácora"
+                            data-i18n-aria-label-es="Vista bitácora"
+                            data-i18n-aria-label-en="Log view"
+                            data-i18n-title-es="Bitácora"
+                            data-i18n-title-en="Log"
+                            class="view-btn"
+                        >
+                            <svg
+                                class="w-4 h-4"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                aria-hidden="true"
+                            >
+                                <rect x="3" y="4" width="5" height="4" rx="1" />
+                                <path d="M11 6h10" />
+                                <rect
+                                    x="3"
+                                    y="10"
+                                    width="5"
+                                    height="4"
+                                    rx="1"
+                                />
+                                <path d="M11 12h10" />
+                                <rect
+                                    x="3"
+                                    y="16"
+                                    width="5"
+                                    height="4"
+                                    rx="1"
+                                />
+                                <path d="M11 18h10" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                {/* Filtros activos: aparecen solo mientras hay alguno */}
+                <div
+                    id="blog-active"
+                    hidden
+                    class="mt-3 flex flex-wrap items-center gap-2 text-xs"
+                >
+                    <template id="blog-pill">
+                        <button
+                            type="button"
+                            class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-brand-yellow/15 text-brand-yellow border border-brand-yellow/30 font-semibold hover:bg-brand-yellow/25 transition-colors"
+                        >
+                            <span />
+                            <CloseIcon class="w-3 h-3" />
+                        </button>
+                    </template>
+                    <button
+                        type="button"
+                        data-blog-clear
+                        class="font-semibold text-slate-400 hover:text-white transition-colors"
+                        data-i18n="blogClear"
+                    >
+                        Limpiar
+                    </button>
+                </div>
+
+                <div class="mt-8">
+                    {/* Vista revista: la más reciente destacada y el resto en tarjetas */}
+                    <div data-view-panel="magazine">
+                        <div data-featured class="mb-8">
+                            <PostCard {...card(latest)} variant="featured" />
+                        </div>
+                        <ul class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            {posts.map((post) => (
+                                <li
+                                    {...meta.get(post.id)!.filter}
+                                    data-latest={
+                                        post === latest ? "" : undefined
+                                    }
+                                    hidden={post === latest}
+                                >
+                                    <PostCard {...card(post)} variant="grid" />
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+
+                    {/* Vista bitácora: lista compacta por año */}
+                    <div data-view-panel="log">
+                        {postsByYear(posts).map(([year, items]) => (
+                            <section data-year class="mb-10">
+                                <h2 class="font-display text-sm font-extrabold uppercase tracking-[0.2em] text-slate-500 mb-1">
+                                    {year}
+                                </h2>
+                                <ul>
+                                    {items.map((post) => (
+                                        <li {...meta.get(post.id)!.filter}>
+                                            <PostCard
+                                                {...card(post)}
+                                                variant="row"
+                                            />
+                                        </li>
+                                    ))}
+                                </ul>
+                            </section>
+                        ))}
+                    </div>
+
+                    <div
+                        id="blog-no-results"
+                        hidden
+                        class="card-glass rounded-2xl p-10 text-center text-slate-400 border border-white/10"
+                    >
+                        <p data-i18n="blogNoResults">
+                            No hay entradas que coincidan.
+                        </p>
+                        <button
+                            type="button"
+                            data-blog-clear
+                            class="mt-3 text-sm font-semibold text-brand-yellow hover:text-white transition-colors"
+                            data-i18n="clearFilters"
+                        >
+                            Limpiar filtros
+                        </button>
+                    </div>
+                </div>
+            </div>
         )}
     </main>
 </Layout>
+
+<style>
+    /* Sin una vista elegida (data-view="auto"): revista en escritorio y
+       bitácora en móvil, donde la revista se hace muy larga. */
+    #blog-listing[data-view="magazine"] [data-view-panel="log"],
+    #blog-listing[data-view="log"] [data-view-panel="magazine"] {
+        display: none;
+    }
+    @media (width < 48rem) {
+        #blog-listing[data-view="auto"] [data-view-panel="magazine"] {
+            display: none;
+        }
+    }
+    @media (width >= 48rem) {
+        #blog-listing[data-view="auto"] [data-view-panel="log"] {
+            display: none;
+        }
+    }
+
+    .view-btn {
+        display: grid;
+        place-items: center;
+        width: 2rem;
+        height: 2rem;
+        border-radius: 0.5rem;
+        color: var(--color-slate-400);
+        transition:
+            color 0.2s,
+            background-color 0.2s;
+    }
+    .view-btn:hover {
+        color: var(--color-white);
+    }
+    .view-btn[aria-pressed="true"] {
+        background: var(--color-brand-yellow);
+        color: var(--color-slate-950);
+    }
+</style>
+
+<script>
+    import {
+        blogStateSearch,
+        isFiltering,
+        matchesPost,
+        parseBlogState,
+        postCountLabel,
+        type BlogView,
+    } from "../../lib/posts";
+
+    const VIEW_KEY = "chamba-lab-blog-view";
+
+    const listing = document.getElementById("blog-listing");
+    if (listing) initListing(listing);
+
+    function initListing(listing: HTMLElement) {
+        const search = document.getElementById(
+            "blog-search",
+        ) as HTMLInputElement;
+        const topicsBtn = document.getElementById("blog-topics-btn")!;
+        const topics = document.getElementById("blog-topics")!;
+        const boxes = [
+            ...topics.querySelectorAll<HTMLInputElement>(
+                "input[type=checkbox]",
+            ),
+        ];
+        const topicsCount = document.getElementById("blog-topics-count")!;
+        const active = document.getElementById("blog-active")!;
+        const pillTemplate = document.getElementById(
+            "blog-pill",
+        ) as HTMLTemplateElement;
+        const countEl = document.getElementById("blog-count")!;
+        const noResults = document.getElementById("blog-no-results")!;
+        const featured = listing.querySelector<HTMLElement>("[data-featured]")!;
+        const viewBtns = [
+            ...listing.querySelectorAll<HTMLButtonElement>("[data-view-btn]"),
+        ];
+        const desktop = matchMedia("(width >= 48rem)");
+
+        const state = parseBlogState(location.search);
+        // La vista de la URL va en la URL; la guardada solo se aplica.
+        let urlView = state.view;
+        let view: BlogView | undefined = urlView;
+        if (!view) {
+            try {
+                const saved = localStorage.getItem(VIEW_KEY);
+                if (saved === "magazine" || saved === "log") view = saved;
+            } catch {
+                // Sin almacenamiento: se usa la vista por defecto.
+            }
+        }
+        search.value = state.query;
+
+        const lang = () =>
+            document.documentElement.lang === "en" ? "en" : "es";
+        const currentView = (): BlogView =>
+            view ?? (desktop.matches ? "magazine" : "log");
+
+        function render() {
+            const filter = { tags: state.tags, query: search.value };
+            const filtering = isFiltering(filter);
+
+            listing.dataset.view = view ?? "auto";
+            viewBtns.forEach((b) =>
+                b.setAttribute(
+                    "aria-pressed",
+                    String(b.dataset.viewBtn === currentView()),
+                ),
+            );
+
+            // La destacada solo sin filtros; entonces no se repite abajo.
+            featured.hidden = filtering;
+            let shown = 0;
+            let total = 0;
+            listing
+                .querySelectorAll<HTMLElement>("[data-post]")
+                .forEach((item) => {
+                    const match = matchesPost(
+                        {
+                            tags: JSON.parse(item.dataset.tags!),
+                            text: item.dataset.text!,
+                        },
+                        filter,
+                    );
+                    const inMagazine = !!item.closest(
+                        '[data-view-panel="magazine"]',
+                    );
+                    item.hidden =
+                        !match ||
+                        (inMagazine && !filtering && "latest" in item.dataset);
+                    if (inMagazine) {
+                        total++;
+                        if (match) shown++;
+                    }
+                });
+            listing
+                .querySelectorAll<HTMLElement>("[data-year]")
+                .forEach((g) => {
+                    g.hidden = !g.querySelector("[data-post]:not([hidden])");
+                });
+            noResults.hidden = shown > 0;
+
+            boxes.forEach((b) => (b.checked = state.tags.includes(b.value)));
+            topicsCount.textContent = String(state.tags.length);
+            topicsCount.hidden = state.tags.length === 0;
+
+            active.querySelectorAll("[data-pill]").forEach((p) => p.remove());
+            const clear = active.querySelector("[data-blog-clear]")!;
+            state.tags.forEach((tag) => {
+                const pill = pillTemplate.content.firstElementChild!.cloneNode(
+                    true,
+                ) as HTMLButtonElement;
+                pill.dataset.pill = tag;
+                pill.querySelector("span")!.textContent = tag;
+                pill.setAttribute(
+                    "aria-label",
+                    lang() === "en" ? `Remove ${tag}` : `Quitar ${tag}`,
+                );
+                active.insertBefore(pill, clear);
+            });
+            // La búsqueda ya se ve en su campo: la fila es solo para los temas.
+            active.hidden = state.tags.length === 0;
+
+            countEl.textContent = postCountLabel(
+                shown,
+                total,
+                filtering,
+                lang(),
+            );
+        }
+
+        function update() {
+            state.query = search.value;
+            render();
+            const query = blogStateSearch({ ...state, view: urlView });
+            history.replaceState(history.state, "", query || location.pathname);
+        }
+
+        function clearAll() {
+            state.tags = [];
+            search.value = "";
+            update();
+        }
+
+        function toggleTag(tag: string, on: boolean) {
+            state.tags = on
+                ? [...new Set([...state.tags, tag])]
+                : state.tags.filter((t) => t !== tag);
+            update();
+        }
+
+        search.addEventListener("input", update);
+        boxes.forEach((b) =>
+            b.addEventListener("change", () => toggleTag(b.value, b.checked)),
+        );
+        viewBtns.forEach((b) =>
+            b.addEventListener("click", () => {
+                view = urlView = b.dataset.viewBtn as BlogView;
+                try {
+                    localStorage.setItem(VIEW_KEY, view);
+                } catch {
+                    // Sin almacenamiento: la elección dura hasta recargar.
+                }
+                update();
+            }),
+        );
+        listing.addEventListener("click", (e) => {
+            const target = e.target as HTMLElement;
+            const pill = target.closest<HTMLElement>("[data-pill]");
+            if (pill) return toggleTag(pill.dataset.pill!, false);
+            if (target.closest("[data-blog-clear]")) return clearAll();
+            // Una etiqueta de una tarjeta filtra por ese tema.
+            const tag = target.closest<HTMLElement>("[data-filter-tag]");
+            if (tag) {
+                toggleTag(tag.dataset.filterTag!, true);
+                listing.scrollIntoView({ behavior: "smooth", block: "start" });
+            }
+        });
+
+        // Menú de temas: Escape o un clic fuera lo cierran.
+        function setTopicsOpen(open: boolean) {
+            topics.hidden = !open;
+            topicsBtn.setAttribute("aria-expanded", String(open));
+        }
+        topicsBtn.addEventListener("click", () => setTopicsOpen(topics.hidden));
+        document.addEventListener("click", (e) => {
+            const target = e.target as Node;
+            if (
+                !topics.hidden &&
+                !topics.contains(target) &&
+                !topicsBtn.contains(target)
+            )
+                setTopicsOpen(false);
+        });
+        document.addEventListener("keydown", (e) => {
+            if (e.key === "Escape" && !topics.hidden) {
+                setTopicsOpen(false);
+                topicsBtn.focus();
+            }
+        });
+
+        desktop.addEventListener("change", render);
+        document.addEventListener("chamba-lab:lang", render);
+        render();
+    }
+</script>
