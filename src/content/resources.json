@@ -498,19 +498,6 @@
         "category": "learning"
     },
     {
-        "id": "cs50x-clase-0-video",
-        "title": "CS50x en Español: Clase 0, Scratch",
-        "description": {
-            "en": "The first lecture of Harvard's CS50x, in Spanish: the fundamentals of computer science and programming through Scratch.",
-            "es": "La primera clase de CS50x de Harvard, en español: los fundamentos de las ciencias de la computación y la programación a través de Scratch."
-        },
-        "url": "https://www.youtube.com/watch?v=nfYOp3_SyqM",
-        "type": "video",
-        "channel": "CS50",
-        "category": "learning",
-        "recommended": true
-    },
-    {
         "id": "cs50p-lecture-0-video",
         "title": "CS50P: Lecture 0, Functions and Variables",
         "description": {
