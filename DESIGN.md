@@ -158,6 +158,7 @@ Los avatares llevan borde neutro (`border-white/25`), nunca amarillo; el fondo a
 ### 5.5 Islas interactivas (React 19)
 
 - **La Ruleta (`RouletteWheel.tsx`)**: Canvas 2D adaptativo con texto radial, aguja con oscilación, tooltip flotante con el texto completo de cada opción, audio sintetizado con Web Audio API y confeti. El giro dura `SPIN_DURATION_MS` con desaceleración `easeOutQuart`.
+- **Preguntas Rápidas (`QuickQuestions.tsx`)**: quiz de una sola pantalla que conduce una persona (sin canvas, cuentas ni marcador). Estados: preparar (pack, número de preguntas, tiempo), pregunta, respuesta revelada y cierre. El temporizador es opcional y revela la respuesta al llegar a cero; Espacio o Enter avanzan; el foco pasa al título de cada pregunta. Sin animaciones propias, así que respeta `prefers-reduced-motion`. La lógica pura está en `src/lib/quick-questions.ts`.
 - **Ecosistema Comunitario (`CommunityEcosystem.tsx`)**: diagrama de dos perfiles y dos interacciones con vista dual. En escritorio (>= 768 px) es un SVG horizontal con foco selectivo (`opacity-25` frente a `opacity-100`) y una tarjeta inspectora; en móvil, un stepper vertical con acordeón y un cierre de ciclo. Un ticker alterna actividades reales en cada interacción.
 - **Widget de Discord (`DiscordWidget.astro`)**: cabecera con el avatar crema del servidor, contadores de conectados y en voz, canales de voz agrupados con su gente (ocupados primero, vacíos atenuados, cada canal enlaza a Discord) y quienes están en línea fuera de voz. Respaldo estático si falla la API.
 

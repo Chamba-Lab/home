@@ -123,6 +123,22 @@ export const translations = {
             "Comparte tus propuestas y feedback en la comunidad de Discord.",
         dynamicsSuggestCta: "Ir a Discord",
 
+        // Quick Questions Page
+        quickBack: "Volver a Dinámicas",
+        quickTitle: "Preguntas Rápidas",
+        quickDesc:
+            "Un quiz corto para abrir una sesión, cerrar una charla o romper el hielo. Elige un pack y comparte pantalla: la gente responde por voz o en el chat.",
+        quickHowToTitle: "Cómo usar esta dinámica en Discord",
+        quickStep1Title: "01. Prepara la ronda",
+        quickStep1Desc:
+            "Elige un pack, cuántas preguntas y cuánto tiempo darás. Las preguntas y sus opciones salen en orden aleatorio.",
+        quickStep2Title: "02. Comparte pantalla",
+        quickStep2Desc:
+            "En un canal de voz o un Stage de Discord. La gente responde por voz o escribe su letra en el chat.",
+        quickStep3Title: "03. Revela y conversa",
+        quickStep3Desc:
+            "Revela la respuesta y lee la explicación. Si una pregunta da para más, déjala abierta: ese es el punto.",
+
         // Roulette Page
         rouletteBack: "Volver a Dinámicas",
         rouletteTitle: "La Ruleta de la Comunidad",
@@ -268,6 +284,22 @@ export const translations = {
         dynamicsSuggestDesc:
             "Share your proposals and feedback in the Discord community.",
         dynamicsSuggestCta: "Go to Discord",
+
+        // Quick Questions Page
+        quickBack: "Back to Dynamics",
+        quickTitle: "Quick Questions",
+        quickDesc:
+            "A short quiz to open a session, close a talk or break the ice. Pick a pack and share your screen: people answer by voice or in the chat.",
+        quickHowToTitle: "How to use this dynamic on Discord",
+        quickStep1Title: "01. Set up the round",
+        quickStep1Desc:
+            "Choose a pack, how many questions and how much time to give. Questions and their options come in random order.",
+        quickStep2Title: "02. Share your screen",
+        quickStep2Desc:
+            "In a Discord voice channel or Stage. People answer by voice or type their letter in the chat.",
+        quickStep3Title: "03. Reveal and talk",
+        quickStep3Desc:
+            "Reveal the answer and read the explanation. If a question deserves more, leave it open: that is the point.",
 
         // Roulette Page
         rouletteBack: "Back to Dynamics",

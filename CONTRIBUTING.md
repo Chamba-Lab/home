@@ -127,6 +127,16 @@ El blog (`/blog/`) documenta lo que hacemos en la comunidad. Las entradas las es
 6. La entrada no incluye datos del evento al que corresponde. Ese vínculo se añade en el evento, con su campo `post` (ver [Añadir un evento](#añadir-un-evento)).
 7. Nada de datos de prueba al commitear: revierte entradas o videos temporales antes del PR.
 
+### Proponer un pack de Preguntas Rápidas
+
+Los packs de [Preguntas Rápidas](https://chambalab.org/activities/quick-questions/) viven en `src/content/quick-questions.json`. Puedes proponer uno nuevo o ampliar uno existente en un PR (o abrir antes un issue o consultar en Discord).
+
+1. Cada pack lleva un `id` en inglés, un `name` en ES y EN y al menos 10 preguntas.
+2. Cada pregunta es de opción múltiple: `question`, `options` (de 2 a 5, sin repetir), `answer` (el índice de la opción correcta, empezando en 0) y, si ayuda, una `explanation` corta. Las opciones se mezclan solas al jugar.
+3. Las preguntas pueden estar solo en español por ahora.
+4. Una sola respuesta correcta, sin trampas ni ambigüedad, y que sea verificable. Si la explicación depende de una versión o de una fecha, indícalo.
+5. `npm run test` valida el esquema (índices de respuesta, opciones repetidas, mínimo de preguntas) y el build falla si una respuesta apunta a una opción que no existe.
+
 ### Sumarte al equipo
 
 Solicita tu lugar con la plantilla de issue **Pedir aparecer en la página del equipo** (solo Miembro de la comunidad o Contributor); al aceptarse, se agrega tu tarjeta (o puedes hacerlo tú en un PR). Los títulos públicos son `founder`, `cofounder`, `core`, `contributor` y `member`; los tres primeros son por invitación y no se piden por issue. Agrega tu entrada en `src/content/team.json` con el campo `tier` y tu URL de GitHub: tu foto se toma directamente de tu avatar de GitHub, sin subir archivos (solo los fundadores llevan foto propia en `src/assets/team/`). Opcionalmente puedes sumar un logo personal (`.svg`, `.png` o `.jpg`) en `src/assets/team/logos/` y referenciarlo en el campo `logo`: reemplaza el icono del globo en el enlace a tu portfolio. Para SVG, ejecuta `npm run team:optimize`.

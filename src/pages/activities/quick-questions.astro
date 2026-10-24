@@ -1,0 +1,145 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import QuickQuestions from "../../components/QuickQuestions";
+import { getCollection } from "astro:content";
+
+const rawBase = import.meta.env.BASE_URL;
+const base = rawBase.endsWith("/") ? rawBase : `${rawBase}/`;
+
+const data = await getCollection("quickQuestions");
+const config = data[0]?.data;
+
+if (!config) {
+    throw new Error("Quick Questions configuration not found");
+}
+
+const { packs } = config;
+
+// A bad answer index would show no correct option: fail the build instead.
+for (const pack of packs) {
+    for (const q of pack.questions) {
+        if (q.answer >= q.options.length) {
+            throw new Error(
+                `Quick Questions: invalid answer in pack "${pack.id}": ${q.question}`,
+            );
+        }
+    }
+}
+---
+
+<Layout
+    title="Preguntas Rápidas | Chamba Lab"
+    description="Quiz relámpago para abrir una sesión, cerrar una charla o romper el hielo en la comunidad. Elige un pack, comparte pantalla y revela cada respuesta."
+    breadcrumbs={[
+        { name: "Inicio", path: "/" },
+        { name: "Dinámicas", path: "/activities/" },
+        { name: "Preguntas Rápidas", path: "/activities/quick-questions/" },
+    ]}
+>
+    <main class="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20 relative">
+        <!-- Top Ambient Glow -->
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-72 h-72 sm:w-96 sm:h-96 bg-brand-yellow/5 rounded-full blur-3xl pointer-events-none -z-10"></div>
+
+        <!-- Back Link & Breadcrumb -->
+        <div class="flex items-center justify-between mb-8">
+            <a
+                href={`${base}activities/`}
+                class="inline-flex items-center gap-2 text-xs font-bold text-slate-300 hover:text-brand-yellow transition-all card-glass border border-white/10 px-4 py-2.5 rounded-xl hover:-translate-x-0.5"
+            >
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="w-4 h-4"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                >
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M10 19l-7-7m0 0l7-7m-7 7h18"
+                    ></path>
+                </svg>
+                <span data-i18n="quickBack">Volver a Dinámicas</span>
+            </a>
+        </div>
+
+        <!-- Page Header -->
+        <div class="max-w-3xl mb-10">
+            <h1 class="font-display text-3xl sm:text-5xl font-extrabold text-white tracking-tight mb-3 flex items-center gap-3">
+                <span>⚡</span>
+                <span data-i18n="quickTitle">Preguntas Rápidas</span>
+            </h1>
+            <p
+                class="text-sm sm:text-base text-slate-300 leading-relaxed"
+                data-i18n="quickDesc"
+            >
+                Un quiz corto para abrir una sesión, cerrar una charla o romper
+                el hielo. Elige un pack y comparte pantalla: la gente responde
+                por voz o en el chat.
+            </p>
+        </div>
+
+        <!-- Quiz Interactive Island -->
+        <div class="mb-12">
+            <QuickQuestions client:load packs={packs} />
+        </div>
+
+        <!-- How to Use / Discord Moderation Tips -->
+        <div class="card-glass rounded-2xl p-6 sm:p-8 border border-white/10 bg-surface/70">
+            <h2 class="font-display text-lg font-bold text-white mb-4 flex items-center gap-2.5">
+                <span class="text-brand-yellow">💡</span>
+                <span data-i18n="quickHowToTitle">
+                    Cómo usar esta dinámica en Discord
+                </span>
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-sm text-slate-300">
+                <div class="p-4 rounded-xl bg-slate-900/50 border border-white/5 space-y-1.5">
+                    <div
+                        class="font-bold text-white text-xs uppercase tracking-wider text-brand-yellow"
+                        data-i18n="quickStep1Title"
+                    >
+                        01. Prepara la ronda
+                    </div>
+                    <p
+                        class="text-xs text-slate-400 leading-relaxed"
+                        data-i18n="quickStep1Desc"
+                    >
+                        Elige un pack, cuántas preguntas y cuánto tiempo darás.
+                        Las preguntas y sus opciones salen en orden aleatorio.
+                    </p>
+                </div>
+                <div class="p-4 rounded-xl bg-slate-900/50 border border-white/5 space-y-1.5">
+                    <div
+                        class="font-bold text-white text-xs uppercase tracking-wider text-brand-yellow"
+                        data-i18n="quickStep2Title"
+                    >
+                        02. Comparte pantalla
+                    </div>
+                    <p
+                        class="text-xs text-slate-400 leading-relaxed"
+                        data-i18n="quickStep2Desc"
+                    >
+                        En un canal de voz o un Stage de Discord. La gente
+                        responde por voz o escribe su letra en el chat.
+                    </p>
+                </div>
+                <div class="p-4 rounded-xl bg-slate-900/50 border border-white/5 space-y-1.5">
+                    <div
+                        class="font-bold text-white text-xs uppercase tracking-wider text-brand-yellow"
+                        data-i18n="quickStep3Title"
+                    >
+                        03. Revela y conversa
+                    </div>
+                    <p
+                        class="text-xs text-slate-400 leading-relaxed"
+                        data-i18n="quickStep3Desc"
+                    >
+                        Revela la respuesta y lee la explicación. Si una
+                        pregunta da para más, déjala abierta: ese es el punto.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </main>
+</Layout>
