@@ -40,7 +40,7 @@ export function shuffleOptions(
     };
 }
 
-/** Clamps the requested count to what the pack has (at least 1 if any). */
+/** Clamps the requested count to what the pack has (0 if it is empty). */
 export function roundSize(requested: number, available: number): number {
     return Math.max(0, Math.min(requested, available));
 }

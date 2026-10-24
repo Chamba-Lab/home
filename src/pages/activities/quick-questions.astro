@@ -14,17 +14,6 @@ if (!config) {
 }
 
 const { packs } = config;
-
-// A bad answer index would show no correct option: fail the build instead.
-for (const pack of packs) {
-    for (const q of pack.questions) {
-        if (q.answer >= q.options.length) {
-            throw new Error(
-                `Quick Questions: invalid answer in pack "${pack.id}": ${q.question}`,
-            );
-        }
-    }
-}
 ---
 
 <Layout

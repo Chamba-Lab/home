@@ -67,6 +67,7 @@ export default function QuickQuestions({ packs }: QuickQuestionsProps) {
     const [timedOut, setTimedOut] = useState(false);
     const [paused, setPaused] = useState(false);
     const headingRef = useRef<HTMLHeadingElement>(null);
+    const stageRef = useRef<HTMLDivElement>(null);
     // Time left in the open question, in ms (survives pauses).
     const remainingMs = useRef(0);
     // Questions already asked in this visit, so a new round avoids them.
@@ -148,6 +149,25 @@ export default function QuickQuestions({ packs }: QuickQuestionsProps) {
         return () => {
             document.body.style.overflow = previous;
         };
+    }, [inStage]);
+
+    // The stage is modal: make the rest of the page inert (no Tab into it,
+    // hidden from assistive technology) while it is open.
+    useEffect(() => {
+        const stage = stageRef.current;
+        if (!inStage || !stage) return;
+        const marked: Element[] = [];
+        for (let node: Element = stage; node.parentElement;) {
+            const parent: Element = node.parentElement;
+            for (const sibling of Array.from(parent.children)) {
+                if (sibling !== node && !sibling.hasAttribute("inert")) {
+                    sibling.setAttribute("inert", "");
+                    marked.push(sibling);
+                }
+            }
+            node = parent;
+        }
+        return () => marked.forEach((el) => el.removeAttribute("inert"));
     }, [inStage]);
 
     // Keyboard: Space / Enter move the round along, P pauses, Esc exits.
@@ -276,6 +296,7 @@ export default function QuickQuestions({ packs }: QuickQuestionsProps) {
 
     return (
         <div
+            ref={stageRef}
             role="dialog"
             aria-modal="true"
             aria-label={pack.name[lang]}
