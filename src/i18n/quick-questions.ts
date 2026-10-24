@@ -19,13 +19,21 @@ export const QUICK_QUESTIONS_I18N = {
         paused: "En pausa",
         exit: "Salir",
         optionWord: "Opción",
+        picked: "elegida, incorrecta",
+        right: "¡Correcta!",
+        wrong: "No era esa",
         reveal: "Revelar respuesta",
         correct: "Respuesta correcta",
         why: "Por qué",
         next: "Siguiente pregunta",
         finish: "Terminar",
-        hintKeys: "Espacio o Enter: continuar · P: pausar · Esc: salir",
+        hintKeys:
+            "Clic o A–D: elegir · Espacio: revelar o continuar · P: pausar · Esc: salir",
         doneTitle: "¡Ronda completada!",
+        score: (right: number, total: number) =>
+            `Acertaron ${right} de ${total}`,
+        scoreNote: (answered: number) =>
+            `Solo cuentan las ${answered} que se respondieron con clic.`,
         doneBody: (total: number) =>
             `Repasaron ${total} preguntas. ¿Alguna dio para conversar más?`,
         again: "Repetir con otras preguntas",
@@ -51,13 +59,21 @@ export const QUICK_QUESTIONS_I18N = {
         paused: "Paused",
         exit: "Exit",
         optionWord: "Option",
+        picked: "chosen, incorrect",
+        right: "Correct!",
+        wrong: "Not that one",
         reveal: "Reveal answer",
         correct: "Correct answer",
         why: "Why",
         next: "Next question",
         finish: "Finish",
-        hintKeys: "Space or Enter: continue · P: pause · Esc: exit",
+        hintKeys:
+            "Click or A–D: choose · Space: reveal or continue · P: pause · Esc: exit",
         doneTitle: "Round complete!",
+        score: (right: number, total: number) =>
+            `You got ${right} of ${total} right`,
+        scoreNote: (answered: number) =>
+            `Only the ${answered} answered by click count.`,
         doneBody: (total: number) =>
             `You went through ${total} questions. Did any deserve more conversation?`,
         again: "Play again with other questions",
