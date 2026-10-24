@@ -65,12 +65,21 @@ describe("quick-questions lib", () => {
             (q) => q.question,
         );
         expect(fresh.sort()).toEqual(["Q5", "Q6", "Q7"]);
-        // Only three unseen left: a round of 5 completes with repeated ones.
-        const mixed = buildRound(sample, 5, seeded(5), seen).map(
+    });
+
+    it("buildRound repeats the questions asked longest ago first", () => {
+        // All seen, Q0 first and Q7 last: the oldest come back first.
+        const seen = new Set(sample.map((q) => q.question));
+        const round = buildRound(sample, 3, seeded(9), seen).map(
             (q) => q.question,
         );
-        expect(mixed).toHaveLength(5);
-        expect(mixed.slice(0, 3).sort()).toEqual(["Q5", "Q6", "Q7"]);
+        expect(round.sort()).toEqual(["Q0", "Q1", "Q2"]);
+        // Five new ones needed but only three unseen: the two oldest fill in.
+        const some = new Set(["Q0", "Q1", "Q2", "Q3", "Q4"]);
+        const mixed = buildRound(sample, 5, seeded(9), some).map(
+            (q) => q.question,
+        );
+        expect(mixed.sort()).toEqual(["Q0", "Q1", "Q5", "Q6", "Q7"]);
     });
 
     it("nextIndex advances and ends the round", () => {
