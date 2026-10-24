@@ -39,6 +39,7 @@ Sitio estático, rápido y bilingüe (ES/EN).
 | `/activities` | Hub de mini actividades comunitarias (dinámicas) |
 | `/team` | Fundadores, Core team, Contributors y miembros de la comunidad |
 | `/activities/roulette` | La Ruleta: dinámica interactiva con packs temáticos de preguntas y modo libre |
+| `/activities/quick-questions` | Preguntas Rápidas: quiz corto de una sola pantalla, con packs, temporizador y explicación de cada respuesta |
 
 Rutas siempre en inglés, con soporte bilingüe (`ES`/`EN`). Detalle técnico en [AGENTS.md](./AGENTS.md).
 

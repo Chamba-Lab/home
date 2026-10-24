@@ -143,6 +143,33 @@ const roulette = defineCollection({
     }),
 });
 
+const quickQuestions = defineCollection({
+    loader: file("src/content/quick-questions.json"),
+    schema: z.object({
+        packs: z.array(
+            z.object({
+                id: z.string(),
+                name: z.object({ es: z.string(), en: z.string() }),
+                questions: z.array(
+                    z
+                        .object({
+                            question: z.string(),
+                            options: z.array(z.string()).min(2).max(5),
+                            // Index in `options` of the correct answer.
+                            answer: z.number().int().min(0),
+                            explanation: z.string().optional(),
+                        })
+                        // A bad index would show no correct option.
+                        .refine((q) => q.answer < q.options.length, {
+                            message: "`answer` must point at an option",
+                            path: ["answer"],
+                        }),
+                ),
+            }),
+        ),
+    }),
+});
+
 // Blog. One MDX file per entry in src/content/posts/; files that
 // start with "_" (like the template) are ignored. Images live next to the
 // entry, in a folder with its name. An entry knows nothing about events: the
@@ -183,5 +210,6 @@ export const collections = {
     team,
     activities,
     roulette,
+    quickQuestions,
     posts,
 };

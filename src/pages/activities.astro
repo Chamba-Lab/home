@@ -3,11 +3,29 @@ import Layout from "../layouts/Layout.astro";
 import DiscordIcon from "../components/icons/DiscordIcon.astro";
 import { DISCORD_URL } from "../lib/constants";
 import { getCollection } from "astro:content";
+import order from "../content/activities.json";
 
 const rawBase = import.meta.env.BASE_URL;
 const base = rawBase.endsWith("/") ? rawBase : `${rawBase}/`;
 
-const activities = await getCollection("activities");
+// The collection does not keep the file order: follow the one in the JSON.
+const ids = order.map((activity) => activity.id);
+const activities = (await getCollection("activities")).sort(
+    (a, b) => ids.indexOf(a.id) - ids.indexOf(b.id),
+);
+
+// English copy of the cards (the JSON data is in Spanish).
+const EN: Record<string, { name: string; description: string }> = {
+    roulette: {
+        name: "🎡 The Roulette",
+        description:
+            "Spin and discover a topic to debate or improvise. Free mode or preset topics.",
+    },
+    "quick-questions": {
+        name: "⚡ Quick Questions",
+        description: "Lightning quiz to break the ice in community sessions.",
+    },
+};
 ---
 
 <Layout
@@ -62,9 +80,8 @@ const activities = await getCollection("activities");
                                     class="font-display text-2xl font-bold text-white mb-2 group-hover:text-brand-yellow transition-colors leading-snug"
                                     data-i18n-es={activity.data.name}
                                     data-i18n-en={
-                                        activity.id === "roulette"
-                                            ? "🎡 The Roulette"
-                                            : activity.data.name
+                                        EN[activity.id]?.name ??
+                                        activity.data.name
                                     }
                                 >
                                     {activity.data.name}
@@ -73,9 +90,8 @@ const activities = await getCollection("activities");
                                     class="text-sm text-slate-400 leading-relaxed mb-6"
                                     data-i18n-es={activity.data.description}
                                     data-i18n-en={
-                                        activity.id === "roulette"
-                                            ? "Spin and discover a topic to debate or improvise. Free mode or preset topics."
-                                            : activity.data.description
+                                        EN[activity.id]?.description ??
+                                        activity.data.description
                                     }
                                 >
                                     {activity.data.description}
@@ -118,9 +134,8 @@ const activities = await getCollection("activities");
                                     class="font-display text-2xl font-bold text-slate-300 mb-2 leading-snug"
                                     data-i18n-es={activity.data.name}
                                     data-i18n-en={
-                                        activity.id === "quick-questions"
-                                            ? "⚡ Quick Questions"
-                                            : activity.data.name
+                                        EN[activity.id]?.name ??
+                                        activity.data.name
                                     }
                                 >
                                     {activity.data.name}
@@ -129,9 +144,8 @@ const activities = await getCollection("activities");
                                     class="text-sm text-slate-500 leading-relaxed"
                                     data-i18n-es={activity.data.description}
                                     data-i18n-en={
-                                        activity.id === "quick-questions"
-                                            ? "Lightning quiz to break the ice in community sessions."
-                                            : activity.data.description
+                                        EN[activity.id]?.description ??
+                                        activity.data.description
                                     }
                                 >
                                     {activity.data.description}
