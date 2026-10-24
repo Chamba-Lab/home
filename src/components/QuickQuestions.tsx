@@ -68,6 +68,9 @@ export default function QuickQuestions({ packs }: QuickQuestionsProps) {
     const [paused, setPaused] = useState(false);
     // Option chosen by clicking (null: revealed with the button or by time).
     const [picked, setPicked] = useState<number | null>(null);
+    // Round results: options chosen by click, and how many were right.
+    const [answered, setAnswered] = useState(0);
+    const [correct, setCorrect] = useState(0);
     const headingRef = useRef<HTMLHeadingElement>(null);
     const stageRef = useRef<HTMLDivElement>(null);
     // Time left in the open question, in ms (survives pauses).
@@ -105,10 +108,16 @@ export default function QuickQuestions({ packs }: QuickQuestionsProps) {
         if (unseen < questions.length) seen.current.clear();
         questions.forEach((q) => seen.current.add(q.question));
         setRound(questions);
+        setAnswered(0);
+        setCorrect(0);
         openQuestion(0);
     };
 
     const reveal = (choice: number | null = null) => {
+        if (choice !== null && current) {
+            setAnswered((n) => n + 1);
+            if (choice === current.answer) setCorrect((n) => n + 1);
+        }
         setPicked(choice);
         setPhase("revealed");
     };
@@ -382,6 +391,16 @@ export default function QuickQuestions({ packs }: QuickQuestionsProps) {
                         >
                             {t.doneTitle}
                         </h2>
+                        {answered > 0 && (
+                            <p className="font-display text-3xl sm:text-4xl font-extrabold text-brand-yellow mb-3">
+                                {t.score(correct, round.length)}
+                            </p>
+                        )}
+                        {answered > 0 && answered < round.length && (
+                            <p className="text-sm text-slate-400 mb-3">
+                                {t.scoreNote(answered)}
+                            </p>
+                        )}
                         <p className="text-lg text-slate-300 mb-10">
                             {t.doneBody(round.length)}
                         </p>
