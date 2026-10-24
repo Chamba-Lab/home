@@ -66,6 +66,8 @@ export default function QuickQuestions({ packs }: QuickQuestionsProps) {
     const [timeLeft, setTimeLeft] = useState(0);
     const [timedOut, setTimedOut] = useState(false);
     const [paused, setPaused] = useState(false);
+    // Option chosen by clicking (null: revealed with the button or by time).
+    const [picked, setPicked] = useState<number | null>(null);
     const headingRef = useRef<HTMLHeadingElement>(null);
     const stageRef = useRef<HTMLDivElement>(null);
     // Time left in the open question, in ms (survives pauses).
@@ -81,6 +83,7 @@ export default function QuickQuestions({ packs }: QuickQuestionsProps) {
         setIndex(at);
         setTimedOut(false);
         setPaused(false);
+        setPicked(null);
         remainingMs.current = seconds * 1000;
         setTimeLeft(seconds);
         setPhase("question");
@@ -105,7 +108,10 @@ export default function QuickQuestions({ packs }: QuickQuestionsProps) {
         openQuestion(0);
     };
 
-    const reveal = () => setPhase("revealed");
+    const reveal = (choice: number | null = null) => {
+        setPicked(choice);
+        setPhase("revealed");
+    };
 
     const advance = () => {
         const next = nextIndex(index, round.length);
@@ -177,6 +183,20 @@ export default function QuickQuestions({ packs }: QuickQuestionsProps) {
             if (e.key === "Escape") {
                 exit();
                 return;
+            }
+            // A-D or 1-4 pick an option, from anywhere in the stage.
+            if (phase === "question" && !e.ctrlKey && !e.metaKey && !e.altKey) {
+                const byLetter = "abcde".indexOf(e.key.toLowerCase());
+                const choice = byLetter >= 0 ? byLetter : Number(e.key) - 1;
+                if (
+                    e.key.length === 1 &&
+                    choice >= 0 &&
+                    choice < (round[index]?.options.length ?? 0)
+                ) {
+                    e.preventDefault();
+                    reveal(choice);
+                    return;
+                }
             }
             const target = e.target as HTMLElement | null;
             if (target?.closest("button, a, input, select, textarea")) return;
@@ -406,48 +426,77 @@ export default function QuickQuestions({ packs }: QuickQuestionsProps) {
                                 {current.options.map((option, i) => {
                                     const isAnswer =
                                         revealed && i === current.answer;
+                                    const isWrongPick =
+                                        revealed &&
+                                        i === picked &&
+                                        i !== current.answer;
                                     const isOther =
-                                        revealed && i !== current.answer;
+                                        revealed && !isAnswer && !isWrongPick;
                                     return (
-                                        <li
-                                            key={`${index}-${i}`}
-                                            className={`flex items-start gap-4 rounded-2xl border p-5 text-xl sm:text-2xl leading-snug transition-colors duration-200 ${
-                                                isAnswer
-                                                    ? "border-emerald-400 bg-emerald-400/10 text-white"
-                                                    : isOther
-                                                      ? "border-white/5 text-slate-400"
-                                                      : "border-white/10 bg-slate-900/50 text-slate-100"
-                                            }`}
-                                        >
-                                            <span
-                                                aria-hidden="true"
-                                                className={`grid h-9 w-9 shrink-0 place-items-center rounded-lg text-base font-bold ${
+                                        <li key={`${index}-${i}`}>
+                                            <button
+                                                type="button"
+                                                disabled={revealed}
+                                                onClick={() => reveal(i)}
+                                                className={`flex w-full items-start gap-4 rounded-2xl border p-5 text-left text-xl sm:text-2xl leading-snug transition-colors duration-200 ${
                                                     isAnswer
-                                                        ? "bg-emerald-400 text-[#080D1A]"
-                                                        : "bg-white/10 text-slate-300"
+                                                        ? "border-emerald-400 bg-emerald-400/10 text-white"
+                                                        : isWrongPick
+                                                          ? "border-red-400 bg-red-400/10 text-white"
+                                                          : isOther
+                                                            ? "border-white/5 text-slate-400"
+                                                            : "border-white/10 bg-slate-900/50 text-slate-100 hover:border-brand-yellow/50 hover:bg-slate-900/80"
                                                 }`}
                                             >
-                                                {LETTERS[i]}
-                                            </span>
-                                            <span>
-                                                <span className="sr-only">
-                                                    {t.optionWord} {LETTERS[i]}
-                                                    :{" "}
+                                                <span
+                                                    aria-hidden="true"
+                                                    className={`grid h-9 w-9 shrink-0 place-items-center rounded-lg text-base font-bold ${
+                                                        isAnswer
+                                                            ? "bg-emerald-400 text-[#080D1A]"
+                                                            : "bg-white/10 text-slate-300"
+                                                    }`}
+                                                >
+                                                    {LETTERS[i]}
                                                 </span>
-                                                {option}
-                                                {isAnswer && (
+                                                <span>
                                                     <span className="sr-only">
-                                                        {" "}
-                                                        ({t.correct})
+                                                        {t.optionWord}{" "}
+                                                        {LETTERS[i]}:{" "}
                                                     </span>
-                                                )}
-                                            </span>
+                                                    {option}
+                                                    {isAnswer && (
+                                                        <span className="sr-only">
+                                                            {" "}
+                                                            ({t.correct})
+                                                        </span>
+                                                    )}
+                                                    {isWrongPick && (
+                                                        <span className="sr-only">
+                                                            {" "}
+                                                            ({t.picked})
+                                                        </span>
+                                                    )}
+                                                </span>
+                                            </button>
                                         </li>
                                     );
                                 })}
                             </ul>
 
                             <div aria-live="polite">
+                                {revealed && picked !== null && (
+                                    <p
+                                        className={`mb-4 text-2xl font-extrabold ${
+                                            picked === current.answer
+                                                ? "text-emerald-300"
+                                                : "text-red-300"
+                                        }`}
+                                    >
+                                        {picked === current.answer
+                                            ? t.right
+                                            : t.wrong}
+                                    </p>
+                                )}
                                 {revealed && current.explanation && (
                                     <p className="mb-8 border-l-2 border-emerald-400/60 pl-4 text-lg leading-relaxed text-slate-200">
                                         <span className="font-bold text-white">
@@ -470,7 +519,7 @@ export default function QuickQuestions({ packs }: QuickQuestionsProps) {
                                 ) : (
                                     <button
                                         type="button"
-                                        onClick={reveal}
+                                        onClick={() => reveal()}
                                         className={primaryButton}
                                     >
                                         {t.reveal}
