@@ -47,8 +47,9 @@ export function roundSize(requested: number, available: number): number {
 
 /**
  * A round: random questions of a pack, in random order, options shuffled.
- * Questions in `seen` (by text) go last, so a new round avoids repeating
- * them until the unseen ones run out.
+ * `seen` holds the questions already asked, oldest first (a Set keeps its
+ * insertion order): the round takes unseen ones first and, when they run
+ * out, the ones asked longest ago.
  */
 export function buildRound(
     pack: readonly QuickQuestion[],
@@ -56,17 +57,18 @@ export function buildRound(
     rng: Rng = Math.random,
     seen: ReadonlySet<string> = new Set(),
 ): QuickQuestion[] {
+    const order = [...seen];
     const fresh = shuffle(
         pack.filter((q) => !seen.has(q.question)),
         rng,
     );
-    const repeated = shuffle(
-        pack.filter((q) => seen.has(q.question)),
+    const repeated = pack
+        .filter((q) => seen.has(q.question))
+        .sort((a, b) => order.indexOf(a.question) - order.indexOf(b.question));
+    return shuffle(
+        [...fresh, ...repeated].slice(0, roundSize(count, pack.length)),
         rng,
-    );
-    return [...fresh, ...repeated]
-        .slice(0, roundSize(count, pack.length))
-        .map((question) => shuffleOptions(question, rng));
+    ).map((question) => shuffleOptions(question, rng));
 }
 
 /** Index of the next question, or null when the round is over. */

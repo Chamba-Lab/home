@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { ROULETTE_I18N } from "../i18n/roulette";
+import { useLang } from "../lib/use-lang";
 
 interface RouletteWheelProps {
     presets: Array<{ id: string; name: string; options: string[] }>;
@@ -147,31 +148,7 @@ export default function RouletteWheel({
     freeModePlaceholder,
     freeModeMaxOptions,
 }: RouletteWheelProps) {
-    const [lang, setLang] = useState<"es" | "en">("es");
-
-    useEffect(() => {
-        if (typeof window !== "undefined") {
-            const stored = localStorage.getItem("chamba-lab-lang") as
-                "es" | "en" | null;
-            if (stored === "es" || stored === "en") {
-                setLang(stored);
-            }
-        }
-
-        const handleLangChange = (e: Event) => {
-            const detail = (e as CustomEvent<{ lang: "es" | "en" }>).detail;
-            if (
-                detail?.lang &&
-                (detail.lang === "es" || detail.lang === "en")
-            ) {
-                setLang(detail.lang);
-            }
-        };
-
-        document.addEventListener("chamba-lab:lang", handleLangChange);
-        return () =>
-            document.removeEventListener("chamba-lab:lang", handleLangChange);
-    }, []);
+    const lang = useLang();
 
     const t = ROULETTE_I18N[lang];
 
