@@ -1,6 +1,10 @@
 export const ROULETTE_I18N = {
     es: {
         spinning: "Girando...",
+        present: "Presentar a pantalla completa",
+        presentLabel: "La Ruleta en pantalla completa",
+        exitPresent: "Salir",
+        presentIdle: "Gira la ruleta para descubrir el tema.",
         headerOptionsInWheel: (count: number) => `${count} opciones en rueda`,
         headerAvailableDrawn: (avail: number, drawn: number) =>
             `${avail} disponibles • ${drawn} sorteadas`,
@@ -91,6 +95,10 @@ export const ROULETTE_I18N = {
     },
     en: {
         spinning: "Spinning...",
+        present: "Present full screen",
+        presentLabel: "The Roulette, full screen",
+        exitPresent: "Exit",
+        presentIdle: "Spin the wheel to find the topic.",
         headerOptionsInWheel: (count: number) => `${count} options on wheel`,
         headerAvailableDrawn: (avail: number, drawn: number) =>
             `${avail} available • ${drawn} drawn`,
