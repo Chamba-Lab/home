@@ -1,14 +1,28 @@
 [
     {
         "id": "roulette",
-        "name": "🎡 La Ruleta",
-        "description": "Gira y descubre un tema para debatir o improvisar. Modo libre o temas preestablecidos.",
+        "icon": "🎡",
+        "name": { "es": "La Ruleta", "en": "The Roulette" },
+        "description": {
+            "es": "Gira y descubre un tema para debatir o improvisar. Modo libre o temas preestablecidos.",
+            "en": "Spin and discover a topic to debate or improvise. Free mode or preset topics."
+        },
+        "duration": "10–15 min",
+        "format": { "es": "En voz o por chat", "en": "By voice or chat" },
+        "prep": { "es": "Sin preparar nada", "en": "No prep needed" },
         "status": "available"
     },
     {
         "id": "quick-questions",
-        "name": "⚡ Preguntas Rápidas",
-        "description": "Quiz relámpago para romper el hielo en sesiones de la comunidad.",
+        "icon": "⚡",
+        "name": { "es": "Preguntas Rápidas", "en": "Quick Questions" },
+        "description": {
+            "es": "Quiz relámpago para romper el hielo en sesiones de la comunidad.",
+            "en": "Lightning quiz to break the ice in community sessions."
+        },
+        "duration": "10–15 min",
+        "format": { "es": "En voz o por chat", "en": "By voice or chat" },
+        "prep": { "es": "Sin preparar nada", "en": "No prep needed" },
         "status": "available"
     }
 ]

@@ -120,8 +120,15 @@ const team = defineCollection({
 const activities = defineCollection({
     loader: file("src/content/activities.json"),
     schema: z.object({
-        name: z.string(),
-        description: z.string(),
+        // Emoji shown on the card.
+        icon: z.string(),
+        name: z.object({ es: z.string(), en: z.string() }),
+        description: z.object({ es: z.string(), en: z.string() }),
+        // Orientative length, the same in both languages (e.g. "10–15 min").
+        duration: z.string(),
+        // How it is run, and what it takes to get started.
+        format: z.object({ es: z.string(), en: z.string() }),
+        prep: z.object({ es: z.string(), en: z.string() }),
         status: z.enum(["available", "coming-soon"]),
     }),
 });
