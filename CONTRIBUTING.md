@@ -134,8 +134,8 @@ Los packs de [Preguntas Rápidas](https://chambalab.org/activities/quick-questio
 1. Cada pack lleva un `id` en inglés, un `name` en ES y EN y al menos 10 preguntas.
 2. Cada pregunta es de opción múltiple: `question`, `options` (de 2 a 5, sin repetir), `answer` (el índice de la opción correcta, empezando en 0) y, si ayuda, una `explanation` corta. Las opciones se mezclan solas al jugar.
 3. Las preguntas pueden estar solo en español por ahora.
-4. Una sola respuesta correcta, sin trampas ni ambigüedad, y que sea verificable. Si la explicación depende de una versión o de una fecha, indícalo.
-5. `npm run test` valida el esquema (índices de respuesta, opciones repetidas, mínimo de preguntas) y el build falla si una respuesta apunta a una opción que no existe.
+4. Una sola respuesta correcta, sin trampas ni ambigüedad, y que sea verificable. Si la explicación depende de una versión o de una fecha, indícalo. Las opciones incorrectas deben parecer razonables y tener un largo parecido al de la correcta: si la respuesta se adivina por ser la más larga o la más matizada, la pregunta es demasiado fácil.
+5. `npm run test` valida el esquema (índices de respuesta, opciones repetidas, mínimo de preguntas y que la correcta no sea sistemáticamente la más larga) y el build falla si una respuesta apunta a una opción que no existe.
 
 ### Sumarte al equipo
 

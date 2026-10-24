@@ -59,6 +59,20 @@ describe("quick-questions lib", () => {
         expect(buildRound(sample, 20, seeded(3))).toHaveLength(8);
     });
 
+    it("buildRound avoids questions already seen until it runs out of new ones", () => {
+        const seen = new Set(["Q0", "Q1", "Q2", "Q3", "Q4"]);
+        const fresh = buildRound(sample, 3, seeded(5), seen).map(
+            (q) => q.question,
+        );
+        expect(fresh.sort()).toEqual(["Q5", "Q6", "Q7"]);
+        // Only three unseen left: a round of 5 completes with repeated ones.
+        const mixed = buildRound(sample, 5, seeded(5), seen).map(
+            (q) => q.question,
+        );
+        expect(mixed).toHaveLength(5);
+        expect(mixed.slice(0, 3).sort()).toEqual(["Q5", "Q6", "Q7"]);
+    });
+
     it("nextIndex advances and ends the round", () => {
         expect(nextIndex(0, 3)).toBe(1);
         expect(nextIndex(2, 3)).toBeNull();
@@ -97,6 +111,23 @@ describe("quick-questions.json", () => {
                 expect(q.answer, label).toBeLessThan(q.options.length);
                 expect(new Set(q.options).size, label).toBe(q.options.length);
             }
+        }
+    });
+
+    it("does not give the answer away by its length", () => {
+        // The correct option should not be systematically the longest one.
+        for (const p of packs) {
+            const longest = p.questions.filter((q) => {
+                const lengths = q.options.map((o) => o.length);
+                const max = Math.max(...lengths);
+                return (
+                    lengths[q.answer] === max &&
+                    lengths.filter((n) => n === max).length === 1
+                );
+            }).length;
+            expect(longest / p.questions.length, p.id).toBeLessThanOrEqual(
+                1 / 3,
+            );
         }
     });
 

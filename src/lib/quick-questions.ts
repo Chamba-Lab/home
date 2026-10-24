@@ -45,13 +45,26 @@ export function roundSize(requested: number, available: number): number {
     return Math.max(0, Math.min(requested, available));
 }
 
-/** A round: random questions of a pack, in random order, options shuffled. */
+/**
+ * A round: random questions of a pack, in random order, options shuffled.
+ * Questions in `seen` (by text) go last, so a new round avoids repeating
+ * them until the unseen ones run out.
+ */
 export function buildRound(
     pack: readonly QuickQuestion[],
     count: number,
     rng: Rng = Math.random,
+    seen: ReadonlySet<string> = new Set(),
 ): QuickQuestion[] {
-    return shuffle(pack, rng)
+    const fresh = shuffle(
+        pack.filter((q) => !seen.has(q.question)),
+        rng,
+    );
+    const repeated = shuffle(
+        pack.filter((q) => seen.has(q.question)),
+        rng,
+    );
+    return [...fresh, ...repeated]
         .slice(0, roundSize(count, pack.length))
         .map((question) => shuffleOptions(question, rng));
 }

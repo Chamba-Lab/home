@@ -46,10 +46,10 @@
                     {
                         "question": "¿Para qué sirve el atributo alt de una imagen?",
                         "options": [
-                            "Cambiar el tamaño de la imagen",
-                            "Dar un texto alternativo para lectores de pantalla y cuando la imagen no carga",
-                            "Cargar la imagen más rápido",
-                            "Definir el borde de la imagen"
+                            "Definir el tamaño de la imagen en pantalla",
+                            "Dar un texto alternativo a la imagen",
+                            "Indicar de qué carpeta sale la imagen",
+                            "Hacer que la imagen cargue más rápido"
                         ],
                         "answer": 1,
                         "explanation": "El texto alternativo describe la imagen para quien no puede verla y aparece si falla la carga."
@@ -68,10 +68,10 @@
                     {
                         "question": "¿Qué hace el método fetch() en el navegador?",
                         "options": [
-                            "Guarda datos en el disco",
-                            "Hace una petición HTTP y devuelve una promesa",
-                            "Recarga la página",
-                            "Crea un elemento HTML"
+                            "Guardar datos de forma permanente en el disco duro",
+                            "Pedir datos por HTTP y devolver una promesa",
+                            "Recargar la página actual ignorando la caché",
+                            "Crear un elemento nuevo dentro del árbol del DOM"
                         ],
                         "answer": 1,
                         "explanation": "fetch() envía la petición y devuelve una promesa con la respuesta."
@@ -90,10 +90,10 @@
                     {
                         "question": "¿Qué guarda una cookie?",
                         "options": [
-                            "Un archivo ejecutable",
-                            "Una pequeña cantidad de datos que el navegador envía al servidor en cada petición al sitio",
-                            "La copia completa de la página",
-                            "El código fuente del servidor"
+                            "Un programa pequeño que se instala en tu equipo",
+                            "Datos que el navegador reenvía al mismo sitio",
+                            "Una copia completa de la página visitada",
+                            "El código fuente del servidor de ese sitio"
                         ],
                         "answer": 1,
                         "explanation": "Se usan para sesiones y preferencias, y viajan con las peticiones al sitio que las creó."
@@ -101,10 +101,10 @@
                     {
                         "question": "¿Qué es el DOM?",
                         "options": [
-                            "Un lenguaje de estilos",
-                            "Un servidor de bases de datos",
-                            "La representación en forma de árbol de la página que el navegador expone a JavaScript",
-                            "Un formato de imagen"
+                            "Un lenguaje para dar estilo y color a la página",
+                            "Un motor que guarda datos dentro del navegador",
+                            "El árbol de nodos de la página que JS modifica",
+                            "Un formato para comprimir imágenes en la web"
                         ],
                         "answer": 2,
                         "explanation": "El Document Object Model es el árbol de nodos que JavaScript puede leer y modificar."
@@ -112,17 +112,17 @@
                     {
                         "question": "¿Qué significa que una página sea responsive?",
                         "options": [
-                            "Responde en menos de un segundo",
+                            "Carga y responde en menos de un segundo",
                             "Se adapta a distintos tamaños de pantalla",
-                            "Tiene un chat integrado",
-                            "Solo funciona en móvil"
+                            "Incluye un chat para atender a las visitas",
+                            "Solo está pensada para funcionar en móvil"
                         ],
                         "answer": 1,
                         "explanation": "El diseño se ajusta al ancho de la pantalla, normalmente con media queries y unidades flexibles."
                     },
                     {
                         "question": "¿Cuál de estos es un formato de datos muy usado en las APIs web?",
-                        "options": ["JSON", "PNG", "MP3", "ZIP"],
+                        "options": ["JSON", "JPEG", "MPEG", "GIF"],
                         "answer": 0,
                         "explanation": "JSON es texto ligero, fácil de leer y de procesar en casi cualquier lenguaje."
                     }
@@ -138,10 +138,10 @@
                     {
                         "question": "¿Qué hace git commit?",
                         "options": [
-                            "Sube los cambios al servidor remoto",
-                            "Guarda una instantánea de los cambios preparados en el historial local",
-                            "Descarga los cambios de otras personas",
-                            "Borra la rama actual"
+                            "Envía tus cambios al repositorio remoto del equipo",
+                            "Guarda lo preparado en tu historial local",
+                            "Descarga los cambios que otras personas subieron",
+                            "Elimina del historial la rama en la que estás"
                         ],
                         "answer": 1,
                         "explanation": "El commit registra en tu historial local lo que está en el área de preparación (staging)."
@@ -160,10 +160,10 @@
                     {
                         "question": "¿Para qué sirve crear una rama (branch)?",
                         "options": [
-                            "Para hacer una copia de seguridad en la nube",
-                            "Para trabajar en un cambio de forma aislada sin tocar la rama principal",
-                            "Para comprimir el repositorio",
-                            "Para borrar el historial"
+                            "Hacer una copia de seguridad del repositorio en la nube",
+                            "Trabajar un cambio aparte de la rama principal",
+                            "Comprimir el repositorio para poder enviarlo",
+                            "Borrar el historial de cambios anteriores"
                         ],
                         "answer": 1,
                         "explanation": "Una rama permite experimentar o desarrollar una función sin afectar el trabajo de los demás."
@@ -171,10 +171,10 @@
                     {
                         "question": "¿Qué diferencia hay entre git fetch y git pull?",
                         "options": [
-                            "Ninguna, son lo mismo",
-                            "fetch descarga los cambios sin integrarlos; pull los descarga y los integra",
-                            "pull solo funciona en la rama principal",
-                            "fetch borra los cambios locales"
+                            "Ninguna, hacen exactamente lo mismo con otro nombre",
+                            "fetch descarga sin integrar; pull descarga e integra",
+                            "pull solo funciona sobre la rama principal del repo",
+                            "fetch borra los cambios locales sin avisar"
                         ],
                         "answer": 1,
                         "explanation": "pull equivale a un fetch seguido de un merge (o rebase)."
@@ -182,10 +182,10 @@
                     {
                         "question": "¿Qué es un Pull Request?",
                         "options": [
-                            "Un comando para descargar el repositorio",
-                            "Una solicitud para revisar e integrar los cambios de una rama en otra",
-                            "Un tipo de licencia",
-                            "Un error de Git"
+                            "Un comando para descargar un repositorio completo",
+                            "Una solicitud para revisar e integrar cambios",
+                            "Un tipo de licencia de código abierto",
+                            "Un error que aparece al hacer push"
                         ],
                         "answer": 1,
                         "explanation": "Es la conversación donde se revisa el código antes de integrarlo."
@@ -204,10 +204,10 @@
                     {
                         "question": "¿Qué aparece cuando dos ramas modifican las mismas líneas y Git no sabe cuál conservar?",
                         "options": [
-                            "Un conflicto de fusión (merge conflict)",
-                            "Un commit vacío",
-                            "Un fork",
-                            "Un tag"
+                            "Un conflicto de fusión",
+                            "Un commit vacío sin cambios",
+                            "Un fork del repositorio",
+                            "Una etiqueta de versión"
                         ],
                         "answer": 0,
                         "explanation": "Hay que elegir a mano qué versión se queda y confirmar la resolución."
@@ -215,10 +215,10 @@
                     {
                         "question": "¿Qué hace git clone?",
                         "options": [
-                            "Crea una copia local de un repositorio remoto, con todo su historial",
-                            "Duplica la rama actual",
-                            "Fusiona dos repositorios",
-                            "Revierte el último commit"
+                            "Copia un repositorio remoto a tu equipo",
+                            "Duplica la rama en la que estás trabajando",
+                            "Fusiona dos repositorios distintos en uno",
+                            "Revierte el último commit que hiciste"
                         ],
                         "answer": 0,
                         "explanation": "Descarga el repositorio completo y deja configurado el remoto origin."
@@ -226,10 +226,10 @@
                     {
                         "question": "¿Qué es un fork en GitHub?",
                         "options": [
-                            "Una copia de un repositorio en tu cuenta, donde puedes trabajar sin afectar el original",
-                            "Un tipo de rama protegida",
-                            "Un archivo de configuración",
-                            "Una etiqueta de versión"
+                            "Una copia del repositorio en tu cuenta",
+                            "Un tipo de rama protegida del repositorio",
+                            "Un archivo de configuración del proyecto",
+                            "Una etiqueta que marca una versión"
                         ],
                         "answer": 0,
                         "explanation": "Es la forma habitual de contribuir a proyectos de código abierto en los que no tienes permisos de escritura."
@@ -237,10 +237,10 @@
                     {
                         "question": "¿Qué significa que un commit sea atómico?",
                         "options": [
-                            "Que es muy grande",
-                            "Que contiene un solo cambio coherente y entendible por sí mismo",
-                            "Que no se puede deshacer",
-                            "Que se hizo desde la terminal"
+                            "Que incluye todos los cambios de la semana",
+                            "Que contiene un solo cambio coherente",
+                            "Que no se puede deshacer una vez hecho",
+                            "Que se hizo desde la línea de comandos"
                         ],
                         "answer": 1,
                         "explanation": "Commits pequeños y con un propósito claro son más fáciles de revisar y de revertir."
@@ -249,9 +249,9 @@
                         "question": "Un buen mensaje de commit suele…",
                         "options": [
                             "Ser lo más corto posible, como «arreglos»",
-                            "Describir qué cambia y, si hace falta, por qué",
-                            "Incluir todo el código modificado",
-                            "Escribirse siempre en mayúsculas"
+                            "Decir qué cambia y por qué",
+                            "Copiar todo el código que se modificó",
+                            "Escribirse siempre en letras mayúsculas"
                         ],
                         "answer": 1,
                         "explanation": "El historial se lee mucho más de lo que se escribe: un mensaje claro ahorra tiempo a futuro."
@@ -259,10 +259,10 @@
                     {
                         "question": "¿Qué hace git stash?",
                         "options": [
-                            "Guarda temporalmente los cambios sin confirmar para dejar el directorio limpio",
-                            "Borra los archivos sin seguimiento",
-                            "Sube los cambios al remoto",
-                            "Crea una nueva rama"
+                            "Guarda cambios sin confirmar en un lugar temporal",
+                            "Elimina para siempre los archivos sin seguimiento",
+                            "Sube los cambios sin confirmar al repositorio remoto",
+                            "Crea una nueva rama con los cambios actuales"
                         ],
                         "answer": 0,
                         "explanation": "Sirve para cambiar de rama sin hacer commit de algo a medias; luego se recupera con git stash pop."
@@ -277,136 +277,136 @@
                 },
                 "questions": [
                     {
-                        "question": "¿Qué significa ATS en un proceso de selección?",
+                        "question": "¿Qué suele hacer un ATS con tu CV?",
                         "options": [
-                            "Un sistema que filtra y organiza las candidaturas",
-                            "Una certificación técnica",
-                            "Un tipo de contrato",
-                            "Un examen de inglés"
+                            "Reescribirlo para mejorarlo automáticamente",
+                            "Extraer su texto y organizarlo",
+                            "Enviarlo a otras empresas por su cuenta",
+                            "Verificar tus títulos con las universidades"
+                        ],
+                        "answer": 1,
+                        "explanation": "Lee el texto y lo ordena en campos. Las columnas, tablas y gráficos pueden desordenarlo."
+                    },
+                    {
+                        "question": "En el método STAR para responder en entrevistas, ¿qué significa la «R»?",
+                        "options": [
+                            "Rol",
+                            "Requisito",
+                            "Resultado",
+                            "Respuesta"
+                        ],
+                        "answer": 2,
+                        "explanation": "Situación, Tarea, Acción y Resultado: cerrar con el resultado es lo que da fuerza a la historia."
+                    },
+                    {
+                        "question": "Si no piden otro formato, ¿cuál suele ser lo más seguro para subir tu CV a un ATS?",
+                        "options": [
+                            "Una imagen JPG de tu CV completo",
+                            "Un PDF con texto seleccionable",
+                            "Un PDF escaneado como si fuera foto",
+                            "Unas diapositivas de presentación"
+                        ],
+                        "answer": 1,
+                        "explanation": "Si el texto no se puede seleccionar, el sistema puede no leerlo."
+                    },
+                    {
+                        "question": "¿Cuántas páginas suele recomendarse para el CV de alguien con poca experiencia?",
+                        "options": [
+                            "Una",
+                            "Dos",
+                            "Tres",
+                            "Las que hagan falta"
                         ],
                         "answer": 0,
-                        "explanation": "Applicant Tracking System: muchas empresas lo usan para ordenar CVs, así que conviene un formato simple y legible."
+                        "explanation": "Con poca experiencia, una página obliga a elegir lo más relevante."
                     },
                     {
-                        "question": "Para un CV, ¿cuál suele ser una buena práctica?",
+                        "question": "Antes de una negociación salarial, ¿qué suele convenir hacer?",
                         "options": [
-                            "Listar todas las tareas que hiciste sin priorizar",
-                            "Mostrar logros concretos y medibles, adaptados al puesto",
-                            "Usar columnas, gráficos y muchos colores",
-                            "Extenderlo a cinco páginas"
-                        ],
-                        "answer": 1,
-                        "explanation": "Un logro con un resultado concreto dice más que una lista de responsabilidades."
-                    },
-                    {
-                        "question": "¿Para qué sirve el método STAR al responder en una entrevista?",
-                        "options": [
-                            "Para estructurar una respuesta: situación, tarea, acción y resultado",
-                            "Para calcular el salario",
-                            "Para escribir código más rápido",
-                            "Para preparar el CV"
+                            "Investigar el rango de mercado del puesto",
+                            "Ofrecer desde el inicio tu cifra más baja",
+                            "Esperar a firmar para preguntar el sueldo",
+                            "Comparar solo con tu sueldo anterior"
                         ],
                         "answer": 0,
-                        "explanation": "Ayuda a contar una experiencia de forma ordenada y con un resultado claro."
+                        "explanation": "Un rango de mercado te da un argumento más sólido que tu sueldo anterior."
                     },
                     {
-                        "question": "En una entrevista técnica, si te piden resolver un problema y no ves la solución, ¿qué suele valorarse más?",
+                        "question": "Te piden «háblame de ti» en una entrevista. ¿Qué enfoque suele funcionar mejor?",
                         "options": [
-                            "Quedarte en silencio hasta dar con ella",
-                            "Pensar en voz alta, hacer preguntas y explicar tu razonamiento",
-                            "Decir que no sabes y terminar ahí",
-                            "Copiar una solución de memoria"
+                            "Leer tu CV completo en voz alta, empleo por empleo",
+                            "Contar tu historia personal desde la infancia",
+                            "Resumir tu trayectoria y lo que buscas",
+                            "Responder con otra pregunta para ganar tiempo"
                         ],
-                        "answer": 1,
-                        "explanation": "Quien entrevista busca ver cómo piensas y cómo te comunicas, no solo el resultado."
+                        "answer": 2,
+                        "explanation": "Un resumen breve y ligado al puesto, no un recorrido por cada empleo."
                     },
                     {
-                        "question": "¿Qué aporta un portafolio o un perfil de GitHub cuidado?",
+                        "question": "En LinkedIn, ¿qué texto aparece junto a tu foto y nombre en los resultados de búsqueda?",
                         "options": [
-                            "Nada, solo cuenta el título universitario",
-                            "Evidencia concreta de lo que sabes hacer",
-                            "Más seguidores en redes",
-                            "Un descuento en cursos"
+                            "La sección de aptitudes",
+                            "Tus recomendaciones",
+                            "Tu titular",
+                            "Tu lista de contactos"
                         ],
-                        "answer": 1,
-                        "explanation": "Es una prueba visible de tu trabajo, sobre todo cuando aún tienes poca experiencia laboral."
+                        "answer": 2,
+                        "explanation": "El titular es lo primero que ve quien te busca: conviene decir qué haces, no solo tu cargo."
                     },
                     {
-                        "question": "¿Qué es el networking en una carrera profesional?",
+                        "question": "¿Cómo destacas en tu perfil de GitHub los repositorios que más quieres mostrar?",
                         "options": [
-                            "Configurar redes de computadoras",
-                            "Construir relaciones profesionales basadas en el intercambio y la ayuda mutua",
-                            "Enviar el mismo mensaje a cien personas",
-                            "Un tipo de certificación"
+                            "Fijándolos en tu perfil",
+                            "Dándoles estrella a todos",
+                            "Creando forks de ellos",
+                            "Archivándolos"
                         ],
-                        "answer": 1,
-                        "explanation": "Funciona mejor cuando es genuino y de ida y vuelta, no solo pidiendo favores."
+                        "answer": 0,
+                        "explanation": "Puedes fijar hasta seis repositorios en la parte superior de tu perfil."
                     },
                     {
-                        "question": "Te ofrecen un empleo. ¿Qué conviene hacer antes de aceptar?",
+                        "question": "En un ejercicio de código en vivo te quedas bloqueado. ¿Qué suele valorarse más?",
                         "options": [
-                            "Aceptar de inmediato para no perderlo",
-                            "Revisar la oferta completa (salario, beneficios, funciones) y preguntar lo que no esté claro",
-                            "Pedir el contrato solo después de empezar",
-                            "No preguntar nada para no incomodar"
+                            "Seguir en silencio para no molestar",
+                            "Pedir que te cambien de problema por uno fácil",
+                            "Pensar en voz alta y pedir una pista",
+                            "Cambiar de lenguaje a mitad del ejercicio"
                         ],
-                        "answer": 1,
-                        "explanation": "Es normal pedir tiempo razonable y aclarar dudas; una buena empresa lo espera."
+                        "answer": 2,
+                        "explanation": "Quien entrevista busca ver cómo razonas y cómo trabajas con otras personas, no solo el resultado."
                     },
                     {
-                        "question": "¿Qué es el síndrome del impostor?",
+                        "question": "¿Qué pregunta le ayuda más a entender un puesto durante una entrevista?",
                         "options": [
-                            "Un error al instalar software",
-                            "La sensación de no merecer tus logros pese a la evidencia de que los has conseguido",
-                            "Un tipo de ataque informático",
-                            "Una técnica de entrevista"
+                            "¿Cuántos días libres tengo desde el primer mes?",
+                            "¿Cómo se mide el éxito en este puesto?",
+                            "¿Cuánto cobra cada persona del equipo?",
+                            "¿Puedo saltarme alguna de las rondas?"
                         ],
                         "answer": 1,
-                        "explanation": "Es muy común en tecnología; hablarlo con otras personas ayuda a ponerlo en perspectiva."
+                        "explanation": "Muestra interés en el trabajo real y te da información para decidir."
                     },
                     {
-                        "question": "¿Cuál es una buena forma de aprender de forma sostenida?",
+                        "question": "Vas a escribirle por primera vez a alguien para pedirle mentoría. ¿Qué suele funcionar mejor?",
                         "options": [
-                            "Consumir tutoriales sin practicar",
-                            "Construir proyectos pequeños aplicando lo que aprendes",
-                            "Memorizar la documentación completa",
-                            "Esperar a estar «listo» para empezar"
+                            "Una duda concreta en un mensaje corto",
+                            "Pedirle que sea tu mentor para siempre",
+                            "Escribirle a diario",
+                            "Pedirle que te recomiende para un empleo"
                         ],
-                        "answer": 1,
-                        "explanation": "Practicar con proyectos reales fija lo aprendido y deja algo que mostrar."
+                        "answer": 0,
+                        "explanation": "Una pregunta concreta es fácil de responder y abre la conversación."
                     },
                     {
-                        "question": "¿Qué ventaja tiene pedir feedback sobre tu código o tu CV?",
+                        "question": "¿Qué hace más útil un proyecto de portafolio para quien recluta?",
                         "options": [
-                            "Ninguna, solo se pierde tiempo",
-                            "Detectas puntos ciegos y mejoras más rápido",
-                            "Evitas tener que mejorar",
-                            "Garantiza que te contraten"
+                            "Que use la tecnología más reciente del mercado",
+                            "Que tenga un README claro que explique qué hace",
+                            "Que tenga muchos commits hechos en un solo día",
+                            "Que sea parte de una lista larga de repositorios"
                         ],
                         "answer": 1,
-                        "explanation": "Otra mirada ve lo que tú ya no ves; conviene pedirlo con preguntas concretas."
-                    },
-                    {
-                        "question": "¿Qué es una mentoría?",
-                        "options": [
-                            "Un curso en video con certificado",
-                            "Una relación en la que alguien con más experiencia orienta a otra persona en su desarrollo",
-                            "Un tipo de contrato freelance",
-                            "Una entrevista de trabajo"
-                        ],
-                        "answer": 1,
-                        "explanation": "Puede ser puntual o continua; lo que importa es que haya objetivos claros y confianza."
-                    },
-                    {
-                        "question": "Al buscar tu primer empleo, ¿qué estrategia suele funcionar mejor?",
-                        "options": [
-                            "Enviar el mismo CV a todas las ofertas sin leerlas",
-                            "Adaptar tu CV a cada oferta y combinar postulaciones con contactos de tu red",
-                            "Esperar a que te escriban",
-                            "Postular solo a empresas muy grandes"
-                        ],
-                        "answer": 1,
-                        "explanation": "Una postulación a medida y una recomendación pesan más que decenas de envíos genéricos."
+                        "explanation": "Quien recluta tiene poco tiempo: un README claro permite entender el proyecto en un minuto."
                     }
                 ]
             }

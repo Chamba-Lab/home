@@ -32,6 +32,11 @@ const choiceClass = (active: boolean) =>
             : "bg-slate-900/50 text-slate-300 border-white/10 hover:border-brand-yellow/40"
     }`;
 
+const primaryButton =
+    "bg-brand-yellow text-[#080D1A] font-bold px-8 py-3 rounded-xl hover:brightness-110 transition";
+const ghostButton =
+    "border border-white/15 text-slate-200 font-bold px-5 py-2.5 rounded-xl text-sm hover:border-brand-yellow/40 transition";
+
 export default function QuickQuestions({ packs }: QuickQuestionsProps) {
     const [lang, setLang] = useState<"es" | "en">("es");
 
@@ -60,67 +65,113 @@ export default function QuickQuestions({ packs }: QuickQuestionsProps) {
     const [index, setIndex] = useState(0);
     const [timeLeft, setTimeLeft] = useState(0);
     const [timedOut, setTimedOut] = useState(false);
+    const [paused, setPaused] = useState(false);
     const headingRef = useRef<HTMLHeadingElement>(null);
+    // Time left in the open question, in ms (survives pauses).
+    const remainingMs = useRef(0);
+    // Questions already asked in this visit, so a new round avoids them.
+    const seen = useRef<Set<string>>(new Set());
 
     const pack = packs.find((p) => p.id === packId) ?? packs[0];
     const current = round[index];
+    const inStage = phase !== "setup";
+
+    const openQuestion = (at: number) => {
+        setIndex(at);
+        setTimedOut(false);
+        setPaused(false);
+        remainingMs.current = seconds * 1000;
+        setTimeLeft(seconds);
+        setPhase("question");
+    };
 
     const start = () => {
         if (!pack) return;
-        const questions = buildRound(pack.questions, count);
+        const questions = buildRound(
+            pack.questions,
+            count,
+            Math.random,
+            seen.current,
+        );
         if (questions.length === 0) return;
+        const unseen = pack.questions.filter(
+            (q) => !seen.current.has(q.question),
+        ).length;
+        // Fewer unseen than the round needs: the pack starts over.
+        if (unseen < questions.length) seen.current.clear();
+        questions.forEach((q) => seen.current.add(q.question));
         setRound(questions);
-        setIndex(0);
-        setTimedOut(false);
-        setTimeLeft(seconds);
-        setPhase("question");
+        openQuestion(0);
     };
 
-    const reveal = (byTimer = false) => {
-        setTimedOut(byTimer);
-        setPhase("revealed");
-    };
+    const reveal = () => setPhase("revealed");
 
     const advance = () => {
         const next = nextIndex(index, round.length);
-        if (next === null) {
-            setPhase("done");
-            return;
-        }
-        setIndex(next);
-        setTimedOut(false);
-        setTimeLeft(seconds);
-        setPhase("question");
+        if (next === null) setPhase("done");
+        else openQuestion(next);
     };
 
-    // Countdown: one tick per second while a question is open.
-    useEffect(() => {
-        if (phase !== "question" || seconds === 0) return;
-        if (timeLeft <= 0) {
-            setTimedOut(true);
-            setPhase("revealed");
-            return;
-        }
-        const id = window.setTimeout(() => setTimeLeft((s) => s - 1), 1000);
-        return () => window.clearTimeout(id);
-    }, [phase, timeLeft, seconds]);
+    const exit = () => setPhase("setup");
 
-    // Keep focus on the question heading so keyboard and screen reader users
-    // follow the flow without hunting for the next control.
+    // Countdown against a deadline, so it does not drift; a pause keeps what
+    // is left and resumes from there.
     useEffect(() => {
-        if (phase !== "setup") headingRef.current?.focus();
+        if (phase !== "question" || seconds === 0 || paused) return;
+        const end = Date.now() + remainingMs.current;
+        const id = window.setInterval(() => {
+            const left = Math.max(0, end - Date.now());
+            remainingMs.current = left;
+            setTimeLeft(Math.ceil(left / 1000));
+            if (left <= 0) {
+                window.clearInterval(id);
+                setTimedOut(true);
+                setPhase("revealed");
+            }
+        }, 200);
+        return () => window.clearInterval(id);
+    }, [phase, seconds, paused, index]);
+
+    // Keep focus on the question (or the closing title) so keyboard and
+    // screen reader users follow the flow.
+    useEffect(() => {
+        if (phase === "question" || phase === "done") {
+            headingRef.current?.focus();
+        }
     }, [phase, index]);
 
-    // Space / Enter move the round along (presenter shortcut).
+    // The stage covers the page: stop the page behind it from scrolling.
     useEffect(() => {
-        if (phase !== "question" && phase !== "revealed") return;
+        if (!inStage) return;
+        const previous = document.body.style.overflow;
+        document.body.style.overflow = "hidden";
+        return () => {
+            document.body.style.overflow = previous;
+        };
+    }, [inStage]);
+
+    // Keyboard: Space / Enter move the round along, P pauses, Esc exits.
+    useEffect(() => {
+        if (!inStage) return;
         const onKey = (e: KeyboardEvent) => {
-            if (e.key !== " " && e.key !== "Enter") return;
+            if (e.key === "Escape") {
+                exit();
+                return;
+            }
             const target = e.target as HTMLElement | null;
             if (target?.closest("button, a, input, select, textarea")) return;
+            if (
+                (e.key === "p" || e.key === "P") &&
+                phase === "question" &&
+                seconds > 0
+            ) {
+                setPaused((value) => !value);
+                return;
+            }
+            if (e.key !== " " && e.key !== "Enter") return;
             e.preventDefault();
             if (phase === "question") reveal();
-            else advance();
+            else if (phase === "revealed") advance();
         };
         document.addEventListener("keydown", onKey);
         return () => document.removeEventListener("keydown", onKey);
@@ -128,12 +179,9 @@ export default function QuickQuestions({ packs }: QuickQuestionsProps) {
 
     if (!pack) return null;
 
-    const stageClass =
-        "card-glass rounded-3xl border border-white/10 p-6 sm:p-10 max-w-3xl mx-auto";
-
     if (phase === "setup") {
         return (
-            <div className={stageClass}>
+            <div className="card-glass rounded-3xl border border-white/10 p-6 sm:p-10 max-w-3xl mx-auto">
                 <fieldset className="mb-8">
                     <legend className="text-xs font-bold uppercase tracking-wider text-brand-yellow mb-3">
                         {t.packLabel}
@@ -213,7 +261,7 @@ export default function QuickQuestions({ packs }: QuickQuestionsProps) {
                 <button
                     type="button"
                     onClick={start}
-                    className="w-full sm:w-auto bg-brand-yellow text-[#080D1A] font-bold px-8 py-3 rounded-xl hover:brightness-110 transition"
+                    className={`w-full sm:w-auto ${primaryButton}`}
                 >
                     {t.start}
                 </button>
@@ -221,141 +269,199 @@ export default function QuickQuestions({ packs }: QuickQuestionsProps) {
         );
     }
 
-    if (phase === "done") {
-        return (
-            <div className={`${stageClass} text-center`}>
-                <h2
-                    ref={headingRef}
-                    tabIndex={-1}
-                    className="font-display text-3xl font-extrabold text-white mb-3 outline-none"
-                >
-                    {t.doneTitle}
-                </h2>
-                <p className="text-slate-300 mb-8">
-                    {t.doneBody(round.length)}
-                </p>
-                <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                    <button
-                        type="button"
-                        onClick={start}
-                        className="bg-brand-yellow text-[#080D1A] font-bold px-6 py-3 rounded-xl hover:brightness-110 transition"
-                    >
-                        {t.again}
-                    </button>
-                    <button
-                        type="button"
-                        onClick={() => setPhase("setup")}
-                        className="border border-white/15 text-slate-200 font-bold px-6 py-3 rounded-xl hover:border-brand-yellow/40 transition"
-                    >
-                        {t.changePack}
-                    </button>
-                </div>
-            </div>
-        );
-    }
-
-    if (!current) return null;
+    // From here on the round fills the whole viewport: no page title, no
+    // instructions, no box inside a box. It is made to be screen-shared.
     const revealed = phase === "revealed";
     const isLast = nextIndex(index, round.length) === null;
 
     return (
-        <div className={stageClass}>
-            <div className="flex items-center justify-between gap-4 mb-6 text-xs font-bold uppercase tracking-wider">
-                <span className="text-brand-yellow">
-                    {t.progress(index + 1, round.length)}
-                </span>
-                {seconds > 0 && !revealed && (
-                    <span className="text-slate-300 tabular-nums">
-                        <span className="sr-only">{t.timeLeft}: </span>
-                        <span
-                            className={
-                                timeLeft <= 5 ? "text-red-300" : undefined
-                            }
-                        >
-                            {formatSeconds(timeLeft)}
-                        </span>
-                    </span>
-                )}
-                {timedOut && revealed && (
-                    <span className="text-red-300">{t.timeUp}</span>
-                )}
-            </div>
-
-            <h2
-                ref={headingRef}
-                tabIndex={-1}
-                className="font-display text-2xl sm:text-3xl font-extrabold text-white leading-snug mb-8 outline-none"
-            >
-                {current.question}
-            </h2>
-
-            <ol className="grid gap-3 mb-8">
-                {current.options.map((option, i) => {
-                    const isAnswer = revealed && i === current.answer;
-                    const isWrong = revealed && i !== current.answer;
-                    return (
-                        <li
-                            key={`${index}-${i}`}
-                            className={`flex items-start gap-3 rounded-2xl border p-4 text-base transition-colors duration-200 ${
-                                isAnswer
-                                    ? "border-emerald-400 bg-emerald-400/10 text-white"
-                                    : isWrong
-                                      ? "border-white/5 bg-slate-900/30 text-slate-400"
-                                      : "border-white/10 bg-slate-900/50 text-slate-100"
-                            }`}
-                        >
-                            <span
-                                aria-hidden="true"
-                                className={`shrink-0 w-7 h-7 rounded-lg grid place-items-center text-xs font-bold ${
-                                    isAnswer
-                                        ? "bg-emerald-400 text-[#080D1A]"
-                                        : "bg-white/10 text-slate-300"
-                                }`}
-                            >
-                                {LETTERS[i]}
+        <div
+            role="dialog"
+            aria-modal="true"
+            aria-label={pack.name[lang]}
+            className="fixed inset-0 z-[60] overflow-y-auto bg-bg"
+        >
+            <div
+                aria-hidden="true"
+                className="pointer-events-none absolute left-1/2 top-0 h-96 w-[48rem] max-w-full -translate-x-1/2 rounded-full bg-brand-yellow/5 blur-3xl"
+            ></div>
+            <div className="relative mx-auto flex min-h-full max-w-6xl flex-col px-5 py-5 sm:px-10 sm:py-8">
+                <div className="flex items-center justify-between gap-4 text-sm font-bold">
+                    <button
+                        type="button"
+                        onClick={exit}
+                        className={ghostButton}
+                    >
+                        {t.exit}
+                    </button>
+                    {phase === "question" || revealed ? (
+                        <div className="flex items-center gap-4 sm:gap-6">
+                            <span className="text-xs uppercase tracking-wider text-brand-yellow">
+                                {t.progress(index + 1, round.length)}
                             </span>
-                            <span>
-                                {option}
-                                {isAnswer && (
-                                    <span className="sr-only">
-                                        {" "}
-                                        ({t.correct})
+                            {seconds > 0 && phase === "question" && (
+                                <>
+                                    <span className="tabular-nums text-xl text-white">
+                                        <span className="sr-only">
+                                            {t.timeLeft}:{" "}
+                                        </span>
+                                        <span
+                                            className={
+                                                timeLeft <= 5 && !paused
+                                                    ? "text-red-300"
+                                                    : undefined
+                                            }
+                                        >
+                                            {formatSeconds(timeLeft)}
+                                        </span>
                                     </span>
-                                )}
-                            </span>
-                        </li>
-                    );
-                })}
-            </ol>
+                                    <button
+                                        type="button"
+                                        onClick={() => setPaused((v) => !v)}
+                                        aria-pressed={paused}
+                                        className={ghostButton}
+                                    >
+                                        {paused ? t.resume : t.pause}
+                                    </button>
+                                </>
+                            )}
+                            {timedOut && revealed && (
+                                <span className="text-red-300">{t.timeUp}</span>
+                            )}
+                        </div>
+                    ) : null}
+                </div>
 
-            <div aria-live="polite">
-                {revealed && current.explanation && (
-                    <p className="text-sm text-slate-300 leading-relaxed mb-8 border-l-2 border-emerald-400/60 pl-4">
-                        <span className="font-bold text-white">{t.why}: </span>
-                        {current.explanation}
-                    </p>
-                )}
-            </div>
-
-            <div className="flex flex-col sm:flex-row sm:items-center gap-3">
-                {revealed ? (
-                    <button
-                        type="button"
-                        onClick={advance}
-                        className="bg-brand-yellow text-[#080D1A] font-bold px-8 py-3 rounded-xl hover:brightness-110 transition"
-                    >
-                        {isLast ? t.finish : t.next}
-                    </button>
+                {phase === "done" ? (
+                    <div className="flex flex-1 flex-col items-center justify-center text-center py-16">
+                        <h2
+                            ref={headingRef}
+                            tabIndex={-1}
+                            className="font-display text-4xl sm:text-6xl font-extrabold text-white mb-4 outline-none"
+                        >
+                            {t.doneTitle}
+                        </h2>
+                        <p className="text-lg text-slate-300 mb-10">
+                            {t.doneBody(round.length)}
+                        </p>
+                        <div className="flex flex-col sm:flex-row gap-3">
+                            <button
+                                type="button"
+                                onClick={start}
+                                className={primaryButton}
+                            >
+                                {t.again}
+                            </button>
+                            <button
+                                type="button"
+                                onClick={exit}
+                                className={ghostButton}
+                            >
+                                {t.changePack}
+                            </button>
+                        </div>
+                    </div>
                 ) : (
-                    <button
-                        type="button"
-                        onClick={() => reveal()}
-                        className="bg-brand-yellow text-[#080D1A] font-bold px-8 py-3 rounded-xl hover:brightness-110 transition"
-                    >
-                        {t.reveal}
-                    </button>
+                    current && (
+                        <div className="flex flex-1 flex-col justify-center py-10">
+                            <p
+                                role="status"
+                                className="mb-4 min-h-5 text-sm font-bold uppercase tracking-wider text-slate-400"
+                            >
+                                {paused ? t.paused : ""}
+                            </p>
+                            <h2
+                                ref={headingRef}
+                                tabIndex={-1}
+                                className="font-display text-3xl sm:text-5xl font-extrabold leading-tight text-white mb-10 outline-none"
+                            >
+                                {current.question}
+                            </h2>
+
+                            <ul
+                                role="list"
+                                className="grid gap-4 md:grid-cols-2 mb-8"
+                            >
+                                {current.options.map((option, i) => {
+                                    const isAnswer =
+                                        revealed && i === current.answer;
+                                    const isOther =
+                                        revealed && i !== current.answer;
+                                    return (
+                                        <li
+                                            key={`${index}-${i}`}
+                                            className={`flex items-start gap-4 rounded-2xl border p-5 text-xl sm:text-2xl leading-snug transition-colors duration-200 ${
+                                                isAnswer
+                                                    ? "border-emerald-400 bg-emerald-400/10 text-white"
+                                                    : isOther
+                                                      ? "border-white/5 text-slate-400"
+                                                      : "border-white/10 bg-slate-900/50 text-slate-100"
+                                            }`}
+                                        >
+                                            <span
+                                                aria-hidden="true"
+                                                className={`grid h-9 w-9 shrink-0 place-items-center rounded-lg text-base font-bold ${
+                                                    isAnswer
+                                                        ? "bg-emerald-400 text-[#080D1A]"
+                                                        : "bg-white/10 text-slate-300"
+                                                }`}
+                                            >
+                                                {LETTERS[i]}
+                                            </span>
+                                            <span>
+                                                <span className="sr-only">
+                                                    {t.optionWord} {LETTERS[i]}
+                                                    :{" "}
+                                                </span>
+                                                {option}
+                                                {isAnswer && (
+                                                    <span className="sr-only">
+                                                        {" "}
+                                                        ({t.correct})
+                                                    </span>
+                                                )}
+                                            </span>
+                                        </li>
+                                    );
+                                })}
+                            </ul>
+
+                            <div aria-live="polite">
+                                {revealed && current.explanation && (
+                                    <p className="mb-8 border-l-2 border-emerald-400/60 pl-4 text-lg leading-relaxed text-slate-200">
+                                        <span className="font-bold text-white">
+                                            {t.why}:{" "}
+                                        </span>
+                                        {current.explanation}
+                                    </p>
+                                )}
+                            </div>
+
+                            <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+                                {revealed ? (
+                                    <button
+                                        type="button"
+                                        onClick={advance}
+                                        className={primaryButton}
+                                    >
+                                        {isLast ? t.finish : t.next}
+                                    </button>
+                                ) : (
+                                    <button
+                                        type="button"
+                                        onClick={reveal}
+                                        className={primaryButton}
+                                    >
+                                        {t.reveal}
+                                    </button>
+                                )}
+                                <span className="hidden text-xs text-slate-400 sm:inline">
+                                    {t.hintKeys}
+                                </span>
+                            </div>
+                        </div>
+                    )
                 )}
-                <span className="text-xs text-slate-500">{t.hintKeys}</span>
             </div>
         </div>
     );
