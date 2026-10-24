@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { ROULETTE_I18N } from "../i18n/roulette";
 import { useLang } from "../lib/use-lang";
+import ActivityStage from "./ActivityStage";
 
 interface RouletteWheelProps {
     presets: Array<{ id: string; name: string; options: string[] }>;
@@ -165,6 +166,8 @@ export default function RouletteWheel({
     const [autoRemove, setAutoRemove] = useState(true);
     const [needleWobble, setNeedleWobble] = useState(false);
     const [winnerResult, setWinnerResult] = useState<WinnerResult | null>(null);
+    // Full-screen stage, to screen-share the wheel.
+    const [presenting, setPresenting] = useState(false);
 
     // Active session state for retired options (in-memory only, resets on page reload)
     const [drawnByPreset, setDrawnByPreset] = useState<
@@ -396,13 +399,17 @@ export default function RouletteWheel({
 
         const dpr = window.devicePixelRatio || 1;
         const size = CANVAS_SIZE;
-        const targetPx = Math.round(size * dpr);
+        // The drawing is laid out in CANVAS_SIZE units and scaled to the size
+        // it is shown at, so a bigger wheel (presentation mode) stays sharp.
+        const cssSize = canvas.clientWidth || size;
+        const scale = cssSize / size;
+        const targetPx = Math.round(cssSize * dpr);
 
         if (canvas.width !== targetPx || canvas.height !== targetPx) {
             canvas.width = targetPx;
             canvas.height = targetPx;
         }
-        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        ctx.setTransform(dpr * scale, 0, 0, dpr * scale, 0, 0);
 
         const centerX = size / 2;
         const centerY = size / 2;
@@ -596,7 +603,19 @@ export default function RouletteWheel({
         if (spinning) return;
         drawWheel(options, rotationRef.current);
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [selectedIndex, hoveredIndex, lang]);
+    }, [selectedIndex, hoveredIndex, lang, presenting]);
+
+    // The wheel is drawn for the size it is shown at: redraw when it changes.
+    useEffect(() => {
+        const onResize = () => {
+            if (!animationFrameRef.current) {
+                drawWheel(options, rotationRef.current);
+            }
+        };
+        window.addEventListener("resize", onResize);
+        return () => window.removeEventListener("resize", onResize);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [optionsKey, selectedIndex, hoveredIndex, lang]);
 
     useEffect(() => {
         return () => {
@@ -742,66 +761,339 @@ export default function RouletteWheel({
         setCustomInput(t.sampleCustomInput);
     };
 
-    return (
-        <div className="flex flex-col lg:flex-row gap-8 lg:gap-10 items-start">
-            {/* LEFT COLUMN: Roulette Stage */}
-            <div className="w-full lg:w-[440px] flex flex-col items-center shrink-0">
-                <div className="w-full card-glass rounded-3xl p-6 sm:p-7 border border-white/10 shadow-2xl relative overflow-hidden flex flex-col items-center bg-surface/90 backdrop-blur-xl">
-                    {/* Ambient Stage Glow */}
-                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-brand-yellow/10 rounded-full blur-3xl pointer-events-none" />
+    const wheelColumn = (
+        <div
+            className={
+                presenting
+                    ? "w-full flex flex-col items-center"
+                    : "w-full lg:w-[440px] flex flex-col items-center shrink-0"
+            }
+        >
+            <div
+                className={`w-full relative overflow-hidden flex flex-col items-center ${
+                    presenting
+                        ? "p-2"
+                        : "card-glass rounded-3xl p-6 sm:p-7 border border-white/10 shadow-2xl bg-surface/90 backdrop-blur-xl"
+                }`}
+            >
+                {/* Ambient Stage Glow */}
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-brand-yellow/10 rounded-full blur-3xl pointer-events-none" />
 
-                    {/* Stage Header Controls: Peg Count, Auto-Remove & Sound Toggle */}
-                    <div className="w-full flex items-center justify-between pb-3 mb-2 border-b border-white/[0.08] relative z-10 text-xs gap-2">
-                        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-900/90 border border-white/10 text-slate-300 font-semibold truncate">
-                            <span
-                                className={`w-2 h-2 rounded-full shrink-0 ${spinning ? "bg-brand-yellow animate-ping" : "bg-emerald-400"}`}
-                            />
-                            <span className="truncate">
-                                {spinning
-                                    ? t.spinning
-                                    : currentDrawn.length > 0
-                                      ? t.headerAvailableDrawn(
-                                            options.length,
-                                            currentDrawn.length,
-                                        )
-                                      : t.headerOptionsInWheel(options.length)}
+                {/* Stage Header Controls: Peg Count, Auto-Remove & Sound Toggle */}
+                <div className="w-full flex items-center justify-between pb-3 mb-2 border-b border-white/[0.08] relative z-10 text-xs gap-2">
+                    <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-900/90 border border-white/10 text-slate-300 font-semibold truncate">
+                        <span
+                            className={`w-2 h-2 rounded-full shrink-0 ${spinning ? "bg-brand-yellow animate-ping" : "bg-emerald-400"}`}
+                        />
+                        <span className="truncate">
+                            {spinning
+                                ? t.spinning
+                                : currentDrawn.length > 0
+                                  ? t.headerAvailableDrawn(
+                                        options.length,
+                                        currentDrawn.length,
+                                    )
+                                  : t.headerOptionsInWheel(options.length)}
+                        </span>
+                    </div>
+
+                    <div className="flex items-center gap-1.5 shrink-0">
+                        {/* Auto-remove toggle */}
+                        <button
+                            type="button"
+                            onClick={() => setAutoRemove(!autoRemove)}
+                            disabled={spinning}
+                            title={
+                                autoRemove
+                                    ? t.autoRemoveTitleOn
+                                    : t.autoRemoveTitleOff
+                            }
+                            className={`px-2 py-1 rounded-lg border text-xs font-semibold flex items-center gap-1 transition-all ${
+                                autoRemove
+                                    ? "bg-brand-yellow/15 text-brand-yellow border-brand-yellow/40"
+                                    : "bg-slate-950/70 text-slate-500 border-white/10"
+                            }`}
+                        >
+                            <span className="text-[10px]">🎯</span>
+                            <span className="hidden sm:inline text-[11px]">
+                                {autoRemove ? t.autoRemove : t.noRemove}
                             </span>
+                        </button>
+
+                        {/* Standard Shuffle button with clean intersecting arrows icon */}
+                        <button
+                            type="button"
+                            onClick={shuffleOptions}
+                            disabled={spinning || options.length < 2}
+                            title={t.shuffleTitle}
+                            className="p-1.5 rounded-lg bg-slate-900/80 hover:bg-slate-800 text-slate-300 hover:text-brand-yellow border border-white/10 transition-all disabled:opacity-40 flex items-center justify-center"
+                        >
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                className="w-4 h-4"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                            >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    d="M16 3h5v5M4 20L21 3M21 16v5h-5M15 15l6 6M4 4l5 5"
+                                />
+                            </svg>
+                        </button>
+
+                        {/* Sound Toggle */}
+                        <button
+                            type="button"
+                            onClick={() => setSoundEnabled(!soundEnabled)}
+                            className={`px-2 py-1 rounded-lg border text-xs font-semibold flex items-center gap-1 transition-all ${
+                                soundEnabled
+                                    ? "bg-slate-900/90 text-brand-yellow border-brand-yellow/30"
+                                    : "bg-slate-950/70 text-slate-500 border-white/10"
+                            }`}
+                        >
+                            <span>{soundEnabled ? "🔊" : "🔇"}</span>
+                            <span className="hidden sm:inline">
+                                {soundEnabled ? t.sound : t.mute}
+                            </span>
+                        </button>
+                    </div>
+                </div>
+
+                {/* Wheel Canvas Wrapper with Confetti Overlay */}
+                <div
+                    className={`relative w-full aspect-square flex items-center justify-center my-2 ${
+                        presenting
+                            ? "max-w-[max(16rem,min(88vw,calc(100vh_-_17rem)))]"
+                            : "max-w-[340px] sm:max-w-[370px]"
+                    }`}
+                >
+                    {/* Confetti Particle Canvas */}
+                    <canvas
+                        ref={confettiCanvasRef}
+                        className="absolute inset-0 w-full h-full pointer-events-none z-30"
+                    />
+
+                    {/* Interactive Golden Needle Pointer (12 o'clock) with dynamic physical wobble */}
+                    <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 z-20 pointer-events-none flex flex-col items-center">
+                        <div
+                            className={`w-7 h-10 filter drop-shadow-[0_4px_12px_rgba(250,204,21,0.7)] transition-transform duration-75 origin-top ${
+                                needleWobble
+                                    ? "-rotate-12 scale-110"
+                                    : "rotate-0 scale-100"
+                            }`}
+                        >
+                            <svg
+                                viewBox="0 0 24 36"
+                                className="w-full h-full fill-brand-yellow"
+                            >
+                                <path d="M12 36L2 10C0 5 4 0 9 0H15C20 0 24 5 22 10L12 36Z" />
+                                <circle
+                                    cx="12"
+                                    cy="10"
+                                    r="4.5"
+                                    fill="#080D1A"
+                                />
+                                <circle
+                                    cx="12"
+                                    cy="10"
+                                    r="2.5"
+                                    fill="#FACC15"
+                                />
+                            </svg>
                         </div>
+                    </div>
 
-                        <div className="flex items-center gap-1.5 shrink-0">
-                            {/* Auto-remove toggle */}
-                            <button
-                                type="button"
-                                onClick={() => setAutoRemove(!autoRemove)}
-                                disabled={spinning}
-                                title={
-                                    autoRemove
-                                        ? t.autoRemoveTitleOn
-                                        : t.autoRemoveTitleOff
-                                }
-                                className={`px-2 py-1 rounded-lg border text-xs font-semibold flex items-center gap-1 transition-all ${
-                                    autoRemove
-                                        ? "bg-brand-yellow/15 text-brand-yellow border-brand-yellow/40"
-                                        : "bg-slate-950/70 text-slate-500 border-white/10"
-                                }`}
+                    {/* Interactive Canvas */}
+                    <canvas
+                        ref={canvasRef}
+                        width={CANVAS_SIZE}
+                        height={CANVAS_SIZE}
+                        className="w-full h-full rounded-full cursor-pointer transition-transform hover:scale-[1.01]"
+                        onClick={spinRoulette}
+                        onMouseMove={handleCanvasMouseMove}
+                        onMouseLeave={handleCanvasMouseLeave}
+                        title={t.clickToSpin}
+                    />
+
+                    {/* Floating Tooltip when hovering over a slice on desktop */}
+                    {hoveredIndex !== null &&
+                        !spinning &&
+                        options[hoveredIndex] && (
+                            <div className="absolute -bottom-2 left-2 right-2 z-30 pointer-events-none transition-all duration-200 animate-fade-in">
+                                <div className="card-glass rounded-xl p-3 border border-brand-yellow/60 bg-bg/95 backdrop-blur-xl shadow-2xl flex items-start gap-2.5">
+                                    <span className="w-5 h-5 rounded-md bg-brand-yellow text-slate-950 font-bold text-[10px] flex items-center justify-center shrink-0 mt-0.5 shadow-sm">
+                                        #{hoveredIndex + 1}
+                                    </span>
+                                    <p className="text-xs text-white font-medium leading-relaxed">
+                                        {options[hoveredIndex]}
+                                    </p>
+                                </div>
+                            </div>
+                        )}
+                </div>
+
+                <p className="text-[11px] text-slate-400 mt-1 mb-2 font-medium">
+                    {t.hintSpin}
+                </p>
+
+                {/* Primary Spin Button */}
+                <button
+                    type="button"
+                    onClick={spinRoulette}
+                    disabled={options.length < 2 || spinning}
+                    className="w-full py-3.5 px-6 rounded-xl font-display font-extrabold text-slate-950 text-base bg-gradient-to-r from-brand-yellow via-amber-300 to-brand-yellow hover:from-amber-300 hover:to-brand-yellow shadow-lg shadow-brand-yellow/25 hover:shadow-brand-yellow/40 hover:-translate-y-0.5 active:translate-y-0 transition-all flex items-center justify-center gap-2.5 disabled:opacity-40 disabled:pointer-events-none disabled:hover:translate-y-0 disabled:shadow-none"
+                >
+                    {spinning ? (
+                        <>
+                            <svg
+                                className="animate-spin -ml-1 mr-2 h-5 w-5 text-slate-950"
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
                             >
-                                <span className="text-[10px]">🎯</span>
-                                <span className="hidden sm:inline text-[11px]">
-                                    {autoRemove ? t.autoRemove : t.noRemove}
+                                <circle
+                                    className="opacity-25"
+                                    cx="12"
+                                    cy="12"
+                                    r="10"
+                                    stroke="currentColor"
+                                    strokeWidth="4"
+                                />
+                                <path
+                                    className="opacity-75"
+                                    fill="currentColor"
+                                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                                />
+                            </svg>
+                            <span>{t.spinningButton}</span>
+                        </>
+                    ) : (
+                        <>
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                className="w-5 h-5"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                                strokeWidth="2.5"
+                            >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+                                />
+                            </svg>
+                            <span>{t.spinButton}</span>
+                        </>
+                    )}
+                </button>
+
+                {!presenting && (
+                    <button
+                        type="button"
+                        onClick={() => setPresenting(true)}
+                        className="w-full mt-2.5 py-2.5 px-4 rounded-xl text-xs font-bold text-slate-200 border border-white/15 hover:border-brand-yellow/40 transition-all flex items-center justify-center gap-2"
+                    >
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="w-4 h-4 text-brand-yellow"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            aria-hidden="true"
+                        >
+                            <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M4 8V4h4M20 8V4h-4M4 16v4h4M20 16v4h-4"
+                            />
+                        </svg>
+                        <span>{t.present}</span>
+                    </button>
+                )}
+
+                {/* Reset button when options are exhausted */}
+                {options.length < 2 && currentDrawn.length > 0 && (
+                    <button
+                        type="button"
+                        onClick={resetDrawnForCurrent}
+                        className="w-full mt-2.5 py-2.5 px-4 rounded-xl text-xs font-bold text-brand-yellow bg-brand-yellow/10 hover:bg-brand-yellow/20 border border-brand-yellow/30 transition-all flex items-center justify-center gap-2"
+                    >
+                        <span>🔄</span>
+                        <span>{t.resetDrawnCount(currentDrawn.length)}</span>
+                    </button>
+                )}
+            </div>
+        </div>
+    );
+
+    const resultCard =
+        winnerResult && !spinning ? (
+            <div className="card-glass rounded-2xl p-6 sm:p-7 border border-brand-yellow/50 bg-gradient-to-br from-brand-yellow/15 via-surface to-brand-discord/10 shadow-2xl relative overflow-hidden animate-fade-in">
+                <div className="flex items-center justify-between gap-2 mb-3">
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-brand-yellow text-slate-950 text-xs font-black tracking-wide uppercase shadow-sm">
+                        <span>🎉</span>
+                        <span>{t.topicSelected}</span>
+                    </span>
+                    <div className="flex items-center gap-2">
+                        {winnerResult.isRetired ? (
+                            <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
+                                <span>✓</span>
+                                <span>{t.removedFromWheel}</span>
+                            </span>
+                        ) : (
+                            <span className="text-xs text-brand-yellow/80 font-mono">
+                                {t.optionOfTotal(
+                                    winnerResult.optionNumber,
+                                    winnerResult.totalAtSpin,
+                                )}
+                            </span>
+                        )}
+                    </div>
+                </div>
+
+                <p
+                    className={`font-display font-extrabold text-white leading-relaxed my-4 ${
+                        presenting
+                            ? "text-3xl sm:text-4xl"
+                            : "text-xl sm:text-2xl"
+                    }`}
+                >
+                    “{winnerResult.text}”
+                </p>
+
+                <p className="text-xs text-slate-400 font-medium mb-4">
+                    {options.length >= 2 ? (
+                        <span>{t.remainingPlural(options.length)}</span>
+                    ) : options.length === 1 ? (
+                        <span>{t.remainingSingular}</span>
+                    ) : (
+                        <span>🎉 {t.completedAll}</span>
+                    )}
+                </p>
+
+                <div className="flex flex-wrap items-center gap-3 pt-4 border-t border-white/10">
+                    <button
+                        type="button"
+                        onClick={copyToClipboard}
+                        className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-900/80 hover:bg-slate-800 text-white text-xs font-bold border border-white/15 hover:border-brand-yellow/40 transition-all shadow-md"
+                    >
+                        {copied ? (
+                            <>
+                                <span className="text-emerald-400">✓</span>
+                                <span className="text-emerald-300">
+                                    {t.copiedNotice}
                                 </span>
-                            </button>
-
-                            {/* Standard Shuffle button with clean intersecting arrows icon */}
-                            <button
-                                type="button"
-                                onClick={shuffleOptions}
-                                disabled={spinning || options.length < 2}
-                                title={t.shuffleTitle}
-                                className="p-1.5 rounded-lg bg-slate-900/80 hover:bg-slate-800 text-slate-300 hover:text-brand-yellow border border-white/10 transition-all disabled:opacity-40 flex items-center justify-center"
-                            >
+                            </>
+                        ) : (
+                            <>
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
-                                    className="w-4 h-4"
+                                    className="w-4 h-4 text-brand-yellow"
                                     fill="none"
                                     viewBox="0 0 24 24"
                                     stroke="currentColor"
@@ -810,281 +1102,93 @@ export default function RouletteWheel({
                                     <path
                                         strokeLinecap="round"
                                         strokeLinejoin="round"
-                                        d="M16 3h5v5M4 20L21 3M21 16v5h-5M15 15l6 6M4 4l5 5"
+                                        d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"
                                     />
                                 </svg>
-                            </button>
-
-                            {/* Sound Toggle */}
-                            <button
-                                type="button"
-                                onClick={() => setSoundEnabled(!soundEnabled)}
-                                className={`px-2 py-1 rounded-lg border text-xs font-semibold flex items-center gap-1 transition-all ${
-                                    soundEnabled
-                                        ? "bg-slate-900/90 text-brand-yellow border-brand-yellow/30"
-                                        : "bg-slate-950/70 text-slate-500 border-white/10"
-                                }`}
-                            >
-                                <span>{soundEnabled ? "🔊" : "🔇"}</span>
-                                <span className="hidden sm:inline">
-                                    {soundEnabled ? t.sound : t.mute}
-                                </span>
-                            </button>
-                        </div>
-                    </div>
-
-                    {/* Wheel Canvas Wrapper with Confetti Overlay */}
-                    <div className="relative w-full max-w-[340px] sm:max-w-[370px] aspect-square flex items-center justify-center my-2">
-                        {/* Confetti Particle Canvas */}
-                        <canvas
-                            ref={confettiCanvasRef}
-                            className="absolute inset-0 w-full h-full pointer-events-none z-30"
-                        />
-
-                        {/* Interactive Golden Needle Pointer (12 o'clock) with dynamic physical wobble */}
-                        <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 z-20 pointer-events-none flex flex-col items-center">
-                            <div
-                                className={`w-7 h-10 filter drop-shadow-[0_4px_12px_rgba(250,204,21,0.7)] transition-transform duration-75 origin-top ${
-                                    needleWobble
-                                        ? "-rotate-12 scale-110"
-                                        : "rotate-0 scale-100"
-                                }`}
-                            >
-                                <svg
-                                    viewBox="0 0 24 36"
-                                    className="w-full h-full fill-brand-yellow"
-                                >
-                                    <path d="M12 36L2 10C0 5 4 0 9 0H15C20 0 24 5 22 10L12 36Z" />
-                                    <circle
-                                        cx="12"
-                                        cy="10"
-                                        r="4.5"
-                                        fill="#080D1A"
-                                    />
-                                    <circle
-                                        cx="12"
-                                        cy="10"
-                                        r="2.5"
-                                        fill="#FACC15"
-                                    />
-                                </svg>
-                            </div>
-                        </div>
-
-                        {/* Interactive Canvas */}
-                        <canvas
-                            ref={canvasRef}
-                            width={CANVAS_SIZE}
-                            height={CANVAS_SIZE}
-                            className="w-full h-full rounded-full cursor-pointer transition-transform hover:scale-[1.01]"
-                            onClick={spinRoulette}
-                            onMouseMove={handleCanvasMouseMove}
-                            onMouseLeave={handleCanvasMouseLeave}
-                            title={t.clickToSpin}
-                        />
-
-                        {/* Floating Tooltip when hovering over a slice on desktop */}
-                        {hoveredIndex !== null &&
-                            !spinning &&
-                            options[hoveredIndex] && (
-                                <div className="absolute -bottom-2 left-2 right-2 z-30 pointer-events-none transition-all duration-200 animate-fade-in">
-                                    <div className="card-glass rounded-xl p-3 border border-brand-yellow/60 bg-bg/95 backdrop-blur-xl shadow-2xl flex items-start gap-2.5">
-                                        <span className="w-5 h-5 rounded-md bg-brand-yellow text-slate-950 font-bold text-[10px] flex items-center justify-center shrink-0 mt-0.5 shadow-sm">
-                                            #{hoveredIndex + 1}
-                                        </span>
-                                        <p className="text-xs text-white font-medium leading-relaxed">
-                                            {options[hoveredIndex]}
-                                        </p>
-                                    </div>
-                                </div>
-                            )}
-                    </div>
-
-                    <p className="text-[11px] text-slate-400 mt-1 mb-2 font-medium">
-                        {t.hintSpin}
-                    </p>
-
-                    {/* Primary Spin Button */}
-                    <button
-                        type="button"
-                        onClick={spinRoulette}
-                        disabled={options.length < 2 || spinning}
-                        className="w-full py-3.5 px-6 rounded-xl font-display font-extrabold text-slate-950 text-base bg-gradient-to-r from-brand-yellow via-amber-300 to-brand-yellow hover:from-amber-300 hover:to-brand-yellow shadow-lg shadow-brand-yellow/25 hover:shadow-brand-yellow/40 hover:-translate-y-0.5 active:translate-y-0 transition-all flex items-center justify-center gap-2.5 disabled:opacity-40 disabled:pointer-events-none disabled:hover:translate-y-0 disabled:shadow-none"
-                    >
-                        {spinning ? (
-                            <>
-                                <svg
-                                    className="animate-spin -ml-1 mr-2 h-5 w-5 text-slate-950"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                >
-                                    <circle
-                                        className="opacity-25"
-                                        cx="12"
-                                        cy="12"
-                                        r="10"
-                                        stroke="currentColor"
-                                        strokeWidth="4"
-                                    />
-                                    <path
-                                        className="opacity-75"
-                                        fill="currentColor"
-                                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                                    />
-                                </svg>
-                                <span>{t.spinningButton}</span>
-                            </>
-                        ) : (
-                            <>
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    className="w-5 h-5"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                    strokeWidth="2.5"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
-                                    />
-                                </svg>
-                                <span>{t.spinButton}</span>
+                                <span>{t.copyButton}</span>
                             </>
                         )}
                     </button>
 
-                    {/* Reset button when options are exhausted */}
-                    {options.length < 2 && currentDrawn.length > 0 && (
+                    {options.length >= 2 ? (
+                        <button
+                            type="button"
+                            onClick={spinRoulette}
+                            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-brand-yellow/15 hover:bg-brand-yellow/25 text-brand-yellow text-xs font-bold border border-brand-yellow/30 transition-all"
+                        >
+                            <span>{t.spinAgain}</span>
+                            <span>↻</span>
+                        </button>
+                    ) : (
                         <button
                             type="button"
                             onClick={resetDrawnForCurrent}
-                            className="w-full mt-2.5 py-2.5 px-4 rounded-xl text-xs font-bold text-brand-yellow bg-brand-yellow/10 hover:bg-brand-yellow/20 border border-brand-yellow/30 transition-all flex items-center justify-center gap-2"
+                            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-brand-yellow text-slate-950 text-xs font-extrabold hover:bg-amber-300 transition-all shadow-md"
                         >
+                            <span>{t.resetOptions}</span>
                             <span>🔄</span>
-                            <span>
-                                {t.resetDrawnCount(currentDrawn.length)}
-                            </span>
+                        </button>
+                    )}
+
+                    {winnerResult.isRetired && (
+                        <button
+                            type="button"
+                            onClick={() => returnOption(winnerResult.text)}
+                            className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-slate-900/60 hover:bg-slate-800 text-slate-400 hover:text-white text-xs font-medium border border-white/10 transition-all"
+                            title="Devolver esta opción a la ruleta"
+                        >
+                            <span>↺</span>
+                            <span>{t.keepInWheel}</span>
                         </button>
                     )}
                 </div>
             </div>
+        ) : null;
+
+    if (presenting) {
+        return (
+            <ActivityStage
+                label={t.presentLabel}
+                onClose={() => setPresenting(false)}
+            >
+                <div className="flex items-center justify-between gap-4">
+                    <button
+                        type="button"
+                        onClick={() => setPresenting(false)}
+                        className="border border-white/15 text-slate-200 font-bold px-5 py-2.5 rounded-xl text-sm hover:border-brand-yellow/40 transition"
+                    >
+                        {t.exitPresent}
+                    </button>
+                    <span className="text-sm font-bold text-slate-300 truncate">
+                        {mode === "preset"
+                            ? (t.presetNames[selectedPresetId] ??
+                              currentPreset?.name)
+                            : t.tabFree}
+                    </span>
+                </div>
+                <div className="grid w-full flex-1 items-center gap-8 py-6 lg:grid-cols-2">
+                    {wheelColumn}
+                    <div className="w-full">
+                        {resultCard ?? (
+                            <p className="text-center text-xl font-semibold text-slate-400 lg:text-left">
+                                {t.presentIdle}
+                            </p>
+                        )}
+                    </div>
+                </div>
+            </ActivityStage>
+        );
+    }
+
+    return (
+        <div className="flex flex-col lg:flex-row gap-8 lg:gap-10 items-start">
+            {/* LEFT COLUMN: Roulette Stage */}
+            {wheelColumn}
 
             {/* RIGHT COLUMN: Mode Selector, Presets & Live Result */}
             <div className="flex-1 w-full space-y-6">
                 {/* Result Card (Celebratory reveal when wheel finishes) */}
-                {winnerResult && !spinning && (
-                    <div className="card-glass rounded-2xl p-6 sm:p-7 border border-brand-yellow/50 bg-gradient-to-br from-brand-yellow/15 via-surface to-brand-discord/10 shadow-2xl relative overflow-hidden animate-fade-in">
-                        <div className="flex items-center justify-between gap-2 mb-3">
-                            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-brand-yellow text-slate-950 text-xs font-black tracking-wide uppercase shadow-sm">
-                                <span>🎉</span>
-                                <span>{t.topicSelected}</span>
-                            </span>
-                            <div className="flex items-center gap-2">
-                                {winnerResult.isRetired ? (
-                                    <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
-                                        <span>✓</span>
-                                        <span>{t.removedFromWheel}</span>
-                                    </span>
-                                ) : (
-                                    <span className="text-xs text-brand-yellow/80 font-mono">
-                                        {t.optionOfTotal(
-                                            winnerResult.optionNumber,
-                                            winnerResult.totalAtSpin,
-                                        )}
-                                    </span>
-                                )}
-                            </div>
-                        </div>
-
-                        <p className="font-display text-xl sm:text-2xl font-extrabold text-white leading-relaxed my-4">
-                            “{winnerResult.text}”
-                        </p>
-
-                        <p className="text-xs text-slate-400 font-medium mb-4">
-                            {options.length >= 2 ? (
-                                <span>{t.remainingPlural(options.length)}</span>
-                            ) : options.length === 1 ? (
-                                <span>{t.remainingSingular}</span>
-                            ) : (
-                                <span>🎉 {t.completedAll}</span>
-                            )}
-                        </p>
-
-                        <div className="flex flex-wrap items-center gap-3 pt-4 border-t border-white/10">
-                            <button
-                                type="button"
-                                onClick={copyToClipboard}
-                                className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-900/80 hover:bg-slate-800 text-white text-xs font-bold border border-white/15 hover:border-brand-yellow/40 transition-all shadow-md"
-                            >
-                                {copied ? (
-                                    <>
-                                        <span className="text-emerald-400">
-                                            ✓
-                                        </span>
-                                        <span className="text-emerald-300">
-                                            {t.copiedNotice}
-                                        </span>
-                                    </>
-                                ) : (
-                                    <>
-                                        <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            className="w-4 h-4 text-brand-yellow"
-                                            fill="none"
-                                            viewBox="0 0 24 24"
-                                            stroke="currentColor"
-                                            strokeWidth="2"
-                                        >
-                                            <path
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                                d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"
-                                            />
-                                        </svg>
-                                        <span>{t.copyButton}</span>
-                                    </>
-                                )}
-                            </button>
-
-                            {options.length >= 2 ? (
-                                <button
-                                    type="button"
-                                    onClick={spinRoulette}
-                                    className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-brand-yellow/15 hover:bg-brand-yellow/25 text-brand-yellow text-xs font-bold border border-brand-yellow/30 transition-all"
-                                >
-                                    <span>{t.spinAgain}</span>
-                                    <span>↻</span>
-                                </button>
-                            ) : (
-                                <button
-                                    type="button"
-                                    onClick={resetDrawnForCurrent}
-                                    className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-brand-yellow text-slate-950 text-xs font-extrabold hover:bg-amber-300 transition-all shadow-md"
-                                >
-                                    <span>{t.resetOptions}</span>
-                                    <span>🔄</span>
-                                </button>
-                            )}
-
-                            {winnerResult.isRetired && (
-                                <button
-                                    type="button"
-                                    onClick={() =>
-                                        returnOption(winnerResult.text)
-                                    }
-                                    className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-slate-900/60 hover:bg-slate-800 text-slate-400 hover:text-white text-xs font-medium border border-white/10 transition-all"
-                                    title="Devolver esta opción a la ruleta"
-                                >
-                                    <span>↺</span>
-                                    <span>{t.keepInWheel}</span>
-                                </button>
-                            )}
-                        </div>
-                    </div>
-                )}
+                {resultCard}
 
                 {/* Mode Selector Tabs */}
                 <div className="card-glass rounded-2xl p-6 sm:p-7 border border-white/10 bg-surface/80">
