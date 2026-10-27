@@ -179,7 +179,7 @@ Los avatares llevan borde neutro (`border-white/25`), nunca amarillo; el fondo a
 
 ### 6.1 Identidad de marca: la mascota
 
-Mapache/gato peludo con taza de café y expresión _grumpy_. Masters en `src/assets/brand/` (`chamba-mark`, `-awake`, `-mono` con `currentColor`, `-sticker`, `chamba-tile`, `chamba-lockup-dark`, `chamba-lockup-light`). Se conservan los `id` de capa (`body`, `face`, `sheen`) para tematizar con CSS. Avatares 1024 de Discord/GitHub en `brand/discord/` (solo referencia).
+Rakim: mapache/gato peludo con taza de café y expresión _grumpy_. La identidad visual tiene todos los derechos reservados, distinta del código MIT (ver [`LICENSE-ASSETS.md`](./LICENSE-ASSETS.md)). Masters en `src/assets/brand/` (`chamba-mark`, `-awake`, `-mono` con `currentColor`, `-sticker`, `chamba-tile`, `chamba-lockup-dark`, `chamba-lockup-light`). Se conservan los `id` de capa (`body`, `face`, `sheen`) para tematizar con CSS. Avatares 1024 de Discord/GitHub en `brand/discord/` (solo referencia).
 
 **Reglas de uso**
 

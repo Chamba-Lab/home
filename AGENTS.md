@@ -95,6 +95,7 @@ GitHub Actions. En cada PR a `master` corre `PR Checks` (`Lint, Test & Build`, o
 | [docs/project.md](./docs/project.md)                     | Propósito, perfiles, horizontes y roadmap                          |
 | [docs/decisions.md](./docs/decisions.md)                 | Decisiones clave y su porqué                                       |
 | [CODE_OF_CONDUCT.md](./CODE_OF_CONDUCT.md)               | Normas de la comunidad                                             |
+| [LICENSE-ASSETS.md](./LICENSE-ASSETS.md)                 | Licencia de la identidad visual (código MIT; marca reservada)      |
 | [CHANGELOG.md](./CHANGELOG.md)                           | Historial de versiones (generado, no se edita a mano)              |
 
 Comunidad: [Discord](https://chambalab.org/discord) · Código y issues: [GitHub](https://github.com/Chamba-Lab/home).

@@ -5,7 +5,7 @@
 > **Connect. Inspire. Grow.**  
 > *Comunidad tech para conectar, inspirarte y crecer.*
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-indigo.svg)](./LICENSE)
+[![Code: MIT](https://img.shields.io/badge/Code-MIT-indigo.svg)](./LICENSE)
 [![CI/CD Status](https://github.com/Chamba-Lab/home/actions/workflows/master-pipeline.yml/badge.svg)](https://github.com/Chamba-Lab/home/actions)
 [![Astro](https://img.shields.io/badge/Astro-7.x-BC52EE.svg)](https://astro.build)
 [![TailwindCSS](https://img.shields.io/badge/Tailwind-4.x-38B2AC.svg)](https://tailwindcss.com)
@@ -110,9 +110,15 @@ Avanzar por cuenta propia tiene mérito; en comunidad multiplicas tus posibilida
 
 ---
 
-## 📄 Licencia
+## 📄 Licencia y uso de la marca
 
-Este proyecto está bajo la Licencia MIT. Consulta el archivo [`LICENSE`](./LICENSE) para más detalles.
+- **Código**: licencia MIT (ver [`LICENSE`](./LICENSE)).
+- **Identidad visual** (logo, mascota Rakim, avatares, imagen OG, favicons):
+  todos los derechos reservados. El equipo de Chamba Lab puede usarla;
+  terceros necesitan permiso. Detalle en [`LICENSE-ASSETS.md`](./LICENSE-ASSETS.md).
+- **Nombre**: «Chamba Lab» y «Rakim» no están registrados como marca; no los
+  uses para sugerir que tu proyecto es oficial. Si haces un fork, cambia la
+  identidad visual por la tuya.
 
 ---
 <p align="center">Hecho con ❤️ por la comunidad de Chamba Lab</p>
