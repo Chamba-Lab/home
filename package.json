@@ -3,7 +3,7 @@
     "type": "module",
     "version": "0.51.1",
     "description": "Chamba Lab: public site of the tech community",
-    "license": "MIT",
+    "license": "SEE LICENSE IN LICENSE",
     "engines": {
         "node": ">=22.23.4"
     },
