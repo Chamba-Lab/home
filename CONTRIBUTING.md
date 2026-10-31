@@ -86,7 +86,7 @@ Un PDF exportado desde Chrome ("Guardar como PDF") pesa decenas de MB y se traba
 python scripts/optimize-manual-pdf.py entrada.pdf public/manuals/<id>.pdf
 ```
 
-Rasteriza cada página a JPEG, conserva el texto como capa invisible (se sigue pudiendo seleccionar) y los enlaces, y falla si el texto de la salida no coincide con el de la entrada. No dejes el PDF original dentro de `public/`: se publicaría con el sitio.
+Rasteriza cada página a JPEG, conserva el texto como capa invisible (se sigue pudiendo seleccionar) y los enlaces, y falla si el texto de la salida no coincide con el de la entrada. `pymupdf` es AGPL-3.0 (o licencia comercial de Artifex): se usa solo como herramienta local de quien genera el manual, no se distribuye con el sitio ni es dependencia de `package.json`, y el PDF resultante no queda cubierto por su licencia. No dejes el PDF original dentro de `public/`: se publicaría con el sitio.
 
 ### Añadir un recurso
 
