@@ -1,0 +1,28 @@
+[
+    {
+        "id": "spec-driven-development",
+        "number": 2,
+        "title": {
+            "es": "Spec-Driven Development",
+            "en": "Spec-Driven Development"
+        },
+        "description": {
+            "es": "Deja de pedirle a la IA que adivine: dale una spec.",
+            "en": "Stop asking AI to guess: give it a spec."
+        },
+        "technology": "Spec Kit v1.2.5 · Kiro"
+    },
+    {
+        "id": "micrometer-observability",
+        "number": 1,
+        "title": {
+            "es": "Observabilidad: métricas con Micrometer",
+            "en": "Observability: metrics with Micrometer"
+        },
+        "description": {
+            "es": "De logs con milisegundos a métricas que puedes consultar, graficar y alertar.",
+            "en": "From logs with milliseconds to metrics you can query, graph and alert on."
+        },
+        "technology": "Micrometer 1.17 · Spring Boot 4.1"
+    }
+]

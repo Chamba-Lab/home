@@ -1,0 +1,171 @@
+---
+// Tarjeta de un manual propio: toda la tarjeta abre el PDF en otra pestaña, sin
+// visor propio. La misma estructura cambia de disposición con el ancho: en
+// móvil, portada pequeña junto al título; desde `sm`, portada grande a un lado.
+// `data-resource-card` la suma al buscador general de /resources.
+import { Image } from "astro:assets";
+import { manualFormatLabel, manualNumberLabel } from "../lib/manuals";
+import type { Manual } from "../lib/manuals-data";
+
+interface Props {
+    manual: Manual;
+    headingLevel?: 2 | 3;
+}
+
+const { manual, headingLevel = 2 } = Astro.props;
+const Heading = `h${headingLevel}`;
+---
+
+<a
+    href={manual.pdfPath}
+    target="_blank"
+    rel="noopener"
+    data-resource-card
+    class="manual-card group rounded-2xl border border-white/8 transition-all duration-300 hover:-translate-y-0.5 hover:border-brand-yellow/50"
+>
+    <Image
+        src={manual.cover}
+        alt=""
+        widths={[184, 392]}
+        sizes="(min-width: 640px) 196px, 92px"
+        class="manual-cover border border-white/10"
+    />
+    <div class="manual-heading">
+        <p
+            class="mb-1.5 font-mono text-[11px] leading-[14px] font-medium text-slate-400 sm:mb-2"
+            data-search-field
+        >
+            {manualNumberLabel(manual.number)}
+        </p>
+        <Heading
+            class="font-display text-lg leading-6 font-bold text-white transition-colors group-hover:text-brand-yellow sm:text-xl sm:leading-[26px]"
+            data-search-field
+            data-i18n-es={manual.title.es}
+            data-i18n-en={manual.title.en}
+        >
+            {manual.title.es}
+        </Heading>
+    </div>
+    <p
+        class="manual-description text-sm leading-[21px] text-slate-400"
+        data-search-field
+        data-i18n-es={manual.description.es}
+        data-i18n-en={manual.description.en}
+    >
+        {manual.description.es}
+    </p>
+    <p class="manual-technology">
+        <span
+            class="inline-block rounded-full border border-white/10 bg-white/5 px-2.5 py-[5px] text-[11px] leading-[14px] font-semibold text-slate-300"
+            data-search-field
+        >
+            {manual.technology}
+        </span>
+    </p>
+    <div class="manual-action flex items-center gap-1.5 border-t border-white/8 pt-3.5 sm:border-t-0 sm:pt-0">
+        <span
+            class="text-sm leading-4 font-bold text-brand-yellow sm:text-xs"
+            data-i18n-es="Abrir manual"
+            data-i18n-en="Open manual"
+        >
+            Abrir manual
+        </span>
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-3.5 w-3.5 text-brand-yellow"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+        >
+            <path d="M7 17 17 7M8 7h9v9"></path>
+        </svg>
+        <span
+            class="sr-only"
+            data-i18n-es="(PDF, se abre en otra pestaña)"
+            data-i18n-en="(PDF, opens in a new tab)"
+        >
+            (PDF, se abre en otra pestaña)
+        </span>
+        <span
+            class="ml-auto text-xs leading-4 whitespace-nowrap text-slate-400"
+            data-i18n-es={manualFormatLabel(manual.bytes, "es")}
+            data-i18n-en={manualFormatLabel(manual.bytes, "en")}
+        >
+            {manualFormatLabel(manual.bytes, "es")}
+        </span>
+    </div>
+</a>
+
+<style>
+    .manual-card {
+        display: grid;
+        grid-template-columns: 92px minmax(0, 1fr);
+        grid-template-areas:
+            "cover heading"
+            "description description"
+            "technology technology"
+            "action action";
+        gap: 14px;
+        padding: 15px; /* 16 px con el borde, como en el diseño */
+        background: #0d1424;
+        box-shadow: 0 12px 24px -6px rgb(0 0 0 / 0.35);
+    }
+
+    .manual-cover {
+        grid-area: cover;
+        width: 92px;
+        height: 92px;
+        border-radius: 7px;
+    }
+
+    .manual-heading {
+        grid-area: heading;
+    }
+
+    .manual-description {
+        grid-area: description;
+    }
+
+    .manual-technology {
+        grid-area: technology;
+    }
+
+    .manual-action {
+        grid-area: action;
+    }
+
+    @media (min-width: 640px) {
+        .manual-card {
+            grid-template-columns: 196px minmax(0, 1fr);
+            grid-template-rows: auto auto auto 1fr;
+            grid-template-areas:
+                "cover heading"
+                "cover description"
+                "cover technology"
+                "cover action";
+            column-gap: 24px;
+            row-gap: 8px;
+            padding: 19px;
+        }
+
+        .manual-cover {
+            width: 196px;
+            height: 196px;
+            border-radius: 13px;
+        }
+
+        .manual-action {
+            align-self: end;
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .manual-card {
+            transition: none;
+        }
+    }
+</style>
