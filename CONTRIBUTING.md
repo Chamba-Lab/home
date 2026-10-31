@@ -78,7 +78,15 @@ Cada feature nueva actualiza [AGENTS.md](./AGENTS.md), y el `README.md`, `DESIGN
 
 ### Añadir un manual de Chamba Lab
 
-Añade su entrada a `src/content/manuals.json` y, con el mismo `id`, el PDF comprimido en `public/manuals/<id>.pdf` y la portada cuadrada (800 px) en `src/assets/manuals/<id>.png`. El peso se calcula del archivo y el build falla si falta alguno.
+Añade su entrada a `src/content/manuals.json` y, con el mismo `id`, el PDF optimizado en `public/manuals/<id>.pdf` y la portada cuadrada (800 px) en `src/assets/manuals/<id>.png`. El peso se calcula del archivo y el build falla si falta alguno.
+
+Un PDF exportado desde Chrome ("Guardar como PDF") pesa decenas de MB y se traba al abrirlo: pásalo antes por el script de optimización (necesita `pip install pymupdf` y, opcionalmente, `qpdf` para linealizar):
+
+```bash
+python scripts/optimize-manual-pdf.py entrada.pdf public/manuals/<id>.pdf
+```
+
+Rasteriza cada página a JPEG, conserva el texto como capa invisible (se sigue pudiendo seleccionar) y los enlaces, y falla si el texto de la salida no coincide con el de la entrada. `pymupdf` es AGPL-3.0 (o licencia comercial de Artifex): se usa solo como herramienta local de quien genera el manual, no se distribuye con el sitio ni es dependencia de `package.json`, y el PDF resultante no queda cubierto por su licencia. No dejes el PDF original dentro de `public/`: se publicaría con el sitio.
 
 ### Añadir un recurso
 
