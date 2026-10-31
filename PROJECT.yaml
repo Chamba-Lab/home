@@ -5,6 +5,6 @@ stack:
     styling: Tailwind CSS 4
     runtime: Node.js >=22.12
 responsibilities:
-    implementation: Codex
+    implementation: Claude
 design:
     events: https://www.figma.com/design/0wjkzIMBAORctHoSEHpR0E/Chamba-Lab?node-id=45-326

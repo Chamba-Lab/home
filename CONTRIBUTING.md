@@ -76,6 +76,10 @@ Cada feature nueva actualiza [AGENTS.md](./AGENTS.md), y el `README.md`, `DESIGN
 
 ## Contenido
 
+### Añadir un manual de Chamba Lab
+
+Añade su entrada a `src/content/manuals.json` y, con el mismo `id`, el PDF comprimido en `public/manuals/<id>.pdf` y la portada cuadrada (800 px) en `src/assets/manuals/<id>.png`. El peso se calcula del archivo y el build falla si falta alguno.
+
 ### Añadir un recurso
 
 Edita `src/content/resources.json` con `id`, `title`, `description` (`en` y `es`), `url`, `category` y `access`.

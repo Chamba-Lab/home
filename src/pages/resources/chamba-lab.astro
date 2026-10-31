@@ -1,0 +1,77 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import ManualCard from "../../components/ManualCard.astro";
+import ResourceSection from "../../components/ResourceSection.astro";
+import { CHAMBA_LAB_PATH } from "../../lib/manuals";
+import { loadManuals } from "../../lib/manuals-data";
+
+const manuals = await loadManuals();
+---
+
+<Layout
+    title="De Chamba Lab: manuales de tecnología | Chamba Lab"
+    description="Manuales que prepara el equipo de Chamba Lab para aprender tecnología con ejemplos reales y versiones comprobadas. Ábrelos gratis en PDF."
+    breadcrumbs={[
+        { name: "Inicio", path: "/" },
+        { name: "Recursos", path: "/resources/" },
+        { name: "De Chamba Lab", path: CHAMBA_LAB_PATH },
+    ]}
+>
+    <main class="w-full min-w-0 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
+        <div class="max-w-3xl mb-10 sm:mb-14">
+            <a
+                href="/resources/"
+                class="inline-flex items-center gap-1.5 text-[13px] leading-4 font-semibold text-slate-400 hover:text-brand-cream transition-colors mb-6"
+            >
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="w-3.5 h-3.5"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    aria-hidden="true"
+                >
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M10 19l-7-7m0 0l7-7m-7 7h18"
+                    ></path>
+                </svg>
+                <span
+                    data-i18n-es="Todos los recursos"
+                    data-i18n-en="All resources"
+                >
+                    Todos los recursos
+                </span>
+            </a>
+            <h1
+                class="font-display text-4xl sm:text-5xl font-extrabold text-white tracking-tight mb-4"
+                data-i18n-es="De Chamba Lab"
+                data-i18n-en="From Chamba Lab"
+            >
+                De Chamba Lab
+            </h1>
+            <p
+                class="text-lg text-slate-300 leading-relaxed"
+                data-i18n-es="Material que preparamos en el equipo para aprender tecnología con ejemplos reales y versiones comprobadas."
+                data-i18n-en="Material our team prepares for learning technology with real examples and verified versions."
+            >
+                Material que preparamos en el equipo para aprender tecnología
+                con ejemplos reales y versiones comprobadas.
+            </p>
+        </div>
+
+        {manuals.length > 0 && (
+            <ResourceSection
+                label={{ es: "Manuales", en: "Manuals" }}
+                count={manuals.length}
+                columns={2}
+            >
+                {manuals.map((manual) => (
+                    <ManualCard manual={manual} />
+                ))}
+            </ResourceSection>
+        )}
+    </main>
+</Layout>

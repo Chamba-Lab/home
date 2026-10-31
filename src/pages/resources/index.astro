@@ -1,5 +1,7 @@
 ---
 import Layout from "../../layouts/Layout.astro";
+import ChambaLabEntry from "../../components/ChambaLabEntry.astro";
+import ManualCard from "../../components/ManualCard.astro";
 import ResourceCard from "../../components/ResourceCard.astro";
 import ResourceSection from "../../components/ResourceSection.astro";
 import CategoryCard from "../../components/CategoryCard.astro";
@@ -13,7 +15,9 @@ import {
     groupByCategory,
     groupByFormat,
 } from "../../lib/resources";
+import { loadManuals } from "../../lib/manuals-data";
 
+const manuals = await loadManuals();
 const resources = (await getCollection("resources")).map((r) => r.data);
 const groups = groupByCategory(resources);
 // Resultados de búsqueda separados por formato, como en cada categoría, y en
@@ -41,17 +45,19 @@ const sections = groupByFormat(groups.flatMap(({ items }) => items));
                 class="text-lg text-slate-300 leading-relaxed"
                 data-i18n="resourcesIntro"
             >
-                Una selección de guías, plataformas de práctica y plantillas que
-                la comunidad recomienda.
+                Material propio y una selección de guías, plataformas de
+                práctica y plantillas que la comunidad recomienda.
             </p>
         </div>
 
-        <div class="mb-12">
+        <div class="mb-8 sm:mb-10">
             <ResourceSearch
                 placeholderEs="Buscar en todos los recursos..."
                 placeholderEn="Search all resources..."
             />
         </div>
+
+        <ChambaLabEntry manuals={manuals} />
 
         <!-- Categorías: cada una lleva a su listado -->
         <div
@@ -66,6 +72,17 @@ const sections = groupByFormat(groups.flatMap(({ items }) => items));
         <!-- Resultados de búsqueda: todos los recursos por formato, ocultos
              hasta buscar. El buscador oculta las secciones sin coincidencias. -->
         <div data-search-only hidden class="space-y-14">
+            {manuals.length > 0 && (
+                <ResourceSection
+                    label={{ es: "Manuales", en: "Manuals" }}
+                    count={manuals.length}
+                    columns={2}
+                >
+                    {manuals.map((manual) => (
+                        <ManualCard manual={manual} headingLevel={3} />
+                    ))}
+                </ResourceSection>
+            )}
             {sections.map((section) => (
                 <ResourceSection
                     label={section.label}
