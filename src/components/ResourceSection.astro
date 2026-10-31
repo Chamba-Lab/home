@@ -11,9 +11,17 @@ interface Props {
     // Sin título cuando la página tiene una sola sección (sería redundante).
     showHeading?: boolean;
     carousel?: boolean;
+    // Tarjetas anchas (manuales): dos columnas desde `lg` en vez de tres.
+    columns?: 2 | 3;
 }
 
-const { label, count, showHeading = true, carousel = false } = Astro.props;
+const {
+    label,
+    count,
+    showHeading = true,
+    carousel = false,
+    columns = 3,
+} = Astro.props;
 ---
 
 <section
@@ -101,7 +109,14 @@ const { label, count, showHeading = true, carousel = false } = Astro.props;
             />
         </div>
     ) : (
-        <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div
+            class:list={[
+                "grid grid-cols-1",
+                columns === 2
+                    ? "gap-4 sm:gap-6 lg:grid-cols-2"
+                    : "gap-6 md:grid-cols-2 lg:grid-cols-3",
+            ]}
+        >
             <slot />
         </div>
     )}

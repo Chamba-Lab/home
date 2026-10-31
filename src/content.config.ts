@@ -46,6 +46,20 @@ const resources = defineCollection({
     }),
 });
 
+// The team's own manuals. The id names public/manuals/<id>.pdf and
+// src/assets/manuals/<id>.png; both are required at build time (lib/manuals-data).
+const manuals = defineCollection({
+    loader: file("src/content/manuals.json"),
+    schema: z.object({
+        id: z.string(),
+        number: z.number().int().positive(),
+        title: z.object({ es: z.string(), en: z.string() }),
+        description: z.object({ es: z.string(), en: z.string() }),
+        // Technology and verified version, as shown on the card.
+        technology: z.string(),
+    }),
+});
+
 const events = defineCollection({
     loader: file("src/content/events.json"),
     schema: z
@@ -213,6 +227,7 @@ const posts = defineCollection({
 
 export const collections = {
     resources,
+    manuals,
     events,
     team,
     activities,

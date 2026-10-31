@@ -1,0 +1,217 @@
+---
+// Entrada a los materiales propios en /resources, encima de las categorías. El
+// texto no nombra el tipo de contenido: lo indica el contador. Las portadas son
+// decorativas; el enlace lo da toda la tarjeta.
+import { Image } from "astro:assets";
+import {
+    CHAMBA_LAB_PATH,
+    ENTRY_COVERS_MAX,
+    manualCountLabel,
+} from "../lib/manuals";
+import type { Manual } from "../lib/manuals-data";
+
+interface Props {
+    manuals: Manual[];
+}
+
+const { manuals } = Astro.props;
+const [front, back] = manuals.slice(0, ENTRY_COVERS_MAX);
+---
+
+{front && (
+    <div data-hide-when-searching class="mb-12">
+        <a
+            href={CHAMBA_LAB_PATH}
+            class="chamba-entry group rounded-2xl border border-brand-cream/30 transition-all duration-300 hover:-translate-y-0.5 hover:border-brand-cream/60"
+        >
+            <div class="entry-covers" aria-hidden="true">
+                {back && (
+                    <Image
+                        src={back.cover}
+                        alt=""
+                        widths={[148, 296]}
+                        sizes="(min-width: 768px) 148px, 84px"
+                        class="entry-cover entry-cover-back border border-white/10"
+                    />
+                )}
+                <Image
+                    src={front.cover}
+                    alt=""
+                    widths={[148, 296]}
+                    sizes="(min-width: 768px) 148px, 84px"
+                    class="entry-cover entry-cover-front border border-white/10"
+                />
+            </div>
+            <h2
+                class="entry-title font-display text-2xl leading-[30px] font-extrabold text-white md:text-[28px] md:leading-9"
+                data-i18n-es="De Chamba Lab"
+                data-i18n-en="From Chamba Lab"
+            >
+                De Chamba Lab
+            </h2>
+            <span class="entry-count inline-flex items-center gap-1.5 rounded-full border border-brand-cream/30 bg-brand-cream/10 px-2.5 py-[5px] text-[11px] leading-[14px] font-semibold whitespace-nowrap text-brand-cream">
+                <span
+                    class="h-[5px] w-[5px] rounded-full bg-brand-cream"
+                    aria-hidden="true"
+                ></span>
+                <span
+                    data-i18n-es={manualCountLabel(manuals.length, "es")}
+                    data-i18n-en={manualCountLabel(manuals.length, "en")}
+                >
+                    {manualCountLabel(manuals.length, "es")}
+                </span>
+            </span>
+            <p
+                class="entry-description max-w-[620px] text-sm leading-[21px] text-slate-300 md:text-base md:leading-6"
+                data-i18n-es="Material que preparamos en el equipo para aprender tecnología con ejemplos reales."
+                data-i18n-en="Material our team prepares for learning technology with real examples."
+            >
+                Material que preparamos en el equipo para aprender tecnología
+                con ejemplos reales.
+            </p>
+            <span class="entry-action inline-flex items-center gap-1.5 text-sm font-bold text-brand-cream md:text-[13px]">
+                <span data-i18n-es="Ver todo" data-i18n-en="View all">
+                    Ver todo
+                </span>
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                >
+                    <path d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                </svg>
+            </span>
+        </a>
+    </div>
+)}
+
+<style>
+    .chamba-entry {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        grid-template-areas:
+            "covers count"
+            "title title"
+            "description description"
+            "action action";
+        align-items: center;
+        gap: 12px;
+        padding: 20px;
+        overflow: hidden;
+        background:
+            linear-gradient(
+                90deg,
+                rgb(252 246 232 / 0.08),
+                rgb(252 246 232 / 0) 75%
+            ),
+            #0d1424;
+        box-shadow: 0 12px 24px -6px rgb(0 0 0 / 0.35);
+    }
+
+    .entry-title {
+        grid-area: title;
+    }
+
+    .entry-count {
+        grid-area: count;
+    }
+
+    .entry-description {
+        grid-area: description;
+    }
+
+    .entry-action {
+        grid-area: action;
+        width: fit-content;
+    }
+
+    .entry-covers {
+        grid-area: covers;
+        position: relative;
+        width: 142px;
+        height: 92px;
+    }
+
+    .entry-cover {
+        position: absolute;
+        width: 84px;
+        height: 84px;
+        border-radius: 6px;
+    }
+
+    .entry-cover-front {
+        top: 3px;
+        left: 1px;
+        transform: rotate(-2deg);
+    }
+
+    .entry-cover-back {
+        top: 7px;
+        left: 55px;
+        transform: rotate(4deg);
+    }
+
+    @media (min-width: 768px) {
+        .chamba-entry {
+            grid-template-columns: auto minmax(0, 1fr) 252px;
+            /* Las filas vacías centran el texto junto a las portadas. */
+            grid-template-rows: 1fr auto auto auto 1fr;
+            grid-template-areas:
+                ". . covers"
+                "title count covers"
+                "description description covers"
+                "action action covers"
+                ". . covers";
+            gap: 0 14px;
+            padding: 28px 56px 28px 32px;
+        }
+
+        .entry-count {
+            justify-self: start;
+        }
+
+        .entry-description {
+            margin-top: 12px;
+        }
+
+        .entry-action {
+            margin-top: 20px;
+        }
+
+        .entry-covers {
+            width: 252px;
+            height: 158px;
+            margin-left: 34px;
+        }
+
+        .entry-cover {
+            width: 148px;
+            height: 148px;
+            border-radius: 11px;
+        }
+
+        .entry-cover-front {
+            top: 2px;
+            left: 3px;
+            transform: rotate(-2.5deg);
+        }
+
+        .entry-cover-back {
+            top: 11px;
+            left: 97px;
+            transform: rotate(5deg);
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .chamba-entry {
+            transition: none;
+        }
+    }
+</style>
