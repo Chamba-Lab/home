@@ -4,17 +4,18 @@ Resumen del proyecto para quien contribuye al sitio. La versión técnica está 
 
 ## Propósito
 
-- **Misión**: crear un espacio donde las personas en tecnología se conecten, se inspiren y crezcan juntas en su carrera, para que el contexto en el que cada quien empieza pese menos.
+- **Misión**: una comunidad tech en Discord para conectar, inspirarte y crecer en tu carrera.
 - **Visión (largo plazo)**: un ecosistema que se retroalimenta y se sostiene con quienes lo conforman.
+- **Ecosistema**: un ciclo continuo: quienes empiezan aprenden de quienes ya recorrieron el camino, y quienes ya lo recorrieron siguen creciendo al compartirlo. Los perfiles se mezclan a propósito y todos dan y reciben.
 - **Principios**: apoyo práctico, no solo teoría.
-- **Alcance**: no busca resolver todas las barreras económicas, académicas o laborales. Es un espacio de encuentro y crecimiento.
+- **Alcance**: no es una bolsa de empleo, una agencia ni una consultora, y no promete trabajo ni resultados. Es un espacio de encuentro y crecimiento.
 - **Público**: principalmente hispanohablante, empezando por Perú (UTC-5, compartido con Colombia).
 
 ## Perfiles
 
 | Perfil           | Necesitan                                                             | Aportan                                                         |
 | :--------------- | :-------------------------------------------------------------------- | :-------------------------------------------------------------- |
-| **Early Career** | Mentoría, orientación de carrera, feedback de CV y código, pares      | Preguntas, energía, apoyo entre pares                           |
+| **Early Career** | Mentoría, orientación de carrera, feedback de CV y código, pares      | Preguntas, energía, apoyo entre pares y una mirada nueva que motiva a quienes ya avanzaron                           |
 | **Mid & Senior** | Seguir creciendo, inspiración, networking, espacios de debate         | Mentoría, revisiones, referencias de oportunidades, visión real |
 
 Mid y Senior van juntos en el diagrama del home: pasar de uno a otro es cuestión de tiempo y capacitación, y comparten lo que aportan y necesitan.
@@ -29,7 +30,7 @@ Mid y Senior van juntos en el diagrama del home: pasar de uno a otro es cuestió
 
 ## Horizontes
 
-- **Corto plazo**: activar la comunidad en Discord; sesiones y dinámicas regulares; el sitio como vista pública.
+- **Corto plazo**: crecimiento orgánico y tranquilo en Discord, con actividades pequeñas; el único evento fijo es Code & Coffee; el sitio como vista pública.
 - **Mediano plazo**: crecer la base de miembros y las actividades (revisiones, mock interviews, debates); sumar voluntarios que ayuden a organizar.
 - **Largo plazo**: un ecosistema que se retroalimenta y se sostiene con quienes lo conforman. Posibles herramientas propias, como un tablero de oportunidades (Chamba Board), fuera de este repo.
 
