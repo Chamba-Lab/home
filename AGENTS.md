@@ -6,8 +6,9 @@ Este archivo es lo primero que lee cualquier persona o agente antes de tocar el 
 
 - **Chamba Lab**: comunidad tech. Su espacio de interacción es Discord.
 - **Lema**: _Connect. Inspire. Grow._ (Conecta, inspírate y crece). Está en la imagen OG y en los metadatos del sitio.
-- **Misión**: crear un espacio donde las personas en tecnología se conecten, se inspiren y crezcan juntas en su carrera, para que el contexto en el que cada quien empieza pese menos.
+- **Misión**: una comunidad tech en Discord para conectar, inspirarte y crecer en tu carrera.
 - **Visión (largo plazo)**: un ecosistema que se retroalimenta y se sostiene con quienes lo conforman.
+- **Ecosistema**: un ciclo continuo: quienes empiezan aprenden de quienes ya recorrieron el camino, y quienes ya lo recorrieron siguen creciendo al compartirlo. Los perfiles se mezclan a propósito y todos dan y reciben.
 - **Valores**: _Comunidad_ (avanzar por cuenta propia tiene mérito; en comunidad multiplicas tus posibilidades) y _Práctico_ (apoyo real, no solo teoría).
 - **Público**: principalmente hispanohablante, empezando por Perú (horario UTC-5, compartido con Colombia). Copy neutro, sin jerga local; "Chamba" (el nombre) es la única excepción.
 - **Este repo es la landing**: la vista pública de la comunidad. Explica quiénes somos y redirige a Discord, donde ocurre la interacción y las actividades.
@@ -16,7 +17,7 @@ Este archivo es lo primero que lee cualquier persona o agente antes de tocar el 
 
 | Perfil           | Quiénes                                                              | Necesitan                                                                 | Aportan                                                              |
 | :--------------- | :------------------------------------------------------------------- | :------------------------------------------------------------------------ | :------------------------------------------------------------------- |
-| **Early Career** | Estudiantes de últimos años, técnicos, egresados, primer año laboral | Mentoría, orientación de carrera (CV, entrevistas), feedback, pares       | Preguntas, energía y apoyo entre pares                               |
+| **Early Career** | Estudiantes de últimos años, técnicos, egresados, primer año laboral | Mentoría, orientación de carrera (CV, entrevistas), feedback, pares       | Preguntas, energía, apoyo entre pares y una mirada nueva que motiva a quienes ya avanzaron                               |
 | **Mid & Senior** | Profesionales con experiencia consolidada                            | Seguir creciendo (arquitectura, liderazgo), inspiración, networking, debate | Mentoría, revisiones, referencias de oportunidades y visión real del sector |
 
 **Estructura de la comunidad** (sigue el lema):
