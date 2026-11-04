@@ -1,0 +1,98 @@
+---
+// Enlace público estable de la invitación: chambalab.org/discord. Si la
+// invitación cambia, solo se actualiza DISCORD_URL en constants.ts.
+// Es una página propia (y no un `redirects` de Astro) para que la espera
+// mientras carga Discord lleve la marca y para que, al compartir el enlace,
+// la vista previa sea la de Chamba Lab: la redirección va por script y los
+// rastreadores de vista previa no ejecutan JavaScript.
+import Layout from "../layouts/Layout.astro";
+import BrandTile from "../components/BrandTile.astro";
+import DiscordIcon from "../components/icons/DiscordIcon.astro";
+import { DISCORD_URL } from "../lib/constants";
+---
+
+<Layout
+    title="Únete a Discord | Chamba Lab"
+    description="Entra al servidor de Discord de Chamba Lab, la comunidad tech para conectar con otras personas del sector, inspirarte y crecer en tu carrera."
+    noindex
+    bare
+>
+    <main class="glow-radial flex-1 flex flex-col items-center justify-center px-4 py-16 text-center">
+        <BrandTile class="w-16 h-16 rounded-2xl mb-8" />
+        <div class="flex items-center gap-3 mb-4" aria-hidden="true">
+            <span class="redirect-dot"></span>
+            <span class="redirect-dot"></span>
+            <span class="redirect-dot"></span>
+        </div>
+        <h1
+            class="font-display text-2xl sm:text-3xl font-extrabold text-white tracking-tight mb-3"
+            data-i18n-es="Te llevamos a Discord…"
+            data-i18n-en="Taking you to Discord…"
+            role="status"
+        >
+            Te llevamos a Discord…
+        </h1>
+        <p
+            class="text-slate-400 mb-8 max-w-sm"
+            data-i18n-es="Si no se abre en unos segundos, usa el botón."
+            data-i18n-en="If it doesn't open in a few seconds, use the button."
+        >
+            Si no se abre en unos segundos, usa el botón.
+        </p>
+        <a
+            href={DISCORD_URL}
+            class="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-brand-discord hover:bg-brand-discord-hover text-white font-semibold transition"
+        >
+            <DiscordIcon class="w-5 h-5" />
+            <span data-i18n-es="Abrir Discord" data-i18n-en="Open Discord">
+                Abrir Discord
+            </span>
+        </a>
+    </main>
+</Layout>
+
+<script>
+    import { DISCORD_URL } from "../lib/constants";
+
+    // replace(): /discord no queda en el historial, así que «atrás» desde
+    // Discord vuelve a donde estaba la persona y no rebota otra vez.
+    window.location.replace(DISCORD_URL);
+</script>
+
+<style>
+    .redirect-dot {
+        width: 0.5rem;
+        height: 0.5rem;
+        border-radius: 9999px;
+        background: var(--color-brand-yellow);
+        animation: redirect-pulse 1.2s ease-in-out infinite;
+    }
+
+    .redirect-dot:nth-child(2) {
+        animation-delay: 0.15s;
+    }
+
+    .redirect-dot:nth-child(3) {
+        animation-delay: 0.3s;
+    }
+
+    @keyframes redirect-pulse {
+        0%,
+        80%,
+        100% {
+            opacity: 0.25;
+            transform: scale(0.8);
+        }
+        40% {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .redirect-dot {
+            animation: none;
+            opacity: 0.6;
+        }
+    }
+</style>

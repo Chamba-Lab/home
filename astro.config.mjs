@@ -5,14 +5,10 @@ import mdx from "@astrojs/mdx";
 import react from "@astrojs/react";
 import sitemap from "@astrojs/sitemap";
 import tailwindcss from "@tailwindcss/vite";
-import { DISCORD_URL } from "./src/lib/constants";
 
 // https://astro.build/config
 export default defineConfig({
     site: "https://chambalab.org",
-    // Enlace público estable: si la invitación de Discord cambia, solo se
-    // actualiza DISCORD_URL y chambalab.org/discord sigue funcionando.
-    redirects: { "/discord": DISCORD_URL },
     // GitHub Pages sirve cada página como carpeta y redirige /ruta a /ruta/
     // con un 301 (un viaje de red extra por clic). Con "always" los enlaces
     // internos llevan barra final y en dev una ruta sin ella da 404.
@@ -20,7 +16,12 @@ export default defineConfig({
     // Descarga el HTML de una página interna al pasar el ratón (o tocar) su
     // enlace, para que al hacer clic ya esté. Respeta el ahorro de datos.
     prefetch: { prefetchAll: true, defaultStrategy: "hover" },
-    integrations: [react(), sitemap(), mdx()],
+    integrations: [
+        react(),
+        // /discord/ solo redirige a la invitación (src/pages/discord.astro).
+        sitemap({ filter: (page) => !page.endsWith("/discord/") }),
+        mdx(),
+    ],
     // Sin resaltado de código: Shiki no se usa y es incompatible con la CSP.
     // El MDX del blog hereda esta opción.
     markdown: { syntaxHighlight: false },
