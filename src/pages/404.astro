@@ -50,3 +50,13 @@ const base = rawBase.endsWith("/") ? rawBase : `${rawBase}/`;
         </div>
     </main>
 </Layout>
+
+<script>
+    import { inviteForPath } from "../lib/discord-invites";
+
+    // GitHub Pages no admite redirecciones de servidor: una red que no existe
+    // (/discord/otra/) llega aquí, y la mandamos a la invitación de la web.
+    // Sin distinguir mayúsculas, así /discord/TikTok/ sí llega a la de TikTok.
+    const invite = inviteForPath(window.location.pathname);
+    if (invite) window.location.replace(invite);
+</script>

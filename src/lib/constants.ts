@@ -1,9 +1,13 @@
 /** Fuente única de enlaces externos: no repetir estas URLs en componentes. */
 export const SITE_URL = "https://chambalab.org";
-/** Invitación oficial de Discord. Es el destino de la redirección /discord. */
+/** Invitación oficial de Discord (la de la web). Destino de /discord. */
 export const DISCORD_URL = "https://discord.gg/fNd8CXBbsQ";
+/** Invitación propia de TikTok (/discord/tiktok): mide cuánta gente entra por ahí. */
+export const TIKTOK_DISCORD_URL = "https://discord.gg/CZva5Zr9un";
+/** Invitación propia de LinkedIn (/discord/linkedin). */
+export const LINKEDIN_DISCORD_URL = "https://discord.gg/KSHqpTRb5S";
 /**
- * Enlace estable de la invitación (redirección en astro.config.mjs). Úsalo donde
+ * Enlace estable de la invitación (página src/pages/discord.astro). Úsalo donde
  * el enlace se guarda fuera del sitio (calendarios, datos estructurados), para
  * que no se rompa si la invitación cambia.
  */
