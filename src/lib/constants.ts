@@ -4,6 +4,8 @@ export const SITE_URL = "https://chambalab.org";
 export const DISCORD_URL = "https://discord.gg/fNd8CXBbsQ";
 /** Invitación propia de TikTok (/discord/tiktok): mide cuánta gente entra por ahí. */
 export const TIKTOK_DISCORD_URL = "https://discord.gg/CZva5Zr9un";
+/** Invitación propia de LinkedIn (/discord/linkedin). */
+export const LINKEDIN_DISCORD_URL = "https://discord.gg/KSHqpTRb5S";
 /**
  * Enlace estable de la invitación (página src/pages/discord.astro). Úsalo donde
  * el enlace se guarda fuera del sitio (calendarios, datos estructurados), para

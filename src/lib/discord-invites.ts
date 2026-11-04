@@ -1,17 +1,20 @@
-import { DISCORD_URL, TIKTOK_DISCORD_URL } from "./constants";
+import {
+    DISCORD_URL,
+    LINKEDIN_DISCORD_URL,
+    TIKTOK_DISCORD_URL,
+} from "./constants";
 
 /**
  * Invitación de Discord por red social (ruta /discord/<red>). Cada red tiene su
  * propia invitación permanente para que Discord cuente cuánta gente entró por
- * ella. Mientras una red no tenga la suya, apunta a la invitación de la web.
+ * ella. Una red sin invitación propia no tiene ruta: cae en el 404, que redirige
+ * a la invitación de la web.
  * `web` es la de /discord y de los botones del sitio.
  */
 export const DISCORD_INVITES: Record<string, string> = {
     web: DISCORD_URL,
     tiktok: TIKTOK_DISCORD_URL,
-    // Pendientes de crear su invitación propia.
-    linkedin: DISCORD_URL,
-    instagram: DISCORD_URL,
+    linkedin: LINKEDIN_DISCORD_URL,
 };
 
 /** Las redes con ruta propia (todas menos `web`, que es /discord). */
