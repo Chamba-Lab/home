@@ -1,0 +1,19 @@
+---
+// chambalab.org/discord/<red>: una invitación por red social, para saber en
+// Discord (Ajustes del servidor → Invitaciones) cuánta gente entró por cada
+// una. Las redes salen de DISCORD_INVITES; una ruta que no existe cae en el
+// 404, que redirige a la invitación de la web.
+import DiscordRedirect from "../../components/DiscordRedirect.astro";
+import { DISCORD_INVITES, sourceInvites } from "../../lib/discord-invites";
+
+export function getStaticPaths() {
+    return Object.keys(sourceInvites()).map((source) => ({
+        params: { source },
+        props: { url: DISCORD_INVITES[source] },
+    }));
+}
+
+const { url } = Astro.props;
+---
+
+<DiscordRedirect url={url} />

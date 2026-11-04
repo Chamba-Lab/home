@@ -18,8 +18,8 @@ export default defineConfig({
     prefetch: { prefetchAll: true, defaultStrategy: "hover" },
     integrations: [
         react(),
-        // /discord/ solo redirige a la invitación (src/pages/discord.astro).
-        sitemap({ filter: (page) => !page.endsWith("/discord/") }),
+        // /discord/ y /discord/<red>/ solo redirigen a la invitación (src/pages/discord.astro).
+        sitemap({ filter: (page) => !page.includes("/discord/") }),
         mdx(),
     ],
     // Sin resaltado de código: Shiki no se usa y es incompatible con la CSP.
