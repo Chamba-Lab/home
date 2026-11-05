@@ -1,5 +1,96 @@
 [
     {
+        "id": "reading-job-offers",
+        "number": 9,
+        "title": {
+            "es": "Cómo leer una oferta de trabajo",
+            "en": "How to read a job posting"
+        },
+        "description": {
+            "es": "Distingue lo que te piden de verdad de lo que es solo un extra, y postula sin miedo ni tiempo perdido.",
+            "en": "Tell what they really require from what is just a bonus, and apply without fear or wasted time."
+        },
+        "technology": "Guía Perú · 2026 · Ley 31396"
+    },
+    {
+        "id": "handling-rejection",
+        "number": 8,
+        "title": {
+            "es": "Cada «no» te enseña algo",
+            "en": "Every \"no\" teaches you something"
+        },
+        "description": {
+            "es": "Cómo recibir un rechazo sin hundirte y descubrir qué cambiar para el próximo proceso.",
+            "en": "How to take a rejection without sinking and find out what to change for the next process."
+        },
+        "technology": "Guía Perú · 2026"
+    },
+    {
+        "id": "first-year-junior",
+        "number": 7,
+        "title": {
+            "es": "Tu primer año como junior",
+            "en": "Your first year as a junior"
+        },
+        "description": {
+            "es": "De recibir tareas sueltas a que te confíen un problema entero: qué priorizar mes a mes.",
+            "en": "From getting loose tasks to being trusted with a whole problem: what to prioritize month by month."
+        },
+        "technology": "Guía Perú · 2026 · D. Leg. 728"
+    },
+    {
+        "id": "experience-without-experience",
+        "number": 6,
+        "title": {
+            "es": "Cómo hablar de tu experiencia sin experiencia",
+            "en": "How to talk about your experience when you have none"
+        },
+        "description": {
+            "es": "De responder «no, ninguna» a contar con pruebas lo que ya hiciste y le sirve al puesto.",
+            "en": "From answering \"no, none\" to showing proof of what you have already done that fits the role."
+        },
+        "technology": "Guía Perú · 2026 · Ley 31396"
+    },
+    {
+        "id": "star-behavioral-questions",
+        "number": 5,
+        "title": {
+            "es": "Preguntas de comportamiento con STAR",
+            "en": "Behavioral questions with STAR"
+        },
+        "description": {
+            "es": "De quedarte en blanco con «cuéntame de una vez que…» a contar tu mejor historia en dos minutos.",
+            "en": "From going blank at \"tell me about a time when…\" to telling your best story in two minutes."
+        },
+        "technology": "Método STAR · Guía Perú 2026"
+    },
+    {
+        "id": "linkedin-from-scratch",
+        "number": 4,
+        "title": {
+            "es": "LinkedIn desde cero",
+            "en": "LinkedIn from scratch"
+        },
+        "description": {
+            "es": "De un perfil vacío a uno que los reclutadores encuentran, aunque todavía no tengas experiencia.",
+            "en": "From an empty profile to one recruiters find, even if you don't have experience yet."
+        },
+        "technology": "LinkedIn · 2026"
+    },
+    {
+        "id": "ats-friendly-cv",
+        "number": 3,
+        "title": {
+            "es": "Tu primer CV tech que el ATS sí lee",
+            "en": "Your first tech CV that the ATS can read"
+        },
+        "description": {
+            "es": "De un CV bonito que nadie encuentra a una hoja de una columna que aparece en las búsquedas.",
+            "en": "From a pretty CV nobody finds to a one-column page that shows up in searches."
+        },
+        "technology": "Guía Perú · 2026"
+    },
+    {
         "id": "spec-driven-development",
         "number": 2,
         "title": {
