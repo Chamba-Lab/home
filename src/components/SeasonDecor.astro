@@ -1,118 +1,285 @@
 ---
 /**
- * Decoración por festividad del widget de Discord. Se pintan todos los
- * perfiles y el CSS muestra solo el que marca `data-season` en
- * `#discord-widget` (ver `src/lib/seasons.ts`). Va detrás del contenido,
- * sin eventos ni lectura de pantalla.
+ * Escenas por festividad del widget de Discord. Se pintan todos los perfiles
+ * y el CSS muestra solo el que marca `data-season` en `#discord-widget` (ver
+ * `src/lib/seasons.ts`). Va detrás del contenido, sin eventos ni lectura de
+ * pantalla.
+ *
+ * Cada escena tiene un reposo estático y un "momento" animado de 5 s como
+ * máximo (WCAG 2.2.2) al entrar en pantalla y al pasar el ratón por la
+ * tarjeta. Con `prefers-reduced-motion` solo se ve el reposo.
  */
 
-// Copos: posición horizontal (%), tamaño (px), duración y retraso (s).
-const flakes = [
-    { x: 6, size: 9, dur: 11, delay: 0 },
-    { x: 18, size: 6, dur: 14, delay: -6 },
-    { x: 31, size: 8, dur: 12, delay: -3 },
-    { x: 44, size: 5, dur: 16, delay: -10 },
-    { x: 57, size: 9, dur: 13, delay: -1 },
-    { x: 69, size: 6, dur: 15, delay: -8 },
-    { x: 81, size: 8, dur: 12, delay: -5 },
-    { x: 93, size: 5, dur: 17, delay: -12 },
+// Murciélago de frente: cuerpo y cabeza fijos, alas aparte para aletear.
+const BAT = `
+    <path class="wing wing-l" d="M18 9.5Q12 3.5 1 6.5q4 1.8 4.2 5.6 2.6-1.8 5 0 1.9-1.8 4.3.8 1.6-1.6 3.5-.4z"/>
+    <path class="wing wing-r" d="M22 9.5q6-6 17-3-4 1.8-4.2 5.6-2.6-1.8-5 0-1.9-1.8-4.3.8-1.6-1.6-3.5-.4z"/>
+    <path d="M17.6 4.2 18.6 7a2.6 2.6 0 0 1 2.8 0l1-2.8.6 3.6a2.6 2.6 0 0 1-.2 1.6c1 1 1.5 2.3 1.5 3.8 0 2.4-1.6 4.8-4.3 6.3-2.7-1.5-4.3-3.9-4.3-6.3 0-1.5.5-2.8 1.5-3.8a2.6 2.6 0 0 1-.2-1.6z"/>
+`;
+
+// Bandada: tamaño (px), trayectoria (px desde la esquina superior izquierda),
+// duración y retraso (s), opacidad y desenfoque. Lo último acaba a los 4,3 s.
+const flock = [
+    {
+        size: 36,
+        path: "M420 150C300 70 170 190-60 90",
+        dur: 3,
+        delay: 0,
+        o: 0.9,
+        blur: 0,
+    },
+    {
+        size: 31,
+        path: "M430 118C320 40 200 150-50 52",
+        dur: 3.3,
+        delay: 0.25,
+        o: 0.7,
+        blur: 0,
+    },
+    {
+        size: 17,
+        path: "M410 88C310 30 190 110-40 30",
+        dur: 3.6,
+        delay: 0.5,
+        o: 0.45,
+        blur: 0.6,
+    },
+    {
+        size: 24,
+        path: "M440 205C330 120 160 232-60 142",
+        dur: 3.1,
+        delay: 0.8,
+        o: 0.65,
+        blur: 0,
+    },
+    {
+        size: 15,
+        path: "M420 60C300 12 160 82-40 22",
+        dur: 3.2,
+        delay: 1.1,
+        o: 0.4,
+        blur: 0.8,
+        extra: true,
+    },
+    {
+        size: 26,
+        path: "M450 262C340 172 180 262-70 182",
+        dur: 2.9,
+        delay: 1.4,
+        o: 0.8,
+        blur: 0,
+        extra: true,
+    },
 ];
 
-// Esferas colgando desde el borde superior: posición (px), largo del hilo (px), color.
-const ornaments = [
-    { x: 22, string: 18, tone: "red" },
-    { x: 48, string: 30, tone: "gold" },
-    { x: 74, string: 12, tone: "cream" },
+// Reborde de nieve acumulada en el borde superior: ondas suaves y fijas.
+const capPoints = [
+    8, 11, 7, 10, 12, 8, 10, 7, 11, 9, 12, 8, 10, 7, 11, 9, 8, 12, 9, 10, 8,
 ];
+const cap = (offset: number) =>
+    `M0 0H400V${capPoints[0] + offset}` +
+    capPoints
+        .slice(1)
+        .map((y, i) => {
+            const x = 400 - (i + 1) * 20;
+            return `Q${x + 10} ${y + offset + 3} ${x} ${y + offset}`;
+        })
+        .join("") +
+    "Z";
 ---
 
 <div class="season-decor" aria-hidden="true">
-    <!-- Halloween: murciélagos y una calabaza en la franja superior -->
+    <!-- Halloween: luna, murciélagos en reposo, niebla baja y bandada -->
     <div data-season-deco="halloween">
-        <svg class="bat bat-1" viewBox="0 0 48 22">
-            <path d="M21 9 20 5l2.6 2.6Q24 7 25.4 7.6L28 5l-1 4Q34 4 46 6q-5 3-4 9-4-2.5-7-.5-3-2-5 1.5-3-1-6 4-3-5-6-4-2-3.5-5-1.5-3-2-7 .5 1-6-4-9 12-2 19 3z"></path>
-        </svg>
-        <svg class="bat bat-2" viewBox="0 0 48 22">
-            <path d="M21 9 20 5l2.6 2.6Q24 7 25.4 7.6L28 5l-1 4Q34 4 46 6q-5 3-4 9-4-2.5-7-.5-3-2-5 1.5-3-1-6 4-3-5-6-4-2-3.5-5-1.5-3-2-7 .5 1-6-4-9 12-2 19 3z"></path>
-        </svg>
-        <svg class="bat bat-3 decor-extra" viewBox="0 0 48 22">
-            <path d="M21 9 20 5l2.6 2.6Q24 7 25.4 7.6L28 5l-1 4Q34 4 46 6q-5 3-4 9-4-2.5-7-.5-3-2-5 1.5-3-1-6 4-3-5-6-4-2-3.5-5-1.5-3-2-7 .5 1-6-4-9 12-2 19 3z"></path>
-        </svg>
-        <svg class="pumpkin" viewBox="0 0 32 32">
-            <path
-                class="pumpkin-stem"
-                d="M15 4.5c0-1.4 1-2.5 2.6-2.5l.6 1.4c-.9.3-1.3 1-1.3 2.1V8h-1.9z"
-            ></path>
-            <ellipse
-                class="pumpkin-body"
-                cx="10.5"
-                cy="19"
-                rx="7.5"
-                ry="10"
-            ></ellipse>
-            <ellipse
-                class="pumpkin-body"
-                cx="21.5"
-                cy="19"
-                rx="7.5"
-                ry="10"
-            ></ellipse>
-            <ellipse
-                class="pumpkin-core"
-                cx="16"
-                cy="19"
-                rx="6.5"
-                ry="10.5"
-            ></ellipse>
-        </svg>
+        <div class="moon"></div>
+        <svg class="bat-rest bat-rest-1" viewBox="0 0 40 20" set:html={BAT} />
+        <svg class="bat-rest bat-rest-2" viewBox="0 0 40 20" set:html={BAT} />
+        <div class="fog fog-1"></div>
+        <div class="fog fog-2"></div>
+        {flock.map((b) => (
+            <div
+                class:list={["flyer", b.extra && "decor-extra"]}
+                style={`offset-path:path("${b.path}");width:${b.size}px;--dur:${b.dur}s;--delay:${b.delay}s;--o:${b.o};filter:blur(${b.blur}px)`}
+            >
+                <svg viewBox="0 0 40 20" set:html={BAT} />
+            </div>
+        ))}
     </div>
 
-    <!-- Navidad: esferas colgando y copos que caen -->
+    <!-- Navidad: nieve acumulada arriba y nevada en canvas -->
     <div data-season-deco="christmas">
-        {ornaments.map((o, i) => (
-            <svg
-                class:list={[
-                    "ornament",
-                    `ornament-${o.tone}`,
-                    i === 2 && "decor-extra",
-                ]}
-                style={`left:${o.x}px;height:${o.string + 16}px`}
-                viewBox={`0 0 14 ${o.string + 16}`}
-            >
-                <line
-                    x1="7"
-                    y1="0"
-                    x2="7"
-                    y2={o.string}
-                    class="ornament-string"
-                />
-                <rect
-                    x="5"
-                    y={o.string - 1}
-                    width="4"
-                    height="3"
-                    rx="0.6"
-                    class="ornament-cap"
-                />
-                <circle
-                    cx="7"
-                    cy={o.string + 8.5}
-                    r="6"
-                    class="ornament-ball"
-                />
-            </svg>
-        ))}
-        {flakes.map((f, i) => (
-            <svg
-                class:list={["flake", i % 2 === 1 && "decor-extra"]}
-                style={`left:${f.x}%;width:${f.size}px;height:${f.size}px;animation-duration:${f.dur}s;animation-delay:${f.delay}s;--rest:${(i * 37) % 90}%`}
-                viewBox="0 0 12 12"
-            >
-                <path d="M6 0v12M0.8 3l10.4 6M0.8 9l10.4-6" />
-            </svg>
-        ))}
+        <svg class="snow-cap" viewBox="0 0 400 16" preserveAspectRatio="none">
+            <path class="snow-cap-shadow" d={cap(2)}></path>
+            <path class="snow-cap-body" d={cap(0)}></path>
+        </svg>
+        <canvas class="snow-canvas"></canvas>
     </div>
 </div>
+
+<script>
+    import {
+        SNOW_TIMING,
+        createFlake,
+        restingFlakes,
+        snowOpacity,
+        stepFlake,
+        type Flake,
+    } from "../lib/snow";
+
+    const widget = document.getElementById("discord-widget");
+    const decor = widget?.querySelector<HTMLElement>(".season-decor");
+    const bats = decor?.querySelector<HTMLElement>(
+        '[data-season-deco="halloween"]',
+    );
+    const canvas = decor?.querySelector<HTMLCanvasElement>(".snow-canvas");
+    const ctx = canvas?.getContext("2d");
+    const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)");
+
+    const MOMENT_MS = SNOW_TIMING.end * 1000;
+    const COOLDOWN_MS = 6000;
+
+    let playing = false;
+    let lastPlay = -Infinity;
+    let visible = false;
+    let playedOnEnter = false;
+    let width = 0;
+    let height = 0;
+
+    // Copo suave pre-renderizado: un degradado radial que se escala al dibujar.
+    const sprite = document.createElement("canvas");
+    sprite.width = sprite.height = 32;
+    const sctx = sprite.getContext("2d");
+    if (sctx) {
+        const g = sctx.createRadialGradient(16, 16, 0, 16, 16, 16);
+        g.addColorStop(0, "rgba(252, 246, 232, 1)");
+        g.addColorStop(0.35, "rgba(252, 246, 232, 0.85)");
+        g.addColorStop(1, "rgba(252, 246, 232, 0)");
+        sctx.fillStyle = g;
+        sctx.fillRect(0, 0, 32, 32);
+    }
+
+    const season = () => widget?.dataset.season;
+
+    function drawFlakes(list: Flake[], k: number) {
+        if (!ctx) return;
+        for (const f of list) {
+            const size = f.r * 4;
+            ctx.globalAlpha = f.alpha * k;
+            ctx.drawImage(sprite, f.x - size / 2, f.y - size / 2, size, size);
+        }
+        ctx.globalAlpha = 1;
+    }
+
+    function drawResting() {
+        if (!ctx) return;
+        ctx.clearRect(0, 0, width, height);
+        if (season() === "christmas") {
+            drawFlakes(restingFlakes(width, height), 1);
+        }
+    }
+
+    function resize() {
+        if (!canvas || !ctx || !decor) return;
+        const rect = decor.getBoundingClientRect();
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        width = rect.width;
+        height = rect.height;
+        canvas.width = Math.round(width * dpr);
+        canvas.height = Math.round(height * dpr);
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        if (!playing) drawResting();
+    }
+
+    function playSnow() {
+        if (!ctx) return;
+        const resting = restingFlakes(width, height);
+        const perSecond = 26 * (width / 350);
+        // Algunos copos ya en el aire para que la nevada no empiece vacía.
+        const flakes: Flake[] = Array.from({ length: 10 }, () =>
+            createFlake(width, Math.random, Math.random() * height * 0.45),
+        );
+        let start = 0;
+        let prev = 0;
+        let pending = 0;
+
+        const frame = (now: number) => {
+            if (!start) start = prev = now;
+            const t = (now - start) / 1000;
+            const dt = Math.min(0.05, (now - prev) / 1000);
+            prev = now;
+
+            if (t >= SNOW_TIMING.end || !visible) {
+                playing = false;
+                drawResting();
+                return;
+            }
+            if (t < SNOW_TIMING.emit) {
+                pending += perSecond * dt;
+                while (pending >= 1) {
+                    flakes.push(createFlake(width));
+                    pending -= 1;
+                }
+            }
+            for (let i = flakes.length - 1; i >= 0; i--) {
+                stepFlake(flakes[i], dt, t);
+                if (flakes[i].y > height + 8) flakes.splice(i, 1);
+            }
+
+            ctx.clearRect(0, 0, width, height);
+            drawFlakes(resting, 1);
+            drawFlakes(flakes, snowOpacity(t));
+            requestAnimationFrame(frame);
+        };
+        requestAnimationFrame(frame);
+    }
+
+    function playBats() {
+        if (!bats) return;
+        bats.classList.remove("is-playing");
+        void bats.offsetWidth; // reinicia las animaciones CSS
+        bats.classList.add("is-playing");
+        window.setTimeout(() => {
+            bats.classList.remove("is-playing");
+            playing = false;
+        }, MOMENT_MS);
+    }
+
+    function play() {
+        if (reduceMotion.matches || playing || !visible) return;
+        const now = performance.now();
+        if (now - lastPlay < COOLDOWN_MS) return;
+        const current = season();
+        if (current !== "halloween" && current !== "christmas") return;
+        lastPlay = now;
+        playing = true;
+        if (current === "halloween") playBats();
+        else playSnow();
+    }
+
+    if (widget && decor) {
+        new ResizeObserver(resize).observe(decor);
+        // El perfil puede corregirse en el navegador después de este script.
+        new MutationObserver(() => {
+            if (!playing) drawResting();
+        }).observe(widget, { attributeFilter: ["data-season"] });
+
+        new IntersectionObserver(
+            ([entry]) => {
+                visible =
+                    entry.isIntersecting && entry.intersectionRatio >= 0.35;
+                if (visible && !playedOnEnter) {
+                    playedOnEnter = true;
+                    play();
+                }
+            },
+            { threshold: [0, 0.35] },
+        ).observe(widget);
+
+        widget.addEventListener("pointerenter", (e) => {
+            if (e.pointerType === "mouse") play();
+        });
+    }
+</script>
 
 <style is:global>
     #discord-widget .season-decor {
@@ -120,10 +287,11 @@ const ornaments = [
         inset: 0;
         z-index: 0;
         pointer-events: none;
-        container-type: size;
+        overflow: hidden;
+        border-radius: inherit;
     }
 
-    /* Solo se ve el avatar y la decoración del perfil activo. */
+    /* Solo se ve el avatar y la escena del perfil activo. */
     #discord-widget .season-avatar,
     #discord-widget [data-season-deco] {
         display: none;
@@ -144,7 +312,7 @@ const ornaments = [
     #discord-widget[data-season="halloween"] .season-glow {
         background-color: color-mix(
             in srgb,
-            var(--color-season-halloween) 22%,
+            var(--color-season-fog) 22%,
             transparent
         );
     }
@@ -158,148 +326,204 @@ const ornaments = [
     }
 
     /* --- Halloween --- */
-    #discord-widget .bat {
+    #discord-widget .moon {
         position: absolute;
-        fill: var(--color-season-halloween);
-        opacity: 0.75;
-        animation: season-bob 4s ease-in-out infinite;
+        top: -34px;
+        left: -26px;
+        width: 92px;
+        aspect-ratio: 1;
+        border-radius: 50%;
+        background:
+            radial-gradient(
+                circle at 62% 68%,
+                rgb(0 0 0 / 0.08) 0 9%,
+                transparent 10%
+            ),
+            radial-gradient(
+                circle at 74% 44%,
+                rgb(0 0 0 / 0.06) 0 6%,
+                transparent 7%
+            ),
+            radial-gradient(
+                circle at 40% 35%,
+                var(--color-season-moon),
+                color-mix(
+                        in srgb,
+                        var(--color-season-moon) 82%,
+                        var(--color-brand-yellow-deep)
+                    )
+                    70%
+            );
+        box-shadow:
+            0 0 24px 4px
+                color-mix(in srgb, var(--color-season-moon) 22%, transparent),
+            0 0 70px 24px
+                color-mix(in srgb, var(--color-season-moon) 8%, transparent);
+        opacity: 0.9;
     }
 
-    #discord-widget .bat-1 {
+    #discord-widget .bat-rest {
+        position: absolute;
+        fill: var(--color-bg);
+    }
+
+    #discord-widget .bat-rest-1 {
         top: 14px;
-        left: 16px;
-        width: 36px;
-    }
-
-    #discord-widget .bat-2 {
-        top: 8px;
-        left: 62px;
+        left: 20px;
         width: 26px;
-        opacity: 0.55;
-        animation-delay: -1.5s;
+        transform: rotate(-8deg);
     }
 
-    #discord-widget .bat-3 {
-        top: 22px;
-        left: 96px;
-        width: 18px;
-        opacity: 0.4;
-        animation-delay: -2.6s;
+    #discord-widget .bat-rest-2 {
+        top: 34px;
+        left: 52px;
+        width: 15px;
+        transform: rotate(10deg);
     }
 
-    #discord-widget .pumpkin {
+    #discord-widget .fog {
         position: absolute;
-        top: 10px;
-        left: 130px;
-        width: 22px;
-        opacity: 0.85;
+        bottom: -40px;
+        height: 140px;
+        border-radius: 50%;
+        filter: blur(18px);
     }
 
-    #discord-widget .pumpkin-body {
-        fill: var(--color-season-halloween);
+    #discord-widget .fog-1 {
+        left: -25%;
+        width: 95%;
+        background: radial-gradient(
+            ellipse,
+            color-mix(in srgb, var(--color-season-fog) 26%, transparent),
+            transparent 70%
+        );
     }
 
-    #discord-widget .pumpkin-core {
-        fill: color-mix(in srgb, var(--color-season-halloween) 80%, white);
+    #discord-widget .fog-2 {
+        right: -25%;
+        width: 85%;
+        background: radial-gradient(
+            ellipse,
+            color-mix(in srgb, var(--color-season-halloween) 14%, transparent),
+            transparent 70%
+        );
     }
 
-    #discord-widget .pumpkin-stem {
-        fill: var(--color-season-halloween-leaf);
+    #discord-widget .flyer {
+        display: none;
+    }
+
+    @supports (offset-path: path("M0 0")) {
+        #discord-widget .flyer {
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            offset-rotate: 0deg;
+            offset-distance: 0%;
+            opacity: 0;
+            fill: var(--color-season-halloween);
+        }
+
+        #discord-widget .is-playing .flyer {
+            animation: season-fly var(--dur) var(--delay)
+                cubic-bezier(0.37, 0, 0.63, 1) both;
+        }
+
+        #discord-widget .is-playing .flyer svg {
+            animation: season-flutter 0.28s ease-in-out infinite alternate;
+        }
+
+        #discord-widget .is-playing .flyer .wing-l {
+            animation: season-flap-l 0.28s ease-in-out infinite alternate;
+        }
+
+        #discord-widget .is-playing .flyer .wing-r {
+            animation: season-flap-r 0.28s ease-in-out infinite alternate;
+        }
+    }
+
+    #discord-widget .wing {
+        transform-box: fill-box;
+    }
+
+    #discord-widget .wing-l {
+        transform-origin: 100% 30%;
+    }
+
+    #discord-widget .wing-r {
+        transform-origin: 0% 30%;
+    }
+
+    @keyframes season-fly {
+        0% {
+            offset-distance: 0%;
+            opacity: 0;
+        }
+        10%,
+        88% {
+            opacity: var(--o);
+        }
+        100% {
+            offset-distance: 100%;
+            opacity: 0;
+        }
+    }
+
+    @keyframes season-flutter {
+        to {
+            transform: translateY(1.5px);
+        }
+    }
+
+    @keyframes season-flap-l {
+        from {
+            transform: rotate(-22deg) scaleY(1);
+        }
+        to {
+            transform: rotate(26deg) scaleY(0.55);
+        }
+    }
+
+    @keyframes season-flap-r {
+        from {
+            transform: rotate(22deg) scaleY(1);
+        }
+        to {
+            transform: rotate(-26deg) scaleY(0.55);
+        }
     }
 
     /* --- Navidad --- */
-    #discord-widget .ornament {
+    #discord-widget .snow-cap {
         position: absolute;
         top: 0;
-        width: 14px;
-        transform-origin: top center;
-        animation: season-sway 5s ease-in-out infinite;
+        left: 0;
+        width: 100%;
+        height: 14px;
     }
 
-    #discord-widget .ornament:nth-of-type(2) {
-        animation-delay: -1.8s;
-    }
-
-    #discord-widget .ornament:nth-of-type(3) {
-        animation-delay: -3.1s;
-    }
-
-    #discord-widget .ornament-string {
-        stroke: rgb(255 255 255 / 0.25);
-        stroke-width: 1;
-    }
-
-    #discord-widget .ornament-cap {
-        fill: #cbd5e1;
-    }
-
-    #discord-widget .ornament-red .ornament-ball {
-        fill: var(--color-season-christmas);
-    }
-
-    #discord-widget .ornament-gold .ornament-ball {
-        fill: var(--color-brand-yellow);
-    }
-
-    #discord-widget .ornament-cream .ornament-ball {
+    #discord-widget .snow-cap-body {
         fill: var(--color-brand-cream);
+        opacity: 0.92;
     }
 
-    #discord-widget .flake {
-        position: absolute;
-        top: 0;
-        fill: none;
-        stroke: var(--color-brand-cream);
-        stroke-width: 1.4;
-        stroke-linecap: round;
+    #discord-widget .snow-cap-shadow {
+        fill: var(--color-season-frost);
         opacity: 0.35;
-        animation-name: season-fall;
-        animation-timing-function: linear;
-        animation-iteration-count: infinite;
     }
 
-    @keyframes season-bob {
-        50% {
-            transform: translateY(-4px);
-        }
-    }
-
-    @keyframes season-sway {
-        0%,
-        100% {
-            transform: rotate(-4deg);
-        }
-        50% {
-            transform: rotate(4deg);
-        }
-    }
-
-    @keyframes season-fall {
-        from {
-            transform: translateY(-16px) rotate(0deg);
-        }
-        to {
-            transform: translateY(100cqh) rotate(180deg);
-        }
+    #discord-widget .snow-canvas {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
     }
 
     /* En móvil, menos elementos para no saturar la tarjeta. */
     @media (max-width: 639px) {
         #discord-widget .decor-extra {
-            display: none;
-        }
-    }
-
-    /* Sin movimiento: todo queda quieto y los copos, repartidos. */
-    @media (prefers-reduced-motion: reduce) {
-        #discord-widget .bat,
-        #discord-widget .ornament,
-        #discord-widget .flake {
-            animation: none;
-        }
-
-        #discord-widget .flake {
-            top: var(--rest);
+            display: none !important;
         }
     }
 </style>
