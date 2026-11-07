@@ -1,7 +1,11 @@
 ---
 import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
 import DiscordIcon from "./icons/DiscordIcon.astro";
-import serverAvatar from "../../brand/discord/avatar-halloween-1024.png";
+import avatarDefault from "../../brand/discord/avatar-cream-1024.png";
+import avatarHalloween from "../../brand/discord/avatar-halloween-1024.png";
+import avatarChristmas from "../../brand/discord/avatar-christmas-1024.png";
+import SeasonDecor from "./SeasonDecor.astro";
 import {
     DISCORD_URL,
     DISCORD_WIDGET_API,
@@ -14,6 +18,7 @@ import {
     renderVoice,
     type DiscordData,
 } from "../lib/discord";
+import { currentSeason, type SeasonId } from "../lib/seasons";
 
 let discordData: DiscordData = FALLBACK_DATA;
 
@@ -29,12 +34,27 @@ try {
 }
 
 const view = buildView(discordData);
+
+// Perfil por festividad con la fecha del build; el navegador lo corrige si
+// el sitio se desplegó antes de que cambiara la temporada.
+const season = currentSeason();
+const avatars: Record<SeasonId, ImageMetadata> = {
+    default: avatarDefault,
+    halloween: avatarHalloween,
+    christmas: avatarChristmas,
+};
 ---
 
 <div class="w-full max-w-[370px] flex flex-col items-center">
-    <div class="w-full card-glass rounded-2xl p-5 shadow-2xl border border-white/10 relative overflow-hidden group transition-all duration-300 hover:border-brand-yellow/30 bg-surface/85 backdrop-blur-xl">
-        <!-- Top ambient glow -->
-        <div class="absolute -top-16 -right-16 w-36 h-36 bg-brand-discord/20 rounded-full blur-2xl pointer-events-none"></div>
+    <div
+        id="discord-widget"
+        data-season={season}
+        class="w-full card-glass rounded-2xl p-5 shadow-2xl border border-white/10 relative overflow-hidden group transition-all duration-300 hover:border-brand-yellow/30 bg-surface/85 backdrop-blur-xl"
+    >
+        <!-- Top ambient glow (su color cambia con la festividad) -->
+        <div class="season-glow absolute -top-16 -right-16 w-36 h-36 bg-brand-discord/20 rounded-full blur-2xl pointer-events-none"></div>
+
+        <SeasonDecor />
 
         <!-- Mode Toggle (Modern Card vs Official Iframe) -->
         <div class="flex items-center justify-end pb-4 mb-4 border-b border-white/[0.08] relative z-10">
@@ -63,13 +83,16 @@ const view = buildView(discordData);
         <div id="discord-view-modern" class="flex flex-col gap-4 relative z-10">
             <!-- Server Header -->
             <div class="flex items-center gap-3">
-                <Image
-                    src={serverAvatar}
-                    alt="Chamba Lab"
-                    width={88}
-                    height={88}
-                    class="w-11 h-11 rounded-xl bg-brand-cream shadow-md shadow-brand-discord/30 shrink-0"
-                />
+                {(Object.keys(avatars) as SeasonId[]).map((id) => (
+                    <Image
+                        src={avatars[id]}
+                        alt="Chamba Lab"
+                        width={88}
+                        height={88}
+                        data-season-avatar={id}
+                        class="season-avatar w-11 h-11 rounded-xl bg-brand-cream shadow-md shadow-brand-discord/30 shrink-0"
+                    />
+                ))}
                 <div class="flex flex-col min-w-0">
                     <p
                         id="discord-server-name"
@@ -139,6 +162,12 @@ const view = buildView(discordData);
     import { DISCORD_WIDGET_API } from "../lib/constants";
     import { buildView, normalize, renderVoice } from "../lib/discord";
     import { getStoredLang } from "../i18n/lang";
+    import { currentSeason } from "../lib/seasons";
+
+    // El HTML trae el perfil de la fecha del build; aquí se ajusta al día de hoy.
+    document
+        .getElementById("discord-widget")
+        ?.setAttribute("data-season", currentSeason());
 
     const btnModern = document.getElementById("btn-view-modern");
     const btnOfficial = document.getElementById("btn-view-official");

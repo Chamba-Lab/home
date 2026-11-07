@@ -1,0 +1,305 @@
+---
+/**
+ * Decoración por festividad del widget de Discord. Se pintan todos los
+ * perfiles y el CSS muestra solo el que marca `data-season` en
+ * `#discord-widget` (ver `src/lib/seasons.ts`). Va detrás del contenido,
+ * sin eventos ni lectura de pantalla.
+ */
+
+// Copos: posición horizontal (%), tamaño (px), duración y retraso (s).
+const flakes = [
+    { x: 6, size: 9, dur: 11, delay: 0 },
+    { x: 18, size: 6, dur: 14, delay: -6 },
+    { x: 31, size: 8, dur: 12, delay: -3 },
+    { x: 44, size: 5, dur: 16, delay: -10 },
+    { x: 57, size: 9, dur: 13, delay: -1 },
+    { x: 69, size: 6, dur: 15, delay: -8 },
+    { x: 81, size: 8, dur: 12, delay: -5 },
+    { x: 93, size: 5, dur: 17, delay: -12 },
+];
+
+// Esferas colgando desde el borde superior: posición (px), largo del hilo (px), color.
+const ornaments = [
+    { x: 22, string: 18, tone: "red" },
+    { x: 48, string: 30, tone: "gold" },
+    { x: 74, string: 12, tone: "cream" },
+];
+---
+
+<div class="season-decor" aria-hidden="true">
+    <!-- Halloween: murciélagos y una calabaza en la franja superior -->
+    <div data-season-deco="halloween">
+        <svg class="bat bat-1" viewBox="0 0 48 22">
+            <path d="M21 9 20 5l2.6 2.6Q24 7 25.4 7.6L28 5l-1 4Q34 4 46 6q-5 3-4 9-4-2.5-7-.5-3-2-5 1.5-3-1-6 4-3-5-6-4-2-3.5-5-1.5-3-2-7 .5 1-6-4-9 12-2 19 3z"></path>
+        </svg>
+        <svg class="bat bat-2" viewBox="0 0 48 22">
+            <path d="M21 9 20 5l2.6 2.6Q24 7 25.4 7.6L28 5l-1 4Q34 4 46 6q-5 3-4 9-4-2.5-7-.5-3-2-5 1.5-3-1-6 4-3-5-6-4-2-3.5-5-1.5-3-2-7 .5 1-6-4-9 12-2 19 3z"></path>
+        </svg>
+        <svg class="bat bat-3 decor-extra" viewBox="0 0 48 22">
+            <path d="M21 9 20 5l2.6 2.6Q24 7 25.4 7.6L28 5l-1 4Q34 4 46 6q-5 3-4 9-4-2.5-7-.5-3-2-5 1.5-3-1-6 4-3-5-6-4-2-3.5-5-1.5-3-2-7 .5 1-6-4-9 12-2 19 3z"></path>
+        </svg>
+        <svg class="pumpkin" viewBox="0 0 32 32">
+            <path
+                class="pumpkin-stem"
+                d="M15 4.5c0-1.4 1-2.5 2.6-2.5l.6 1.4c-.9.3-1.3 1-1.3 2.1V8h-1.9z"
+            ></path>
+            <ellipse
+                class="pumpkin-body"
+                cx="10.5"
+                cy="19"
+                rx="7.5"
+                ry="10"
+            ></ellipse>
+            <ellipse
+                class="pumpkin-body"
+                cx="21.5"
+                cy="19"
+                rx="7.5"
+                ry="10"
+            ></ellipse>
+            <ellipse
+                class="pumpkin-core"
+                cx="16"
+                cy="19"
+                rx="6.5"
+                ry="10.5"
+            ></ellipse>
+        </svg>
+    </div>
+
+    <!-- Navidad: esferas colgando y copos que caen -->
+    <div data-season-deco="christmas">
+        {ornaments.map((o, i) => (
+            <svg
+                class:list={[
+                    "ornament",
+                    `ornament-${o.tone}`,
+                    i === 2 && "decor-extra",
+                ]}
+                style={`left:${o.x}px;height:${o.string + 16}px`}
+                viewBox={`0 0 14 ${o.string + 16}`}
+            >
+                <line
+                    x1="7"
+                    y1="0"
+                    x2="7"
+                    y2={o.string}
+                    class="ornament-string"
+                />
+                <rect
+                    x="5"
+                    y={o.string - 1}
+                    width="4"
+                    height="3"
+                    rx="0.6"
+                    class="ornament-cap"
+                />
+                <circle
+                    cx="7"
+                    cy={o.string + 8.5}
+                    r="6"
+                    class="ornament-ball"
+                />
+            </svg>
+        ))}
+        {flakes.map((f, i) => (
+            <svg
+                class:list={["flake", i % 2 === 1 && "decor-extra"]}
+                style={`left:${f.x}%;width:${f.size}px;height:${f.size}px;animation-duration:${f.dur}s;animation-delay:${f.delay}s;--rest:${(i * 37) % 90}%`}
+                viewBox="0 0 12 12"
+            >
+                <path d="M6 0v12M0.8 3l10.4 6M0.8 9l10.4-6" />
+            </svg>
+        ))}
+    </div>
+</div>
+
+<style is:global>
+    #discord-widget .season-decor {
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+        container-type: size;
+    }
+
+    /* Solo se ve el avatar y la decoración del perfil activo. */
+    #discord-widget .season-avatar,
+    #discord-widget [data-season-deco] {
+        display: none;
+    }
+
+    #discord-widget[data-season="default"] [data-season-avatar="default"],
+    #discord-widget[data-season="halloween"] [data-season-avatar="halloween"],
+    #discord-widget[data-season="christmas"] [data-season-avatar="christmas"] {
+        display: block;
+    }
+
+    #discord-widget[data-season="halloween"] [data-season-deco="halloween"],
+    #discord-widget[data-season="christmas"] [data-season-deco="christmas"] {
+        display: block;
+    }
+
+    /* Brillo superior teñido por la festividad */
+    #discord-widget[data-season="halloween"] .season-glow {
+        background-color: color-mix(
+            in srgb,
+            var(--color-season-halloween) 22%,
+            transparent
+        );
+    }
+
+    #discord-widget[data-season="christmas"] .season-glow {
+        background-color: color-mix(
+            in srgb,
+            var(--color-season-christmas) 20%,
+            transparent
+        );
+    }
+
+    /* --- Halloween --- */
+    #discord-widget .bat {
+        position: absolute;
+        fill: var(--color-season-halloween);
+        opacity: 0.75;
+        animation: season-bob 4s ease-in-out infinite;
+    }
+
+    #discord-widget .bat-1 {
+        top: 14px;
+        left: 16px;
+        width: 36px;
+    }
+
+    #discord-widget .bat-2 {
+        top: 8px;
+        left: 62px;
+        width: 26px;
+        opacity: 0.55;
+        animation-delay: -1.5s;
+    }
+
+    #discord-widget .bat-3 {
+        top: 22px;
+        left: 96px;
+        width: 18px;
+        opacity: 0.4;
+        animation-delay: -2.6s;
+    }
+
+    #discord-widget .pumpkin {
+        position: absolute;
+        top: 10px;
+        left: 130px;
+        width: 22px;
+        opacity: 0.85;
+    }
+
+    #discord-widget .pumpkin-body {
+        fill: var(--color-season-halloween);
+    }
+
+    #discord-widget .pumpkin-core {
+        fill: color-mix(in srgb, var(--color-season-halloween) 80%, white);
+    }
+
+    #discord-widget .pumpkin-stem {
+        fill: var(--color-season-halloween-leaf);
+    }
+
+    /* --- Navidad --- */
+    #discord-widget .ornament {
+        position: absolute;
+        top: 0;
+        width: 14px;
+        transform-origin: top center;
+        animation: season-sway 5s ease-in-out infinite;
+    }
+
+    #discord-widget .ornament:nth-of-type(2) {
+        animation-delay: -1.8s;
+    }
+
+    #discord-widget .ornament:nth-of-type(3) {
+        animation-delay: -3.1s;
+    }
+
+    #discord-widget .ornament-string {
+        stroke: rgb(255 255 255 / 0.25);
+        stroke-width: 1;
+    }
+
+    #discord-widget .ornament-cap {
+        fill: #cbd5e1;
+    }
+
+    #discord-widget .ornament-red .ornament-ball {
+        fill: var(--color-season-christmas);
+    }
+
+    #discord-widget .ornament-gold .ornament-ball {
+        fill: var(--color-brand-yellow);
+    }
+
+    #discord-widget .ornament-cream .ornament-ball {
+        fill: var(--color-brand-cream);
+    }
+
+    #discord-widget .flake {
+        position: absolute;
+        top: 0;
+        fill: none;
+        stroke: var(--color-brand-cream);
+        stroke-width: 1.4;
+        stroke-linecap: round;
+        opacity: 0.35;
+        animation-name: season-fall;
+        animation-timing-function: linear;
+        animation-iteration-count: infinite;
+    }
+
+    @keyframes season-bob {
+        50% {
+            transform: translateY(-4px);
+        }
+    }
+
+    @keyframes season-sway {
+        0%,
+        100% {
+            transform: rotate(-4deg);
+        }
+        50% {
+            transform: rotate(4deg);
+        }
+    }
+
+    @keyframes season-fall {
+        from {
+            transform: translateY(-16px) rotate(0deg);
+        }
+        to {
+            transform: translateY(100cqh) rotate(180deg);
+        }
+    }
+
+    /* En móvil, menos elementos para no saturar la tarjeta. */
+    @media (max-width: 639px) {
+        #discord-widget .decor-extra {
+            display: none;
+        }
+    }
+
+    /* Sin movimiento: todo queda quieto y los copos, repartidos. */
+    @media (prefers-reduced-motion: reduce) {
+        #discord-widget .bat,
+        #discord-widget .ornament,
+        #discord-widget .flake {
+            animation: none;
+        }
+
+        #discord-widget .flake {
+            top: var(--rest);
+        }
+    }
+</style>
