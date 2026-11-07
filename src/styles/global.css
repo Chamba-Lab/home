@@ -15,6 +15,11 @@
     --color-brand-discord: #5865f2;
     --color-brand-discord-hover: #4752c4;
 
+    /* Perfiles por festividad del widget de Discord (SeasonDecor.astro) */
+    --color-season-halloween: #f97316;
+    --color-season-halloween-leaf: #65a30d;
+    --color-season-christmas: #e5322d;
+
     /* Theme surfaces & canvas */
     --color-bg: #080d1a;
     --color-surface: #0b1120;
