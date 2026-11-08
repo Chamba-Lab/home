@@ -1,8 +1,12 @@
 import { describe, expect, it } from "vitest";
 import {
     LAYERS,
+    MELT_S,
     SNOW_TIMING,
     createFlake,
+    landsOn,
+    meltAlpha,
+    settle,
     restingFlakes,
     snowOpacity,
     stepFlake,
@@ -52,5 +56,33 @@ describe("restingFlakes", () => {
             expect(f.y).toBeGreaterThanOrEqual(0);
             expect(f.y).toBeLessThanOrEqual(500);
         }
+    });
+});
+
+describe("copos sobre el botón", () => {
+    const ledge = { top: 100, left: 20, right: 300 };
+
+    it("se posan los copos medios y cercanos que cruzan el borde", () => {
+        const f = {
+            ...createFlake(300, () => 0.5, 0),
+            x: 150,
+            layer: 1 as const,
+        };
+        f.y = 100 - f.r + 1;
+        expect(landsOn(f, 100 - f.r - 2, ledge)).toBe(true);
+        expect(landsOn({ ...f, layer: 0 }, 100 - f.r - 2, ledge)).toBe(false);
+        expect(landsOn({ ...f, x: 5 }, 100 - f.r - 2, ledge)).toBe(false);
+    });
+
+    it("se derriten en menos de 2 s", () => {
+        const f = {
+            ...createFlake(300, () => 0.5, 0),
+            x: 150,
+            layer: 2 as const,
+        };
+        const s = settle(f, ledge, 1);
+        expect(s.y).toBeLessThan(ledge.top);
+        expect(meltAlpha(s, 1.1)).toBe(s.alpha);
+        expect(meltAlpha(s, 1 + 0.25 + MELT_S)).toBe(0);
     });
 });

@@ -17,75 +17,103 @@ const BAT = `
     <path d="M17.6 4.2 18.6 7a2.6 2.6 0 0 1 2.8 0l1-2.8.6 3.6a2.6 2.6 0 0 1-.2 1.6c1 1 1.5 2.3 1.5 3.8 0 2.4-1.6 4.8-4.3 6.3-2.7-1.5-4.3-3.9-4.3-6.3 0-1.5.5-2.8 1.5-3.8a2.6 2.6 0 0 1-.2-1.6z"/>
 `;
 
-// Bandada: tamaño (px), trayectoria (px desde la esquina superior izquierda),
-// duración y retraso (s), opacidad y desenfoque. Lo último acaba a los 4,3 s.
+// Bandada: sale de la luna. Los dos primeros son los murciélagos del reposo
+// que despegan desde donde estaban; el resto nace pequeño en la luna y crece al
+// acercarse. Tamaño final (px), escala inicial, trayectoria (px desde la
+// esquina superior izquierda; el centro del murciélago la sigue), duración y
+// retraso (s), opacidad inicial y final, desenfoque. Lo último acaba a los 4,4 s.
 const flock = [
     {
         size: 36,
-        path: "M420 150C300 70 170 190-60 90",
+        s0: 0.72,
+        path: "M33 20.5C110 0 200 90 440 60",
         dur: 3,
         delay: 0,
+        o0: 1,
+        o: 0.95,
+        blur: 0,
+    },
+    {
+        size: 26,
+        s0: 0.58,
+        path: "M59.5 37.8C130 70 220 40 440 150",
+        dur: 3.2,
+        delay: 0.2,
+        o0: 1,
         o: 0.9,
         blur: 0,
     },
     {
-        size: 31,
-        path: "M430 118C320 40 200 150-50 52",
-        dur: 3.3,
-        delay: 0.25,
-        o: 0.7,
-        blur: 0,
-    },
-    {
         size: 17,
-        path: "M410 88C310 30 190 110-40 30",
-        dur: 3.6,
+        s0: 0.3,
+        path: "M20 12C120 40 180 170 440 210",
+        dur: 3.4,
         delay: 0.5,
-        o: 0.45,
+        o0: 0,
+        o: 0.6,
         blur: 0.6,
     },
     {
         size: 24,
-        path: "M440 205C330 120 160 232-60 142",
+        s0: 0.3,
+        path: "M20 12C90 90 250 120 450 270",
         dur: 3.1,
-        delay: 0.8,
-        o: 0.65,
+        delay: 0.7,
+        o0: 0,
+        o: 0.85,
         blur: 0,
     },
     {
         size: 15,
-        path: "M420 60C300 12 160 82-40 22",
+        s0: 0.3,
+        path: "M20 12C140 -10 260 30 440 24",
         dur: 3.2,
-        delay: 1.1,
-        o: 0.4,
+        delay: 0.95,
+        o0: 0,
+        o: 0.5,
         blur: 0.8,
         extra: true,
     },
     {
-        size: 26,
-        path: "M450 262C340 172 180 262-70 182",
-        dur: 2.9,
-        delay: 1.4,
-        o: 0.8,
+        size: 31,
+        s0: 0.3,
+        path: "M20 12C60 160 220 220 460 330",
+        dur: 3,
+        delay: 1.2,
+        o0: 0,
+        o: 0.9,
         blur: 0,
         extra: true,
     },
 ];
 
-// Reborde de nieve acumulada en el borde superior: ondas suaves y fijas.
-const capPoints = [
-    8, 11, 7, 10, 12, 8, 10, 7, 11, 9, 12, 8, 10, 7, 11, 9, 8, 12, 9, 10, 8,
-];
-const cap = (offset: number) =>
-    `M0 0H400V${capPoints[0] + offset}` +
-    capPoints
-        .slice(1)
-        .map((y, i) => {
-            const x = 400 - (i + 1) * 20;
-            return `Q${x + 10} ${y + offset + 3} ${x} ${y + offset}`;
-        })
-        .join("") +
-    "Z";
+// Nieve acumulada en el borde superior: más gruesa en las esquinas, con
+// ondas irregulares y algunos carámbanos. Coordenadas en un ancho de 400.
+const thickness = (x: number) => {
+    const edge =
+        Math.max(0, 1 - x / 80) ** 1.6 + Math.max(0, 1 - (400 - x) / 80) ** 1.6;
+    const wobble = Math.sin(x * 0.045) * 1.6 + Math.sin(x * 0.11 + 1) * 0.8;
+    return 5.5 + edge * 10 + wobble;
+};
+const capPath = (offset: number) => {
+    let d = `M0 0H400V${(thickness(400) + offset).toFixed(1)}`;
+    for (let x = 384; x >= 0; x -= 16) {
+        const cx = x + 8;
+        d += `Q${cx} ${(thickness(cx) + offset + 1.6).toFixed(1)} ${x} ${(thickness(x) + offset).toFixed(1)}`;
+    }
+    return d + "Z";
+};
+const icicles = [
+    { x: 44, len: 10 },
+    { x: 55, len: 6 },
+    { x: 174, len: 7 },
+    { x: 270, len: 8 },
+    { x: 350, len: 11 },
+    { x: 361, len: 6 },
+].map(({ x, len }) => {
+    const y = thickness(x) - 1.2;
+    return `M${x - 3.2} ${y.toFixed(1)}Q${x - 0.6} ${(y + len * 0.7).toFixed(1)} ${x} ${(y + len).toFixed(1)}Q${x + 0.8} ${(y + len * 0.6).toFixed(1)} ${x + 3.2} ${y.toFixed(1)}Z`;
+});
 ---
 
 <div class="season-decor" aria-hidden="true">
@@ -99,7 +127,7 @@ const cap = (offset: number) =>
         {flock.map((b) => (
             <div
                 class:list={["flyer", b.extra && "decor-extra"]}
-                style={`offset-path:path("${b.path}");width:${b.size}px;--dur:${b.dur}s;--delay:${b.delay}s;--o:${b.o};filter:blur(${b.blur}px)`}
+                style={`offset-path:path("${b.path}");width:${b.size}px;--dur:${b.dur}s;--delay:${b.delay}s;--s0:${b.s0};--o0:${b.o0};--o:${b.o};--blur:${b.blur}px`}
             >
                 <svg viewBox="0 0 40 20" set:html={BAT} />
             </div>
@@ -108,9 +136,18 @@ const cap = (offset: number) =>
 
     <!-- Navidad: nieve acumulada arriba y nevada en canvas -->
     <div data-season-deco="christmas">
-        <svg class="snow-cap" viewBox="0 0 400 16" preserveAspectRatio="none">
-            <path class="snow-cap-shadow" d={cap(2)}></path>
-            <path class="snow-cap-body" d={cap(0)}></path>
+        <svg class="snow-cap" viewBox="0 0 400 30" preserveAspectRatio="none">
+            <defs>
+                <linearGradient id="snow-cap-fill" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0"></stop>
+                    <stop offset="1"></stop>
+                </linearGradient>
+            </defs>
+            <path class="snow-cap-shadow" d={capPath(1.4)}></path>
+            <path class="snow-cap-body" d={capPath(0)}></path>
+            {icicles.map((d) => (
+                <path class="snow-icicle" d={d} />
+            ))}
         </svg>
         <canvas class="snow-canvas"></canvas>
     </div>
@@ -120,10 +157,15 @@ const cap = (offset: number) =>
     import {
         SNOW_TIMING,
         createFlake,
+        landsOn,
+        meltAlpha,
         restingFlakes,
+        settle,
         snowOpacity,
         stepFlake,
         type Flake,
+        type Ledge,
+        type Settled,
     } from "../lib/snow";
 
     const widget = document.getElementById("discord-widget");
@@ -170,6 +212,21 @@ const cap = (offset: number) =>
         ctx.globalAlpha = 1;
     }
 
+    /** Copos posados en el botón: se encogen un poco mientras se derriten. */
+    function drawSettled(list: Settled[], t: number) {
+        if (!ctx) return;
+        for (const s of list) {
+            const a = meltAlpha(s, t);
+            if (a <= 0) continue;
+            // Achatado: un copo posado se apoya en el borde.
+            const size = s.r * 4.4 * (0.6 + 0.4 * (a / s.alpha));
+            const tall = size * 0.6;
+            ctx.globalAlpha = a;
+            ctx.drawImage(sprite, s.x - size / 2, s.y - tall / 2, size, tall);
+        }
+        ctx.globalAlpha = 1;
+    }
+
     function drawResting() {
         if (!ctx) return;
         ctx.clearRect(0, 0, width, height);
@@ -190,13 +247,30 @@ const cap = (offset: number) =>
         if (!playing) drawResting();
     }
 
+    /** Borde superior del botón de unirse, relativo a la tarjeta. */
+    function findLedge(): Ledge | null {
+        const cta = widget?.querySelector<HTMLElement>("[data-snow-ledge]");
+        if (!cta || !decor) return null;
+        const a = cta.getBoundingClientRect();
+        const b = decor.getBoundingClientRect();
+        if (!a.width) return null; // vista oficial: el botón no está
+        return {
+            top: a.top - b.top,
+            left: a.left - b.left,
+            right: a.right - b.left,
+        };
+    }
+
     function playSnow() {
         if (!ctx) return;
         const resting = restingFlakes(width, height);
+        const ledge = findLedge();
+        const settled: Settled[] = [];
         const perSecond = 26 * (width / 350);
-        // Algunos copos ya en el aire para que la nevada no empiece vacía.
-        const flakes: Flake[] = Array.from({ length: 10 }, () =>
-            createFlake(width, Math.random, Math.random() * height * 0.45),
+        // La nevada empieza ya repartida por la tarjeta (entra con un fundido).
+        const flakes: Flake[] = Array.from(
+            { length: Math.round(height / 12) },
+            () => createFlake(width, Math.random, Math.random() * height * 0.9),
         );
         let start = 0;
         let prev = 0;
@@ -221,13 +295,21 @@ const cap = (offset: number) =>
                 }
             }
             for (let i = flakes.length - 1; i >= 0; i--) {
-                stepFlake(flakes[i], dt, t);
-                if (flakes[i].y > height + 8) flakes.splice(i, 1);
+                const f = flakes[i];
+                const prevY = f.y;
+                stepFlake(f, dt, t);
+                if (ledge && landsOn(f, prevY, ledge) && Math.random() < 0.9) {
+                    settled.push(settle(f, ledge, t));
+                    flakes.splice(i, 1);
+                } else if (f.y > height + 8) {
+                    flakes.splice(i, 1);
+                }
             }
 
             ctx.clearRect(0, 0, width, height);
             drawFlakes(resting, 1);
             drawFlakes(flakes, snowOpacity(t));
+            drawSettled(settled, t);
             requestAnimationFrame(frame);
         };
         requestAnimationFrame(frame);
@@ -320,7 +402,7 @@ const cap = (offset: number) =>
     #discord-widget[data-season="christmas"] .season-glow {
         background-color: color-mix(
             in srgb,
-            var(--color-season-christmas) 20%,
+            var(--color-brand-yellow) 14%,
             transparent
         );
     }
@@ -335,50 +417,90 @@ const cap = (offset: number) =>
         border-radius: 50%;
         background:
             radial-gradient(
-                circle at 62% 68%,
-                rgb(0 0 0 / 0.08) 0 9%,
-                transparent 10%
+                circle at 64% 70%,
+                rgb(90 60 20 / 0.16) 0 8%,
+                rgb(90 60 20 / 0.06) 10%,
+                transparent 12%
             ),
             radial-gradient(
-                circle at 74% 44%,
-                rgb(0 0 0 / 0.06) 0 6%,
+                circle at 78% 44%,
+                rgb(90 60 20 / 0.13) 0 5%,
                 transparent 7%
+            ),
+            radial-gradient(
+                circle at 50% 84%,
+                rgb(90 60 20 / 0.1) 0 4%,
+                transparent 6%
+            ),
+            radial-gradient(
+                ellipse at 70% 60%,
+                rgb(90 60 20 / 0.1),
+                transparent 45%
             ),
             radial-gradient(
                 circle at 40% 35%,
                 var(--color-season-moon),
                 color-mix(
                         in srgb,
-                        var(--color-season-moon) 82%,
+                        var(--color-season-moon) 80%,
                         var(--color-brand-yellow-deep)
                     )
-                    70%
+                    72%
             );
         box-shadow:
+            inset -6px -8px 14px rgb(90 60 20 / 0.18),
             0 0 24px 4px
                 color-mix(in srgb, var(--color-season-moon) 22%, transparent),
             0 0 70px 24px
                 color-mix(in srgb, var(--color-season-moon) 8%, transparent);
-        opacity: 0.9;
+        opacity: 0.92;
+    }
+
+    /* Halo que se aviva durante el momento (solo opacidad). */
+    #discord-widget .moon::after {
+        content: "";
+        position: absolute;
+        inset: -40px;
+        border-radius: 50%;
+        background: radial-gradient(
+            circle,
+            color-mix(in srgb, var(--color-season-moon) 30%, transparent) 30%,
+            transparent 68%
+        );
+        opacity: 0;
+    }
+
+    #discord-widget .is-playing .moon::after {
+        animation: season-halo 5s ease-in-out;
+    }
+
+    /* Murciélagos en silueta con un borde de luz de luna. */
+    #discord-widget .bat-rest,
+    #discord-widget .flyer {
+        fill: var(--color-season-night);
     }
 
     #discord-widget .bat-rest {
         position: absolute;
-        fill: var(--color-bg);
+        transition: opacity 0.6s ease;
+    }
+
+    /* Al despegar, los del reposo pasan a ser los dos primeros de la bandada. */
+    #discord-widget .is-playing .bat-rest {
+        opacity: 0;
+        transition-duration: 0s;
     }
 
     #discord-widget .bat-rest-1 {
         top: 14px;
         left: 20px;
         width: 26px;
-        transform: rotate(-8deg);
     }
 
     #discord-widget .bat-rest-2 {
         top: 34px;
         left: 52px;
         width: 15px;
-        transform: rotate(10deg);
     }
 
     #discord-widget .fog {
@@ -394,9 +516,17 @@ const cap = (offset: number) =>
         width: 95%;
         background: radial-gradient(
             ellipse,
-            color-mix(in srgb, var(--color-season-fog) 26%, transparent),
+            color-mix(in srgb, var(--color-season-fog) 34%, transparent),
             transparent 70%
         );
+    }
+
+    #discord-widget .is-playing .fog-1 {
+        animation: season-fog 5s ease-in-out;
+    }
+
+    #discord-widget .is-playing .fog-2 {
+        animation: season-fog 5s ease-in-out reverse;
     }
 
     #discord-widget .fog-2 {
@@ -404,7 +534,7 @@ const cap = (offset: number) =>
         width: 85%;
         background: radial-gradient(
             ellipse,
-            color-mix(in srgb, var(--color-season-halloween) 14%, transparent),
+            color-mix(in srgb, var(--color-season-halloween) 20%, transparent),
             transparent 70%
         );
     }
@@ -422,7 +552,23 @@ const cap = (offset: number) =>
             offset-rotate: 0deg;
             offset-distance: 0%;
             opacity: 0;
-            fill: var(--color-season-halloween);
+            filter: blur(var(--blur))
+                drop-shadow(
+                    0 0 1.2px
+                        color-mix(
+                            in srgb,
+                            var(--color-season-moon) 95%,
+                            transparent
+                        )
+                )
+                drop-shadow(
+                    0 0 8px
+                        color-mix(
+                            in srgb,
+                            var(--color-season-halloween) 55%,
+                            transparent
+                        )
+                );
         }
 
         #discord-widget .is-playing .flyer {
@@ -458,15 +604,29 @@ const cap = (offset: number) =>
     @keyframes season-fly {
         0% {
             offset-distance: 0%;
-            opacity: 0;
+            opacity: var(--o0);
+            transform: scale(var(--s0));
         }
-        10%,
-        88% {
+        12%,
+        86% {
             opacity: var(--o);
         }
         100% {
             offset-distance: 100%;
             opacity: 0;
+            transform: scale(1);
+        }
+    }
+
+    @keyframes season-halo {
+        30% {
+            opacity: 1;
+        }
+    }
+
+    @keyframes season-fog {
+        50% {
+            transform: translateX(14px) scale(1.08);
         }
     }
 
@@ -500,17 +660,33 @@ const cap = (offset: number) =>
         top: 0;
         left: 0;
         width: 100%;
-        height: 14px;
+        height: 30px;
+    }
+
+    #discord-widget .snow-cap stop:first-child {
+        stop-color: white;
+    }
+
+    #discord-widget .snow-cap stop:last-child {
+        stop-color: var(--color-brand-cream);
+    }
+
+    #discord-widget .snow-cap-body,
+    #discord-widget .snow-icicle {
+        fill: url(#snow-cap-fill);
     }
 
     #discord-widget .snow-cap-body {
-        fill: var(--color-brand-cream);
-        opacity: 0.92;
+        opacity: 0.94;
+    }
+
+    #discord-widget .snow-icicle {
+        opacity: 0.8;
     }
 
     #discord-widget .snow-cap-shadow {
         fill: var(--color-season-frost);
-        opacity: 0.35;
+        opacity: 0.18;
     }
 
     #discord-widget .snow-canvas {
