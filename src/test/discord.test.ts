@@ -1,10 +1,11 @@
 import { describe, expect, it } from "vitest";
 import {
-    FALLBACK_DATA,
+    FALLBACK_CHANNELS,
     OTHERS_LIMIT,
     buildView,
     channelUrl,
     normalize,
+    renderChannelsOnly,
     renderVoice,
     type DiscordData,
 } from "../lib/discord";
@@ -41,10 +42,15 @@ describe("buildView", () => {
         expect(buildView(data).others.map((m) => m.username)).toEqual(["Bot"]);
     });
 
-    it("el respaldo tiene a dos personas en General", () => {
-        const view = buildView(FALLBACK_DATA);
-        expect(view.voice[0].channel.name).toContain("General");
-        expect(view.inVoice).toBe(2);
+    it("el respaldo trae solo canales, sin personas inventadas", () => {
+        expect(FALLBACK_CHANNELS.length).toBeGreaterThan(0);
+        for (const channel of FALLBACK_CHANNELS) {
+            expect(Object.keys(channel).sort()).toEqual([
+                "id",
+                "name",
+                "position",
+            ]);
+        }
     });
 });
 
@@ -165,5 +171,26 @@ describe("renderVoice", () => {
     it("muestra un estado vacío honesto sin canales", () => {
         const html = renderVoice(buildView(normalize({})));
         expect(html).toContain("No hay canales de voz disponibles.");
+    });
+});
+
+describe("renderChannelsOnly", () => {
+    const channels = [
+        { id: "c2", name: "Segundo", position: 1 },
+        { id: "c1", name: "Primero", position: 0 },
+    ];
+
+    it("mientras carga, muestra los canales y avisa sin inventar actividad", () => {
+        const html = renderChannelsOnly(channels, "loading", "es", "g1");
+        expect(html).toContain("Cargando quién está conectado");
+        expect(html.indexOf("Primero")).toBeLessThan(html.indexOf("Segundo"));
+        expect(html).toContain(channelUrl("g1", "c1"));
+    });
+
+    it("sin Discord, lo dice y deja entrar a los canales", () => {
+        const html = renderChannelsOnly(channels, "offline", "en", "g1");
+        expect(html).toContain("We couldn&#39;t load who&#39;s online");
+        expect(html).toContain('data-i18n-es="No pudimos cargar');
+        expect(html).toContain(channelUrl("g1", "c2"));
     });
 });

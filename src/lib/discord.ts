@@ -35,34 +35,18 @@ export interface DiscordData {
 }
 
 /**
- * Respaldo SOLO si la API falla (sin red o Discord caído): refleja la vista
- * real del servidor. Son datos de ejemplo, no personas en vivo.
+ * Canales de voz del servidor, para cuando Discord no responde en el build.
+ * Solo canales: nunca personas ni contadores, porque mostrar a alguien "en
+ * voz" sin que Discord lo confirme sería inventar actividad.
  */
-export const FALLBACK_DATA: DiscordData = {
-    id: DISCORD_GUILD_ID,
-    name: "Chamba Lab",
-    presence_count: 3,
-    channels: [
-        { id: "1548810529097781390", name: "🗿 General", position: 0 },
-        { id: "1551276099198259230", name: "☕code-and-coffee", position: 1 },
-        { id: "1560563282438258758", name: "Stage", position: 2 },
-    ],
-    members: [
-        { id: "0", username: "Jockie Music", status: "online" },
-        {
-            id: "1",
-            username: "Lolipow",
-            status: "online",
-            channel_id: "1548810529097781390",
-        },
-        {
-            id: "2",
-            username: "Melio",
-            status: "online",
-            channel_id: "1548810529097781390",
-        },
-    ],
-};
+export const FALLBACK_CHANNELS: DiscordChannel[] = [
+    { id: "1548810529097781390", name: "🗿 General", position: 0 },
+    { id: "1551276099198259230", name: "☕code-and-coffee", position: 1 },
+    { id: "1560563282438258758", name: "🎙️Stage", position: 2 },
+    { id: "1548819408896397422", name: "🎮Valito", position: 3 },
+    { id: "1550163239600390265", name: "🧊Minecraft", position: 4 },
+    { id: "1561626780408881163", name: "🤖 Ai exploring", position: 5 },
+];
 
 /** Normaliza la respuesta de `widget.json` (campos ausentes -> vacíos). */
 export function normalize(json: Partial<DiscordData>): DiscordData {
@@ -152,6 +136,14 @@ const TEXT = {
         en: "No one in voice right now: hop into a channel",
     },
     moreOnline: { es: "más en línea", en: "more online" },
+    loadingLive: {
+        es: "Cargando quién está conectado…",
+        en: "Loading who's online…",
+    },
+    offlineLive: {
+        es: "No pudimos cargar quién está conectado. Entra a un canal:",
+        en: "We couldn't load who's online. Hop into a channel:",
+    },
     noVoice: {
         es: "No hay canales de voz disponibles.",
         en: "No voice channels available.",
@@ -274,4 +266,29 @@ export function renderVoice(
                   )}${moreOnline(view.others.length - OTHERS_LIMIT, lang)}</ul></div>`
             : "";
     return voice + others;
+}
+
+/**
+ * Lista sin datos en vivo: mientras carga (`loading`) o si Discord no responde
+ * (`offline`). Muestra solo los canales, que sirven para entrar, sin personas.
+ */
+export function renderChannelsOnly(
+    channels: DiscordChannel[],
+    state: "loading" | "offline",
+    lang: Lang = "es",
+    guildId: string = DISCORD_GUILD_ID,
+) {
+    const sorted = [...channels].sort((a, b) => a.position - b.position);
+    const label =
+        state === "loading"
+            ? `<span class="text-[10px] font-semibold text-slate-500 flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-slate-500 animate-pulse" aria-hidden="true"></span><span ${t("loadingLive", lang)}</span></span>`
+            : `<span class="text-[10px] font-semibold text-slate-400 block" ${t("offlineLive", lang)}</span>`;
+    const chips = sorted.length
+        ? `<ul class="flex flex-wrap gap-1.5">${sorted
+              .map((channel) =>
+                  emptyChannel({ channel, members: [] }, guildId, lang),
+              )
+              .join("")}</ul>`
+        : "";
+    return `<div class="space-y-1.5" aria-live="polite">${label}${chips}</div>`;
 }

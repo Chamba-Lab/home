@@ -16,6 +16,8 @@ export const translations = {
         // Discord Card
         discordOnline: "miembros en línea",
         discordInVoice: "en voz",
+        discordLoading: "Cargando actividad en vivo",
+        discordUnavailable: "Actividad en vivo no disponible",
         discordChannels: "Canales de voz y estudio",
         discordJoin: "Unirse a la Comunidad",
         discordWidgetTabModern: "Vista Moderna",
@@ -179,6 +181,8 @@ export const translations = {
         // Discord Card
         discordOnline: "members online",
         discordInVoice: "in voice",
+        discordLoading: "Loading live activity",
+        discordUnavailable: "Live activity unavailable",
         discordChannels: "Voice & study channels",
         discordJoin: "Join Community",
         discordWidgetTabModern: "Modern View",
