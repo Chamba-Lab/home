@@ -12,28 +12,29 @@ import {
     DISCORD_WIDGET_IFRAME,
 } from "../lib/constants";
 import {
-    FALLBACK_DATA,
-    buildView,
+    FALLBACK_CHANNELS,
     normalize,
-    renderVoice,
-    type DiscordData,
+    renderChannelsOnly,
+    type DiscordChannel,
 } from "../lib/discord";
 import { currentSeason, type SeasonId } from "../lib/seasons";
 
-let discordData: DiscordData = FALLBACK_DATA;
+// En el build solo se toman los canales: las personas y los contadores de ese
+// momento serían una foto vieja cuando alguien visite el sitio (solo se
+// compila al fusionar). La actividad en vivo la pone el navegador.
+let channels: DiscordChannel[] = FALLBACK_CHANNELS;
 
 try {
     const res = await fetch(DISCORD_WIDGET_API, {
         signal: AbortSignal.timeout(3500),
     });
     if (res.ok) {
-        discordData = normalize(await res.json());
+        const live = normalize(await res.json()).channels;
+        if (live.length > 0) channels = live;
     }
 } catch {
-    // Sin red o Discord caído: se queda FALLBACK_DATA (datos de ejemplo).
+    // Sin red o Discord caído: se quedan los canales de respaldo.
 }
-
-const view = buildView(discordData);
 
 // Perfil por festividad con la fecha del build; el navegador lo corrige si
 // el sitio se desplegó antes de que cambiara la temporada.
@@ -49,6 +50,8 @@ const avatars: Record<SeasonId, ImageMetadata> = {
     <div
         id="discord-widget"
         data-season={season}
+        data-live="loading"
+        data-channels={JSON.stringify(channels)}
         class="w-full card-glass rounded-2xl p-5 shadow-2xl border border-white/10 relative overflow-hidden group transition-all duration-300 hover:border-brand-yellow/30 bg-surface/85 backdrop-blur-xl"
     >
         <!-- Top ambient glow (su color cambia con la festividad) -->
@@ -79,89 +82,126 @@ const avatars: Record<SeasonId, ImageMetadata> = {
             </div>
         </div>
 
-        <!-- VIEW A: Modern Glass Card -->
-        <div id="discord-view-modern" class="flex flex-col gap-4 relative z-10">
-            <!-- Server Header -->
-            <div class="flex items-center gap-3">
-                {(Object.keys(avatars) as SeasonId[]).map((id) => (
-                    <Image
-                        src={avatars[id]}
-                        alt="Chamba Lab"
-                        width={88}
-                        height={88}
-                        data-season-avatar={id}
-                        class="season-avatar w-11 h-11 rounded-xl bg-brand-cream shadow-md shadow-brand-discord/30 shrink-0"
-                    />
-                ))}
-                <div class="flex flex-col min-w-0">
-                    <p
-                        id="discord-server-name"
-                        class="font-display text-base font-extrabold text-white truncate leading-tight"
-                    >
-                        {discordData.name}
-                    </p>
-                    <p class="text-xs text-emerald-400 flex items-center gap-1.5 font-medium mt-0.5">
-                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-                        <span id="discord-presence-count">{view.online}</span>
-                        <span data-i18n="discordOnline">miembros en línea</span>
-                        <span class="text-slate-500">·</span>
-                        <span id="discord-voice-count">{view.inVoice}</span>
-                        <span data-i18n="discordInVoice">en voz</span>
-                    </p>
-                </div>
-            </div>
-
-            <!-- Canales de voz con su gente + el resto en línea -->
-            <div class="space-y-2 pt-2 border-t border-white/[0.06]">
-                <span
-                    class="text-[11px] font-bold uppercase tracking-wider text-slate-400 block"
-                    data-i18n="discordChannels"
-                >
-                    Canales de voz y estudio
-                </span>
-                <div
-                    id="discord-voice"
-                    class="widget-scroll max-h-[30rem] overflow-y-auto"
-                    set:html={renderVoice(view)}
-                />
-            </div>
-
-            <!-- Join Server CTA Button -->
-            <a
-                href={DISCORD_URL}
-                data-snow-ledge
-                target="_blank"
-                rel="noopener noreferrer"
-                class="w-full inline-flex items-center justify-center gap-2 bg-brand-discord hover:bg-brand-discord-hover text-white py-3 rounded-xl text-sm font-bold shadow-lg shadow-brand-discord/25 hover:shadow-brand-discord/40 transition-all transform hover:-translate-y-0.5 mt-1"
-            >
-                <DiscordIcon class="w-4 h-4" />
-                <span data-i18n="discordJoin">Unirse a la Comunidad</span>
-            </a>
-        </div>
-
-        <!-- VIEW B: Official Discord Iframe Widget -->
+        <!--
+            Las dos vistas comparten un alto mínimo (el del widget oficial), así
+            la tarjeta no salta al cargar, al quedarse sin conexión ni al cambiar
+            de vista; el botón de unirse queda siempre abajo.
+        -->
         <div
-            id="discord-view-official"
-            class="hidden flex-col items-center relative z-10"
+            id="discord-views"
+            class="relative z-10 flex flex-col min-h-[400px]"
         >
-            <iframe
-                src={DISCORD_WIDGET_IFRAME}
-                width="310"
-                height="400"
-                allowtransparency="true"
-                frameborder="0"
-                sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"
-                class="w-full rounded-xl bg-transparent"
-                title="Discord Server Widget"
-                loading="lazy"
-            ></iframe>
+            <!-- VIEW A: Modern Glass Card -->
+            <div
+                id="discord-view-modern"
+                class="flex-1 flex flex-col gap-4 relative z-10"
+            >
+                <!-- Server Header -->
+                <div class="flex items-center gap-3">
+                    {(Object.keys(avatars) as SeasonId[]).map((id) => (
+                        <Image
+                            src={avatars[id]}
+                            alt="Chamba Lab"
+                            width={88}
+                            height={88}
+                            data-season-avatar={id}
+                            class="season-avatar w-11 h-11 rounded-xl bg-brand-cream shadow-md shadow-brand-discord/30 shrink-0"
+                        />
+                    ))}
+                    <div class="flex flex-col min-w-0">
+                        <p
+                            id="discord-server-name"
+                            class="font-display text-base font-extrabold text-white truncate leading-tight"
+                        >
+                            Chamba Lab
+                        </p>
+                        <!-- Estado: cargando, en vivo o sin conexión (data-live) -->
+                        <p class="live-only text-xs text-emerald-400 items-center gap-1.5 font-medium mt-0.5">
+                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                            <span id="discord-presence-count">0</span>
+                            <span data-i18n="discordOnline">
+                                miembros en línea
+                            </span>
+                            <span class="text-slate-500">·</span>
+                            <span id="discord-voice-count">0</span>
+                            <span data-i18n="discordInVoice">en voz</span>
+                        </p>
+                        <p class="loading-only items-center gap-1.5 mt-1.5">
+                            <span
+                                class="h-2.5 w-40 rounded-full bg-white/10 animate-pulse"
+                                aria-hidden="true"
+                            ></span>
+                            <span class="sr-only" data-i18n="discordLoading">
+                                Cargando actividad en vivo
+                            </span>
+                        </p>
+                        <p class="offline-only text-xs text-slate-400 items-center gap-1.5 font-medium mt-0.5">
+                            <span class="w-1.5 h-1.5 rounded-full bg-slate-500"></span>
+                            <span data-i18n="discordUnavailable">
+                                Actividad en vivo no disponible
+                            </span>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Canales de voz con su gente + el resto en línea -->
+                <div class="space-y-2 pt-2 border-t border-white/[0.06]">
+                    <span
+                        class="text-[11px] font-bold uppercase tracking-wider text-slate-400 block"
+                        data-i18n="discordChannels"
+                    >
+                        Canales de voz y estudio
+                    </span>
+                    <div
+                        id="discord-voice"
+                        class="widget-scroll max-h-[30rem] overflow-y-auto"
+                        set:html={renderChannelsOnly(channels, "loading")}
+                    />
+                </div>
+
+                <!-- Join Server CTA Button -->
+                <a
+                    href={DISCORD_URL}
+                    data-snow-ledge
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="w-full inline-flex items-center justify-center gap-2 bg-brand-discord hover:bg-brand-discord-hover text-white py-3 rounded-xl text-sm font-bold shadow-lg shadow-brand-discord/25 hover:shadow-brand-discord/40 transition-all transform hover:-translate-y-0.5 mt-auto"
+                >
+                    <DiscordIcon class="w-4 h-4" />
+                    <span data-i18n="discordJoin">Unirse a la Comunidad</span>
+                </a>
+            </div>
+
+            <!-- VIEW B: Official Discord Iframe Widget -->
+            <div
+                id="discord-view-official"
+                class="hidden flex-1 flex-col items-center relative z-10"
+            >
+                <iframe
+                    src={DISCORD_WIDGET_IFRAME}
+                    width="310"
+                    height="400"
+                    allowtransparency="true"
+                    frameborder="0"
+                    sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"
+                    class="w-full flex-1 min-h-[400px] rounded-xl bg-transparent"
+                    title="Discord Server Widget"
+                    loading="lazy"
+                ></iframe>
+            </div>
         </div>
     </div>
 </div>
 
 <script>
     import { DISCORD_WIDGET_API } from "../lib/constants";
-    import { buildView, normalize, renderVoice } from "../lib/discord";
+    import {
+        buildView,
+        normalize,
+        renderChannelsOnly,
+        renderVoice,
+        type DiscordChannel,
+    } from "../lib/discord";
     import { getStoredLang } from "../i18n/lang";
     import { currentSeason } from "../lib/seasons";
 
@@ -175,10 +215,19 @@ const avatars: Record<SeasonId, ImageMetadata> = {
     const viewModern = document.getElementById("discord-view-modern");
     const viewOfficial = document.getElementById("discord-view-official");
 
+    const views = document.getElementById("discord-views");
+
     function setView(mode: "modern" | "official") {
+        // Fija el alto actual antes de cambiar: la otra vista ocupa lo mismo y
+        // la sección no salta (el iframe se estira para llenarlo).
+        if (views) {
+            const current = parseFloat(views.style.minHeight) || 0;
+            views.style.minHeight = `${Math.max(current, views.offsetHeight)}px`;
+        }
         if (mode === "modern") {
             viewModern?.classList.remove("hidden");
             viewOfficial?.classList.add("hidden");
+            viewOfficial?.classList.remove("flex");
             btnModern?.classList.add(
                 "bg-brand-yellow",
                 "text-slate-950",
@@ -194,6 +243,7 @@ const avatars: Record<SeasonId, ImageMetadata> = {
         } else {
             viewModern?.classList.add("hidden");
             viewOfficial?.classList.remove("hidden");
+            viewOfficial?.classList.add("flex");
             btnOfficial?.classList.add(
                 "bg-brand-yellow",
                 "text-slate-950",
@@ -212,18 +262,44 @@ const avatars: Record<SeasonId, ImageMetadata> = {
     btnModern?.addEventListener("click", () => setView("modern"));
     btnOfficial?.addEventListener("click", () => setView("official"));
 
-    // --- Progressive Client-Side Live Hydration ---
+    // --- Actividad en vivo (solo en el navegador) ---
+    const widget = document.getElementById("discord-widget");
+    const LIVE_TIMEOUT_MS = 5000;
+    // Si tras estar en vivo Discord deja de responder este tiempo, se avisa.
+    const STALE_MS = 3 * 60 * 1000;
+    let lastOk = 0;
+
+    function setLive(state: "loading" | "live" | "offline") {
+        widget?.setAttribute("data-live", state);
+    }
+
+    function showOffline() {
+        setLive("offline");
+        let channels: DiscordChannel[] = [];
+        try {
+            channels = JSON.parse(widget?.dataset.channels ?? "[]");
+        } catch {
+            // Sin canales: queda solo el aviso.
+        }
+        const voiceEl = document.getElementById("discord-voice");
+        if (voiceEl) {
+            voiceEl.innerHTML = renderChannelsOnly(
+                channels,
+                "offline",
+                getStoredLang(),
+            );
+        }
+    }
+
     async function refreshDiscordData() {
         try {
-            const res = await fetch(DISCORD_WIDGET_API);
-            if (!res.ok) return;
+            const res = await fetch(DISCORD_WIDGET_API, {
+                signal: AbortSignal.timeout(LIVE_TIMEOUT_MS),
+            });
+            if (!res.ok) throw new Error(String(res.status));
             const data = normalize(await res.json());
             const view = buildView(data);
 
-            const serverNameEl = document.getElementById("discord-server-name");
-            if (serverNameEl && data.name) {
-                serverNameEl.textContent = data.name;
-            }
             const presenceEl = document.getElementById(
                 "discord-presence-count",
             );
@@ -235,18 +311,35 @@ const avatars: Record<SeasonId, ImageMetadata> = {
             if (voiceEl) {
                 voiceEl.innerHTML = renderVoice(view, getStoredLang());
             }
+            lastOk = Date.now();
+            setLive("live");
         } catch {
-            // Sin red o bloqueado: se conserva el HTML del build.
+            // Bloqueado, sin red o Discord caído: nunca se muestran datos viejos.
+            if (!lastOk || Date.now() - lastOk > STALE_MS) showOffline();
         }
     }
 
-    // Refresh immediately on page load
     refreshDiscordData();
 
-    // Periodically refresh every 60s if the tab is visible
+    // Refresca cada 60 s si la pestaña está visible.
     setInterval(() => {
         if (document.visibilityState === "visible") {
             refreshDiscordData();
         }
     }, 60000);
 </script>
+
+<style is:global>
+    /* Solo se ve la línea de estado que corresponde a data-live. */
+    #discord-widget .live-only,
+    #discord-widget .loading-only,
+    #discord-widget .offline-only {
+        display: none;
+    }
+
+    #discord-widget[data-live="live"] .live-only,
+    #discord-widget[data-live="loading"] .loading-only,
+    #discord-widget[data-live="offline"] .offline-only {
+        display: flex;
+    }
+</style>
