@@ -18,8 +18,8 @@
     /* Perfiles por festividad del widget de Discord (SeasonDecor.astro) */
     --color-season-halloween: #f97316;
     --color-season-moon: #f6e7c1;
+    --color-season-night: #1a1328;
     --color-season-fog: #7c3aed;
-    --color-season-christmas: #e5322d;
     --color-season-frost: #93c5fd;
 
     /* Theme surfaces & canvas */
