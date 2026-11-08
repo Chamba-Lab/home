@@ -32,7 +32,7 @@ interface Layer {
 export const LAYERS: readonly Layer[] = [
     { r: [0.7, 1.2], vy: [22, 32], alpha: 0.35, sway: [4, 8], weight: 5 },
     { r: [1.3, 2], vy: [40, 55], alpha: 0.6, sway: [8, 14], weight: 3 },
-    { r: [2.2, 3.2], vy: [65, 85], alpha: 0.75, sway: [12, 20], weight: 1.5 },
+    { r: [2.2, 3.2], vy: [65, 85], alpha: 0.6, sway: [12, 20], weight: 1.5 },
 ];
 
 /** Tiempos del momento de nevada, en segundos (WCAG 2.2.2: no más de 5 s). */
@@ -106,4 +106,57 @@ export function restingFlakes(width: number, height: number): Flake[] {
         const f = createFlake(width, rand, rand() * height);
         return { ...f, alpha: f.alpha * 0.45 };
     });
+}
+
+/** Borde superior del botón donde se posan copos (px dentro de la tarjeta). */
+export interface Ledge {
+    top: number;
+    left: number;
+    right: number;
+}
+
+/** Copo posado sobre el botón: se derrite y desaparece. */
+export interface Settled {
+    x: number;
+    y: number;
+    r: number;
+    alpha: number;
+    /** Instante (s) en que se posó. */
+    born: number;
+}
+
+/** Segundos que tarda en derretirse un copo posado. */
+export const MELT_S = 2.2;
+
+/**
+ * ¿El copo cruzó el borde del botón en este paso? Solo los copos de las capas
+ * media y cercana, que están "a la altura" del botón; los lejanos pasan detrás.
+ */
+export function landsOn(f: Flake, prevY: number, ledge: Ledge): boolean {
+    return (
+        f.layer > 0 &&
+        prevY + f.r <= ledge.top &&
+        f.y + f.r >= ledge.top &&
+        f.x >= ledge.left + 6 &&
+        f.x <= ledge.right - 6
+    );
+}
+
+/** Posa un copo justo encima del borde del botón. */
+export function settle(f: Flake, ledge: Ledge, t: number): Settled {
+    return {
+        x: f.x,
+        y: ledge.top - f.r * 0.9,
+        r: f.r,
+        // Posado se ve más que en el aire: ya no lo atenúa la profundidad.
+        alpha: Math.max(f.alpha, 0.85),
+        born: t,
+    };
+}
+
+/** Opacidad de un copo posado: se queda un instante y luego se derrite. */
+export function meltAlpha(s: Settled, t: number): number {
+    const age = t - s.born;
+    if (age < 0.25) return s.alpha;
+    return Math.max(0, s.alpha * (1 - (age - 0.25) / MELT_S));
 }
