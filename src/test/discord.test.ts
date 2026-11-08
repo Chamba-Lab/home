@@ -1,9 +1,11 @@
 import { describe, expect, it } from "vitest";
 import {
-    FALLBACK_DATA,
+    FALLBACK_CHANNELS,
+    OTHERS_LIMIT,
     buildView,
     channelUrl,
     normalize,
+    renderChannelsOnly,
     renderVoice,
     type DiscordData,
 } from "../lib/discord";
@@ -40,10 +42,15 @@ describe("buildView", () => {
         expect(buildView(data).others.map((m) => m.username)).toEqual(["Bot"]);
     });
 
-    it("el respaldo tiene a dos personas en General", () => {
-        const view = buildView(FALLBACK_DATA);
-        expect(view.voice[0].channel.name).toContain("General");
-        expect(view.inVoice).toBe(2);
+    it("el respaldo trae solo canales, sin personas inventadas", () => {
+        expect(FALLBACK_CHANNELS.length).toBeGreaterThan(0);
+        for (const channel of FALLBACK_CHANNELS) {
+            expect(Object.keys(channel).sort()).toEqual([
+                "id",
+                "name",
+                "position",
+            ]);
+        }
     });
 });
 
@@ -124,20 +131,66 @@ describe("renderVoice", () => {
         expect(html).toContain("https://cdn.discordapp.com/widget-avatar/x");
     });
 
-    it("marca silenciados y atenúa canales vacíos", () => {
-        const html = renderVoice(buildView(data));
-        expect(html).toContain("Silenciado");
-        expect(html).toContain("opacity-60");
+    it("marca silenciados", () => {
+        expect(renderVoice(buildView(data))).toContain("Silenciado");
+    });
+
+    it("agrupa los canales vacíos en chips que enlazan a Discord", () => {
+        const html = renderVoice(buildView(data), "es", "g1");
+        const [occupied, empty] = html.split('data-i18n-es="Vacíos"');
+        expect(occupied).toContain("Sesiones");
+        expect(occupied).not.toContain(channelUrl("g1", "c1"));
+        expect(empty).toContain(channelUrl("g1", "c1"));
+        expect(empty).toContain(channelUrl("g1", "c2"));
+    });
+
+    it("sin nadie en voz, invita a entrar a un canal", () => {
+        const html = renderVoice(buildView({ ...data, members: [] }));
+        expect(html).toContain("Nadie en voz ahora");
+        expect(html).not.toContain('data-i18n-es="Vacíos"');
+    });
+
+    it("resume el resto en línea como +N", () => {
+        const many = Array.from({ length: OTHERS_LIMIT + 3 }, (_, i) => ({
+            id: `o${i}`,
+            username: `Persona ${i}`,
+        }));
+        const html = renderVoice(buildView({ ...data, members: many }));
+        expect(html).toContain(`Persona ${OTHERS_LIMIT - 1}`);
+        expect(html).not.toContain(`Persona ${OTHERS_LIMIT}<`);
+        expect(html).toContain(">+3<");
+        expect(html).toContain("3 más en línea");
     });
 
     it("pinta en el idioma pedido con atributos bilingües", () => {
         const html = renderVoice(buildView(data), "en");
         expect(html).toContain('data-i18n-en="Empty">Empty<');
-        expect(html).toContain('data-i18n-es="Vacío"');
+        expect(html).toContain('data-i18n-es="Vacíos"');
     });
 
     it("muestra un estado vacío honesto sin canales", () => {
         const html = renderVoice(buildView(normalize({})));
         expect(html).toContain("No hay canales de voz disponibles.");
+    });
+});
+
+describe("renderChannelsOnly", () => {
+    const channels = [
+        { id: "c2", name: "Segundo", position: 1 },
+        { id: "c1", name: "Primero", position: 0 },
+    ];
+
+    it("mientras carga, muestra los canales y avisa sin inventar actividad", () => {
+        const html = renderChannelsOnly(channels, "loading", "es", "g1");
+        expect(html).toContain("Cargando quién está conectado");
+        expect(html.indexOf("Primero")).toBeLessThan(html.indexOf("Segundo"));
+        expect(html).toContain(channelUrl("g1", "c1"));
+    });
+
+    it("sin Discord, lo dice y deja entrar a los canales", () => {
+        const html = renderChannelsOnly(channels, "offline", "en", "g1");
+        expect(html).toContain("We couldn&#39;t load who&#39;s online");
+        expect(html).toContain('data-i18n-es="No pudimos cargar');
+        expect(html).toContain(channelUrl("g1", "c2"));
     });
 });
