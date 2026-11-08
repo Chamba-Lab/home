@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
     FALLBACK_DATA,
+    OTHERS_LIMIT,
     buildView,
     channelUrl,
     normalize,
@@ -124,16 +125,41 @@ describe("renderVoice", () => {
         expect(html).toContain("https://cdn.discordapp.com/widget-avatar/x");
     });
 
-    it("marca silenciados y atenúa canales vacíos", () => {
-        const html = renderVoice(buildView(data));
-        expect(html).toContain("Silenciado");
-        expect(html).toContain("opacity-60");
+    it("marca silenciados", () => {
+        expect(renderVoice(buildView(data))).toContain("Silenciado");
+    });
+
+    it("agrupa los canales vacíos en chips que enlazan a Discord", () => {
+        const html = renderVoice(buildView(data), "es", "g1");
+        const [occupied, empty] = html.split('data-i18n-es="Vacíos"');
+        expect(occupied).toContain("Sesiones");
+        expect(occupied).not.toContain(channelUrl("g1", "c1"));
+        expect(empty).toContain(channelUrl("g1", "c1"));
+        expect(empty).toContain(channelUrl("g1", "c2"));
+    });
+
+    it("sin nadie en voz, invita a entrar a un canal", () => {
+        const html = renderVoice(buildView({ ...data, members: [] }));
+        expect(html).toContain("Nadie en voz ahora");
+        expect(html).not.toContain('data-i18n-es="Vacíos"');
+    });
+
+    it("resume el resto en línea como +N", () => {
+        const many = Array.from({ length: OTHERS_LIMIT + 3 }, (_, i) => ({
+            id: `o${i}`,
+            username: `Persona ${i}`,
+        }));
+        const html = renderVoice(buildView({ ...data, members: many }));
+        expect(html).toContain(`Persona ${OTHERS_LIMIT - 1}`);
+        expect(html).not.toContain(`Persona ${OTHERS_LIMIT}<`);
+        expect(html).toContain(">+3<");
+        expect(html).toContain("3 más en línea");
     });
 
     it("pinta en el idioma pedido con atributos bilingües", () => {
         const html = renderVoice(buildView(data), "en");
         expect(html).toContain('data-i18n-en="Empty">Empty<');
-        expect(html).toContain('data-i18n-es="Vacío"');
+        expect(html).toContain('data-i18n-es="Vacíos"');
     });
 
     it("muestra un estado vacío honesto sin canales", () => {
