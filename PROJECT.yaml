@@ -7,4 +7,6 @@ stack:
 responsibilities:
     implementation: Claude
 design:
-    events: https://www.figma.com/design/0wjkzIMBAORctHoSEHpR0E/Chamba-Lab?node-id=45-326
+    current-site: https://www.figma.com/design/0wjkzIMBAORctHoSEHpR0E/Chamba-Lab?node-id=214-2
+    redesign-rakim: https://www.figma.com/design/0wjkzIMBAORctHoSEHpR0E/Chamba-Lab?node-id=266-2
+    events: https://www.figma.com/design/0wjkzIMBAORctHoSEHpR0E/Chamba-Lab?node-id=240-2
