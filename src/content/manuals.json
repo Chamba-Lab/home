@@ -29,12 +29,12 @@
         "id": "user-stories",
         "number": 17,
         "title": {
-            "es": "Historias de usuario que nadie malinterpreta",
-            "en": "User stories nobody misreads"
+            "es": "Historias de usuario",
+            "en": "User stories"
         },
         "description": {
-            "es": "Historias y criterios de aceptación que todo el equipo entiende igual.",
-            "en": "Stories and acceptance criteria the whole team reads the same way."
+            "es": "Historias y criterios de aceptación que nadie malinterpreta y todo el equipo entiende igual.",
+            "en": "Stories and acceptance criteria nobody misreads and the whole team understands the same way."
         },
         "technology": "Agile Alliance · Gherkin"
     },
@@ -68,12 +68,12 @@
         "id": "git-teamwork",
         "number": 14,
         "title": {
-            "es": "Git en equipo, sin pánico",
-            "en": "Git as a team, without panic"
+            "es": "Git en equipo",
+            "en": "Git as a team"
         },
         "description": {
-            "es": "Ramas, pull requests y conflictos que resuelves con calma.",
-            "en": "Branches, pull requests and conflicts you solve calmly."
+            "es": "Ramas, pull requests y conflictos que resuelves con calma, sin pánico.",
+            "en": "Branches, pull requests and conflicts you solve calmly, without panic."
         },
         "technology": "Git 2.56 · GitHub"
     },
@@ -81,12 +81,12 @@
         "id": "web-accessibility",
         "number": 13,
         "title": {
-            "es": "Accesibilidad web: botones, etiquetas y teclado",
-            "en": "Web accessibility: buttons, labels and keyboard"
+            "es": "Accesibilidad web",
+            "en": "Web accessibility"
         },
         "description": {
-            "es": "De un botón «Pagar» que solo funciona con mouse a uno que cualquiera puede usar.",
-            "en": "From a \"Pay\" button that only works with a mouse to one anyone can use."
+            "es": "Botones, etiquetas y teclado: de un «Pagar» que solo funciona con mouse a uno que cualquiera puede usar.",
+            "en": "Buttons, labels and keyboard: from a \"Pay\" button that only works with a mouse to one anyone can use."
         },
         "technology": "WCAG 2.2 · WAI-ARIA APG"
     },
