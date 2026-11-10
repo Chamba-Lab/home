@@ -1,5 +1,135 @@
 [
     {
+        "id": "explaining-without-jargon",
+        "number": 19,
+        "title": {
+            "es": "Explícalo sin jerga",
+            "en": "Explain it without jargon"
+        },
+        "description": {
+            "es": "Que tu cliente o tu jefe entienda qué pasó, qué le cuesta y qué tiene que decidir.",
+            "en": "So your client or your boss understands what happened, what it costs and what they need to decide."
+        },
+        "technology": "Pirámide de Minto · BLUF · 2026"
+    },
+    {
+        "id": "code-review",
+        "number": 18,
+        "title": {
+            "es": "Code review sin pelearse",
+            "en": "Code review without fighting"
+        },
+        "description": {
+            "es": "Revisa en orden, comenta claro y recibe críticas sin tomarlas como algo personal.",
+            "en": "Review in order, comment clearly and take criticism without taking it personally."
+        },
+        "technology": "Conventional Comments · 2026"
+    },
+    {
+        "id": "user-stories",
+        "number": 17,
+        "title": {
+            "es": "Historias de usuario que nadie malinterpreta",
+            "en": "User stories nobody misreads"
+        },
+        "description": {
+            "es": "Historias y criterios de aceptación que todo el equipo entiende igual.",
+            "en": "Stories and acceptance criteria the whole team reads the same way."
+        },
+        "technology": "Agile Alliance · Gherkin"
+    },
+    {
+        "id": "scrum-for-real",
+        "number": 16,
+        "title": {
+            "es": "Scrum de verdad",
+            "en": "Scrum for real"
+        },
+        "description": {
+            "es": "Roles, eventos y artefactos con propósito, sin ceremonias vacías.",
+            "en": "Roles, events and artifacts with a purpose, without empty ceremonies."
+        },
+        "technology": "Guía de Scrum 2020"
+    },
+    {
+        "id": "cicd-github-actions",
+        "number": 15,
+        "title": {
+            "es": "CI/CD con GitHub Actions",
+            "en": "CI/CD with GitHub Actions"
+        },
+        "description": {
+            "es": "Cada PR probado, producción con aprobación y un rollback ensayado: despliega un viernes sin miedo.",
+            "en": "Every PR tested, production behind an approval and a rehearsed rollback: deploy on a Friday without fear."
+        },
+        "technology": "GitHub Actions · Node 26 LTS"
+    },
+    {
+        "id": "git-teamwork",
+        "number": 14,
+        "title": {
+            "es": "Git en equipo, sin pánico",
+            "en": "Git as a team, without panic"
+        },
+        "description": {
+            "es": "Ramas, pull requests y conflictos que resuelves con calma.",
+            "en": "Branches, pull requests and conflicts you solve calmly."
+        },
+        "technology": "Git 2.56 · GitHub"
+    },
+    {
+        "id": "web-accessibility",
+        "number": 13,
+        "title": {
+            "es": "Accesibilidad web: botones, etiquetas y teclado",
+            "en": "Web accessibility: buttons, labels and keyboard"
+        },
+        "description": {
+            "es": "De un botón «Pagar» que solo funciona con mouse a uno que cualquiera puede usar.",
+            "en": "From a \"Pay\" button that only works with a mouse to one anyone can use."
+        },
+        "technology": "WCAG 2.2 · WAI-ARIA APG"
+    },
+    {
+        "id": "react-state",
+        "number": 12,
+        "title": {
+            "es": "El estado en React",
+            "en": "State in React"
+        },
+        "description": {
+            "es": "Por qué tres setCount suman solo 1: el estado como foto, la cola de actualizaciones y la inmutabilidad.",
+            "en": "Why three setCount calls add up to just 1: state as a snapshot, the update queue and immutability."
+        },
+        "technology": "React 19.3"
+    },
+    {
+        "id": "postgres-indexes",
+        "number": 11,
+        "title": {
+            "es": "Índices en PostgreSQL",
+            "en": "Indexes in PostgreSQL"
+        },
+        "description": {
+            "es": "De una consulta de 8 segundos a milisegundos, leyendo el plan con EXPLAIN ANALYZE.",
+            "en": "From an 8-second query to milliseconds, reading the plan with EXPLAIN ANALYZE."
+        },
+        "technology": "PostgreSQL 18"
+    },
+    {
+        "id": "rest-api-design",
+        "number": 10,
+        "title": {
+            "es": "API REST bien hecha",
+            "en": "A well-built REST API"
+        },
+        "description": {
+            "es": "Verbos, códigos de estado y errores que el front entiende sin adivinar.",
+            "en": "Verbs, status codes and errors the front end understands without guessing."
+        },
+        "technology": "HTTP · RFC 9110 · RFC 9457"
+    },
+    {
         "id": "reading-job-offers",
         "number": 9,
         "title": {
