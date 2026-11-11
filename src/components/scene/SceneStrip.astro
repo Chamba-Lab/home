@@ -1,0 +1,90 @@
+---
+/**
+ * Franja de una escena en móvil y tableta (por debajo de 1280 px): una banda
+ * de `height` px con la escena encuadrada como en Figma (`img`: posición y
+ * ancho de la imagen dentro de la franja, en px) y fundida arriba y abajo
+ * (`fade`, el velo de Figma: [posición 0–1, opacidad]). Va en el flujo,
+ * donde se coloque; en escritorio no se muestra ni se descarga.
+ */
+import type { ImageMetadata } from "astro";
+import SeasonalImage from "./SeasonalImage.astro";
+import type { SeasonVariants } from "../../lib/scenes";
+import { veilMask } from "../../lib/veils";
+
+interface Props {
+    variants: SeasonVariants<ImageMetadata>;
+    height: number;
+    img: { x: number; y: number; w: number };
+    fade: readonly (readonly [number, number])[];
+    /** Tarjeta con esquinas redondeadas (dentro del margen de la página). */
+    rounded?: boolean;
+    class?: string;
+}
+
+const {
+    variants,
+    height,
+    img,
+    fade,
+    rounded = false,
+    class: className,
+} = Astro.props;
+
+const mask = veilMask(
+    [{ axis: "y", start: 0, size: height, stops: fade }],
+    "y",
+    0,
+    height,
+);
+const style = [
+    `height: ${height}px`,
+    `--strip-x: ${img.x}px`,
+    `--strip-y: ${img.y}px`,
+    `--strip-w: ${img.w}px`,
+    `--strip-mask: ${mask === "none" ? "linear-gradient(#000, #000)" : mask}`,
+].join("; ");
+---
+
+<div
+    class:list={["scene-strip", className, { "is-rounded": rounded }]}
+    style={style}
+    aria-hidden="true"
+>
+    <SeasonalImage
+        variants={variants}
+        widths={[600, 900, 1200]}
+        sizes={`max(${img.w}px, 100vw)`}
+        class="scene-strip__scene"
+        imgClass="scene-strip__img"
+    />
+</div>
+
+<style is:global>
+    .scene-strip {
+        position: relative;
+        overflow: hidden;
+        pointer-events: none;
+        -webkit-mask-image: var(--strip-mask);
+        mask-image: var(--strip-mask);
+    }
+
+    .scene-strip.is-rounded {
+        border-radius: 16px;
+    }
+
+    .scene-strip__img {
+        position: absolute;
+        left: var(--strip-x);
+        top: var(--strip-y);
+        /* En tableta la franja es más ancha: la imagen crece para cubrirla. */
+        width: max(var(--strip-w), calc(100% - var(--strip-x)));
+        max-width: none;
+        height: auto;
+    }
+
+    @media (min-width: 1280px) {
+        .scene-strip {
+            display: none;
+        }
+    }
+</style>
