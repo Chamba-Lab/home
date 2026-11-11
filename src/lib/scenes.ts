@@ -46,31 +46,93 @@ export function variantKey(
  */
 export function applySeason(root: ParentNode, season: SeasonId) {
     root.querySelectorAll<HTMLElement>("[data-season-slot]").forEach((slot) => {
-        const templates = slot.querySelectorAll<HTMLTemplateElement>(
-            ":scope > template[data-season]",
-        );
-        const current = slot.dataset.seasonCurrent ?? "none";
-        const has = (key: string) =>
-            key === current ||
-            [...templates].some((t) => t.dataset.season === key);
         // Misma regla que `variantKey`, con las variantes que trae el HTML.
-        const want = has(season) ? season : has("default") ? "default" : "none";
-        if (want === current) return;
-
-        const next = [...templates].find((t) => t.dataset.season === want);
-        if (!next) return;
-
-        // La variante actual pasa a su plantilla para poder volver.
-        const live = [...slot.childNodes].filter(
-            (n) => !(n instanceof HTMLTemplateElement),
+        swapVariant(slot, "season", (has) =>
+            has(season) ? season : has("default") ? "default" : "none",
         );
-        const saved = document.createElement("template");
-        saved.dataset.season = current;
-        live.forEach((n) => saved.content.appendChild(n));
-        slot.appendChild(saved);
-
-        slot.prepend(next.content.cloneNode(true));
-        next.remove();
-        slot.dataset.seasonCurrent = want;
     });
+}
+
+/** Momento del día de una escena que cambia con la hora de Lima. */
+export type Daypart = "day" | "night";
+
+/** Hora de inicio y de fin de la noche en Lima (de 19:00 a 05:59). */
+export const NIGHT_FROM_HOUR = 19;
+export const NIGHT_TO_HOUR = 6;
+
+/** Hora en Lima (0–23). */
+export function limaHour(now: Date = new Date()): number {
+    const hour = new Intl.DateTimeFormat("en-US", {
+        timeZone: "America/Lima",
+        hour: "numeric",
+        hourCycle: "h23",
+    }).format(now);
+    return Number(hour);
+}
+
+/** De día o de noche según la hora de Lima. */
+export function daypartFor(hour: number): Daypart {
+    return hour >= NIGHT_FROM_HOUR || hour < NIGHT_TO_HOUR ? "night" : "day";
+}
+
+/**
+ * Pone en cada `[data-daypart-slot]` la escena de `daypart` y luego su
+ * temporada. A diferencia de la temporada, el build no puede adivinar la
+ * hora de quien visita: el HTML trae las dos escenas en plantillas
+ * (`<template data-daypart="day|night">`) y solo se descarga la que toca.
+ */
+export function applyDaypart(
+    root: ParentNode,
+    daypart: Daypart,
+    season: SeasonId,
+) {
+    root.querySelectorAll<HTMLElement>("[data-daypart-slot]").forEach(
+        (slot) => {
+            swapVariant(slot, "daypart", (has) =>
+                has(daypart)
+                    ? daypart
+                    : (slot.dataset.daypartCurrent ?? "none"),
+            );
+            applySeason(slot, season);
+        },
+    );
+}
+
+/**
+ * Cambia el contenido de un hueco por el de la plantilla que elige `pick`.
+ * El hueco guarda su variante actual en `data-<attr>-current` y las demás en
+ * `<template data-<attr>="…">` hijas directas; la actual pasa a su plantilla
+ * para poder volver.
+ */
+function swapVariant(
+    slot: HTMLElement,
+    attr: "season" | "daypart",
+    pick: (has: (key: string) => boolean) => string,
+) {
+    const currentKey = `${attr}Current` as const;
+    const templates = [
+        ...slot.querySelectorAll<HTMLTemplateElement>(
+            `:scope > template[data-${attr}]`,
+        ),
+    ];
+    const current = slot.dataset[currentKey] ?? "none";
+    const has = (key: string) =>
+        key === current || templates.some((t) => t.dataset[attr] === key);
+    const want = pick(has);
+    if (want === current) return;
+
+    const next = templates.find((t) => t.dataset[attr] === want);
+    if (!next) return;
+
+    const live = [...slot.childNodes].filter(
+        (n) => !(n instanceof HTMLTemplateElement),
+    );
+    const saved = document.createElement("template");
+    saved.dataset[attr] = current;
+    live.forEach((n) => saved.content.appendChild(n));
+    slot.appendChild(saved);
+
+    slot.prepend(next.content.cloneNode(true));
+    next.remove();
+    slot.dataset[currentKey] = want;
 }
