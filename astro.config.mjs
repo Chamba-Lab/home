@@ -35,7 +35,7 @@ export default defineConfig({
             directives: [
                 "default-src 'self'",
                 "img-src 'self' data: https://cdn.discordapp.com https://github.com https://avatars.githubusercontent.com https://img.youtube.com https://yt3.googleusercontent.com",
-                "frame-src https://discord.com https://www.youtube-nocookie.com",
+                "frame-src https://www.youtube-nocookie.com",
                 // cloudflareinsights.com recibe las métricas de Web Analytics.
                 "connect-src 'self' https://discord.com https://cloudflareinsights.com",
                 // Vite incrusta como data: los subconjuntos de fuente pequeños.

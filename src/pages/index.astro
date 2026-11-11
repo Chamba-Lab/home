@@ -1,10 +1,9 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import DiscordWidget from "../components/DiscordWidget.astro";
+import HeroRoom from "../components/scene/HeroRoom.astro";
 import CommunityEcosystem from "../components/CommunityEcosystem";
 import TeamSection from "../components/TeamSection.astro";
-import DiscordIcon from "../components/icons/DiscordIcon.astro";
-import { DISCORD_URL, SITE_URL } from "../lib/constants";
+import { SITE_URL } from "../lib/constants";
 import { organizationJsonLd, websiteJsonLd } from "../lib/seo";
 import { categoryById, featuredResources } from "../lib/resources";
 import { getCollection } from "astro:content";
@@ -90,86 +89,8 @@ const recIcsUrl = recurringEvent
     jsonLd={[organizationJsonLd(siteOrigin), websiteJsonLd(siteOrigin)]}
 >
     <main class="flex-1">
-        <!-- ============================================================== -->
-        <!-- HERO SECTION (Stitch: Landing Optimizada y Equilibrada)       -->
-        <!-- ============================================================== -->
-        <section class="relative overflow-hidden pt-12 pb-20 md:pt-20 md:pb-32 glow-radial">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center pt-4">
-                    <!-- Left Column: Copy & Actions -->
-                    <div class="lg:col-span-7 flex flex-col items-center lg:items-start text-center lg:text-left">
-                        <!-- Main Display Headline -->
-                        <h1 class="font-display text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white mb-6 leading-[1.12]">
-                            <span data-i18n="heroTitlePrefix">
-                                Conecta, inspírate y crece en
-                            </span>{" "}
-                            <span
-                                class="text-brand-yellow"
-                                data-i18n="heroTitleHighlight"
-                            >
-                                tecnología
-                            </span>
-                            .
-                        </h1>
-
-                        <!-- Lead Subtitle (Clean 2-level hierarchy) -->
-                        <p
-                            class="text-lg sm:text-xl text-slate-300 font-normal leading-relaxed mb-8 max-w-2xl"
-                            data-i18n="heroSubtitle"
-                        >
-                            Chamba Lab es una comunidad tech en Discord para
-                            conectar con otras personas del sector, inspirarte y
-                            crecer en tu carrera.
-                        </p>
-
-                        <!-- Call to Action Buttons -->
-                        <div class="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto mb-4">
-                            <!-- Primary CTA: Discord -->
-                            <a
-                                class="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 bg-brand-yellow hover:bg-amber-300 text-slate-950 font-bold px-7 py-3.5 rounded-xl text-base transition-all transform hover:-translate-y-0.5 shadow-lg shadow-brand-yellow/20"
-                                href={DISCORD_URL}
-                                rel="noopener noreferrer"
-                                target="_blank"
-                            >
-                                <DiscordIcon class="w-5 h-5 text-slate-950" />
-                                <span data-i18n="ctaDiscord">
-                                    Unirse a Discord
-                                </span>
-                            </a>
-
-                            <!-- Secondary CTA: Explore Resources -->
-                            <a
-                                class="w-full sm:w-auto inline-flex items-center justify-center gap-2 card-glass hover:bg-white/[0.08] text-slate-200 font-semibold px-6 py-3.5 rounded-xl text-base transition-all border border-white/10"
-                                href={`${base}resources/`}
-                            >
-                                <span data-i18n="ctaResources">
-                                    Ver Recursos
-                                </span>
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    class="w-4 h-4 text-slate-400"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                >
-                                    <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        stroke-width="2"
-                                        d="M14 5l7 7m0 0l-7 7m7-7H3"
-                                    ></path>
-                                </svg>
-                            </a>
-                        </div>
-                    </div>
-
-                    <!-- Right Column: Discord Widget Integration -->
-                    <div class="lg:col-span-5 flex justify-center w-full lg:justify-end">
-                        <DiscordWidget />
-                    </div>
-                </div>
-            </div>
-        </section>
+        <!-- Hero: el cuarto de Rakim; el widget de Discord es su monitor -->
+        <HeroRoom />
 
         <!-- ============================================================== -->
         <!-- COMUNIDAD & ECOSISTEMA (Interactive Community Lifecycle Flow)  -->

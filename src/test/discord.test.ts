@@ -1,8 +1,9 @@
 import { describe, expect, it } from "vitest";
 import {
     FALLBACK_CHANNELS,
-    OTHERS_LIMIT,
+    OTHERS_AVATARS,
     buildView,
+    channelLabel,
     channelUrl,
     normalize,
     renderChannelsOnly,
@@ -131,46 +132,74 @@ describe("renderVoice", () => {
         expect(html).toContain("https://cdn.discordapp.com/widget-avatar/x");
     });
 
-    it("marca silenciados", () => {
-        expect(renderVoice(buildView(data))).toContain("Silenciado");
+    it("dice quién está en cada canal, silenciados incluidos", () => {
+        const html = renderVoice(buildView(data));
+        expect(html).toContain(
+            '<span class="sr-only">: Ana, Beto (silenciado)</span>',
+        );
     });
 
-    it("agrupa los canales vacíos en chips que enlazan a Discord", () => {
+    it("pone primero los canales con gente, resaltados, y deja entrar a los vacíos", () => {
         const html = renderVoice(buildView(data), "es", "g1");
-        const [occupied, empty] = html.split('data-i18n-es="Vacíos"');
-        expect(occupied).toContain("Sesiones");
-        expect(occupied).not.toContain(channelUrl("g1", "c1"));
-        expect(empty).toContain(channelUrl("g1", "c1"));
-        expect(empty).toContain(channelUrl("g1", "c2"));
+        expect(html.indexOf("Sesiones")).toBeLessThan(html.indexOf("General"));
+        expect(html).toContain("bg-brand-discord/[0.14]");
+        expect(html).toContain(channelUrl("g1", "c1"));
+        expect(html).toContain(channelUrl("g1", "c2"));
+        expect(html).toContain('data-i18n-es="Entrar"');
     });
 
-    it("sin nadie en voz, invita a entrar a un canal", () => {
+    it("sin nadie en voz, ningún canal se resalta", () => {
         const html = renderVoice(buildView({ ...data, members: [] }));
-        expect(html).toContain("Nadie en voz ahora");
-        expect(html).not.toContain('data-i18n-es="Vacíos"');
+        expect(html).not.toContain("bg-brand-discord/[0.14]");
     });
 
-    it("resume el resto en línea como +N", () => {
-        const many = Array.from({ length: OTHERS_LIMIT + 3 }, (_, i) => ({
+    it("resume el resto en línea: dos nombres y cuántos más", () => {
+        const many = Array.from({ length: OTHERS_AVATARS + 3 }, (_, i) => ({
             id: `o${i}`,
             username: `Persona ${i}`,
         }));
         const html = renderVoice(buildView({ ...data, members: many }));
-        expect(html).toContain(`Persona ${OTHERS_LIMIT - 1}`);
-        expect(html).not.toContain(`Persona ${OTHERS_LIMIT}<`);
-        expect(html).toContain(">+3<");
-        expect(html).toContain("3 más en línea");
+        expect(html).toContain(">Persona 0, Persona 1 y 5 más<");
+        expect(html).toContain(
+            'data-i18n-en="Persona 0, Persona 1 and 5 more"',
+        );
+        expect(html.match(/title="Persona/g)?.length).toBe(OTHERS_AVATARS);
+    });
+
+    it("con dos en línea, los nombra a los dos", () => {
+        const html = renderVoice(
+            buildView({
+                ...data,
+                members: [
+                    { id: "a", username: "Ana" },
+                    { id: "b", username: "Beto" },
+                ],
+            }),
+        );
+        expect(html).toContain(">Ana y Beto<");
     });
 
     it("pinta en el idioma pedido con atributos bilingües", () => {
         const html = renderVoice(buildView(data), "en");
-        expect(html).toContain('data-i18n-en="Empty">Empty<');
-        expect(html).toContain('data-i18n-es="Vacíos"');
+        expect(html).toContain('data-i18n-en="Voice channels">Voice channels<');
+        expect(html).toContain('data-i18n-es="Canales de voz"');
     });
 
     it("muestra un estado vacío honesto sin canales", () => {
         const html = renderVoice(buildView(normalize({})));
         expect(html).toContain("No hay canales de voz disponibles.");
+    });
+});
+
+describe("channelLabel", () => {
+    it("quita el emoji del principio del nombre", () => {
+        expect(channelLabel("🗿 General")).toBe("General");
+        expect(channelLabel("☕code-and-coffee")).toBe("code-and-coffee");
+        expect(channelLabel("🎙️Stage")).toBe("Stage");
+    });
+
+    it("deja el nombre tal cual si solo es un emoji", () => {
+        expect(channelLabel("🎮")).toBe("🎮");
     });
 });
 
