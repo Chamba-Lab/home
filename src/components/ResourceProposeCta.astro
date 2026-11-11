@@ -25,7 +25,9 @@ const bust = category
     data-hide-when-empty
     class:list={[
         "propose-cta card-glass relative rounded-2xl p-6 sm:p-8 border flex flex-col sm:flex-row sm:items-center justify-between gap-5",
-        bust ? "mt-28 sm:mt-36 border-(--cat-border)! hover:border-(--cat-accent)/60!" : "mt-12 border-white/10",
+        bust
+            ? "mt-28 sm:mt-36 border-(--cat-border)! hover:border-(--cat-accent)/60!"
+            : "mt-12 border-white/10",
     ]}
 >
     {bust && (
