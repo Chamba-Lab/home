@@ -2,6 +2,13 @@
 import TeamAvatar from "./TeamAvatar.astro";
 import { getTeamMembers } from "../lib/team";
 import TeamMemberCard from "./TeamMemberCard.astro";
+import SceneBackdrop from "./scene/SceneBackdrop.astro";
+import SceneStrip from "./scene/SceneStrip.astro";
+import { SECTION_STRIP_FADE } from "../lib/scene-presets";
+import terrace from "../assets/scenes/places/team.webp";
+import terraceChristmas from "../assets/scenes/places/team-christmas.webp";
+
+const terraceVariants = { default: terrace, christmas: terraceChristmas };
 
 const rawBase = import.meta.env.BASE_URL;
 const base = rawBase.endsWith("/") ? rawBase : `${rawBase}/`;
@@ -20,9 +27,53 @@ const stack = [...crew, ...rest];
 const STACK_VISIBLE = 14;
 ---
 
-<section class="py-20 border-t border-white/[0.06]" id="team">
+<section class="relative pb-20 xl:pt-20" id="team">
+    <!-- La terraza (la foto de equipo) detrás del título; las tarjetas bajan
+         para que los personajes no se vean a través de ellas. -->
+    <SceneBackdrop
+        variants={terraceVariants}
+        desktop={{
+            x: 470,
+            y: -20,
+            w: 1000,
+            h: 540,
+            veils: [
+                {
+                    axis: "x",
+                    start: 0,
+                    size: 1440,
+                    stops: [
+                        [0, 1],
+                        [0.38, 1],
+                        [0.55, 0.55],
+                        [0.75, 0.15],
+                        [1, 0.1],
+                    ],
+                },
+                {
+                    axis: "y",
+                    start: 0,
+                    size: 781,
+                    stops: [
+                        [0, 0.4],
+                        [0.1, 0],
+                        [0.36, 0.15],
+                        [0.48, 1],
+                        [1, 1],
+                    ],
+                },
+            ],
+        }}
+    />
+    <SceneStrip
+        variants={terraceVariants}
+        height={230}
+        img={{ x: -150, y: -40, w: 560 }}
+        fade={SECTION_STRIP_FADE}
+        class="mb-4"
+    />
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="mb-12 max-w-2xl">
+        <div class="mb-12 max-w-2xl xl:mb-[238px]">
             <h2
                 class="font-display text-3xl sm:text-4xl font-extrabold text-white tracking-tight mb-2"
                 data-i18n="teamTitle"
