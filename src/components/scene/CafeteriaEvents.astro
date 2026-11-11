@@ -1,0 +1,788 @@
+---
+/**
+ * Eventos del inicio: la pizarra de la cafetería. El jefe barista atiende a
+ * la izquierda y en la pizarra va la próxima sesión (fecha, cartel, datos y
+ * botones). En escritorio (≥ 1280 px) es la composición de Figma escalada
+ * entera, con el contenido sobre la superficie de la pizarra; por debajo,
+ * una franja con el jefe y la pizarra como tarjeta (verde casi negro con
+ * marco de madera).
+ *
+ * Próxima sesión: el evento único más cercano que no haya pasado (son los
+ * anuncios); si no hay ninguno, la sesión semanal con su próxima fecha. El
+ * build es estático, así que van todas las candidatas y el script de abajo
+ * elige con el día de quien visita.
+ */
+import { getCollection } from "astro:content";
+import SeasonalImage from "./SeasonalImage.astro";
+import EventPosters from "../EventPosters.astro";
+import board from "../../assets/scenes/cafe/board.webp";
+import boardChristmas from "../../assets/scenes/cafe/board-christmas.webp";
+import {
+    buildGoogleCalendarUrl,
+    buildIcsDataUri,
+    formatTimeDisplay,
+} from "../../lib/calendar";
+import {
+    eventCategory,
+    formatMonthShort,
+    formatWeekday,
+    limaToday,
+    nextWeeklyDate,
+    upcomingFixedEvents,
+} from "../../lib/events";
+
+const base = import.meta.env.BASE_URL;
+const today = limaToday();
+const events = await getCollection("events");
+
+const weekly = events.filter(
+    (e) =>
+        e.data.type === "recurring" &&
+        e.data.startDate !== undefined &&
+        e.data.weekday !== undefined,
+);
+const candidates = [
+    ...upcomingFixedEvents(events, today).map((event) => ({
+        event,
+        recurring: false,
+        dateIso: event.data.date!,
+    })),
+    ...weekly.map((event) => ({
+        event,
+        recurring: true,
+        dateIso: nextWeeklyDate(
+            event.data.startDate!,
+            event.data.weekday!,
+            today,
+        ),
+    })),
+].map(({ event, recurring, dateIso }) => {
+    const data = event.data;
+    const calendar = {
+        id: event.id,
+        title: data.title.es || data.title.en,
+        description: data.description.es || data.description.en,
+        date: recurring ? data.startDate : data.date,
+        startTime: data.startTime,
+        endTime: data.endTime,
+        timezone: data.timezone,
+        recurring,
+        weekday: data.weekday,
+    };
+    return {
+        event,
+        recurring,
+        dateIso,
+        gcalUrl: buildGoogleCalendarUrl(calendar),
+        icsUrl: buildIcsDataUri(calendar),
+        category: eventCategory({
+            kind: data.kind,
+            isRecurring: recurring,
+            recurrenceLabel: data.recurrenceLabel,
+            tag: data.tag,
+        }),
+        time: {
+            es: formatTimeDisplay(
+                data.startTime,
+                data.endTime,
+                data.timezone,
+                "es",
+            ),
+            en: formatTimeDisplay(
+                data.startTime,
+                data.endTime,
+                data.timezone,
+                "en",
+            ),
+        },
+    };
+});
+---
+
+<section id="events" class="cafe" aria-labelledby="events-title">
+    <div class="cafe__stage">
+        <SeasonalImage
+            variants={{ default: board, christmas: boardChristmas }}
+            widths={[780, 1000, 1440, 1672]}
+            sizes="(min-width: 1280px) 1440px, (min-width: 640px) 1280px, 1000px"
+            class="cafe__scene"
+            imgClass="cafe__img"
+        />
+        <div class="cafe__veil" aria-hidden="true"></div>
+
+        <div class="cafe__board">
+            <header class="cafe__head">
+                <h2
+                    id="events-title"
+                    class="cafe__title"
+                    data-i18n="eventsSectionTitle"
+                >
+                    Eventos y Sesiones
+                </h2>
+                <p class="cafe__lead" data-i18n="eventsSectionDesc">
+                    Workshops en vivo, simulacros técnicos y espacios de
+                    coworking.
+                </p>
+            </header>
+
+            <div class="cafe__card">
+                <p class="cafe__label" data-i18n="nextLiveSession">
+                    Próxima Sesión
+                </p>
+                {candidates.map((c, i) => {
+                    const d = c.event.data;
+                    const kind = d.kind;
+                    return (
+                        <article
+                            class:list={[
+                                "cafe__session",
+                                { "is-weekly": c.recurring },
+                            ]}
+                            data-session
+                            data-date-iso={c.recurring ? undefined : c.dateIso}
+                            data-weekly-start={
+                                c.recurring ? d.startDate : undefined
+                            }
+                            data-weekday={c.recurring ? d.weekday : undefined}
+                            hidden={i !== 0}
+                        >
+                            <div
+                                class:list={[
+                                    "cafe__row",
+                                    { "no-poster": !kind },
+                                ]}
+                            >
+                                <time
+                                    class="cafe__date"
+                                    datetime={c.dateIso}
+                                    data-date
+                                >
+                                    <span
+                                        data-part="weekday"
+                                        data-i18n-es={formatWeekday(
+                                            c.dateIso,
+                                            "es",
+                                        )}
+                                        data-i18n-en={formatWeekday(
+                                            c.dateIso,
+                                            "en",
+                                        )}
+                                    >
+                                        {formatWeekday(c.dateIso, "es")}
+                                    </span>
+                                    <strong data-part="day">
+                                        {Number(c.dateIso.slice(8, 10))}
+                                    </strong>
+                                    <span
+                                        data-part="month"
+                                        data-i18n-es={formatMonthShort(
+                                            c.dateIso,
+                                            "es",
+                                        )}
+                                        data-i18n-en={formatMonthShort(
+                                            c.dateIso,
+                                            "en",
+                                        )}
+                                    >
+                                        {formatMonthShort(c.dateIso, "es")}
+                                    </span>
+                                </time>
+                                {kind && (
+                                    <div class="cafe__poster">
+                                        <EventPosters
+                                            kind={kind}
+                                            compact
+                                            event={{
+                                                dateIso: c.dateIso,
+                                                startTime: d.startTime,
+                                                endTime: d.endTime,
+                                                tag: d.tag,
+                                            }}
+                                        />
+                                    </div>
+                                )}
+                                <div class="cafe__info">
+                                    <p
+                                        class="cafe__category"
+                                        data-i18n-es={c.category.es}
+                                        data-i18n-en={c.category.en}
+                                    >
+                                        {c.category.es}
+                                    </p>
+                                    <h3
+                                        class="cafe__name"
+                                        data-i18n-es={d.title.es ?? d.title.en}
+                                        data-i18n-en={d.title.en}
+                                    >
+                                        {d.title.es ?? d.title.en}
+                                    </h3>
+                                    <p
+                                        class="cafe__time"
+                                        data-i18n-es={`${c.time.es} · Discord`}
+                                        data-i18n-en={`${c.time.en} · Discord`}
+                                    >
+                                        {c.time.es} · Discord
+                                    </p>
+                                </div>
+                                <p
+                                    class="cafe__desc"
+                                    data-i18n-es={
+                                        d.description.es ?? d.description.en
+                                    }
+                                    data-i18n-en={d.description.en}
+                                >
+                                    {d.description.es ?? d.description.en}
+                                </p>
+                            </div>
+                            <div class="cafe__actions">
+                                {d.discordEvent && (
+                                    <a
+                                        class="cafe__btn cafe__btn--discord"
+                                        href={d.discordEvent}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                    >
+                                        <span
+                                            data-i18n-es="Ver en Discord"
+                                            data-i18n-en="View on Discord"
+                                        >
+                                            Ver en Discord
+                                        </span>{" "}
+                                        <span aria-hidden="true">↗</span>
+                                    </a>
+                                )}
+                                <a
+                                    class="cafe__btn"
+                                    href={c.gcalUrl}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    <span data-i18n="addToGCal">
+                                        Google Calendar
+                                    </span>{" "}
+                                    <span aria-hidden="true">↗</span>
+                                </a>
+                                <a
+                                    class="cafe__ical"
+                                    href={c.icsUrl}
+                                    download={`${c.event.id}.ics`}
+                                    title="Descargar archivo iCal (.ics)"
+                                    data-i18n-title-es="Descargar archivo iCal (.ics)"
+                                    data-i18n-title-en="Download iCal file (.ics)"
+                                >
+                                    <span data-i18n="downloadIcs">iCal</span>{" "}
+                                    <span aria-hidden="true">↓</span>
+                                </a>
+                            </div>
+                        </article>
+                    );
+                })}
+                <p
+                    class="cafe__none"
+                    data-session-none
+                    hidden={candidates.length > 0}
+                    data-i18n-es="Pronto anunciamos la próxima sesión en Discord."
+                    data-i18n-en="We'll announce the next session on Discord soon."
+                >
+                    Pronto anunciamos la próxima sesión en Discord.
+                </p>
+            </div>
+
+            <a href={`${base}events/`} class="cafe__all">
+                <span data-i18n="viewAllEvents">Ver calendario completo</span>
+                <span aria-hidden="true">→</span>
+            </a>
+        </div>
+    </div>
+</section>
+
+<script>
+    import { getStoredLang } from "../../i18n/lang";
+    import {
+        formatMonthShort,
+        formatWeekday,
+        limaToday,
+        nextWeeklyDate,
+    } from "../../lib/events";
+
+    // El build es estático: se elige la sesión con el día de quien visita.
+    const today = limaToday();
+    const sessions = [
+        ...document.querySelectorAll<HTMLElement>(".cafe [data-session]"),
+    ];
+    const next =
+        sessions.find((s) => (s.dataset.dateIso ?? "") >= today) ??
+        sessions.find((s) => s.dataset.weeklyStart);
+
+    // La sesión semanal lleva la fecha de su próxima vez, no la del build.
+    if (next?.dataset.weeklyStart) {
+        const iso = nextWeeklyDate(
+            next.dataset.weeklyStart,
+            Number(next.dataset.weekday),
+            today,
+        );
+        const lang = getStoredLang();
+        const time = next.querySelector<HTMLTimeElement>("[data-date]");
+        time?.setAttribute("datetime", iso);
+        const set = (part: string, es: string, en: string) => {
+            const el = time?.querySelector<HTMLElement>(
+                `[data-part="${part}"]`,
+            );
+            if (!el) return;
+            el.dataset.i18nEs = es;
+            el.dataset.i18nEn = en;
+            el.textContent = lang === "en" ? en : es;
+        };
+        set("weekday", formatWeekday(iso, "es"), formatWeekday(iso, "en"));
+        set("month", formatMonthShort(iso, "es"), formatMonthShort(iso, "en"));
+        const day = time?.querySelector('[data-part="day"]');
+        if (day) day.textContent = String(Number(iso.slice(8, 10)));
+    }
+
+    sessions.forEach((s) => (s.hidden = s !== next));
+    const none = document.querySelector<HTMLElement>(
+        ".cafe [data-session-none]",
+    );
+    if (none) none.hidden = !!next;
+</script>
+
+<style is:global>
+    /* ---------- Móvil y tableta: franja del jefe y pizarra como tarjeta ---------- */
+    .cafe {
+        position: relative;
+        overflow: hidden;
+        background: var(--color-bg);
+    }
+
+    .cafe__stage {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .cafe__scene {
+        position: relative;
+        height: 210px;
+        overflow: hidden;
+        -webkit-mask-image: linear-gradient(
+            to bottom,
+            transparent 0%,
+            #000 18%,
+            #000 70%,
+            transparent 100%
+        );
+        mask-image: linear-gradient(
+            to bottom,
+            transparent 0%,
+            #000 18%,
+            #000 70%,
+            transparent 100%
+        );
+    }
+
+    .cafe__scene picture {
+        display: block;
+        height: 100%;
+    }
+
+    /* La franja enfoca al jefe (en Figma, 1000 × 563 en x −74, y −96). */
+    .cafe__img {
+        position: absolute;
+        left: -74px;
+        top: -96px;
+        display: block;
+        width: max(1000px, calc(100% + 74px));
+        height: auto;
+        max-width: none;
+    }
+
+    .cafe__veil {
+        display: none;
+    }
+
+    .cafe__board {
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+        width: 100%;
+        max-width: 36rem;
+        margin-inline: auto;
+        padding: 8px 16px 56px;
+    }
+
+    .cafe__head {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+    }
+
+    .cafe__title {
+        font: 800 28px/1.2 var(--font-display);
+        letter-spacing: -0.02em;
+        color: #fff;
+    }
+
+    .cafe__lead {
+        font-size: 14px;
+        line-height: 1.5;
+        color: rgb(203 213 225);
+    }
+
+    .cafe__card {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        padding: 22px 20px;
+        border: 4px solid #e09e4f;
+        border-radius: 14px;
+        background: #111814;
+        box-shadow: 0 18px 24px rgb(0 0 0 / 0.18);
+    }
+
+    .cafe__label {
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: var(--color-brand-yellow);
+    }
+
+    .cafe__session {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+    }
+
+    .cafe__session[hidden] {
+        display: none;
+    }
+
+    .cafe__row {
+        display: grid;
+        grid-template-columns: 48px 79px minmax(0, 1fr);
+        grid-template-areas:
+            "date poster info"
+            "desc desc desc";
+        column-gap: 14px;
+        row-gap: 14px;
+        align-items: center;
+    }
+
+    .cafe__row.no-poster {
+        grid-template-columns: 48px minmax(0, 1fr);
+        grid-template-areas:
+            "date info"
+            "desc desc";
+    }
+
+    .cafe__date {
+        grid-area: date;
+        display: flex;
+        flex-direction: column;
+        color: var(--color-brand-yellow);
+    }
+
+    .cafe__date span {
+        font-size: 10px;
+        font-weight: 600;
+        text-transform: uppercase;
+        color: rgb(148 163 184);
+    }
+
+    .cafe__date strong {
+        font: 800 42px/1.12 var(--font-display);
+        letter-spacing: -0.04em;
+    }
+
+    .is-weekly .cafe__date,
+    .is-weekly .cafe__category {
+        color: #818cf8;
+    }
+
+    .cafe__poster {
+        grid-area: poster;
+        width: 79px;
+    }
+
+    /* El cartel compacto de la agenda, más pequeño (escala con su ancho). */
+    .cafe__poster .posters.compact {
+        width: 100%;
+    }
+
+    .cafe__info {
+        grid-area: info;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        min-width: 0;
+    }
+
+    .cafe__category {
+        font-size: 10px;
+        font-weight: 700;
+        text-transform: uppercase;
+        color: var(--color-brand-yellow);
+    }
+
+    .cafe__name {
+        font: 800 20px/1.2 var(--font-display);
+        letter-spacing: -0.02em;
+        color: #fff;
+    }
+
+    .cafe__time {
+        font-size: 12px;
+        font-weight: 600;
+        color: rgb(203 213 225);
+    }
+
+    .cafe__desc {
+        grid-area: desc;
+        font-size: 13px;
+        line-height: 1.45;
+        color: rgb(148 163 184);
+    }
+
+    .cafe__actions {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .cafe__btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        height: 40px;
+        padding: 0 14px;
+        border: 1px solid rgb(255 255 255 / 0.14);
+        border-radius: 10px;
+        background: rgb(8 13 26 / 0.6);
+        font-size: 13px;
+        font-weight: 600;
+        color: #fff;
+        transition:
+            border-color 0.2s,
+            background-color 0.2s;
+    }
+
+    .cafe__btn:hover {
+        border-color: rgb(250 204 21 / 0.4);
+    }
+
+    .cafe__btn--discord {
+        border-color: transparent;
+        background: var(--color-brand-discord);
+    }
+
+    .cafe__btn--discord:hover {
+        border-color: transparent;
+        background: var(--color-brand-discord-hover);
+    }
+
+    .cafe__ical {
+        padding: 0 4px;
+        font-size: 13px;
+        font-weight: 600;
+        color: rgb(148 163 184);
+        transition: color 0.2s;
+    }
+
+    .cafe__ical:hover {
+        color: #fff;
+    }
+
+    .cafe__none {
+        font-size: 14px;
+        color: rgb(203 213 225);
+    }
+
+    .cafe__all {
+        display: inline-flex;
+        gap: 6px;
+        align-self: flex-start;
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--color-brand-yellow);
+        transition: color 0.2s;
+    }
+
+    .cafe__all:hover {
+        color: var(--color-brand-yellow-hover);
+    }
+
+    @media (min-width: 640px) {
+        .cafe__scene {
+            height: 280px;
+        }
+    }
+
+    /* ---------- Escritorio: la composición de Figma, escalada entera ---------- */
+    @media (min-width: 1280px) {
+        .cafe {
+            --s: 0.889;
+            height: calc(760px * var(--s));
+        }
+
+        .cafe__stage {
+            display: block;
+            zoom: var(--s);
+            width: 1440px;
+            height: 760px;
+            margin-inline: auto;
+        }
+
+        .cafe__scene {
+            position: absolute;
+            left: 0;
+            top: -20px;
+            width: 1440px;
+            height: 810px;
+            -webkit-mask-image: none;
+            mask-image: none;
+        }
+
+        .cafe__img {
+            position: static;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Solo los bordes de arriba y abajo: el ambiente se ve entero. */
+        .cafe__veil {
+            display: block;
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            background: linear-gradient(
+                to bottom,
+                rgb(8 13 26 / 0.9) 0%,
+                transparent 7%,
+                transparent 86%,
+                var(--color-bg) 100%
+            );
+        }
+
+        /* El contenido sobre la superficie de la pizarra. */
+        .cafe__board {
+            position: absolute;
+            left: 722px;
+            top: 107px;
+            width: 585px;
+            height: 467px;
+            max-width: none;
+            margin: 0;
+            padding: 34px 40px 30px;
+            gap: 0;
+            justify-content: center;
+        }
+
+        .cafe__title {
+            font-size: 34px;
+        }
+
+        .cafe__lead {
+            font-size: 15px;
+        }
+
+        .cafe__card {
+            gap: 12px;
+            margin-top: 20px;
+            padding: 18px 0 0;
+            border: 0;
+            border-top: 1px solid rgb(255 255 255 / 0.14);
+            border-radius: 0;
+            background: none;
+            box-shadow: none;
+        }
+
+        .cafe__session {
+            gap: 20px;
+        }
+
+        .cafe__row {
+            grid-template-columns: 50px 95px minmax(0, 255px);
+            grid-template-areas:
+                "date poster info"
+                "date poster desc";
+            column-gap: 18px;
+            row-gap: 5px;
+            align-items: start;
+        }
+
+        .cafe__row.no-poster {
+            grid-template-columns: 50px minmax(0, 1fr);
+            grid-template-areas:
+                "date info"
+                "date desc";
+        }
+
+        .cafe__date {
+            align-self: center;
+        }
+
+        .cafe__date strong {
+            font-size: 48px;
+        }
+
+        .cafe__poster {
+            width: 95px;
+            align-self: center;
+        }
+
+        .cafe__name {
+            font-size: 24px;
+        }
+
+        .cafe__time {
+            font-size: 13px;
+        }
+
+        .cafe__actions {
+            gap: 10px;
+        }
+
+        .cafe__btn {
+            height: 38px;
+            padding: 0 16px;
+        }
+
+        .cafe__all {
+            margin-top: 18px;
+        }
+    }
+
+    @media (min-width: 1360px) {
+        .cafe {
+            --s: 0.945;
+        }
+    }
+
+    @media (min-width: 1440px) {
+        .cafe {
+            --s: 1;
+        }
+    }
+
+    /* Más ancho que la escena: se funde a los lados. */
+    @media (min-width: 1500px) {
+        .cafe__scene {
+            -webkit-mask-image: linear-gradient(
+                to right,
+                transparent 0,
+                #000 160px,
+                #000 calc(100% - 160px),
+                transparent 100%
+            );
+            mask-image: linear-gradient(
+                to right,
+                transparent 0,
+                #000 160px,
+                #000 calc(100% - 160px),
+                transparent 100%
+            );
+        }
+    }
+</style>
