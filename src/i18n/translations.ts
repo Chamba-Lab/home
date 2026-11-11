@@ -14,14 +14,11 @@ export const translations = {
         ctaResources: "Ver Recursos",
 
         // Discord Card
-        discordOnline: "miembros en línea",
+        discordOnline: "en línea",
         discordInVoice: "en voz",
         discordLoading: "Cargando actividad en vivo",
         discordUnavailable: "Actividad en vivo no disponible",
-        discordChannels: "Canales de voz y estudio",
-        discordJoin: "Unirse a la Comunidad",
-        discordWidgetTabModern: "Vista Moderna",
-        discordWidgetTabOfficial: "Widget Oficial",
+        discordJoin: "Unirse a la comunidad",
 
         // Resources Section
         resourcesSectionTitle: "Recursos recomendados",
@@ -179,14 +176,11 @@ export const translations = {
         ctaResources: "Explore Resources",
 
         // Discord Card
-        discordOnline: "members online",
+        discordOnline: "online",
         discordInVoice: "in voice",
         discordLoading: "Loading live activity",
         discordUnavailable: "Live activity unavailable",
-        discordChannels: "Voice & study channels",
-        discordJoin: "Join Community",
-        discordWidgetTabModern: "Modern View",
-        discordWidgetTabOfficial: "Official Widget",
+        discordJoin: "Join the community",
 
         // Resources Section
         resourcesSectionTitle: "Recommended resources",

@@ -126,16 +126,14 @@ function safeAvatar(url?: string) {
         : undefined;
 }
 
-/** Chips de "También en línea" antes de resumir el resto como "+N". */
-export const OTHERS_LIMIT = 8;
+/** Avatares que se apilan en «También en línea»; el resto va como «y N más». */
+export const OTHERS_AVATARS = 4;
+/** Avatares que se apilan en la fila de un canal con gente. */
+export const CHANNEL_AVATARS = 3;
 
 const TEXT = {
-    voiceEmpty: { es: "Vacíos", en: "Empty" },
-    nobodyInVoice: {
-        es: "Nadie en voz ahora: entra a un canal",
-        en: "No one in voice right now: hop into a channel",
-    },
-    moreOnline: { es: "más en línea", en: "more online" },
+    voiceChannels: { es: "Canales de voz", en: "Voice channels" },
+    enter: { es: "Entrar", en: "Join" },
     loadingLive: {
         es: "Cargando quién está conectado…",
         en: "Loading who's online…",
@@ -150,122 +148,126 @@ const TEXT = {
     },
     alsoOnline: { es: "También en línea", en: "Also online" },
     join: { es: "Entrar a", en: "Join" },
-    muted: { es: "Silenciado", en: "Muted" },
-    deafened: { es: "Ensordecido", en: "Deafened" },
+    and: { es: "y", en: "and" },
+    more: { es: "más", en: "more" },
+    muted: { es: "silenciado", en: "muted" },
+    deafened: { es: "ensordecido", en: "deafened" },
 } as const;
 
 // Texto bilingüe: se pinta en `lang` y el selector ES/EN lo cambia después.
+function bilingual(es: string, en: string, lang: Lang) {
+    return `data-i18n-es="${escapeHtml(es)}" data-i18n-en="${escapeHtml(en)}">${escapeHtml(lang === "es" ? es : en)}`;
+}
+
 function t(key: keyof typeof TEXT, lang: Lang) {
-    const text = TEXT[key];
-    return `data-i18n-es="${escapeHtml(text.es)}" data-i18n-en="${escapeHtml(text.en)}">${escapeHtml(text[lang])}`;
+    return bilingual(TEXT[key].es, TEXT[key].en, lang);
 }
 
-const ICON = {
-    speaker:
-        "M15.536 8.464a5 5 0 010 7.072M18.364 5.636a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z",
-    micOff: "M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3zM3 3l18 18",
-    deafened:
-        "M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15zM17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2",
-};
-
-function icon(path: string, cls: string) {
-    return `<svg xmlns="http://www.w3.org/2000/svg" class="${cls}" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="${path}"/></svg>`;
+/**
+ * Nombre del canal sin el emoji con el que empieza en Discord («🗿 General»
+ * → «General»): el icono de altavoz ya marca la fila. Si no queda nada, el
+ * nombre tal cual.
+ */
+export function channelLabel(name: string) {
+    const label = name
+        .replace(/^(?:\p{Extended_Pictographic}|️|‍|\s)+/u, "")
+        .trim();
+    return label || name;
 }
 
-function avatar(member: DiscordMember, size: string) {
+const SPEAKER =
+    "M15.536 8.464a5 5 0 010 7.072M18.364 5.636a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z";
+
+function speaker(cls: string) {
+    return `<svg xmlns="http://www.w3.org/2000/svg" class="${cls}" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="${SPEAKER}"/></svg>`;
+}
+
+// Avatar redondo con un aro del color de la pantalla, para apilarlos.
+function avatar(member: DiscordMember, px: number, ring: string) {
+    const name = escapeHtml(member.username);
+    const cls = `rounded-full ring-2 ${ring} shrink-0`;
     const src = safeAvatar(member.avatar_url);
     if (src) {
-        const px = size.includes("w-5") ? 20 : 16;
-        return `<img src="${src}" alt="" width="${px}" height="${px}" class="${size} rounded-full object-cover shrink-0" loading="lazy" referrerpolicy="no-referrer">`;
+        return `<img src="${src}" alt="" title="${name}" width="${px}" height="${px}" style="width:${px}px;height:${px}px" class="${cls} object-cover bg-[#1e2540]" loading="lazy" referrerpolicy="no-referrer">`;
     }
     const initial = escapeHtml(
         (member.username || "?").charAt(0).toUpperCase(),
     );
-    return `<span class="${size} rounded-full bg-brand-discord/40 text-[10px] text-white font-bold flex items-center justify-center shrink-0">${initial}</span>`;
+    return `<span title="${name}" style="width:${px}px;height:${px}px" class="${cls} bg-brand-discord/40 text-[10px] text-white font-bold flex items-center justify-center">${initial}</span>`;
 }
 
-function voiceMember(member: DiscordMember, lang: Lang) {
-    const deafened = member.deaf || member.self_deaf;
-    const muted = member.mute || member.self_mute;
-    let state = "";
-    if (deafened) {
-        state = `<span class="text-rose-400" title="${escapeHtml(TEXT.deafened[lang])}" data-i18n-title-es="${TEXT.deafened.es}" data-i18n-title-en="${TEXT.deafened.en}">${icon(ICON.deafened, "w-3.5 h-3.5")}</span>`;
-    } else if (muted) {
-        state = `<span class="text-rose-400" title="${escapeHtml(TEXT.muted[lang])}" data-i18n-title-es="${TEXT.muted.es}" data-i18n-title-en="${TEXT.muted.en}">${icon(ICON.micOff, "w-3.5 h-3.5")}</span>`;
-    }
-    return `<li class="flex items-center justify-between gap-2 min-w-0">
-<span class="flex items-center gap-2 min-w-0">${avatar(member, "w-5 h-5")}<span class="text-xs font-medium text-slate-200 truncate">${escapeHtml(member.username)}</span></span>${state}</li>`;
+// Quién está en el canal, para lectores de pantalla (los avatares son mudos).
+function peopleText(members: DiscordMember[], lang: Lang) {
+    return members
+        .map((m) => {
+            const state =
+                m.deaf || m.self_deaf
+                    ? TEXT.deafened[lang]
+                    : m.mute || m.self_mute
+                      ? TEXT.muted[lang]
+                      : "";
+            return state ? `${m.username} (${state})` : m.username;
+        })
+        .join(", ");
 }
 
-function voiceChannel(
+function channelRow(
     { channel, members }: VoiceChannelView,
     guildId: string,
     lang: Lang,
 ) {
-    const name = escapeHtml(channel.name);
-    const count = `<span class="text-[10px] font-bold text-emerald-400 font-mono">${members.length}</span>`;
-    const people = `<ul class="px-2.5 pb-2 space-y-1">${members.map((m) => voiceMember(m, lang)).join("")}</ul>`;
-    return `<li class="rounded-lg bg-slate-900/60 border border-white/5 hover:border-white/15 transition-colors">
-<a href="${escapeHtml(channelUrl(guildId, channel.id))}" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between gap-2 px-2.5 py-1.5 min-w-0" aria-label="${escapeHtml(TEXT.join[lang])} ${name}" title="${escapeHtml(TEXT.join[lang])} ${name}">
-<span class="flex items-center gap-1.5 min-w-0 text-xs font-semibold text-slate-300">${icon(ICON.speaker, "w-3.5 h-3.5 shrink-0 text-slate-400")}<span class="truncate">${name}</span></span>${count}</a>${people}</li>`;
+    const name = escapeHtml(channelLabel(channel.name));
+    const href = escapeHtml(channelUrl(guildId, channel.id));
+    const label = `${escapeHtml(TEXT.join[lang])} ${name}`;
+    if (members.length === 0) {
+        return `<li><a href="${href}" target="_blank" rel="noopener noreferrer" aria-label="${label}" title="${label}" class="group flex items-center gap-2.5 rounded-lg border border-transparent py-1.5 pl-2 pr-2.5 transition-colors hover:border-white/[0.06] hover:bg-white/[0.04]">${speaker("w-3.5 h-3.5 shrink-0 text-slate-500")}<span class="flex-1 min-w-0 truncate text-[13px] font-medium text-slate-400 group-hover:text-slate-200">${name}</span><span class="text-[11px] font-medium text-slate-600 group-hover:text-slate-400" aria-hidden="true" ${t("enter", lang)}</span></a></li>`;
+    }
+    const people = escapeHtml(peopleText(members, lang));
+    const stack = members
+        .slice(0, CHANNEL_AVATARS)
+        .map((m) => avatar(m, 20, "ring-[#1a2147]"))
+        .join("");
+    return `<li><a href="${href}" target="_blank" rel="noopener noreferrer" title="${label}" class="flex items-center gap-2.5 rounded-lg border border-brand-discord/35 bg-brand-discord/[0.14] py-2 pl-2 pr-2.5 transition-colors hover:bg-brand-discord/20">${speaker("w-3.5 h-3.5 shrink-0 text-indigo-200")}<span class="flex-1 min-w-0 truncate text-[13px] font-semibold text-white">${name}<span class="sr-only">: ${people}</span></span><span class="flex -space-x-1.5" aria-hidden="true">${stack}</span><span class="text-xs font-bold text-indigo-200" aria-hidden="true">${members.length}</span></a></li>`;
 }
 
-// "+N" con el resto de "También en línea"; el texto completo va para lectores.
-function moreOnline(extra: number, lang: Lang) {
-    if (extra <= 0) return "";
-    const label = (l: Lang) => `${extra} ${TEXT.moreOnline[l]}`;
-    return `<li class="inline-flex items-center px-2 py-0.5 rounded-full bg-slate-900/60 border border-white/5 text-[11px] font-semibold text-slate-400" title="${label(lang)}" data-i18n-title-es="${label("es")}" data-i18n-title-en="${label("en")}"><span aria-hidden="true">+${extra}</span><span class="sr-only" data-i18n-es="${label("es")}" data-i18n-en="${label("en")}">${label(lang)}</span></li>`;
+function sectionLabel(key: keyof typeof TEXT, lang: Lang, extra = "") {
+    return `<p class="${extra}text-[10.5px] font-bold uppercase tracking-[0.09em] text-slate-500" ${t(key, lang)}</p>`;
 }
 
-// Canal vacío: chip compacto que igual enlaza a Discord.
-function emptyChannel(
-    { channel }: VoiceChannelView,
-    guildId: string,
-    lang: Lang,
-) {
-    const name = escapeHtml(channel.name);
-    return `<li class="min-w-0"><a href="${escapeHtml(channelUrl(guildId, channel.id))}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 max-w-[11rem] pl-1.5 pr-2 py-0.5 rounded-full bg-slate-900/60 border border-white/5 text-[11px] text-slate-400 hover:text-slate-200 hover:border-white/15 transition-colors" aria-label="${escapeHtml(TEXT.join[lang])} ${name}" title="${escapeHtml(TEXT.join[lang])} ${name}">${icon(ICON.speaker, "w-3 h-3 shrink-0")}<span class="truncate">${name}</span></a></li>`;
+// «Ana, Beto y 2 más»: los dos primeros por nombre y el resto contado.
+function othersSummary(members: DiscordMember[], lang: Lang) {
+    const names = members.map((m) => m.username);
+    const rest = names.length - 2;
+    const say = (l: Lang) =>
+        rest > 0
+            ? `${names[0]}, ${names[1]} ${TEXT.and[l]} ${rest} ${TEXT.more[l]}`
+            : names.join(` ${TEXT.and[l]} `);
+    return bilingual(say("es"), say("en"), lang);
 }
 
-/** Cuerpo del widget: canales de voz con su gente, y el resto en línea. */
+function othersBlock(members: DiscordMember[], lang: Lang) {
+    if (members.length === 0) return "";
+    const stack = members
+        .slice(0, OTHERS_AVATARS)
+        .map((m) => avatar(m, 26, "ring-[#0e1428]"))
+        .join("");
+    return `<div class="mt-3.5 space-y-2">${sectionLabel("alsoOnline", lang)}<div class="flex items-center gap-2.5 min-w-0"><span class="flex -space-x-[7px] shrink-0" aria-hidden="true">${stack}</span><p class="text-xs text-slate-400 truncate" ${othersSummary(members, lang)}</p></div></div>`;
+}
+
+/**
+ * Cuerpo del widget: los canales de voz como filas (los que tienen gente,
+ * primero y resaltados con sus avatares) y quienes están en línea fuera de voz.
+ */
 export function renderVoice(
     view: DiscordView,
     lang: Lang = "es",
     guildId: string = DISCORD_GUILD_ID,
 ) {
-    const occupied = view.voice.filter((v) => v.members.length > 0);
-    const empty = view.voice.filter((v) => v.members.length === 0);
-    const occupiedHtml =
-        occupied.length > 0
-            ? `<ul class="space-y-1.5">${occupied.map((v) => voiceChannel(v, guildId, lang)).join("")}</ul>`
-            : "";
-    // Sin nadie en voz, la fila de canales invita a entrar en vez de decir "vacíos".
-    const emptyLabel = occupied.length > 0 ? "voiceEmpty" : "nobodyInVoice";
-    const emptyHtml =
-        empty.length > 0
-            ? `<div class="${occupied.length > 0 ? "mt-2.5 " : ""}space-y-1.5">
-<span class="text-[10px] font-semibold text-slate-500 block" ${t(emptyLabel, lang)}</span>
-<ul class="flex flex-wrap gap-1.5">${empty.map((v) => emptyChannel(v, guildId, lang)).join("")}</ul></div>`
-            : "";
     const voice =
         view.voice.length > 0
-            ? occupiedHtml + emptyHtml
-            : `<p class="text-xs text-slate-400 py-2 text-center" ${t("noVoice", lang)}</p>`;
-    const others =
-        view.others.length > 0
-            ? `<div class="pt-3 mt-3 border-t border-white/[0.06] space-y-2">
-<span class="text-[11px] font-bold uppercase tracking-wider text-slate-400 block" ${t("alsoOnline", lang)}</span>
-<ul class="flex flex-wrap gap-1.5">${view.others
-                  .slice(0, OTHERS_LIMIT)
-                  .map(
-                      (m) =>
-                          `<li class="inline-flex items-center gap-1.5 pl-1 pr-2 py-0.5 rounded-full bg-slate-900/60 border border-white/5 min-w-0">${avatar(m, "w-4 h-4")}<span class="text-[11px] text-slate-300 truncate max-w-[9rem]">${escapeHtml(m.username)}</span></li>`,
-                  )
-                  .join(
-                      "",
-                  )}${moreOnline(view.others.length - OTHERS_LIMIT, lang)}</ul></div>`
-            : "";
-    return voice + others;
+            ? `<ul class="space-y-0.5">${view.voice.map((v) => channelRow(v, guildId, lang)).join("")}</ul>`
+            : `<p class="text-xs text-slate-400 py-2" ${t("noVoice", lang)}</p>`;
+    return `${sectionLabel("voiceChannels", lang, "mb-2 ")}${voice}${othersBlock(view.others, lang)}`;
 }
 
 /**
@@ -279,16 +281,12 @@ export function renderChannelsOnly(
     guildId: string = DISCORD_GUILD_ID,
 ) {
     const sorted = [...channels].sort((a, b) => a.position - b.position);
-    const label =
+    const status =
         state === "loading"
-            ? `<span class="text-[10px] font-semibold text-slate-500 flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-slate-500 animate-pulse" aria-hidden="true"></span><span ${t("loadingLive", lang)}</span></span>`
-            : `<span class="text-[10px] font-semibold text-slate-400 block" ${t("offlineLive", lang)}</span>`;
-    const chips = sorted.length
-        ? `<ul class="flex flex-wrap gap-1.5">${sorted
-              .map((channel) =>
-                  emptyChannel({ channel, members: [] }, guildId, lang),
-              )
-              .join("")}</ul>`
+            ? `<p class="mb-2 flex items-center gap-1.5 text-[11px] font-medium text-slate-500"><span class="w-1.5 h-1.5 rounded-full bg-slate-500 animate-pulse" aria-hidden="true"></span><span ${t("loadingLive", lang)}</span></p>`
+            : `<p class="mb-2 text-[11px] font-medium text-slate-400" ${t("offlineLive", lang)}</p>`;
+    const rows = sorted.length
+        ? `<ul class="space-y-0.5">${sorted.map((channel) => channelRow({ channel, members: [] }, guildId, lang)).join("")}</ul>`
         : "";
-    return `<div class="space-y-1.5" aria-live="polite">${label}${chips}</div>`;
+    return `<div aria-live="polite">${sectionLabel("voiceChannels", lang, "mb-2 ")}${status}${rows}</div>`;
 }

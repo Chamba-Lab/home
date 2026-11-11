@@ -1,0 +1,540 @@
+---
+/**
+ * Hero del inicio: el cuarto de Rakim. El widget de Discord es la pantalla de
+ * su monitor (ver DESIGN.md, «Escenas»).
+ *
+ * Escritorio (≥ 1280 px): la escena se compone sobre un lienzo de 1440 × 724
+ * (las medidas de Figma) que se escala entero con `zoom`, así la pantalla del
+ * monitor y el widget siguen alineados a cualquier ancho. Por debajo, el
+ * titular va arriba y el widget en un monitor dibujado, con Rakim tumbado
+ * encima y una franja del cuarto detrás.
+ */
+import DiscordWidget from "../DiscordWidget.astro";
+import DiscordIcon from "../icons/DiscordIcon.astro";
+import SeasonalImage from "./SeasonalImage.astro";
+import { Picture } from "astro:assets";
+import { DISCORD_URL } from "../../lib/constants";
+import room from "../../assets/scenes/hero/room.webp";
+import roomChristmas from "../../assets/scenes/hero/room-christmas.webp";
+import rakimLooking from "../../assets/scenes/hero/rakim-chair-looking.webp";
+import rakimTurned from "../../assets/scenes/hero/rakim-chair-turned.webp";
+import rakimHeadphones from "../../assets/scenes/hero/rakim-chair-headphones.webp";
+import rakimOnMonitor from "../../assets/scenes/hero/rakim-on-monitor.webp";
+import tree from "../../assets/scenes/decor/christmas-tree.webp";
+import garland from "../../assets/scenes/decor/christmas-garland.webp";
+import gifts from "../../assets/scenes/decor/christmas-gifts.webp";
+
+const rawBase = import.meta.env.BASE_URL;
+const base = rawBase.endsWith("/") ? rawBase : `${rawBase}/`;
+
+const chair = { widths: [288, 576], sizes: "288px" };
+---
+
+<section class="hero-room relative overflow-hidden">
+    <div class="hero-room__stage">
+        <!-- El cuarto (en escritorio, 1935 × 1089 desde −405, −157) -->
+        <SeasonalImage
+            class="hero-room__scene"
+            variants={{ default: room, christmas: roomChristmas }}
+            widths={[960, 1672]}
+            sizes="1935px"
+            loading="eager"
+            fetchpriority="high"
+        />
+        <div class="hero-room__veil" aria-hidden="true"></div>
+
+        <!-- Adornos sueltos de temporada (encima del velo, bajo el texto) -->
+        <SeasonalImage
+            class="hero-room__garland"
+            variants={{ christmas: garland }}
+            widths={[640, 1280]}
+            sizes="640px"
+            imgClass="block h-full w-full"
+        />
+
+        <div class="hero-room__copy">
+            <h1 class="font-display text-4xl sm:text-5xl xl:text-6xl font-extrabold tracking-tight text-white mb-6 leading-[1.12]">
+                <span data-i18n="heroTitlePrefix">
+                    Conecta, inspírate y crece en
+                </span>{" "}
+                <span class="text-brand-yellow" data-i18n="heroTitleHighlight">
+                    tecnología
+                </span>
+                .
+            </h1>
+            <p
+                class="text-lg sm:text-xl text-slate-300 font-normal leading-relaxed mb-8 xl:max-w-[640px]"
+                data-i18n="heroSubtitle"
+            >
+                Chamba Lab es una comunidad tech en Discord para conectar con
+                otras personas del sector, inspirarte y crecer en tu carrera.
+            </p>
+            <div class="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto">
+                <a
+                    class="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 bg-brand-yellow hover:bg-amber-300 text-slate-950 font-bold px-7 py-3.5 rounded-xl text-base transition-all transform hover:-translate-y-0.5 shadow-lg shadow-brand-yellow/20"
+                    href={DISCORD_URL}
+                    rel="noopener noreferrer"
+                    target="_blank"
+                >
+                    <DiscordIcon class="w-5 h-5 text-slate-950" />
+                    <span data-i18n="ctaDiscord">Unirse a Discord</span>
+                </a>
+                <a
+                    class="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-bg/60 backdrop-blur-sm hover:bg-white/[0.08] text-slate-200 font-semibold px-6 py-3.5 rounded-xl text-base transition-all border border-white/10"
+                    href={`${base}resources/`}
+                >
+                    <span data-i18n="ctaResources">Ver Recursos</span>
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="w-4 h-4 text-slate-400"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        aria-hidden="true"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M14 5l7 7m0 0l-7 7m7-7H3"
+                        ></path>
+                    </svg>
+                </a>
+            </div>
+        </div>
+
+        <!-- Rakim en su silla (solo escritorio). Mira el monitor; se voltea al
+             apuntar al widget y se pone audífonos si hay gente en voz. -->
+        <div class="hero-room__rakim" aria-hidden="true" data-rakim>
+            <Picture
+                src={rakimLooking}
+                formats={["avif", "webp"]}
+                fallbackFormat="webp"
+                {...chair}
+                alt=""
+                loading="lazy"
+                class="hero-room__rakim-pose"
+                data-rakim-pose="looking"
+            />
+            <template data-rakim-pose="turned">
+                <Picture
+                    src={rakimTurned}
+                    formats={["avif", "webp"]}
+                    fallbackFormat="webp"
+                    {...chair}
+                    alt=""
+                    class="hero-room__rakim-pose"
+                    data-rakim-pose="turned"
+                />
+            </template>
+            <template data-rakim-pose="headphones">
+                <Picture
+                    src={rakimHeadphones}
+                    formats={["avif", "webp"]}
+                    fallbackFormat="webp"
+                    {...chair}
+                    alt=""
+                    class="hero-room__rakim-pose"
+                    data-rakim-pose="headphones"
+                />
+            </template>
+        </div>
+
+        <!-- El monitor: en escritorio, la pantalla de la escena; en móvil, uno
+             dibujado con Rakim tumbado encima. -->
+        <div class="hero-room__monitor" data-rakim-target>
+            <Picture
+                src={rakimOnMonitor}
+                formats={["avif", "webp"]}
+                fallbackFormat="webp"
+                widths={[270, 540, 810]}
+                sizes="270px"
+                alt=""
+                loading="lazy"
+                class="hero-room__rakim-lying"
+                aria-hidden="true"
+            />
+            <div class="hero-room__screen">
+                <DiscordWidget />
+                <div class="hero-room__glass" aria-hidden="true"></div>
+            </div>
+            <div class="hero-room__stand" aria-hidden="true">
+                <span></span>
+                <span></span>
+            </div>
+            <SeasonalImage
+                class="hero-room__gifts"
+                variants={{ christmas: gifts }}
+                widths={[170, 340, 510]}
+                sizes="(min-width: 1280px) 170px, 78px"
+                imgClass="block h-full w-full"
+            />
+            <SeasonalImage
+                class="hero-room__tree"
+                variants={{ christmas: tree }}
+                widths={[146, 292, 438]}
+                sizes="(min-width: 1280px) 146px, 72px"
+                imgClass="block h-full w-full"
+            />
+        </div>
+    </div>
+</section>
+
+<script>
+    // Poses de Rakim: las variantes se descargan al primer uso (nunca en
+    // táctil para «se voltea»). Cambiar de pose no es una animación larga:
+    // con movimiento reducido el cambio es inmediato.
+    const holder = document.querySelector<HTMLElement>("[data-rakim]");
+    const target = document.querySelector<HTMLElement>("[data-rakim-target]");
+    let inVoice = false;
+    let hovering = false;
+
+    function pose(name: string) {
+        if (!holder) return;
+        // La primera vez, la pose sale de su plantilla (y recién se descarga).
+        const tpl = holder.querySelector<HTMLTemplateElement>(
+            `template[data-rakim-pose="${name}"]`,
+        );
+        if (tpl) {
+            holder.appendChild(tpl.content.cloneNode(true));
+            tpl.remove();
+        }
+        holder.dataset.pose = name;
+    }
+
+    function update() {
+        pose(hovering ? "turned" : inVoice ? "headphones" : "looking");
+    }
+
+    const canHover = window.matchMedia("(hover: hover) and (pointer: fine)");
+    target?.addEventListener("pointerenter", () => {
+        if (!canHover.matches) return;
+        hovering = true;
+        update();
+    });
+    target?.addEventListener("pointerleave", () => {
+        hovering = false;
+        update();
+    });
+    document.addEventListener("discord:update", (event) => {
+        inVoice =
+            (event as CustomEvent<{ inVoice: number }>).detail.inVoice > 0;
+        update();
+    });
+</script>
+
+<style is:global>
+    /* ---------- Móvil y tableta: titular arriba, monitor dibujado ---------- */
+    .hero-room {
+        --hero-bg: var(--color-bg);
+    }
+
+    .hero-room__stage {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8rem;
+        max-width: 64rem;
+        margin-inline: auto;
+        padding: 3rem 1rem 3.5rem;
+    }
+
+    .hero-room__copy {
+        position: relative;
+        z-index: 2;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        max-width: 42rem;
+        text-align: center;
+    }
+
+    /* La escena es una franja detrás del monitor (la ventana y sus luces). */
+    .hero-room__scene {
+        position: absolute;
+        z-index: 0;
+        width: 1935px;
+        height: 1089px;
+        /* Centrada en el monitor y con su borde superior 246 px por encima. */
+        left: calc(50% - 1548px);
+        bottom: -274px;
+        /* Fundido arriba y abajo, y a los lados para que en tableta no se
+           vea el borde de la imagen (en móvil solo se ve el centro). */
+        --scene-fade-y: linear-gradient(
+            to bottom,
+            transparent 0%,
+            rgb(0 0 0 / 0.85) 21%,
+            #000 56%,
+            transparent 71%
+        );
+        --scene-fade-x: linear-gradient(
+            to right,
+            transparent 33%,
+            #000 50%,
+            #000 90%,
+            transparent 100%
+        );
+        -webkit-mask-image: var(--scene-fade-y), var(--scene-fade-x);
+        -webkit-mask-composite: source-in;
+        mask-image: var(--scene-fade-y), var(--scene-fade-x);
+        mask-composite: intersect;
+    }
+
+    .hero-room__veil,
+    .hero-room__garland,
+    .hero-room__rakim {
+        display: none;
+    }
+
+    .hero-room__monitor {
+        position: relative;
+        z-index: 1;
+        width: min(100%, 26rem);
+    }
+
+    .hero-room__screen {
+        position: relative;
+        overflow: hidden;
+        border-radius: 1rem;
+        border: 1px solid rgb(255 255 255 / 0.12);
+        background: linear-gradient(180deg, #1a2036, #10162a);
+        padding: 0.625rem;
+        box-shadow: 0 30px 60px -20px rgb(0 0 0 / 0.7);
+    }
+
+    .hero-room__glass {
+        position: absolute;
+        inset: 0.625rem;
+        border-radius: 0.5rem;
+        pointer-events: none;
+        background: linear-gradient(
+            160deg,
+            rgb(255 255 255 / 0.07) 0%,
+            rgb(255 255 255 / 0.01) 38%,
+            transparent 39%
+        );
+    }
+
+    .hero-room__rakim-lying {
+        position: absolute;
+        z-index: 2;
+        left: -0.5%;
+        top: -55px;
+        width: 75%;
+        max-width: 270px;
+        height: auto;
+        pointer-events: none;
+    }
+
+    .hero-room__stand {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .hero-room__stand span:first-child {
+        width: 64px;
+        height: 16px;
+        background: #1a1f30;
+    }
+
+    .hero-room__stand span:last-child {
+        width: 150px;
+        height: 7px;
+        border-radius: 4px;
+        background: #232940;
+    }
+
+    .hero-room__gifts {
+        position: absolute;
+        z-index: 2;
+        left: -12px;
+        bottom: -10px;
+        width: 78px;
+        height: 78px;
+    }
+
+    .hero-room__tree {
+        position: absolute;
+        z-index: 2;
+        right: -12px;
+        bottom: -40px;
+        width: 72px;
+        height: 121px;
+    }
+
+    /* ---------- Escritorio: la composición de Figma, escalada entera ---------- */
+    @media (min-width: 1280px) {
+        .hero-room {
+            --s: 0.889;
+            height: calc(724px * var(--s));
+        }
+
+        .hero-room__stage {
+            display: block;
+            zoom: var(--s);
+            width: 1440px;
+            height: 724px;
+            max-width: none;
+            padding: 0;
+        }
+
+        .hero-room__scene {
+            left: -405px;
+            top: -157px;
+            bottom: auto;
+            -webkit-mask-image: linear-gradient(
+                to left,
+                transparent 0,
+                #000 260px
+            );
+            mask-image: linear-gradient(to left, transparent 0, #000 260px);
+        }
+
+        /* Velo del titular y fundido inferior; a la izquierda se alarga
+           para tapar la escena en pantallas anchas. */
+        .hero-room__veil {
+            display: block;
+            position: absolute;
+            z-index: 0;
+            left: -405px;
+            top: 0;
+            width: 1845px;
+            height: 724px;
+            pointer-events: none;
+            background:
+                linear-gradient(
+                    to bottom,
+                    transparent 0%,
+                    transparent 69%,
+                    var(--hero-bg) 100%
+                ),
+                linear-gradient(
+                    to right,
+                    rgb(8 13 26 / 0.96) 0%,
+                    rgb(8 13 26 / 0.96) 21.95%,
+                    rgb(8 13 26 / 0.86) 53.17%,
+                    rgb(8 13 26 / 0.45) 64.1%,
+                    transparent 73.4%
+                );
+        }
+
+        .hero-room__garland {
+            display: block;
+            position: absolute;
+            z-index: 1;
+            left: -6px;
+            top: -31px;
+            width: 640px;
+            height: 218px;
+        }
+
+        .hero-room__copy {
+            position: absolute;
+            left: 112px;
+            top: 183px;
+            width: 696px;
+            max-width: none;
+            align-items: flex-start;
+            text-align: left;
+        }
+
+        .hero-room__rakim {
+            display: block;
+            position: absolute;
+            z-index: 2;
+            left: 691px;
+            top: 359px;
+            width: 288px;
+            height: 432px;
+        }
+
+        .hero-room__rakim picture,
+        .hero-room__rakim img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Las poses están apiladas; se ve la de `data-pose` (mira, si no hay). */
+        .hero-room__rakim img {
+            opacity: 0;
+            transition: opacity 180ms ease;
+        }
+
+        .hero-room__rakim:not([data-pose]) img[data-rakim-pose="looking"],
+        .hero-room__rakim[data-pose="looking"] img[data-rakim-pose="looking"],
+        .hero-room__rakim[data-pose="turned"] img[data-rakim-pose="turned"],
+        .hero-room__rakim[data-pose="headphones"]
+            img[data-rakim-pose="headphones"] {
+            opacity: 1;
+        }
+
+        /* La pantalla negra del monitor de la escena: x 937, y 98, 402 × 497. */
+        .hero-room__monitor {
+            position: absolute;
+            z-index: 1;
+            left: 937px;
+            top: 98px;
+            width: 402px;
+            height: 497px;
+        }
+
+        .hero-room__screen {
+            height: 100%;
+            padding: 0;
+            border: 0;
+            border-radius: 4px;
+            background: linear-gradient(180deg, #121a33, #090d1a);
+            box-shadow: inset 0 0 22px rgb(0 0 0 / 0.6);
+        }
+
+        .hero-room__glass {
+            inset: 0;
+            border-radius: 4px;
+        }
+
+        .hero-room__rakim-lying,
+        .hero-room__stand {
+            display: none;
+        }
+
+        /* Los adornos van en coordenadas del lienzo, no del monitor. */
+        .hero-room__gifts {
+            left: calc(22px - 937px);
+            top: calc(549px - 98px);
+            bottom: auto;
+            width: 170px;
+            height: 170px;
+        }
+
+        .hero-room__tree {
+            left: calc(1292px - 937px);
+            top: calc(479px - 98px);
+            right: auto;
+            bottom: auto;
+            width: 146px;
+            height: 245px;
+        }
+    }
+
+    @media (min-width: 1360px) {
+        .hero-room {
+            --s: 0.945;
+        }
+    }
+
+    @media (min-width: 1440px) {
+        .hero-room {
+            --s: 1;
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .hero-room__rakim img {
+            transition: none;
+        }
+    }
+</style>
