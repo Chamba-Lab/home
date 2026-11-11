@@ -45,7 +45,10 @@ export default function Setup({
     const pack = packs.find((p) => p.id === packId) ?? packs[0];
 
     return (
-        <div className="card-glass rounded-3xl border border-white/10 p-6 sm:p-10 max-w-3xl mx-auto">
+        <div
+            data-setup
+            className="card-glass rounded-3xl border border-white/10 p-6 sm:p-10 max-w-3xl mx-auto"
+        >
             <fieldset className="mb-8">
                 <legend className={legendClass}>{t.packLabel}</legend>
                 <div className="grid gap-3 sm:grid-cols-3">

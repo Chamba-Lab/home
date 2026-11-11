@@ -2,6 +2,11 @@
 import Layout from "../../layouts/Layout.astro";
 import RouletteWheel from "../../components/RouletteWheel";
 import { getCollection } from "astro:content";
+import SceneBackdrop from "../../components/scene/SceneBackdrop.astro";
+import SceneStrip from "../../components/scene/SceneStrip.astro";
+import { STRIP_FADE, headerVeils } from "../../lib/scene-presets";
+import gameRoom from "../../assets/scenes/places/game-room.webp";
+import gameRoomChristmas from "../../assets/scenes/places/game-room-christmas.webp";
 
 const rawBase = import.meta.env.BASE_URL;
 const base = rawBase.endsWith("/") ? rawBase : `${rawBase}/`;
@@ -25,10 +30,20 @@ const { freeMode, presets } = config;
         { name: "La Ruleta", path: "/activities/roulette/" },
     ]}
 >
-    <main class="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20 relative">
-        <!-- Top Ambient Glow -->
-        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-72 h-72 sm:w-96 sm:h-96 bg-brand-yellow/5 rounded-full blur-3xl pointer-events-none -z-10"></div>
-
+    <!-- La sala de juegos detrás del título -->
+    <SceneBackdrop
+        variants={{ default: gameRoom, christmas: gameRoomChristmas }}
+        desktop={{ x: 500, y: 0, w: 940, h: 480, veils: headerVeils(800) }}
+    />
+    <main class="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20 xl:pt-[150px] relative">
+        <SceneStrip
+            variants={{ default: gameRoom, christmas: gameRoomChristmas }}
+            height={230}
+            img={{ x: -121, y: -40, w: 600 }}
+            fade={STRIP_FADE}
+            rounded
+            class="mb-4"
+        />
         <!-- Back Link & Breadcrumb -->
         <div class="flex items-center justify-between mb-8">
             <a

@@ -1,4 +1,7 @@
 import { useEffect, useState } from "react";
+// Bunny (Early Career) y el jefe (Mid & Senior) asoman sobre sus nodos.
+import bunnyBust from "../assets/scenes/busts/learning.webp";
+import bossBust from "../assets/scenes/busts/barista.webp";
 
 type NodeKey = "early" | "advising" | "senior" | "growing";
 
@@ -200,13 +203,16 @@ export default function CommunityEcosystem() {
     const MOBILE_STEPS: Array<{
         key: NodeKey;
         icon: string;
+        /** Busto del personaje en vez del icono. */
+        bust?: string;
         accentColor: string;
         borderActive: string;
         dynamicActivity?: string;
     }> = [
         {
             key: "early",
-            icon: "🚀",
+            icon: "",
+            bust: bunnyBust.src,
             accentColor: "text-brand-yellow",
             borderActive: "border-brand-yellow/80 shadow-brand-yellow/15",
         },
@@ -219,7 +225,8 @@ export default function CommunityEcosystem() {
         },
         {
             key: "senior",
-            icon: "⚡",
+            icon: "",
+            bust: bossBust.src,
             accentColor: "text-[#818CF8]",
             borderActive: "border-[#818CF8]/80 shadow-brand-discord/20",
         },
@@ -300,8 +307,17 @@ export default function CommunityEcosystem() {
                                 >
                                     <div className="flex items-center justify-between gap-3">
                                         <div className="flex items-center gap-3 min-w-0">
-                                            <div className="w-10 h-10 rounded-xl bg-white/[0.04] border border-white/10 flex items-center justify-center text-xl shrink-0">
-                                                {step.icon}
+                                            <div className="w-10 h-10 rounded-xl bg-white/[0.04] border border-white/10 flex items-center justify-center text-xl shrink-0 overflow-hidden">
+                                                {step.bust ? (
+                                                    <img
+                                                        src={step.bust}
+                                                        alt=""
+                                                        aria-hidden="true"
+                                                        className="h-10 w-auto translate-y-1 object-contain"
+                                                    />
+                                                ) : (
+                                                    step.icon
+                                                )}
                                             </div>
                                             <div className="min-w-0">
                                                 <h4 className="font-display font-extrabold text-white text-sm truncate">
@@ -759,14 +775,16 @@ export default function CommunityEcosystem() {
                                         fill="url(#goldGrad)"
                                         fillOpacity="0.12"
                                     />
-                                    <text
-                                        x="0"
-                                        y="-10"
-                                        textAnchor="middle"
-                                        fontSize="22"
-                                    >
-                                        🚀
-                                    </text>
+                                    <image
+                                        href={bunnyBust.src}
+                                        x="-33"
+                                        y="-110"
+                                        width="65"
+                                        height="108"
+                                        preserveAspectRatio="xMidYMax meet"
+                                        aria-hidden="true"
+                                        pointerEvents="none"
+                                    />
                                     <text
                                         x="0"
                                         y="12"
@@ -896,14 +914,16 @@ export default function CommunityEcosystem() {
                                         fill="url(#blurpleGrad)"
                                         fillOpacity="0.15"
                                     />
-                                    <text
-                                        x="0"
-                                        y="-10"
-                                        textAnchor="middle"
-                                        fontSize="22"
-                                    >
-                                        ⚡
-                                    </text>
+                                    <image
+                                        href={bossBust.src}
+                                        x="-40"
+                                        y="-96"
+                                        width="81"
+                                        height="94"
+                                        preserveAspectRatio="xMidYMax meet"
+                                        aria-hidden="true"
+                                        pointerEvents="none"
+                                    />
                                     <text
                                         x="0"
                                         y="12"

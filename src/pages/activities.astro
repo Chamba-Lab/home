@@ -4,6 +4,11 @@ import DiscordIcon from "../components/icons/DiscordIcon.astro";
 import { DISCORD_URL } from "../lib/constants";
 import { getCollection } from "astro:content";
 import order from "../content/activities.json";
+import SceneBackdrop from "../components/scene/SceneBackdrop.astro";
+import SceneStrip from "../components/scene/SceneStrip.astro";
+import { STRIP_FADE, headerVeils } from "../lib/scene-presets";
+import gamerRoom from "../assets/scenes/places/activities.webp";
+import gamerRoomChristmas from "../assets/scenes/places/activities-christmas.webp";
 
 const rawBase = import.meta.env.BASE_URL;
 const base = rawBase.endsWith("/") ? rawBase : `${rawBase}/`;
@@ -23,7 +28,20 @@ const activities = (await getCollection("activities")).sort(
         { name: "Dinámicas", path: "/activities/" },
     ]}
 >
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
+    <!-- El cuarto gamer de Tulio detrás del título -->
+    <SceneBackdrop
+        variants={{ default: gamerRoom, christmas: gamerRoomChristmas }}
+        desktop={{ x: 400, y: 50, w: 1040, h: 562, veils: headerVeils() }}
+    />
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24 xl:pt-[237px]">
+        <SceneStrip
+            variants={{ default: gamerRoom, christmas: gamerRoomChristmas }}
+            height={230}
+            img={{ x: -121, y: -40, w: 600 }}
+            fade={STRIP_FADE}
+            rounded
+            class="mb-4"
+        />
         <!-- Header -->
         <div class="max-w-3xl mb-12">
             <h1

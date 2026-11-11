@@ -1,7 +1,8 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import DiscordIcon from "../components/icons/DiscordIcon.astro";
-import { DISCORD_URL } from "../lib/constants";
+import SceneBackdrop from "../components/scene/SceneBackdrop.astro";
+import rooftop from "../assets/scenes/places/rooftop.webp";
+import rooftopChristmas from "../assets/scenes/places/rooftop-christmas.webp";
 
 const rawBase = import.meta.env.BASE_URL;
 const base = rawBase.endsWith("/") ? rawBase : `${rawBase}/`;
@@ -12,41 +13,103 @@ const base = rawBase.endsWith("/") ? rawBase : `${rawBase}/`;
     description="La página que buscas no existe o cambió de lugar."
     noindex
 >
-    <main class="flex-1 max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-24 sm:py-32 text-center">
-        <p class="font-display text-sm font-bold text-brand-yellow mb-4">404</p>
-        <h1
-            class="font-display text-4xl sm:text-5xl font-extrabold text-white tracking-tight mb-4"
-            data-i18n-es="Esta página no existe"
-            data-i18n-en="This page doesn't exist"
-        >
-            Esta página no existe
-        </h1>
-        <p
-            class="text-lg text-slate-300 leading-relaxed mb-10"
-            data-i18n-es="Puede que el enlace haya cambiado o tenga un error. Vuelve al inicio o sigue la conversación en Discord."
-            data-i18n-en="The link may have changed or contain a typo. Go back home or keep the conversation going on Discord."
-        >
-            Puede que el enlace haya cambiado o tenga un error. Vuelve al inicio
-            o sigue la conversación en Discord.
-        </p>
-        <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
-            <a
-                href={base}
-                class="inline-flex items-center justify-center px-6 py-3 rounded-xl bg-brand-yellow text-slate-950 font-bold hover:brightness-110 transition"
-                data-i18n-es="Volver al inicio"
-                data-i18n-en="Back to home"
+    <!-- Rakim tampoco la encontró: se subió a la azotea con su café -->
+    <SceneBackdrop
+        variants={{ default: rooftop, christmas: rooftopChristmas }}
+        desktop={{
+            x: -88,
+            y: 0,
+            w: 1528,
+            h: 860,
+            veils: [
+                {
+                    axis: "x",
+                    start: 0,
+                    size: 1440,
+                    stops: [
+                        [0, 0.97],
+                        [0.42, 0.9],
+                        [0.62, 0.35],
+                        [0.74, 0],
+                        [1, 0],
+                    ],
+                },
+                {
+                    axis: "y",
+                    start: 720,
+                    size: 140,
+                    stops: [
+                        [0, 0],
+                        [1, 1],
+                    ],
+                },
+            ],
+        }}
+        mobile={{
+            x: -470,
+            y: 40,
+            w: 912,
+            h: 513,
+            veils: [
+                {
+                    axis: "y",
+                    start: 0,
+                    size: 844,
+                    stops: [
+                        [0, 0.9],
+                        [0.14, 0],
+                        [0.5, 0.2],
+                        [0.64, 1],
+                        [1, 1],
+                    ],
+                },
+            ],
+        }}
+    />
+    <main class="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-[430px] pb-24 xl:pt-[160px] xl:min-h-[779px]">
+        <div class="max-w-xl">
+            <h1 class="font-display text-4xl sm:text-6xl font-extrabold text-white tracking-tight mb-6 sm:whitespace-nowrap">
+                <span data-i18n-es="Esta página" data-i18n-en="This page">
+                    Esta página
+                </span>{" "}
+                <span
+                    class="text-brand-yellow"
+                    data-i18n-es="no existe"
+                    data-i18n-en="doesn't exist"
+                >
+                    no existe
+                </span>
+            </h1>
+            <p
+                class="max-w-[560px] text-lg sm:text-xl text-slate-300 leading-relaxed mb-10"
+                data-i18n-es="Rakim tampoco la encontró, así que subió a la azotea con su café. Vuelve al inicio o busca lo que necesitas en los recursos."
+                data-i18n-en="Rakim couldn't find it either, so he went up to the rooftop with his coffee. Go back home or find what you need in the resources."
             >
-                Volver al inicio
-            </a>
-            <a
-                href={DISCORD_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                class="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl card-glass border border-white/10 text-white font-semibold hover:border-white/20 transition"
-            >
-                <DiscordIcon class="w-5 h-5" />
-                <span>Discord</span>
-            </a>
+                Rakim tampoco la encontró, así que subió a la azotea con su
+                café. Vuelve al inicio o busca lo que necesitas en los recursos.
+            </p>
+            <div class="flex flex-wrap items-center gap-3">
+                <a
+                    href={base}
+                    class="inline-flex items-center justify-center px-6 py-3.5 rounded-xl bg-brand-yellow text-slate-950 font-bold shadow-lg shadow-brand-yellow/20 hover:bg-brand-yellow-hover transition"
+                    data-i18n-es="Volver al inicio"
+                    data-i18n-en="Back to home"
+                >
+                    Volver al inicio
+                </a>
+                <a
+                    href={`${base}resources/`}
+                    class="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl border border-white/10 bg-bg/60 text-white font-semibold hover:border-white/25 transition"
+                >
+                    <span
+                        data-i18n-es="Ver recursos"
+                        data-i18n-en="View resources"
+                    >
+                        Ver recursos
+                    </span>
+                    <span aria-hidden="true">→</span>
+                </a>
+            </div>
         </div>
     </main>
 </Layout>

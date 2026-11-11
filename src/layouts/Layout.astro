@@ -32,6 +32,8 @@ interface Props {
     rss?: boolean;
     /** Sin cabecera ni pie (por ejemplo, la página que redirige a Discord). */
     bare?: boolean;
+    /** La ciudad de noche arriba del pie (no en /about, que ya la tiene). */
+    footerScene?: boolean;
 }
 
 const {
@@ -48,6 +50,7 @@ const {
     category,
     rss = false,
     bare = false,
+    footerScene = true,
 } = Astro.props;
 
 const rawBase = import.meta.env.BASE_URL;
@@ -136,11 +139,11 @@ const structuredData = [
     </head>
     <body
         data-category={category}
-        class="min-h-screen flex flex-col bg-bg text-slate-200 selection:bg-brand-yellow selection:text-slate-950"
+        class="isolate min-h-screen flex flex-col bg-bg text-slate-200 selection:bg-brand-yellow selection:text-slate-950"
     >
         {!bare && <Header />}
         <slot />
-        {!bare && <Footer />}
+        {!bare && <Footer scene={footerScene} />}
 
         <script>
             import { translations, type Lang } from "../i18n/translations";

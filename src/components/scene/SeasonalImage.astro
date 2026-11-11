@@ -18,6 +18,8 @@ interface Props {
     /** Ancho con el que se pinta, para que el navegador elija del srcset. */
     sizes: string;
     class?: string;
+    /** Estilo del hueco (posición y máscara de una escena). */
+    style?: string;
     imgClass?: string;
     loading?: "eager" | "lazy";
     fetchpriority?: "high" | "auto";
@@ -28,6 +30,7 @@ const {
     widths,
     sizes,
     class: className,
+    style,
     imgClass = "block h-full w-full object-cover",
     loading = "lazy",
     fetchpriority = "auto",
@@ -46,6 +49,7 @@ const others = [
 
 <div
     class={className}
+    style={style}
     data-season-slot
     data-season-current={current}
     aria-hidden="true"

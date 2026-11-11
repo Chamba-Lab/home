@@ -17,6 +17,32 @@ import {
     SITE_URL,
 } from "../lib/constants";
 import { aboutPageJsonLd } from "../lib/seo";
+import SceneBackdrop from "../components/scene/SceneBackdrop.astro";
+import city from "../assets/scenes/places/city.webp";
+import cityChristmas from "../assets/scenes/places/city-christmas.webp";
+
+// Velo bajo la cabecera y fundido inferior de la ciudad (Figma).
+const cityVeils = (bottomStart: number) => [
+    {
+        axis: "y" as const,
+        start: 0,
+        size: 170,
+        stops: [
+            [0, 1],
+            [0.5, 0.85],
+            [1, 0],
+        ] as [number, number][],
+    },
+    {
+        axis: "y" as const,
+        start: bottomStart,
+        size: 220,
+        stops: [
+            [0, 0],
+            [1, 1],
+        ] as [number, number][],
+    },
+];
 
 const siteOrigin = Astro.site?.origin ?? SITE_URL;
 const officialProfiles = [
@@ -37,8 +63,15 @@ const officialProfiles = [
         { name: "Quiénes somos", path: "/about/" },
     ]}
     jsonLd={[aboutPageJsonLd(siteOrigin)]}
+    footerScene={false}
 >
-    <main class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
+    <!-- La ciudad costera de noche detrás del título -->
+    <SceneBackdrop
+        variants={{ default: city, christmas: cityChristmas }}
+        desktop={{ x: -60, y: 0, w: 1560, h: 520, veils: cityVeils(300) }}
+        mobile={{ x: -255, y: 0, w: 900, h: 300, veils: cityVeils(80) }}
+    />
+    <main class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pt-[208px] pb-16 sm:pb-24 xl:pt-[353px]">
         <h1
             class="font-display text-4xl sm:text-5xl font-extrabold text-white tracking-tight mb-6"
             data-i18n="aboutTitle"
