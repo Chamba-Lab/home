@@ -2,9 +2,11 @@ import { describe, expect, it } from "vitest";
 import {
     eventCategory,
     formatLongDate,
+    formatMonthShort,
     formatShortDate,
     formatWeekday,
     limaToday,
+    nextWeeklyDate,
     upcomingFixedEvents,
 } from "../lib/events";
 
@@ -140,5 +142,39 @@ describe("upcomingFixedEvents", () => {
 
     it("devuelve vacío cuando ya pasaron todos", () => {
         expect(upcomingFixedEvents(events, "2027-01-01")).toEqual([]);
+    });
+});
+
+describe("nextWeeklyDate", () => {
+    // Code & Coffee: los viernes (5) desde el 6 de noviembre de 2026.
+    it("da el próximo viernes desde hoy", () => {
+        expect(nextWeeklyDate("2026-11-06", 5, "2026-11-11")).toBe(
+            "2026-11-13",
+        );
+    });
+
+    it("el mismo día cuenta como próxima vez", () => {
+        expect(nextWeeklyDate("2026-11-06", 5, "2026-11-13")).toBe(
+            "2026-11-13",
+        );
+    });
+
+    it("antes de empezar, la primera fecha", () => {
+        expect(nextWeeklyDate("2026-11-06", 5, "2026-10-01")).toBe(
+            "2026-11-06",
+        );
+    });
+
+    it("cruza el mes y el año", () => {
+        expect(nextWeeklyDate("2026-11-06", 5, "2026-12-30")).toBe(
+            "2027-01-01",
+        );
+    });
+});
+
+describe("formatMonthShort", () => {
+    it("da el mes abreviado según el idioma", () => {
+        expect(formatMonthShort("2026-11-13", "es")).toBe("Nov");
+        expect(formatMonthShort("2026-11-13", "en")).toBe("Nov");
     });
 });

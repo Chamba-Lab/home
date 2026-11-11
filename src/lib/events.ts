@@ -42,6 +42,32 @@ export function formatWeekday(dateIso: string | undefined, lang: Lang) {
     );
 }
 
+/** Short month in the given language ("nov", "Nov"), for date blocks. */
+export function formatMonthShort(dateIso: string | undefined, lang: Lang) {
+    if (!dateIso) return "";
+    return limaNoon(dateIso)
+        .toLocaleDateString(lang === "es" ? "es-PE" : "en-US", {
+            month: "short",
+            timeZone: LIMA_TZ,
+        })
+        .replace(".", "");
+}
+
+/**
+ * Next date (YYYY-MM-DD, today included) of a weekly session held on
+ * `weekday` (0 = Sunday … 6 = Saturday) since `startDate`.
+ */
+export function nextWeeklyDate(
+    startDate: string,
+    weekday: number,
+    todayIso: string,
+): string {
+    const from = startDate > todayIso ? startDate : todayIso;
+    const date = new Date(`${from}T00:00:00Z`);
+    date.setUTCDate(date.getUTCDate() + ((weekday - date.getUTCDay() + 7) % 7));
+    return date.toISOString().slice(0, 10);
+}
+
 /** Today's date in Lima as YYYY-MM-DD (the community's calendar day). */
 export function limaToday(now: Date = new Date()): string {
     return now.toLocaleDateString("en-CA", { timeZone: LIMA_TZ });
