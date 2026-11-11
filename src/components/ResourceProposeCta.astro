@@ -1,10 +1,45 @@
 ---
 // Invitación a proponer un recurso, al final de las páginas de recursos. Abre
-// la plantilla de issue "Proponer un recurso" de GitHub.
+// la plantilla de issue "Proponer un recurso" de GitHub. En una categoría, el
+// dueño de su cuarto asoma sobre el botón y el borde toma su color.
+import type { ImageMetadata } from "astro";
+import { Image } from "astro:assets";
 import { RESOURCE_PROPOSAL_URL } from "../lib/constants";
+
+interface Props {
+    category?: string;
+}
+
+const { category } = Astro.props;
+
+const busts = import.meta.glob<ImageMetadata>("../assets/scenes/busts/*.webp", {
+    eager: true,
+    import: "default",
+});
+const bust = category
+    ? busts[`../assets/scenes/busts/${category}.webp`]
+    : undefined;
 ---
 
-<aside class="card-glass rounded-2xl mt-12 p-6 sm:p-8 border border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-5">
+<aside
+    data-hide-when-empty
+    class:list={[
+        "propose-cta card-glass relative rounded-2xl p-6 sm:p-8 border flex flex-col sm:flex-row sm:items-center justify-between gap-5",
+        bust
+            ? "mt-28 sm:mt-36 border-(--cat-border)! hover:border-(--cat-accent)/60!"
+            : "mt-12 border-white/10",
+    ]}
+>
+    {bust && (
+        <Image
+            src={bust}
+            alt=""
+            aria-hidden="true"
+            height={139}
+            densities={[1, 2]}
+            class="propose-cta__bust"
+        />
+    )}
     <div class="max-w-xl space-y-1">
         <h2
             class="font-display text-lg font-bold text-white"
@@ -37,3 +72,25 @@ import { RESOURCE_PROPOSAL_URL } from "../lib/constants";
         ↗
     </a>
 </aside>
+
+<style>
+    /* El dueño asoma por el borde de arriba, centrado sobre el botón (en
+       Figma, 139 px de alto y 6 px por debajo del borde). */
+    .propose-cta__bust {
+        position: absolute;
+        right: 24px;
+        bottom: calc(100% - 6px);
+        width: auto;
+        height: 104px;
+        pointer-events: none;
+    }
+
+    @media (min-width: 640px) {
+        .propose-cta__bust {
+            /* Centro del botón: 32 px de padding + medio botón (~105 px). */
+            right: 137px;
+            height: 139px;
+            transform: translateX(50%);
+        }
+    }
+</style>

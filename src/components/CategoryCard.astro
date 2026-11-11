@@ -2,7 +2,9 @@
 // Tarjeta de una categoría en /resources: la "puerta" a su colección. Es la
 // única tarjeta de recursos con luz: un brillo del color de la categoría sale
 // desde la esquina del icono. Los colores salen de la paleta [data-category].
+// Arriba, una ventana al cuarto de su dueño: en penumbra hasta pasar el ratón.
 import CategoryIcon from "./CategoryIcon.astro";
+import CategoryRoom from "./scene/CategoryRoom.astro";
 import { categoryPath, resourceCountLabel, type Label } from "../lib/resources";
 
 interface Props {
@@ -25,6 +27,9 @@ const { category, count } = Astro.props;
 >
     <span class="category-glow" aria-hidden="true"></span>
     <div>
+        <div class="-mx-6 -mt-6 mb-5">
+            <CategoryRoom category={category.id} window />
+        </div>
         <div class="mb-5 flex items-center justify-between gap-3">
             <CategoryIcon category={category} />
             <span class="inline-flex items-center gap-1.5 rounded-full border border-(--cat-border) bg-(--cat-tint) px-2.5 py-1 text-[11px] font-semibold text-(--cat-accent)">
@@ -87,12 +92,13 @@ const { category, count } = Astro.props;
         border-color: color-mix(in srgb, var(--cat-accent) 60%, transparent);
     }
 
-    /* Brillo: círculo de 200 px centrado en el icono (24 px de padding + 24 px
-       de medio icono), desenfocado y recortado por la tarjeta. */
+    /* Brillo: círculo de 200 px centrado en el icono (bajo la ventana de
+       130 px, 24 px de padding y 24 px de medio icono), desenfocado y
+       recortado por la tarjeta. */
     .category-glow {
         position: absolute;
         z-index: -1;
-        top: -52px;
+        top: 74px;
         left: -52px;
         width: 200px;
         height: 200px;
