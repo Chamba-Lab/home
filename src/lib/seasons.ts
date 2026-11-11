@@ -1,10 +1,11 @@
 /**
- * Perfiles por festividad del widget de Discord: avatar y decoración según la
- * fecha de Lima. Lógica pura (sin imágenes) para poder probarla sin Astro; los
- * avatares se asocian a cada perfil en `DiscordWidget.astro`.
+ * Temporadas del sitio (escenas y avatar del widget de Discord) según la
+ * fecha de Lima. Lógica pura (sin imágenes) para poder probarla sin Astro; las
+ * imágenes de cada temporada las asocian `scene/SeasonalImage.astro` y
+ * `DiscordWidget.astro`.
  *
  * Añadir una festividad: su id en `SeasonId`, su ventana en `SEASONS`, su
- * avatar en `brand/discord/` y su decoración en el widget (ver DESIGN.md).
+ * avatar en `brand/discord/` y la variante de cada escena (ver DESIGN.md).
  */
 
 import { limaToday } from "./events";
