@@ -4,6 +4,8 @@ import EventItem from "../components/EventItem.astro";
 import ChevronIcon from "../components/icons/ChevronIcon.astro";
 import EventPosters from "../components/EventPosters.astro";
 import SeasonalImage from "../components/scene/SeasonalImage.astro";
+import { Image } from "astro:assets";
+import barista from "../assets/scenes/busts/barista.webp";
 import corkboard from "../assets/scenes/cafe/corkboard.webp";
 import corkboardChristmas from "../assets/scenes/cafe/corkboard-christmas.webp";
 import { DISCORD_URL, EVENT_PROPOSAL_URL, SITE_URL } from "../lib/constants";
@@ -395,6 +397,15 @@ const upcomingEvents = months
             </div>
 
             <aside class="events-propose">
+                <!-- El jefe barista asoma sobre el botón, como los dueños en Recursos -->
+                <Image
+                    src={barista}
+                    alt=""
+                    aria-hidden="true"
+                    height={138}
+                    densities={[1, 2]}
+                    class="events-propose-bust"
+                />
                 <div>
                     <h2
                         data-i18n-es="¿Qué te gustaría compartir?"
@@ -690,6 +701,8 @@ const upcomingEvents = months
         scroll-margin-top: 110px;
     }
     .events-propose {
+        position: relative;
+        margin-top: 48px;
         display: flex;
         justify-content: space-between;
         gap: 32px;
@@ -698,6 +711,17 @@ const upcomingEvents = months
         color: var(--color-on-accent);
         padding: 36px;
         border-radius: 24px;
+    }
+    /* En Figma: 138 px de alto, 65 px por encima del borde y centrado sobre
+       el botón (36 px de padding + medio botón, ~89 px). */
+    .events-propose-bust {
+        position: absolute;
+        top: -72px;
+        right: 125px;
+        width: auto;
+        height: 138px;
+        transform: translateX(50%);
+        pointer-events: none;
     }
     .events-propose h2 {
         font: 800 32px/1.16 var(--font-display);
@@ -815,7 +839,17 @@ const upcomingEvents = months
         }
         .events-propose {
             display: block;
+            margin-top: 72px;
             padding: 24px;
+        }
+        .events-propose-bust {
+            top: -62px;
+            right: 20px;
+            height: 100px;
+            transform: none;
+        }
+        .events-propose h2 {
+            padding-right: 72px;
         }
         .events-propose h2 {
             font-size: 26px;

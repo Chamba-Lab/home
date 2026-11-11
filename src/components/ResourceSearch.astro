@@ -71,6 +71,19 @@ const { placeholderEs, placeholderEn } = Astro.props;
     const hideWhenSearching = Array.from(
         document.querySelectorAll<HTMLElement>("[data-hide-when-searching]"),
     );
+    // Sin resultados: se repite lo buscado y se ofrece proponerlo (la plantilla
+    // de issue con lo buscado como título); lo demás que invita a proponer se
+    // oculta para no repetirlo.
+    const emptyQuery = Array.from(
+        document.querySelectorAll<HTMLElement>("[data-empty-query]"),
+    );
+    const propose = document.querySelector<HTMLAnchorElement>(
+        "[data-propose-query]",
+    );
+    const proposeBase = propose?.href;
+    const hideWhenEmpty = Array.from(
+        document.querySelectorAll<HTMLElement>("[data-hide-when-empty]"),
+    );
     const clearButtons = Array.from(
         document.querySelectorAll<HTMLButtonElement>("[data-clear-filters]"),
     );
@@ -87,7 +100,15 @@ const { placeholderEs, placeholderEn } = Astro.props;
         });
         searchOnly.forEach((el) => (el.hidden = !searching));
         hideWhenSearching.forEach((el) => (el.hidden = searching));
-        if (emptyState) emptyState.hidden = visible > 0;
+        const empty = visible === 0;
+        if (emptyState) emptyState.hidden = !empty;
+        hideWhenEmpty.forEach((el) => (el.hidden = empty));
+        emptyQuery.forEach((el) => (el.textContent = query.trim()));
+        if (propose && proposeBase) {
+            const url = new URL(proposeBase);
+            if (query.trim()) url.searchParams.set("title", query.trim());
+            propose.href = url.toString();
+        }
         // Secciones por formato: cuentan sus coincidencias y se ocultan si la
         // búsqueda las deja vacías.
         document

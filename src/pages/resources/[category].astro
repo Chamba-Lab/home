@@ -139,7 +139,7 @@ const others = RESOURCE_CATEGORIES.filter((c) => c.id !== category.id);
             ))}
         </div>
 
-        <ResourceEmptyState />
+        <ResourceEmptyState exclude={category.id} />
 
         <nav class="mt-16" aria-labelledby="other-categories">
             <h2
@@ -164,7 +164,7 @@ const others = RESOURCE_CATEGORIES.filter((c) => c.id !== category.id);
             </div>
         </nav>
 
-        <ResourceProposeCta />
+        <ResourceProposeCta category={category.id} />
         <ResourceCriteriaNote />
     </main>
 </Layout>

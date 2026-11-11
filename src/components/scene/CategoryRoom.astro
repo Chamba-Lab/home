@@ -7,6 +7,9 @@
  * Cada cuarto tiene su variante de Navidad. Aprendizaje es el cuarto real de
  * Bunny y además cambia con la hora de Lima: de día la tarde dorada y desde
  * las 7 p. m., de noche con la pantalla encendida.
+ *
+ * Con `window`, es la ventana al cuarto de la tarjeta de la categoría en
+ * /resources: un recorte del mismo cuarto, en penumbra hasta pasar el ratón.
  */
 import type { ImageMetadata } from "astro";
 import SeasonalImage from "./SeasonalImage.astro";
@@ -14,9 +17,11 @@ import type { SeasonVariants } from "../../lib/scenes";
 
 interface Props {
     category: string;
+    /** Ventana de la tarjeta en /resources en vez de la cabecera. */
+    window?: boolean;
 }
 
-const { category } = Astro.props;
+const { category, window = false } = Astro.props;
 
 const files = import.meta.glob<ImageMetadata>(
     "../../assets/scenes/rooms/*.webp",
@@ -45,14 +50,24 @@ const dayparts =
         : null;
 const variants = dayparts ? null : variantsOf(category);
 
-const image = {
-    widths: [536, 1072, 1320, 1600],
-    sizes: "(min-width: 1280px) min(1320px, 92vw), (min-width: 640px) 100vw, 536px",
-    imgClass: "category-room__img",
-};
+const image = window
+    ? {
+          widths: [560, 1120],
+          sizes: "560px",
+          imgClass: "category-room__img",
+          loading: "lazy" as const,
+          fetchpriority: "auto" as const,
+      }
+    : {
+          widths: [536, 1072, 1320, 1600],
+          sizes: "(min-width: 1280px) min(1320px, 92vw), (min-width: 640px) 100vw, 536px",
+          imgClass: "category-room__img",
+          loading: "eager" as const,
+          fetchpriority: "high" as const,
+      };
 ---
 
-<div class="category-room" aria-hidden="true">
+<div class:list={[window ? "room-window" : "category-room"]} aria-hidden="true">
     {variants && (
         <SeasonalImage
             variants={variants}
@@ -74,13 +89,12 @@ const image = {
                         variants={dayparts[part]}
                         {...image}
                         class="category-room__fill"
-                        loading="eager"
-                        fetchpriority="high"
                     />
                 </template>
             ))}
         </div>
     )}
+    {window && <span class="room-window__shade" />}
 </div>
 
 <script>
@@ -92,6 +106,68 @@ const image = {
 </script>
 
 <style is:global>
+    /* ---------- Ventana al cuarto en la tarjeta de /resources ---------- */
+    /* En Figma: 389 × 130 con el cuarto a 560 × 241 en x −125, y −36. */
+    .room-window {
+        position: relative;
+        height: 104px;
+        overflow: hidden;
+    }
+
+    .room-window .category-room__scene {
+        position: absolute;
+        left: -32.1%;
+        top: -36px;
+        width: 144%;
+        aspect-ratio: 560 / 241;
+    }
+
+    .room-window .category-room__img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    /* Penumbra (luz apagada) y fundido hacia la tarjeta. */
+    .room-window__shade {
+        position: absolute;
+        inset: 0;
+        background:
+            linear-gradient(to bottom, transparent 60%, rgb(8 13 26 / 0.85)),
+            rgb(8 13 26 / 0.5);
+        transition: background-color 300ms ease-out;
+    }
+
+    @media (min-width: 640px) {
+        .room-window {
+            height: 130px;
+        }
+    }
+
+    /* Con ratón, la luz se enciende al pasar por la tarjeta; en táctil
+       queda encendida. */
+    @media (hover: none) {
+        .room-window__shade {
+            background: linear-gradient(
+                to bottom,
+                transparent 60%,
+                rgb(8 13 26 / 0.85)
+            );
+        }
+    }
+
+    .group:hover .room-window__shade,
+    .group:focus-visible .room-window__shade {
+        background-color: transparent;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .room-window__shade {
+            transition: none;
+        }
+    }
+
     /* Móvil y tableta: franja del cuarto bajo el header; el contenido sube
        80 px sobre su fundido. */
     .category-room {
