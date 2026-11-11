@@ -257,8 +257,19 @@ const candidates = [
                                     target="_blank"
                                     rel="noopener noreferrer"
                                 >
-                                    <span data-i18n="addToGCal">
+                                    <!-- En móvil, «Calendario» para que iCal quepa al lado -->
+                                    <span
+                                        class="cafe__gcal-long"
+                                        data-i18n="addToGCal"
+                                    >
                                         Google Calendar
+                                    </span>
+                                    <span
+                                        class="cafe__gcal-short"
+                                        data-i18n-es="Calendario"
+                                        data-i18n-en="Calendar"
+                                    >
+                                        Calendario
                                     </span>{" "}
                                     <span aria-hidden="true">↗</span>
                                 </a>
@@ -581,8 +592,22 @@ const candidates = [
         background: var(--color-brand-discord-hover);
     }
 
+    .cafe__gcal-long {
+        display: none;
+    }
+
+    @media (min-width: 640px) {
+        .cafe__gcal-long {
+            display: inline;
+        }
+
+        .cafe__gcal-short {
+            display: none;
+        }
+    }
+
     .cafe__ical {
-        padding: 0 4px;
+        padding: 0 2px;
         font-size: 13px;
         font-weight: 600;
         color: rgb(148 163 184);
