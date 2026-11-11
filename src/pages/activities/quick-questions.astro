@@ -2,6 +2,12 @@
 import Layout from "../../layouts/Layout.astro";
 import QuickQuestions from "../../components/QuickQuestions";
 import { getCollection } from "astro:content";
+import SceneBackdrop from "../../components/scene/SceneBackdrop.astro";
+import SceneStrip from "../../components/scene/SceneStrip.astro";
+import classroom from "../../assets/scenes/places/classroom.webp";
+import classroomChristmas from "../../assets/scenes/places/classroom-christmas.webp";
+
+const classroomVariants = { default: classroom, christmas: classroomChristmas };
 
 const rawBase = import.meta.env.BASE_URL;
 const base = rawBase.endsWith("/") ? rawBase : `${rawBase}/`;
@@ -25,10 +31,38 @@ const { packs } = config;
         { name: "Preguntas Rápidas", path: "/activities/quick-questions/" },
     ]}
 >
+    <!-- El aula del búho: la configuración va sobre la pantalla del
+         proyector y el búho la señala con su puntero. -->
+    <SceneBackdrop
+        variants={classroomVariants}
+        desktop={{
+            x: -100,
+            y: 313,
+            w: 1672,
+            h: 941,
+            veils: [
+                {
+                    axis: "y",
+                    start: 313,
+                    size: 140,
+                    stops: [
+                        [0, 1],
+                        [1, 0],
+                    ],
+                },
+                {
+                    axis: "y",
+                    start: 1014,
+                    size: 240,
+                    stops: [
+                        [0, 0],
+                        [1, 1],
+                    ],
+                },
+            ],
+        }}
+    />
     <main class="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20 relative">
-        <!-- Top Ambient Glow -->
-        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-72 h-72 sm:w-96 sm:h-96 bg-brand-yellow/5 rounded-full blur-3xl pointer-events-none -z-10"></div>
-
         <!-- Back Link & Breadcrumb -->
         <div class="flex items-center justify-between mb-8">
             <a
@@ -69,8 +103,22 @@ const { packs } = config;
             </p>
         </div>
 
-        <!-- Quiz Interactive Island -->
-        <div class="mb-12">
+        <SceneStrip
+            variants={classroomVariants}
+            height={230}
+            img={{ x: -28, y: -79, w: 702 }}
+            fade={[
+                [0, 0.9],
+                [0.18, 0],
+                [0.78, 0],
+                [1, 1],
+            ]}
+            rounded
+            class="mb-6"
+        />
+
+        <!-- Quiz Interactive Island: en escritorio, sobre la pantalla del proyector -->
+        <div class="qq-island mb-12">
             <QuickQuestions client:load packs={packs} />
         </div>
 
@@ -132,3 +180,28 @@ const { packs } = config;
         </div>
     </main>
 </Layout>
+
+<style is:global>
+    /* En Figma a 1440, la configuración va sobre la pantalla del proyector:
+       x 664, y 481, 768 × 420, sin tarjeta. El contenido de la página
+       empieza en x 176 (max-w-6xl centrado). */
+    @media (min-width: 1280px) {
+        .qq-island {
+            margin-left: 488px;
+            margin-top: 138px;
+            margin-bottom: 330px;
+        }
+
+        .qq-island [data-setup] {
+            width: 768px;
+            min-height: 420px;
+            max-width: none;
+            margin: 0;
+            padding: 40px;
+            border-color: transparent;
+            background: none;
+            backdrop-filter: none;
+            -webkit-backdrop-filter: none;
+        }
+    }
+</style>

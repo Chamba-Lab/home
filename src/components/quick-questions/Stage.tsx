@@ -5,6 +5,11 @@ import type { RoundAction, RoundState } from "../../lib/quick-questions-round";
 import type { Lang } from "../../lib/use-lang";
 import ActivityStage from "../ActivityStage";
 import { ghostButton, primaryButton } from "./styles";
+// El búho reacciona al revelar: celebra el acierto y se rasca la cabeza si
+// fallaron o se acabó el tiempo (desde 1440 px, donde queda al lado del
+// contenido sin taparlo).
+import owlCheer from "../../assets/scenes/owl/cheer.webp";
+import owlPuzzled from "../../assets/scenes/owl/puzzled.webp";
 
 const LETTERS = ["A", "B", "C", "D", "E"];
 
@@ -34,6 +39,14 @@ export default function Stage({
         state;
     const current = round[index];
     const revealed = phase === "revealed";
+    const owl =
+        !revealed || !current
+            ? null
+            : picked === current.answer
+              ? owlCheer
+              : timedOut || picked !== null
+                ? owlPuzzled
+                : null;
     const isLast = nextIndex(index, round.length) === null;
     const headingRef = useRef<HTMLHeadingElement>(null);
 
@@ -306,6 +319,14 @@ export default function Stage({
                         </div>
                     </div>
                 )
+            )}
+            {owl && (
+                <img
+                    src={owl.src}
+                    alt=""
+                    aria-hidden="true"
+                    className="pointer-events-none fixed bottom-12 left-4 hidden h-[190px] w-auto min-[1440px]:block"
+                />
             )}
         </ActivityStage>
     );
