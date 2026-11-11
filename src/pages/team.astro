@@ -4,6 +4,11 @@ import DiscordIcon from "../components/icons/DiscordIcon.astro";
 import TeamMemberCard from "../components/TeamMemberCard.astro";
 import { DISCORD_URL, GITHUB_URL } from "../lib/constants";
 import { getTeamMembers } from "../lib/team";
+import SceneBackdrop from "../components/scene/SceneBackdrop.astro";
+import SceneStrip from "../components/scene/SceneStrip.astro";
+import { STRIP_FADE, headerVeils } from "../lib/scene-presets";
+import terrace from "../assets/scenes/places/team.webp";
+import terraceChristmas from "../assets/scenes/places/team-christmas.webp";
 
 // Miembros visibles antes de "Ver más".
 const MEMBERS_VISIBLE = 24;
@@ -27,7 +32,20 @@ const communityMembers = members.filter((m) => m.tier === "member");
         { name: "Equipo", path: "/team/" },
     ]}
 >
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
+    <!-- La terraza: la foto de equipo detrás del título -->
+    <SceneBackdrop
+        variants={{ default: terrace, christmas: terraceChristmas }}
+        desktop={{ x: 440, y: 72, w: 1000, h: 540, veils: headerVeils() }}
+    />
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24 xl:pt-[257px]">
+        <SceneStrip
+            variants={{ default: terrace, christmas: terraceChristmas }}
+            height={230}
+            img={{ x: -121, y: -40, w: 600 }}
+            fade={STRIP_FADE}
+            rounded
+            class="mb-4"
+        />
         <div class="max-w-3xl mb-16">
             <h1
                 class="font-display text-4xl sm:text-5xl font-extrabold text-white tracking-tight mb-4"

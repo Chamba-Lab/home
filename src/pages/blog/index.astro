@@ -10,6 +10,12 @@ import {
     tagCounts,
 } from "../../lib/posts";
 import { getTeamMembers } from "../../lib/team";
+import { Image } from "astro:assets";
+import SceneBackdrop from "../../components/scene/SceneBackdrop.astro";
+import studio from "../../assets/scenes/places/toucan-studio.webp";
+import studioChristmas from "../../assets/scenes/places/toucan-studio-christmas.webp";
+import toucanTyping from "../../assets/scenes/toucan/typing.webp";
+import toucanLooking from "../../assets/scenes/toucan/looking.webp";
 
 const rawBase = import.meta.env.BASE_URL;
 const base = rawBase.endsWith("/") ? rawBase : `${rawBase}/`;
@@ -54,7 +60,64 @@ const card = (post: (typeof posts)[number]) => {
     noindex={posts.length === 0}
     rss
 >
-    <main class="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
+    <!-- El estudio del tucán detrás del título; el tucán es una capa aparte:
+         teclea en su laptop y mira al pasar por la entrada destacada. -->
+    <SceneBackdrop
+        variants={{ default: studio, christmas: studioChristmas }}
+        desktop={{
+            x: 380,
+            y: 20,
+            w: 1060,
+            h: 597,
+            veils: [
+                {
+                    axis: "x",
+                    start: 0,
+                    size: 1440,
+                    stops: [
+                        [0, 1],
+                        [0.3, 1],
+                        [0.46, 0.55],
+                        [0.6, 0],
+                        [1, 0],
+                    ],
+                },
+                {
+                    axis: "y",
+                    start: 0,
+                    size: 640,
+                    stops: [
+                        [0, 0.5],
+                        [0.16, 0],
+                        [0.78, 0],
+                        [0.95, 1],
+                        [1, 1],
+                    ],
+                },
+            ],
+        }}
+    >
+        <div class="blog-toucan" data-toucan>
+            <Image
+                src={toucanTyping}
+                alt=""
+                height={275}
+                densities={[1, 2]}
+                class="blog-toucan__pose"
+                data-pose="typing"
+            />
+            <Image
+                src={toucanLooking}
+                alt=""
+                height={275}
+                densities={[1, 2]}
+                loading="lazy"
+                class="blog-toucan__pose"
+                data-pose="looking"
+            />
+        </div>
+    </SceneBackdrop>
+    <main class="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24 xl:pt-[173px]">
         <div class="max-w-3xl mb-10">
             <h1
                 class="font-display text-4xl sm:text-5xl font-extrabold text-white tracking-tight mb-4"
@@ -376,6 +439,29 @@ const card = (post: (typeof posts)[number]) => {
 </Layout>
 
 <style>
+    /* El tucán en el sillón del estudio (en Figma: x 975, y 222, 180 × 275).
+       La pose que mira no se descarga hasta el primer paso del ratón. */
+    .blog-toucan {
+        position: absolute;
+        left: 975px;
+        top: 222px;
+        width: 180px;
+        height: 275px;
+    }
+    .blog-toucan__pose {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
+    .blog-toucan__pose[data-pose="looking"],
+    .blog-toucan.is-looking .blog-toucan__pose[data-pose="typing"] {
+        display: none;
+    }
+    .blog-toucan.is-looking .blog-toucan__pose[data-pose="looking"] {
+        display: block;
+    }
     /* Sin una vista elegida (data-view="auto"): revista en escritorio y
        bitácora en móvil, donde la revista se hace muy larga. */
     #blog-listing[data-view="magazine"] [data-view-panel="log"],
@@ -414,6 +500,23 @@ const card = (post: (typeof posts)[number]) => {
 </style>
 
 <script>
+    // El tucán levanta la vista al pasar por la entrada destacada (solo con ratón).
+    const toucan = document.querySelector<HTMLElement>("[data-toucan]");
+    const featuredEntry =
+        document.querySelector<HTMLElement>("[data-featured]");
+    if (
+        toucan &&
+        featuredEntry &&
+        window.matchMedia("(hover: hover) and (pointer: fine)").matches
+    ) {
+        featuredEntry.addEventListener("pointerenter", () =>
+            toucan.classList.add("is-looking"),
+        );
+        featuredEntry.addEventListener("pointerleave", () =>
+            toucan.classList.remove("is-looking"),
+        );
+    }
+
     import {
         blogStateSearch,
         isFiltering,

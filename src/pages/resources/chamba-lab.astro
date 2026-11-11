@@ -4,6 +4,9 @@ import ManualCard from "../../components/ManualCard.astro";
 import ResourceSection from "../../components/ResourceSection.astro";
 import { CHAMBA_LAB_PATH } from "../../lib/manuals";
 import { loadManuals } from "../../lib/manuals-data";
+import SceneBackdrop from "../../components/scene/SceneBackdrop.astro";
+import bookshelf from "../../assets/scenes/places/bookshelf.webp";
+import bookshelfChristmas from "../../assets/scenes/places/bookshelf-christmas.webp";
 
 const manuals = await loadManuals();
 ---
@@ -17,7 +20,43 @@ const manuals = await loadManuals();
         { name: "De Chamba Lab", path: CHAMBA_LAB_PATH },
     ]}
 >
-    <main class="w-full min-w-0 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
+    <!-- Rakim, subido a un taburete, saca un manual de su estantería -->
+    <SceneBackdrop
+        variants={{ default: bookshelf, christmas: bookshelfChristmas }}
+        desktop={{
+            x: 380,
+            y: 20,
+            w: 1060,
+            h: 597,
+            veils: [
+                {
+                    axis: "x",
+                    start: 0,
+                    size: 1440,
+                    stops: [
+                        [0, 1],
+                        [0.3, 1],
+                        [0.46, 0.5],
+                        [0.58, 0],
+                        [1, 0],
+                    ],
+                },
+                {
+                    axis: "y",
+                    start: 0,
+                    size: 640,
+                    stops: [
+                        [0, 0.5],
+                        [0.16, 0],
+                        [0.8, 0],
+                        [0.96, 1],
+                        [1, 1],
+                    ],
+                },
+            ],
+        }}
+    />
+    <main class="w-full min-w-0 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24 xl:pt-[163px]">
         <div class="max-w-3xl mb-10 sm:mb-14">
             <a
                 href="/resources/"
