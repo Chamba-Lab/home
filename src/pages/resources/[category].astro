@@ -7,6 +7,7 @@ import ResourceSearch from "../../components/ResourceSearch.astro";
 import ResourceEmptyState from "../../components/ResourceEmptyState.astro";
 import ResourceCriteriaNote from "../../components/ResourceCriteriaNote.astro";
 import ResourceProposeCta from "../../components/ResourceProposeCta.astro";
+import CategoryRoom from "../../components/scene/CategoryRoom.astro";
 import { getCollection } from "astro:content";
 import {
     RESOURCE_CATEGORIES,
@@ -41,6 +42,8 @@ const others = RESOURCE_CATEGORIES.filter((c) => c.id !== category.id);
         { name: category.label.es, path: categoryPath(category.id) },
     ]}
 >
+    <!-- El cuarto del dueño de la categoría, detrás de la cabecera -->
+    <CategoryRoom category={category.id} />
     <!-- Brillo de la categoría: continúa el de su tarjeta en /resources -->
     <div
         class="pointer-events-none absolute inset-x-0 top-20 h-[900px] overflow-hidden"
