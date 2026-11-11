@@ -44,9 +44,6 @@ const activityTime = activity?.startTime
 ---
 
 <div class:list={["posters", { compact }]} aria-hidden="true">
-    {!compact && (
-        <img class="poster-glow" src="/images/events/glow.svg" alt="" />
-    )}
     {(!kind || kind === "launch") && (
         <div class="poster-slot launch-slot">
             <div class="poster launch-poster">
@@ -133,6 +130,8 @@ const activityTime = activity?.startTime
             </div>
         </div>
     )}
+    {!compact && <span class="poster-pin pin-red" />}
+    {!compact && <span class="poster-pin pin-mustard" />}
 </div>
 <style>
     .posters {
@@ -141,12 +140,34 @@ const activityTime = activity?.startTime
         aspect-ratio: 610/495;
         container-type: inline-size;
     }
-    .poster-glow {
+    /* Chinchetas que clavan los carteles en el tablón (solo en la portada). */
+    .poster-pin {
         position: absolute;
-        width: 85.2%;
-        left: 6.6%;
-        top: -2%;
-        height: auto;
+        z-index: 1;
+        width: 2.95%;
+        aspect-ratio: 1;
+        border-radius: 50%;
+        box-shadow: 0.3cqw 0.65cqw 0.65cqw rgb(0 0 0 / 0.45);
+    }
+    .pin-red {
+        left: 30.8%;
+        top: 4%;
+        background: radial-gradient(
+            circle at 35% 30%,
+            #ff8a80,
+            #d32f2f 55%,
+            #8e1b1b
+        );
+    }
+    .pin-mustard {
+        left: 73.9%;
+        top: 21.2%;
+        background: radial-gradient(
+            circle at 35% 30%,
+            #ffe08a,
+            #d4a017 55%,
+            #8a6410
+        );
     }
     .poster-slot {
         position: absolute;
