@@ -3,6 +3,9 @@ import Layout from "../layouts/Layout.astro";
 import EventItem from "../components/EventItem.astro";
 import ChevronIcon from "../components/icons/ChevronIcon.astro";
 import EventPosters from "../components/EventPosters.astro";
+import SeasonalImage from "../components/scene/SeasonalImage.astro";
+import corkboard from "../assets/scenes/cafe/corkboard.webp";
+import corkboardChristmas from "../assets/scenes/cafe/corkboard-christmas.webp";
 import { DISCORD_URL, EVENT_PROPOSAL_URL, SITE_URL } from "../lib/constants";
 import { eventJsonLd } from "../lib/seo";
 import type { EventKind } from "../lib/events";
@@ -212,12 +215,12 @@ const upcomingEvents = months
             <div class="events-invitation">
                 <h1
                     id="events-heading"
-                    data-i18n-es="Nos vemos&#10;en Chamba."
-                    data-i18n-en="See you&#10;at Chamba."
+                    data-i18n-es="Nos vemos en&#10;Chamba."
+                    data-i18n-en="See you at&#10;Chamba."
                 >
-                    Nos vemos
+                    Nos vemos en
                     <br />
-                    en Chamba.
+                    Chamba.
                 </h1>
                 <p
                     class="events-subtitle"
@@ -244,7 +247,23 @@ const upcomingEvents = months
                     <span aria-hidden="true">↓</span>
                 </a>
             </div>
-            <EventPosters />
+            <!-- Los carteles van clavados en el tablón de la cafetería, donde
+                 Rakim toma un café mirándolos. La escena se ancla a los
+                 carteles: el corcho queda detrás de ellos a cualquier ancho. -->
+            <div class="events-board">
+                <SeasonalImage
+                    variants={{
+                        default: corkboard,
+                        christmas: corkboardChristmas,
+                    }}
+                    widths={[800, 1100, 1438, 1672]}
+                    sizes="(min-width: 768px) 1438px, 806px"
+                    class="events-board__scene"
+                    loading="eager"
+                    fetchpriority="high"
+                />
+                <EventPosters />
+            </div>
         </section>
         <aside class="events-note">
             <strong data-i18n-es="EN DISCORD" data-i18n-en="ON DISCORD">
@@ -502,6 +521,54 @@ const upcomingEvents = months
         max-width: 1440px;
         margin: auto;
         padding: 82px 80px 72px;
+        /* La escena del tablón sale por la derecha. */
+        overflow-x: clip;
+    }
+    .events-invitation {
+        position: relative;
+        z-index: 1;
+    }
+    .events-board {
+        position: relative;
+    }
+    /* En Figma a 1440: escena de 1438 × 809 en x 60, y 85; carteles en
+       x 750, y 163, 610 × 495. Las medidas van en % de los carteles. */
+    .events-board :global(.events-board__scene) {
+        position: absolute;
+        left: -113.11%;
+        top: -15.76%;
+        width: 235.74%;
+        height: 163.43%;
+        pointer-events: none;
+        /* Velos de Figma como máscara: la zona del titular a la izquierda,
+           bajo la cabecera arriba y el fundido inferior. */
+        --board-fade-x: linear-gradient(
+            to right,
+            rgb(0 0 0 / 0.07) 0%,
+            rgb(0 0 0 / 0.1) 2.16%,
+            rgb(0 0 0 / 0.32) 16.97%,
+            rgb(0 0 0 / 0.78) 33.87%,
+            #000 48.68%,
+            #000 92%,
+            transparent 100%
+        );
+        --board-fade-y: linear-gradient(
+            to bottom,
+            transparent 5.69%,
+            #000 11.12%,
+            #000 75.28%,
+            transparent 100%
+        );
+        -webkit-mask-image: var(--board-fade-x), var(--board-fade-y);
+        -webkit-mask-composite: source-in;
+        mask-image: var(--board-fade-x), var(--board-fade-y);
+        mask-composite: intersect;
+    }
+    .events-board :global(.events-board__scene img) {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
     }
     .events-hero {
         display: grid;
@@ -533,7 +600,8 @@ const upcomingEvents = months
         font-size: 17px;
         line-height: 1.55;
         color: var(--color-muted);
-        max-width: 530px;
+        /* No pisa a Rakim, sentado detrás. */
+        max-width: 410px;
     }
     .events-explore {
         display: inline-flex;
@@ -552,7 +620,9 @@ const upcomingEvents = months
         display: flex;
         gap: 32px;
         align-items: center;
-        margin: 54px 0 100px;
+        position: relative;
+        /* Baja hasta el final de la escena del tablón. */
+        margin: 209px 0 100px;
         padding: 18px;
         border-radius: 12px;
         background: var(--color-surface);
@@ -660,6 +730,23 @@ const upcomingEvents = months
         outline-offset: 5px;
     }
     @media (max-width: 1100px) {
+        /* Tableta y móvil: solo el corcho detrás de los carteles; Rakim no entra. */
+        .events-board :global(.events-board__scene) {
+            --board-fade-x: linear-gradient(
+                to right,
+                transparent 46%,
+                #000 54%,
+                #000 94%,
+                transparent 100%
+            );
+            --board-fade-y: linear-gradient(
+                to bottom,
+                transparent 5%,
+                #000 12%,
+                #000 70%,
+                transparent 80%
+            );
+        }
         .events-page {
             padding: 64px 32px;
         }
@@ -674,6 +761,7 @@ const upcomingEvents = months
         }
         .events-note {
             gap: 20px;
+            margin-top: 120px;
         }
         .events-note strong {
             min-width: auto;
@@ -697,7 +785,7 @@ const upcomingEvents = months
             font-size: 15px;
         }
         .events-note {
-            margin: 24px 0 64px;
+            margin: 56px 0 64px;
             padding: 0;
             background: none;
         }
