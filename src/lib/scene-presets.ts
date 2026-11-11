@@ -1,5 +1,5 @@
 /**
- * Velos que se repiten en las escenas de Figma («03 · Diseño final»), en px
+ * Velos que se repiten en las escenas de Figma («01 · Diseño final»), en px
  * del marco de 1440 (escritorio) o de la franja (móvil).
  */
 import type { Veil } from "./veils";
