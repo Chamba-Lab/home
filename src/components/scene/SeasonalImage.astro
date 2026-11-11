@@ -1,0 +1,93 @@
+---
+/**
+ * Imagen decorativa que cambia con la temporada (escena, personaje o adorno).
+ * Pinta la variante de la fecha del build y deja las demás en plantillas que
+ * el navegador no descarga; el script de abajo pone la del día de hoy. Sin
+ * variante para una temporada ni `default`, el hueco queda vacío (adornos que
+ * solo existen en una festividad).
+ */
+import type { ImageMetadata } from "astro";
+import { Picture } from "astro:assets";
+import { variantFor, variantKey, type SeasonVariants } from "../../lib/scenes";
+import { SEASONS, currentSeason, type SeasonId } from "../../lib/seasons";
+
+interface Props {
+    variants: SeasonVariants<ImageMetadata>;
+    /** Anchos generados (srcset). */
+    widths: number[];
+    /** Ancho con el que se pinta, para que el navegador elija del srcset. */
+    sizes: string;
+    class?: string;
+    imgClass?: string;
+    loading?: "eager" | "lazy";
+    fetchpriority?: "high" | "auto";
+}
+
+const {
+    variants,
+    widths,
+    sizes,
+    class: className,
+    imgClass = "block h-full w-full object-cover",
+    loading = "lazy",
+    fetchpriority = "auto",
+} = Astro.props;
+
+const season = currentSeason();
+const current = variantKey(variants, season);
+const image = variantFor(variants, season);
+
+// Una plantilla por cada imagen distinta de la actual (y la vacía si hace falta).
+const allSeasons: SeasonId[] = ["default", ...SEASONS.map((s) => s.id)];
+const others = [
+    ...new Set(allSeasons.map((id) => variantKey(variants, id))),
+].filter((key) => key !== current);
+---
+
+<div
+    class={className}
+    data-season-slot
+    data-season-current={current}
+    aria-hidden="true"
+>
+    {image && (
+        <Picture
+            src={image}
+            formats={["avif", "webp"]}
+            fallbackFormat="webp"
+            widths={widths}
+            sizes={sizes}
+            alt=""
+            loading={loading}
+            fetchpriority={fetchpriority}
+            class={imgClass}
+        />
+    )}
+    {others.map((key) => {
+        const other = key === "none" ? undefined : variants[key];
+        return (
+            <template data-season={key}>
+                {other && (
+                    <Picture
+                        src={other}
+                        formats={["avif", "webp"]}
+                        fallbackFormat="webp"
+                        widths={widths}
+                        sizes={sizes}
+                        alt=""
+                        loading={loading}
+                        class={imgClass}
+                    />
+                )}
+            </template>
+        );
+    })}
+</div>
+
+<script>
+    import { applySeason } from "../../lib/scenes";
+    import { currentSeason } from "../../lib/seasons";
+
+    // El HTML trae la temporada del build; aquí se pone la de hoy.
+    applySeason(document, currentSeason());
+</script>
