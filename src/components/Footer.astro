@@ -18,6 +18,18 @@ import XIcon from "./icons/XIcon.astro";
 import BrandTile from "./BrandTile.astro";
 import { getCollection } from "astro:content";
 import { publishedPosts } from "../lib/posts";
+import SceneBackdrop from "./scene/SceneBackdrop.astro";
+import SceneStrip from "./scene/SceneStrip.astro";
+import city from "../assets/scenes/places/city.webp";
+import cityChristmas from "../assets/scenes/places/city-christmas.webp";
+
+interface Props {
+    /** La ciudad de noche arriba del pie (no en /about, que ya la tiene). */
+    scene?: boolean;
+}
+
+const { scene = true } = Astro.props;
+const cityVariants = { default: city, christmas: cityChristmas };
 
 const rawBase = import.meta.env.BASE_URL;
 const base = rawBase.endsWith("/") ? rawBase : `${rawBase}/`;
@@ -26,7 +38,52 @@ const currentYear = new Date().getFullYear();
 const hasPosts = publishedPosts(await getCollection("posts")).length > 0;
 ---
 
-<footer class="border-t border-white/[0.08] bg-[#050811] mt-auto py-14">
+<footer
+    class:list={[
+        "relative isolate mt-auto overflow-hidden bg-[#050811] pb-14",
+        scene ? "pt-0 xl:pt-[287px]" : "border-t border-white/[0.08] pt-14",
+    ]}
+>
+    {scene && (
+        <>
+            <!-- La ciudad costera de noche: el mundo de Rakim se despide -->
+            <SceneBackdrop
+                variants={cityVariants}
+                desktop={{
+                    x: 0,
+                    y: -170,
+                    w: 1440,
+                    h: 480,
+                    veils: [
+                        {
+                            axis: "y",
+                            start: 0,
+                            size: 320,
+                            stops: [
+                                [0, 0.85],
+                                [0.25, 0],
+                                [0.62, 0],
+                                [0.86, 1],
+                                [1, 1],
+                            ],
+                        },
+                    ],
+                }}
+            />
+            <SceneStrip
+                variants={cityVariants}
+                height={170}
+                img={{ x: -60, y: -10, w: 520 }}
+                fade={[
+                    [0, 1],
+                    [0.18, 0],
+                    [0.7, 0],
+                    [1, 1],
+                ]}
+                class="mb-6"
+            />
+        </>
+    )}
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-8 pb-10 border-b border-white/[0.06]">
             <div class="flex flex-col gap-3">
