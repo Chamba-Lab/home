@@ -1,12 +1,20 @@
 ---
 import { getCollection } from "astro:content";
-import { formatShortDate, type EventKind, type I18nText } from "../lib/events";
+import {
+    currentSeries,
+    formatShortDate,
+    limaToday,
+    type EventKind,
+    type I18nText,
+} from "../lib/events";
 
 interface PosterEvent {
     dateIso?: string;
     startTime?: string;
     endTime?: string;
     tag?: I18nText;
+    // Weekly session: the poster says "weekly" instead of a date.
+    recurring?: boolean;
 }
 interface Props {
     kind?: EventKind;
@@ -14,19 +22,45 @@ interface Props {
     // Event shown in an agenda row. Without it (hero), each poster reads its
     // event from the collection by kind.
     event?: PosterEvent;
+    // "paper": the cream poster pinned on the cork board (hero, home).
+    // "dark": the agenda rows, where a cream poster every week would outshine
+    // the one-off events; it keeps the cup and takes the recurring color.
+    tone?: "paper" | "dark";
 }
-const { kind, compact = false, event } = Astro.props;
+const { kind, compact = false, event, tone = "paper" } = Astro.props;
 const events = await getCollection("events");
+
+// Code & Coffee in the hero: the weekly series in effect, so the poster shows
+// its current time (a schedule change is a new series).
+function coworkingSeries() {
+    const series = events
+        .filter(
+            (e) =>
+                e.data.kind === "coworking" &&
+                e.data.type === "recurring" &&
+                e.data.startDate !== undefined &&
+                e.data.weekday !== undefined,
+        )
+        .map((e) => ({
+            ...e.data,
+            startDate: e.data.startDate!,
+            weekday: e.data.weekday!,
+        }));
+    return currentSeries(series, limaToday());
+}
 
 function posterEvent(wanted: EventKind): PosterEvent | undefined {
     if (kind === wanted && event) return event;
-    const data = events.find((e) => e.data.kind === wanted)?.data;
+    const data =
+        (wanted === "coworking" && coworkingSeries()) ||
+        events.find((e) => e.data.kind === wanted)?.data;
     return (
         data && {
             dateIso: data.date ?? data.startDate,
             startTime: data.startTime,
             endTime: data.endTime,
             tag: data.tag,
+            recurring: data.type === "recurring",
         }
     );
 }
@@ -41,6 +75,19 @@ const activityDateEn = formatShortDate(activity?.dateIso, "en");
 const activityTime = activity?.startTime
     ? `${activity.startTime}${activity.endTime ? `—${activity.endTime}` : ""}`
     : "";
+// Weekly sessions say "weekly" with no day or time: both can change from one
+// series to the next, and the agenda row already shows them. A one-off
+// Code & Coffee shows its date.
+const coworkingWhen = (lang: "es" | "en") =>
+    `${
+        coworking?.recurring !== false
+            ? lang === "es"
+                ? "SEMANAL"
+                : "WEEKLY"
+            : formatShortDate(coworking?.dateIso, lang)
+    } · DISCORD`;
+const coworkingWhenEs = coworkingWhen("es");
+const coworkingWhenEn = coworkingWhen("en");
 ---
 
 <div class:list={["posters", { compact }]} aria-hidden="true">
@@ -108,7 +155,15 @@ const activityTime = activity?.startTime
     )}
     {(!kind || kind === "coworking") && (
         <div class="poster-slot coffee-slot">
-            <div class="poster coffee-poster">
+            <div
+                class:list={[
+                    "poster coffee-poster",
+                    {
+                        "is-dark": tone === "dark",
+                        "is-one-off": coworking?.recurring === false,
+                    },
+                ]}
+            >
                 <span class="poster-label">CHAMBA LAB / COWORKING</span>
                 <strong class="poster-title">
                     Code &amp;
@@ -117,15 +172,19 @@ const activityTime = activity?.startTime
                 </strong>
                 <img
                     class="poster-coffee"
-                    src="/images/events/coffee.svg"
+                    src={
+                        tone === "dark"
+                            ? "/images/events/coffee-light.svg"
+                            : "/images/events/coffee.svg"
+                    }
                     alt=""
                 />
                 <span
                     class="poster-bottom"
-                    data-i18n-es={`VIERNES · ${coworking?.startTime}—${coworking?.endTime}`}
-                    data-i18n-en={`FRIDAYS · ${coworking?.startTime}—${coworking?.endTime}`}
+                    data-i18n-es={coworkingWhenEs}
+                    data-i18n-en={coworkingWhenEn}
                 >
-                    VIERNES · {coworking?.startTime}—{coworking?.endTime}
+                    {coworkingWhenEs}
                 </span>
             </div>
         </div>
@@ -200,6 +259,19 @@ const activityTime = activity?.startTime
     }
     .coffee-poster {
         background: var(--color-brand-cream);
+    }
+    .coffee-poster.is-dark {
+        background: var(--color-surface-card);
+        color: var(--color-content-inverse);
+        border: 1px solid var(--color-surface-border-subtle);
+    }
+    .coffee-poster.is-dark .poster-label,
+    .coffee-poster.is-dark .poster-bottom {
+        color: var(--color-event-recurring);
+    }
+    .coffee-poster.is-dark.is-one-off .poster-label,
+    .coffee-poster.is-dark.is-one-off .poster-bottom {
+        color: var(--color-brand-yellow);
     }
     .activity-poster {
         background: var(--color-surface-card);
