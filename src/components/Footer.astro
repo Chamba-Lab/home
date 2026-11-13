@@ -8,6 +8,7 @@ import {
     LINKEDIN_URL,
     TIKTOK_URL,
     X_URL,
+    YOUTUBE_URL,
 } from "../lib/constants";
 import DiscordIcon from "./icons/DiscordIcon.astro";
 import GithubIcon from "./icons/GithubIcon.astro";
@@ -15,6 +16,7 @@ import InstagramIcon from "./icons/InstagramIcon.astro";
 import LinkedinIcon from "./icons/LinkedinIcon.astro";
 import TiktokIcon from "./icons/TiktokIcon.astro";
 import XIcon from "./icons/XIcon.astro";
+import YoutubeIcon from "./icons/YoutubeIcon.astro";
 import BrandTile from "./BrandTile.astro";
 import { getCollection } from "astro:content";
 import { publishedPosts } from "../lib/posts";
@@ -173,60 +175,71 @@ const hasPosts = publishedPosts(await getCollection("posts")).length > 0;
                 >
                     Código de conducta
                 </a>
-                <a
-                    href={DISCORD_URL}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="text-slate-400 hover:text-white transition-colors"
-                    aria-label="Discord"
-                >
-                    <DiscordIcon class="w-4 h-4" />
-                </a>
-                <a
-                    href={GITHUB_URL}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="text-slate-400 hover:text-white transition-colors"
-                    aria-label="GitHub"
-                >
-                    <GithubIcon class="w-4 h-4" />
-                </a>
-                <a
-                    href={LINKEDIN_URL}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="text-slate-400 hover:text-white transition-colors"
-                    aria-label="LinkedIn"
-                >
-                    <LinkedinIcon class="w-4 h-4" />
-                </a>
-                <a
-                    href={INSTAGRAM_URL}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="text-slate-400 hover:text-white transition-colors"
-                    aria-label="Instagram"
-                >
-                    <InstagramIcon class="w-4 h-4" />
-                </a>
-                <a
-                    href={TIKTOK_URL}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="text-slate-400 hover:text-white transition-colors"
-                    aria-label="TikTok"
-                >
-                    <TiktokIcon class="w-4 h-4" />
-                </a>
-                <a
-                    href={X_URL}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="text-slate-400 hover:text-white transition-colors"
-                    aria-label="X"
-                >
-                    <XIcon class="w-4 h-4" />
-                </a>
+                <div class="flex items-center gap-4">
+                    <a
+                        href={DISCORD_URL}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="text-slate-400 hover:text-white transition-colors"
+                        aria-label="Discord"
+                    >
+                        <DiscordIcon class="w-4 h-4" />
+                    </a>
+                    <a
+                        href={GITHUB_URL}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="text-slate-400 hover:text-white transition-colors"
+                        aria-label="GitHub"
+                    >
+                        <GithubIcon class="w-4 h-4" />
+                    </a>
+                    <a
+                        href={LINKEDIN_URL}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="text-slate-400 hover:text-white transition-colors"
+                        aria-label="LinkedIn"
+                    >
+                        <LinkedinIcon class="w-4 h-4" />
+                    </a>
+                    <a
+                        href={INSTAGRAM_URL}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="text-slate-400 hover:text-white transition-colors"
+                        aria-label="Instagram"
+                    >
+                        <InstagramIcon class="w-4 h-4" />
+                    </a>
+                    <a
+                        href={TIKTOK_URL}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="text-slate-400 hover:text-white transition-colors"
+                        aria-label="TikTok"
+                    >
+                        <TiktokIcon class="w-4 h-4" />
+                    </a>
+                    <a
+                        href={YOUTUBE_URL}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="text-slate-400 hover:text-white transition-colors"
+                        aria-label="YouTube"
+                    >
+                        <YoutubeIcon class="w-4 h-4" />
+                    </a>
+                    <a
+                        href={X_URL}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="text-slate-400 hover:text-white transition-colors"
+                        aria-label="X"
+                    >
+                        <XIcon class="w-4 h-4" />
+                    </a>
+                </div>
             </div>
         </div>
     </div>

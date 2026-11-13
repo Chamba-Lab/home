@@ -5,6 +5,7 @@ import {
     LINKEDIN_URL,
     TIKTOK_URL,
     X_URL,
+    YOUTUBE_URL,
 } from "../lib/constants";
 import {
     blogPostingJsonLd,
@@ -103,6 +104,7 @@ describe("organizationJsonLd", () => {
         expect(data.sameAs).toContain(LINKEDIN_URL);
         expect(data.sameAs).toContain(INSTAGRAM_URL);
         expect(data.sameAs).toContain(TIKTOK_URL);
+        expect(data.sameAs).toContain(YOUTUBE_URL);
         expect(data.sameAs).toContain(X_URL);
         expect(data.sameAs).toContain("https://github.com/Chamba-Lab");
     });
