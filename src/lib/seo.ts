@@ -8,6 +8,7 @@ import {
     LINKEDIN_URL,
     TIKTOK_URL,
     X_URL,
+    YOUTUBE_URL,
 } from "./constants";
 
 type JsonLd = Record<string, unknown>;
@@ -80,6 +81,7 @@ export function organizationJsonLd(siteUrl: string): JsonLd {
             LINKEDIN_URL,
             INSTAGRAM_URL,
             TIKTOK_URL,
+            YOUTUBE_URL,
             X_URL,
         ],
     };

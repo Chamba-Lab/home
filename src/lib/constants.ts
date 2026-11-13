@@ -17,6 +17,7 @@ export const LINKEDIN_URL = "https://www.linkedin.com/company/chambalab";
 export const TIKTOK_URL = "https://www.tiktok.com/@chambalab";
 export const INSTAGRAM_URL = "https://www.instagram.com/chambalab.dev/";
 export const X_URL = "https://x.com/chambalabdev";
+export const YOUTUBE_URL = "https://www.youtube.com/@ChambaLab";
 export const GITHUB_URL = `${GITHUB_ORG_URL}/home`;
 export const CONTRIBUTING_URL = `${GITHUB_URL}/blob/master/CONTRIBUTING.md`;
 export const RESOURCE_PROPOSAL_URL = `${GITHUB_URL}/issues/new?template=resource.yml`;
