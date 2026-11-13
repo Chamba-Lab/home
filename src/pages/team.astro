@@ -14,9 +14,11 @@ import terraceChristmas from "../assets/scenes/places/team-christmas.webp";
 const MEMBERS_VISIBLE = 24;
 const requestUrl = `${GITHUB_URL}/issues/new?template=team-member.yml`;
 const members = await getTeamMembers();
+// Con dos fundadores, dos tarjetas acostadas en vez de una fila de tres a medias.
 const founders = members.filter(
     (m) => m.tier === "founder" || m.tier === "cofounder",
 );
+const pair = founders.length === 2;
 // Core team y contributors comparten sección (mismo tamaño); core va primero.
 const crew = members.filter(
     (m) => m.tier === "core" || m.tier === "contributor",
@@ -71,9 +73,17 @@ const communityMembers = members.filter((m) => m.tier === "member");
             >
                 Fundadores
             </h2>
-            <ul class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <ul
+                class:list={[
+                    "grid grid-cols-1 gap-6",
+                    pair ? "md:grid-cols-2" : "md:grid-cols-3",
+                ]}
+            >
                 {founders.map((m) => (
-                    <TeamMemberCard member={m} />
+                    <TeamMemberCard
+                        member={m}
+                        variant={pair ? "pair" : "full"}
+                    />
                 ))}
             </ul>
         </section>

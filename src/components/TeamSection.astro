@@ -17,7 +17,9 @@ const base = rawBase.endsWith("/") ? rawBase : `${rawBase}/`;
 // (core team, contributors y miembros); el detalle vive en /team.
 const everyone = await getTeamMembers();
 const isFounding = (tier: string) => tier === "founder" || tier === "cofounder";
+// Con dos fundadores, dos tarjetas acostadas en vez de una fila de tres a medias.
 const founders = everyone.filter((m) => isFounding(m.tier));
+const pair = founders.length === 2;
 // Core team y contributors primero, luego miembros (el cliente baraja cada grupo).
 const others = everyone.filter((m) => !isFounding(m.tier));
 const crew = others.filter((m) => m.tier !== "member");
@@ -88,9 +90,17 @@ const STACK_VISIBLE = 14;
             </p>
         </div>
 
-        <ul class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <ul
+            class:list={[
+                "grid grid-cols-1 gap-6",
+                pair ? "md:grid-cols-2" : "md:grid-cols-3",
+            ]}
+        >
             {founders.map((member) => (
-                <TeamMemberCard member={member} />
+                <TeamMemberCard
+                    member={member}
+                    variant={pair ? "pair" : "full"}
+                />
             ))}
         </ul>
 
