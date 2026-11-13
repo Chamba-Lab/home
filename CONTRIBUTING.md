@@ -120,6 +120,27 @@ Las descripciones no repiten precios ni límites exactos, porque cambian; en cur
 
 Edita `src/content/events.json`. Los eventos son `fixed` (con `date`) o `recurring` (con `weekday` y `startDate`). Las horas van en la zona comunitaria **UTC-5**. Los identificadores deben mantenerse estables: se usan como `UID` en los archivos `.ics`.
 
+#### Code & Coffee: cambiar el horario, cancelar o mover una semana
+
+Code & Coffee es semanal, pero su día y su hora pueden cambiar. Por eso nada fuera de `events.json` los nombra: los carteles dicen «SEMANAL · DISCORD», la categoría «Coworking · Semanal» y la portada de Discord «Cada semana · En Discord». La fecha y la hora de cada sesión salen de los datos.
+
+En los datos, cada horario es una **serie**: un evento `recurring` con su día (`weekday`, 0 = domingo … 6 = sábado), `startTime`, `endTime` y `startDate`. Según el caso:
+
+**Cambiar el día o la hora desde una fecha:**
+
+1. En Discord, edita el evento recurrente (o crea uno nuevo) con el horario nuevo.
+2. En `events.json`, cierra la serie actual con `endDate`: el día de su última sesión, incluido.
+3. Añade una serie nueva con un `id` nuevo (por ejemplo `code-coffee-sunday`), el mismo título, descripción y `"kind": "coworking"`, el `weekday` y las horas nuevas, y un `startDate` posterior al `endDate` anterior.
+4. Pasa el `discordEvent` a la serie nueva (no puede repetirse entre eventos; las sesiones pasadas ya no muestran el botón).
+
+Las sesiones que ya pasaron conservan el día y la hora que tuvieron, y quien añadió la serie a su calendario deja de recibirla al terminar.
+
+**Cancelar una semana:** añade su fecha a `skipDates` de la serie (`"skipDates": ["2026-11-27"]`).
+
+**Mover una sola semana a otro día:** cancélala con `skipDates` y añade esa sesión como evento `fixed` con `"kind": "coworking"`, el mismo título y un `id` propio (por ejemplo `code-coffee-2026-11-29`). Su cartel muestra la fecha y, en el inicio, compite por fecha con la serie.
+
+No hace falta tocar carteles, textos ni la portada de Discord. El build valida que `endDate` no sea anterior a `startDate` y que cada fecha de `skipDates` sea una sesión de la serie. Google Calendar e iCal respetan el fin de la serie, y el archivo iCal también las semanas canceladas.
+
 El flujo es **Discord primero y el sitio después**: crea el evento en Discord (así la gente puede marcar «Me interesa» y recibe el aviso de Discord) y añade luego su entrada en `events.json`. Para enlazarlos, copia el enlace del evento de Discord (menú del evento → Copiar enlace) y ponlo en el campo opcional `discordEvent`, con la forma `https://discord.com/events/<servidor>/<evento>`: el evento muestra entonces un botón «Ver en Discord», que desaparece cuando el evento pasa.
 
 Si el evento ya tiene su entrada en el blog, enlázala con el campo opcional `post`: el `id` de la entrada, que es el nombre de su archivo en `src/content/posts/` sin la extensión (por ejemplo, `"post": "blender-mcp"`). En `/events` el evento muestra entonces una tarjeta con el título de la entrada y «Leer la entrada →». Solo funciona con eventos `fixed`, y la entrada debe estar publicada (`draft: false`); si no, el build falla con un mensaje claro.
