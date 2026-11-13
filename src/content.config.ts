@@ -5,6 +5,7 @@ import {
     RESOURCE_CATEGORY_IDS,
     RESOURCE_TYPE_IDS,
 } from "./lib/resources";
+import { weekdayOf } from "./lib/events";
 
 // "en" is the required baseline; "es" is an optional overlay that falls
 // back to "en" when missing (see applyLang in src/layouts/Layout.astro).
@@ -12,6 +13,9 @@ const i18nText = z.object({
     en: z.string(),
     es: z.string().optional(),
 });
+
+// A calendar date, YYYY-MM-DD.
+const isoDate = z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Use YYYY-MM-DD");
 
 const resources = defineCollection({
     loader: file("src/content/resources.json"),
@@ -77,9 +81,15 @@ const events = defineCollection({
             // "fixed": one-time event, ISO date.
             date: z.string().optional(),
             // "recurring": weekly on `weekday` (0=Sun..6=Sat), starting `startDate`.
+            // A new schedule is a new series (new id, same title): close the
+            // old one with `endDate` so past sessions keep their real day.
             weekday: z.number().min(0).max(6).optional(),
-            startDate: z.string().optional(),
-            recurrenceLabel: i18nText.optional(),
+            startDate: isoDate.optional(),
+            // Last day of the series (included).
+            endDate: isoDate.optional(),
+            // Cancelled weeks (dates of the series). A session moved to
+            // another day goes as a one-time event with "kind": "coworking".
+            skipDates: z.array(isoDate).optional(),
             // Optional time fields (HH:mm format, e.g. "19:00")
             startTime: z.string().optional(),
             endTime: z.string().optional(),
@@ -107,7 +117,37 @@ const events = defineCollection({
         .refine((event) => !event.post || event.type === "fixed", {
             message: "Only one-time (`fixed`) events can link a blog entry",
             path: ["post"],
-        }),
+        })
+        .refine(
+            (event) =>
+                event.type === "recurring" ||
+                (event.endDate === undefined && event.skipDates === undefined),
+            {
+                message: "`endDate` and `skipDates` are for recurring series",
+                path: ["endDate"],
+            },
+        )
+        .refine(
+            (event) =>
+                !event.endDate ||
+                !event.startDate ||
+                event.endDate >= event.startDate,
+            { message: "`endDate` is before `startDate`", path: ["endDate"] },
+        )
+        .refine(
+            (event) =>
+                (event.skipDates ?? []).every(
+                    (date) =>
+                        weekdayOf(date) === event.weekday &&
+                        (!event.startDate || date >= event.startDate) &&
+                        (!event.endDate || date <= event.endDate),
+                ),
+            {
+                message:
+                    "Each of `skipDates` must be a session of the series (its weekday, within its dates)",
+                path: ["skipDates"],
+            },
+        ),
 });
 
 const team = defineCollection({

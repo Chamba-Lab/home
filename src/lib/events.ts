@@ -54,18 +54,104 @@ export function formatMonthShort(dateIso: string | undefined, lang: Lang) {
 }
 
 /**
- * Next date (YYYY-MM-DD, today included) of a weekly session held on
- * `weekday` (0 = Sunday … 6 = Saturday) since `startDate`.
+ * A weekly series: one session a week on `weekday` (0 = Sunday … 6 = Saturday)
+ * from `startDate`, until `endDate` if it has one, minus the `skipDates`
+ * (cancelled weeks). A new schedule is a new series, so past sessions keep
+ * the day and time they actually had.
+ */
+export interface WeeklySeries {
+    startDate: string;
+    weekday: number;
+    endDate?: string;
+    skipDates?: string[];
+}
+
+/** `dateIso` moved `days` days (YYYY-MM-DD). */
+export function addDays(dateIso: string, days: number): string {
+    const date = new Date(`${dateIso}T00:00:00Z`);
+    date.setUTCDate(date.getUTCDate() + days);
+    return date.toISOString().slice(0, 10);
+}
+
+/** Weekday of a YYYY-MM-DD date (0 = Sunday … 6 = Saturday). */
+export function weekdayOf(dateIso: string): number {
+    return new Date(`${dateIso}T00:00:00Z`).getUTCDay();
+}
+
+/** Dates of a weekly series between `from` and `to`, both included. */
+export function weeklyDates(
+    series: WeeklySeries,
+    from: string,
+    to: string,
+): string[] {
+    const last =
+        series.endDate !== undefined && series.endDate < to
+            ? series.endDate
+            : to;
+    const first = series.startDate > from ? series.startDate : from;
+    const skipped = new Set(series.skipDates ?? []);
+    const dates: string[] = [];
+    let date = addDays(first, (series.weekday - weekdayOf(first) + 7) % 7);
+    while (date <= last) {
+        if (!skipped.has(date)) dates.push(date);
+        date = addDays(date, 7);
+    }
+    return dates;
+}
+
+/**
+ * Next date (YYYY-MM-DD, `fromIso` included) of a weekly series, or
+ * undefined once the series has ended.
  */
 export function nextWeeklyDate(
-    startDate: string,
-    weekday: number,
-    todayIso: string,
-): string {
-    const from = startDate > todayIso ? startDate : todayIso;
-    const date = new Date(`${from}T00:00:00Z`);
-    date.setUTCDate(date.getUTCDate() + ((weekday - date.getUTCDay() + 7) % 7));
-    return date.toISOString().slice(0, 10);
+    series: WeeklySeries,
+    fromIso: string,
+): string | undefined {
+    if (series.endDate !== undefined && series.endDate < fromIso) {
+        return undefined;
+    }
+    // A year ahead covers any run of cancelled weeks.
+    return weeklyDates(series, fromIso, addDays(fromIso, 366))[0];
+}
+
+/** Current date and time in Lima, "YYYY-MM-DDTHH:mm". */
+export function limaNowStamp(now: Date = new Date()): string {
+    return now
+        .toLocaleString("sv-SE", { timeZone: LIMA_TZ, hour12: false })
+        .slice(0, 16)
+        .replace(" ", "T");
+}
+
+/**
+ * When a session is over, "YYYY-MM-DDTHH:mm" in Lima: its end time, or the
+ * end of the day if it has none (comparable with `limaNowStamp`).
+ */
+export function endStamp(dateIso: string, endTime?: string): string {
+    return `${dateIso}T${endTime ?? "23:59"}`;
+}
+
+/** Whether a session already ended at `nowStamp` (see `limaNowStamp`). */
+export function hasEnded(
+    dateIso: string,
+    endTime: string | undefined,
+    nowStamp: string,
+): boolean {
+    return endStamp(dateIso, endTime) <= nowStamp;
+}
+
+/**
+ * Next session of a weekly series that has not ended at `nowStamp`: today's
+ * if it is still on, otherwise the following one.
+ */
+export function nextWeeklySession(
+    series: WeeklySeries,
+    endTime: string | undefined,
+    nowStamp: string,
+): string | undefined {
+    const today = nowStamp.slice(0, 10);
+    const next = nextWeeklyDate(series, today);
+    if (next === undefined || !hasEnded(next, endTime, nowStamp)) return next;
+    return nextWeeklyDate(series, addDays(today, 1));
 }
 
 /** Today's date in Lima as YYYY-MM-DD (the community's calendar day). */
@@ -84,12 +170,16 @@ export function formatLongDate(dateIso: string | undefined, lang: Lang) {
 }
 
 interface DatedEvent {
-    data: { type: string; date?: string };
+    data: { type: string; date?: string; startTime?: string };
 }
+
+const startKey = (date: string, startTime?: string) =>
+    `${date}T${startTime ?? "00:00"}`;
 
 /**
  * One-time events that have not happened yet (today still counts), soonest
- * first. The home shows the first one as the next session.
+ * first and, on the same day, by start time. The home shows the first one as
+ * the next session.
  */
 export function upcomingFixedEvents<T extends DatedEvent>(
     events: T[],
@@ -102,13 +192,33 @@ export function upcomingFixedEvents<T extends DatedEvent>(
                 event.data.date !== undefined &&
                 event.data.date >= todayIso,
         )
-        .sort((a, b) => (a.data.date! < b.data.date! ? -1 : 1));
+        .sort((a, b) =>
+            startKey(a.data.date!, a.data.startTime) <
+            startKey(b.data.date!, b.data.startTime)
+                ? -1
+                : 1,
+        );
+}
+
+/**
+ * The series in effect on `todayIso`: the one with the soonest next session.
+ * If all have ended, the latest one (its schedule is the last one known).
+ */
+export function currentSeries<T extends WeeklySeries>(
+    series: T[],
+    todayIso: string,
+): T | undefined {
+    const withNext = series
+        .map((s) => ({ s, next: nextWeeklyDate(s, todayIso) }))
+        .filter((x): x is { s: T; next: string } => x.next !== undefined)
+        .sort((a, b) => (a.next < b.next ? -1 : 1));
+    if (withNext.length > 0) return withNext[0].s;
+    return [...series].sort((a, b) => (a.startDate < b.startDate ? 1 : -1))[0];
 }
 
 interface CategoryInput {
     kind?: EventKind;
     isRecurring?: boolean;
-    recurrenceLabel?: I18nText;
     tag?: I18nText;
 }
 
@@ -116,14 +226,15 @@ interface CategoryInput {
 export function eventCategory({
     kind,
     isRecurring,
-    recurrenceLabel,
     tag,
 }: CategoryInput): Record<Lang, string> {
+    // Weekly, without naming the day: the schedule can change from one
+    // series to the next, and each row already shows its date.
     if (isRecurring) {
-        return {
-            es: `Coworking · ${recurrenceLabel?.es ?? recurrenceLabel?.en ?? ""}`,
-            en: `Coworking · ${recurrenceLabel?.en ?? ""}`,
-        };
+        return { es: "Coworking · Semanal", en: "Coworking · Weekly" };
+    }
+    if (kind === "coworking") {
+        return { es: "Coworking", en: "Coworking" };
     }
     if (kind === "launch") {
         return { es: "Encuentro de apertura", en: "Community opening" };

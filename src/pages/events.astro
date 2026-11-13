@@ -10,7 +10,7 @@ import corkboard from "../assets/scenes/cafe/corkboard.webp";
 import corkboardChristmas from "../assets/scenes/cafe/corkboard-christmas.webp";
 import { DISCORD_URL, EVENT_PROPOSAL_URL, SITE_URL } from "../lib/constants";
 import { eventJsonLd } from "../lib/seo";
-import type { EventKind } from "../lib/events";
+import { weeklyDates, type EventKind } from "../lib/events";
 import { postPath, publishedPosts } from "../lib/posts";
 import { getCollection } from "astro:content";
 
@@ -48,6 +48,9 @@ function addMonths(d: Date, n: number) {
 function endOfMonth(d: Date) {
     return new Date(d.getFullYear(), d.getMonth() + 1, 0);
 }
+function isoOf(d: Date) {
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+}
 function capitalize(s: string) {
     return s.charAt(0).toUpperCase() + s.slice(1);
 }
@@ -62,9 +65,11 @@ interface Occurrence {
     endTime?: string;
     timezone?: string;
     isRecurring?: boolean;
+    // Serie semanal: su último día y las semanas canceladas (calendarios).
+    until?: string;
+    exdates?: string[];
     title: I18nText;
     description: I18nText;
-    recurrenceLabel?: I18nText;
     kind?: EventKind;
     tag?: I18nText;
     // Evento nativo de Discord (para marcar «Me interesa» y recibir su aviso).
@@ -136,37 +141,45 @@ const months = Array.from({ length: totalMonths }, (_, i) => {
             event.data.startDate &&
             event.data.weekday !== undefined
         ) {
-            const [sy, sm, sd] = event.data.startDate.split("-").map(Number);
-            const start = new Date(sy, sm - 1, sd);
-            const rangeStart = start > monthStart ? start : monthStart;
-            const cursor = new Date(rangeStart);
-            cursor.setDate(
-                cursor.getDate() +
-                    ((event.data.weekday - cursor.getDay() + 7) % 7),
-            );
-            while (cursor <= monthEnd) {
-                const curDateIso = `${cursor.getFullYear()}-${String(cursor.getMonth() + 1).padStart(2, "0")}-${String(cursor.getDate()).padStart(2, "0")}`;
+            const series = {
+                startDate: event.data.startDate,
+                weekday: event.data.weekday,
+                endDate: event.data.endDate,
+                skipDates: event.data.skipDates,
+            };
+            for (const curDateIso of weeklyDates(
+                series,
+                isoOf(monthStart),
+                isoOf(monthEnd),
+            )) {
+                const [y, m, d] = curDateIso.split("-").map(Number);
                 occurrences.push({
                     id: `${eventId}-${curDateIso}`,
-                    date: new Date(cursor),
+                    date: new Date(y, m - 1, d),
                     dateIso: curDateIso,
                     startTime: event.data.startTime,
                     endTime: event.data.endTime,
                     timezone: event.data.timezone,
                     isRecurring: true,
+                    until: event.data.endDate,
+                    exdates: event.data.skipDates,
                     title: event.data.title,
                     description: event.data.description,
-                    recurrenceLabel: event.data.recurrenceLabel,
                     kind: event.data.kind,
                     tag: event.data.tag,
                     discordEvent: event.data.discordEvent,
                 });
-                cursor.setDate(cursor.getDate() + 7);
             }
         }
     }
 
-    occurrences.sort((a, b) => a.date.getTime() - b.date.getTime());
+    // Por día y, el mismo día, por hora.
+    occurrences.sort((a, b) =>
+        `${a.dateIso}T${a.startTime ?? "00:00"}` <
+        `${b.dateIso}T${b.startTime ?? "00:00"}`
+            ? -1
+            : 1,
+    );
 
     return {
         key: `${monthStart.getFullYear()}-${String(monthStart.getMonth() + 1).padStart(2, "0")}`,
@@ -373,17 +386,13 @@ const upcomingEvents = months
                                 titleEn={occurrence.title.en}
                                 descriptionEn={occurrence.description.en}
                                 descriptionEs={occurrence.description.es}
-                                recurrenceLabelEn={
-                                    occurrence.recurrenceLabel?.en
-                                }
-                                recurrenceLabelEs={
-                                    occurrence.recurrenceLabel?.es
-                                }
                                 dateIso={occurrence.dateIso}
                                 startTime={occurrence.startTime}
                                 endTime={occurrence.endTime}
                                 timezone={occurrence.timezone}
                                 isRecurring={occurrence.isRecurring}
+                                until={occurrence.until}
+                                exdates={occurrence.exdates}
                                 kind={occurrence.kind}
                                 tag={occurrence.tag}
                                 discordEvent={occurrence.discordEvent}
@@ -452,6 +461,8 @@ const upcomingEvents = months
     </main>
 
     <script>
+        import { limaNowStamp } from "../lib/events";
+
         const sections = Array.from(
             document.querySelectorAll<HTMLElement>("[data-month-index]"),
         );
@@ -465,21 +476,22 @@ const upcomingEvents = months
         const serverIndex = Number(container?.dataset.initialIndex ?? 0);
         const now = new Date();
         const todayKey = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
-        const todayIso = `${todayKey}-${String(now.getDate()).padStart(2, "0")}`;
         // El build es estático: el mes actual real se resuelve en el cliente.
         const todayIndex = sections.findIndex(
             (section) => section.dataset.monthKey === todayKey,
         );
         let currentIndex = todayIndex >= 0 ? todayIndex : serverIndex;
 
-        // Eventos pasados: sin acciones de calendario y con la fecha en gris
-        // (el navegador conoce la fecha de hoy). La fila no se atenúa, para que
+        // Eventos pasados: sin acciones de calendario y con la fecha en gris.
+        // Un evento pasa al terminar (su hora de fin en Lima, o el fin del día
+        // si no tiene), no al cambiar de día. La fila no se atenúa, para que
         // la entrada del blog de un evento pasado se lea con claridad.
+        const nowStamp = limaNowStamp();
         document
-            .querySelectorAll<HTMLElement>("[data-date-iso]")
+            .querySelectorAll<HTMLElement>("[data-ends-at]")
             .forEach((item) => {
-                const iso = item.dataset.dateIso;
-                if (iso && iso < todayIso) {
+                const endsAt = item.dataset.endsAt;
+                if (endsAt && endsAt <= nowStamp) {
                     item.dataset.past = "";
                 }
             });

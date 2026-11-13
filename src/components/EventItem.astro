@@ -6,6 +6,7 @@ import {
     formatTimeDisplay,
 } from "../lib/calendar";
 import {
+    endStamp,
     eventCategory,
     formatWeekday,
     type EventKind,
@@ -21,13 +22,14 @@ interface Props {
     titleEn?: string;
     descriptionEn: string;
     descriptionEs?: string;
-    recurrenceLabelEn?: string;
-    recurrenceLabelEs?: string;
     dateIso?: string;
     startTime?: string;
     endTime?: string;
     timezone?: string;
     isRecurring?: boolean;
+    // Recurring only: end of the series and cancelled weeks, for calendars.
+    until?: string;
+    exdates?: string[];
     kind?: EventKind;
     tag?: I18nText;
     // Evento nativo de Discord: «Ver en Discord» permite marcar «Me interesa» y
@@ -48,13 +50,13 @@ const {
     titleEn,
     descriptionEn,
     descriptionEs,
-    recurrenceLabelEn,
-    recurrenceLabelEs,
     dateIso,
     startTime,
     endTime,
     timezone = "UTC-5",
     isRecurring = false,
+    until,
+    exdates,
     kind,
     tag,
     discordEvent,
@@ -76,6 +78,7 @@ const gcalUrl = buildGoogleCalendarUrl({
     endTime,
     timezone,
     recurring: isRecurring,
+    until,
 });
 
 const icsUrl = buildIcsDataUri({
@@ -87,17 +90,11 @@ const icsUrl = buildIcsDataUri({
     endTime,
     timezone,
     recurring: isRecurring,
+    until,
+    exdates,
 });
 
-const category = eventCategory({
-    kind,
-    isRecurring,
-    recurrenceLabel:
-        recurrenceLabelEn !== undefined
-            ? { en: recurrenceLabelEn, es: recurrenceLabelEs }
-            : undefined,
-    tag,
-});
+const category = eventCategory({ kind, isRecurring, tag });
 const weekdayEs = formatWeekday(dateIso, "es");
 const weekdayEn = formatWeekday(dateIso, "en");
 const timeDisplay = formatTimeDisplay(startTime, endTime, timezone, "es");
@@ -106,6 +103,7 @@ const timeDisplayEn = formatTimeDisplay(startTime, endTime, timezone, "en");
 
 <li
     data-date-iso={dateIso}
+    data-ends-at={dateIso && endStamp(dateIso, endTime)}
     class:list={[
         "agenda-event",
         { recurring: isRecurring, "has-post": !!postUrl },
@@ -133,7 +131,14 @@ const timeDisplayEn = formatTimeDisplay(startTime, endTime, timezone, "en");
             <EventPosters
                 kind={kind}
                 compact
-                event={{ dateIso, startTime, endTime, tag }}
+                tone="dark"
+                event={{
+                    dateIso,
+                    startTime,
+                    endTime,
+                    tag,
+                    recurring: isRecurring,
+                }}
             />
         )}
     </div>

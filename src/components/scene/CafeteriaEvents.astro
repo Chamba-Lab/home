@@ -23,38 +23,39 @@ import {
     formatTimeDisplay,
 } from "../../lib/calendar";
 import {
+    endStamp,
     eventCategory,
     formatMonthShort,
     formatWeekday,
     limaToday,
     nextWeeklyDate,
     upcomingFixedEvents,
+    type WeeklySeries,
 } from "../../lib/events";
 
 const base = import.meta.env.BASE_URL;
 const today = limaToday();
 const events = await getCollection("events");
 
-const weekly = events.filter(
-    (e) =>
-        e.data.type === "recurring" &&
-        e.data.startDate !== undefined &&
-        e.data.weekday !== undefined,
-);
+// Series semanales que siguen vigentes (una serie cerrada con `endDate` ya
+// no tiene próxima sesión).
+const weekly = events.flatMap((event) => {
+    const { type, startDate, weekday, endDate, skipDates } = event.data;
+    if (type !== "recurring" || !startDate || weekday === undefined) return [];
+    const series: WeeklySeries = { startDate, weekday, endDate, skipDates };
+    const next = nextWeeklyDate(series, today);
+    return next ? [{ event, series, next }] : [];
+});
 const candidates = [
     ...upcomingFixedEvents(events, today).map((event) => ({
         event,
         recurring: false,
         dateIso: event.data.date!,
     })),
-    ...weekly.map((event) => ({
+    ...weekly.map(({ event, next }) => ({
         event,
         recurring: true,
-        dateIso: nextWeeklyDate(
-            event.data.startDate!,
-            event.data.weekday!,
-            today,
-        ),
+        dateIso: next,
     })),
 ].map(({ event, recurring, dateIso }) => {
     const data = event.data;
@@ -68,6 +69,8 @@ const candidates = [
         timezone: data.timezone,
         recurring,
         weekday: data.weekday,
+        until: data.endDate,
+        exdates: data.skipDates,
     };
     return {
         event,
@@ -78,7 +81,6 @@ const candidates = [
         category: eventCategory({
             kind: data.kind,
             isRecurring: recurring,
-            recurrenceLabel: data.recurrenceLabel,
             tag: data.tag,
         }),
         time: {
@@ -139,11 +141,25 @@ const candidates = [
                                 { "is-weekly": c.recurring },
                             ]}
                             data-session
-                            data-date-iso={c.recurring ? undefined : c.dateIso}
-                            data-weekly-start={
-                                c.recurring ? d.startDate : undefined
+                            data-ends-at={
+                                c.recurring
+                                    ? undefined
+                                    : endStamp(c.dateIso, d.endTime)
                             }
-                            data-weekday={c.recurring ? d.weekday : undefined}
+                            data-series={
+                                c.recurring
+                                    ? JSON.stringify({
+                                          startDate: d.startDate,
+                                          weekday: d.weekday,
+                                          endDate: d.endDate,
+                                          skipDates: d.skipDates,
+                                      })
+                                    : undefined
+                            }
+                            data-end-time={c.recurring ? d.endTime : undefined}
+                            data-start-time={d.startTime ?? "00:00"}
+                            data-date-iso={c.recurring ? undefined : c.dateIso}
+                            data-coworking={kind === "coworking" || undefined}
                             hidden={i !== 0}
                         >
                             <div
@@ -197,6 +213,7 @@ const candidates = [
                                                 startTime: d.startTime,
                                                 endTime: d.endTime,
                                                 tag: d.tag,
+                                                recurring: c.recurring,
                                             }}
                                         />
                                     </div>
@@ -312,26 +329,50 @@ const candidates = [
     import {
         formatMonthShort,
         formatWeekday,
-        limaToday,
-        nextWeeklyDate,
+        limaNowStamp,
+        nextWeeklySession,
+        type WeeklySeries,
     } from "../../lib/events";
 
-    // El build es estático: se elige la sesión con el día de quien visita.
-    const today = limaToday();
+    // El build es estático: se elige la sesión con la hora de Lima de quien
+    // visita. Primero el evento único más cercano que no haya terminado (un
+    // taller, una apertura…); si no hay, el Code & Coffee más cercano, sea de
+    // una serie semanal o una sesión suelta (movida a otro día).
+    const now = limaNowStamp();
     const sessions = [
         ...document.querySelectorAll<HTMLElement>(".cafe [data-session]"),
     ];
-    const next =
-        sessions.find((s) => (s.dataset.dateIso ?? "") >= today) ??
-        sessions.find((s) => s.dataset.weeklyStart);
+    const pending = (s: HTMLElement) => (s.dataset.endsAt ?? "") > now;
+    const special = sessions.find(
+        (s) => s.dataset.endsAt && !s.dataset.coworking && pending(s),
+    );
+    const routine = sessions
+        .map((s) => ({
+            s,
+            iso: s.dataset.series
+                ? nextWeeklySession(
+                      JSON.parse(s.dataset.series) as WeeklySeries,
+                      s.dataset.endTime,
+                      now,
+                  )
+                : s.dataset.coworking && pending(s)
+                  ? s.dataset.dateIso
+                  : undefined,
+        }))
+        .filter((r): r is { s: HTMLElement; iso: string } => !!r.iso)
+        .sort((a, b) =>
+            `${a.iso}T${a.s.dataset.startTime}` <
+            `${b.iso}T${b.s.dataset.startTime}`
+                ? -1
+                : 1,
+        );
+    const next = special ?? routine[0]?.s;
 
     // La sesión semanal lleva la fecha de su próxima vez, no la del build.
-    if (next?.dataset.weeklyStart) {
-        const iso = nextWeeklyDate(
-            next.dataset.weeklyStart,
-            Number(next.dataset.weekday),
-            today,
-        );
+    const weeklyIso =
+        !special && routine[0]?.s.dataset.series ? routine[0].iso : undefined;
+    if (next && weeklyIso) {
+        const iso = weeklyIso;
         const lang = getStoredLang();
         const time = next.querySelector<HTMLTimeElement>("[data-date]");
         time?.setAttribute("datetime", iso);

@@ -15,6 +15,10 @@ export interface CalendarEventOptions {
     timezone?: string; // default "UTC-5"
     recurring?: boolean;
     weekday?: number; // 0=Sun..6=Sat
+    // Recurring only: last day of the series (YYYY-MM-DD, included) and
+    // cancelled weeks (YYYY-MM-DD), so calendars don't show them.
+    until?: string;
+    exdates?: string[];
     location?: string;
 }
 
@@ -41,6 +45,13 @@ function toUtcIso(date: Date): string {
         .replace(/\.\d{3}/, "");
 }
 
+/** RRULE of a weekly series; UNTIL is the end of its last day in UTC-5. */
+export function weeklyRrule(until?: string): string {
+    return until
+        ? `RRULE:FREQ=WEEKLY;UNTIL=${toUtcIso(parseUtcMinus5Date(until, "23:59"))}`
+        : "RRULE:FREQ=WEEKLY";
+}
+
 /**
  * Generates an event URL for Google Calendar
  */
@@ -52,6 +63,7 @@ export function buildGoogleCalendarUrl(options: CalendarEventOptions): string {
         startTime,
         endTime,
         recurring,
+        until,
         location = DEFAULT_LOCATION,
     } = options;
 
@@ -91,8 +103,10 @@ export function buildGoogleCalendarUrl(options: CalendarEventOptions): string {
         }
     }
 
+    // Google's template link takes only the rule: the cancelled weeks go in
+    // the .ics file.
     if (recurring) {
-        params.set("recur", "RRULE:FREQ=WEEKLY");
+        params.set("recur", weeklyRrule(until));
     }
 
     return `${base}&${params.toString()}`;
@@ -110,6 +124,8 @@ export function generateIcsData(options: CalendarEventOptions): string {
         startTime,
         endTime,
         recurring,
+        until,
+        exdates = [],
         location = DEFAULT_LOCATION,
     } = options;
 
@@ -153,7 +169,14 @@ export function generateIcsData(options: CalendarEventOptions): string {
     }
 
     if (recurring) {
-        lines.push("RRULE:FREQ=WEEKLY");
+        lines.push(weeklyRrule(until));
+        for (const day of exdates) {
+            lines.push(
+                startTime
+                    ? `EXDATE:${toUtcIso(parseUtcMinus5Date(day, startTime))}`
+                    : `EXDATE;VALUE=DATE:${day.replace(/-/g, "")}`,
+            );
+        }
     }
 
     lines.push("END:VEVENT");
