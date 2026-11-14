@@ -147,9 +147,10 @@ Autoalojada con `@fontsource-variable` (Inter y Plus Jakarta Sans, importadas en
 
 ### 5.4 Tarjetas del equipo (`TeamMemberCard.astro`)
 
-Tres variantes según el título público, para que la jerarquía se lea de un vistazo:
+Cuatro variantes según el título público, para que la jerarquía se lea de un vistazo:
 
 - **`full`**: tarjeta `card-glass` centrada con avatar de 80 px, nombre, título y enlaces (GitHub, portfolio, LinkedIn). Fundadores.
+- **`pair`**: la de los fundadores cuando son dos. En escritorio (`lg`) se acuesta: avatar de 96 px, nombre y título, y los enlaces a la derecha, en dos columnas que llenan la fila. En tablet y móvil es igual a `full`. Con uno o tres fundadores se usa `full` en tres columnas.
 - **`row`**: tarjeta compacta en fila (avatar 48 px, nombre, título, GitHub). Core team y Contributors.
 - **`chip`**: solo avatar de 48 px que enlaza a GitHub, con el nombre en un tooltip. Miembros.
 

@@ -7,9 +7,12 @@ import LinkedinIcon from "./icons/LinkedinIcon.astro";
 
 interface Props {
     member: TeamMember;
-    // "full": tarjeta centrada con avatar y enlaces (fundadores, core team y contributors: mismo diseño).
+    // "full": tarjeta centrada con avatar y enlaces (fundadores).
+    // "pair": la de fundadores cuando son dos; desde lg se acuesta (avatar,
+    // nombre y enlaces en fila) para llenar media fila sin estirarse.
+    // "row": tarjeta compacta en fila (core team y contributors).
     // "chip": solo avatar, enlaza a GitHub (miembros; escala a muchas personas).
-    variant?: "full" | "row" | "chip";
+    variant?: "full" | "pair" | "row" | "chip";
 }
 
 const { member, variant = "full" } = Astro.props;
@@ -24,11 +27,13 @@ const linkClass =
 // Tamaño mostrado del avatar en px (TeamAvatar lo pide al doble, para retina).
 const avatar = {
     full: { box: "w-20 h-20", px: 80, text: "text-2xl" },
+    pair: { box: "w-20 h-20 lg:w-24 lg:h-24", px: 96, text: "text-2xl" },
     row: { box: "w-12 h-12", px: 48, text: "text-lg" },
     chip: { box: "w-12 h-12", px: 48, text: "text-base" },
 }[variant];
 const shell = {
     full: "card-glass rounded-2xl border border-white/10 p-5 flex flex-col items-center text-center gap-3 hover:-translate-y-0.5 transition-all duration-300",
+    pair: "card-glass rounded-2xl border border-white/10 p-5 flex flex-col items-center text-center gap-3 lg:flex-row lg:text-left lg:gap-6 lg:p-6 hover:-translate-y-0.5 transition-all duration-300",
     row: "card-glass rounded-xl border border-white/10 p-3 flex items-center gap-3 hover:-translate-y-0.5 transition-all duration-300",
     chip: "",
 }[variant];
@@ -71,12 +76,17 @@ const chipHover =
             class={avatarClass}
         />
         <div
-            class:list={["space-y-0.5", variant === "row" && "min-w-0 flex-1"]}
+            class:list={[
+                "space-y-0.5",
+                variant === "row" && "min-w-0 flex-1",
+                variant === "pair" && "lg:min-w-0 lg:flex-1",
+            ]}
         >
             <h3
                 class:list={[
                     "font-display font-bold text-white",
                     small ? "text-sm" : "text-base",
+                    variant === "pair" && "lg:text-lg",
                     variant === "row" && "truncate",
                 ]}
             >
@@ -95,6 +105,7 @@ const chipHover =
                 "flex items-center",
                 small ? "gap-1.5" : "gap-2",
                 variant !== "row" && "mt-auto",
+                variant === "pair" && "lg:mt-0",
             ]}
         >
             <a
