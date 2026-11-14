@@ -116,5 +116,26 @@
         "startTime": "18:30",
         "timezone": "UTC-5",
         "discordEvent": "https://discord.com/events/1473927361106808832/1561845667754934342"
+    },
+    {
+        "id": "projects-forum-launch",
+        "title": {
+            "en": "Launching the projects forum",
+            "es": "Lanzamiento del foro de proyectos"
+        },
+        "description": {
+            "en": "We introduce the projects forum on Discord, with the community repositories open to contributions, and go over what's coming to the server, like bots for the voice channels.",
+            "es": "Presentamos el foro de proyectos en Discord, con los repositorios de la comunidad abiertos a aportes, y repasamos lo que viene al servidor, como bots para los canales de voz."
+        },
+        "type": "fixed",
+        "kind": "activity",
+        "tag": {
+            "en": "Community news",
+            "es": "Novedades de la comunidad"
+        },
+        "date": "2026-11-13",
+        "startTime": "12:00",
+        "endTime": "13:00",
+        "timezone": "UTC-5"
     }
 ]
