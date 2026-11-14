@@ -1,13 +1,19 @@
 import { describe, expect, it } from "vitest";
 import {
+    currentSeries,
+    endStamp,
     eventCategory,
     formatLongDate,
     formatMonthShort,
     formatShortDate,
     formatWeekday,
+    hasEnded,
+    limaNowStamp,
     limaToday,
     nextWeeklyDate,
+    nextWeeklySession,
     upcomingFixedEvents,
+    weeklyDates,
 } from "../lib/events";
 
 describe("formatShortDate", () => {
@@ -33,29 +39,17 @@ describe("formatWeekday", () => {
 });
 
 describe("eventCategory", () => {
-    it("marca las sesiones recurrentes como coworking con su recurrencia", () => {
-        expect(
-            eventCategory({
-                kind: "coworking",
-                isRecurring: true,
-                recurrenceLabel: {
-                    en: "Every Friday",
-                    es: "Todos los viernes",
-                },
-            }),
-        ).toEqual({
-            es: "Coworking · Todos los viernes",
-            en: "Coworking · Every Friday",
-        });
+    it("marca las series como coworking semanal, sin nombrar el día", () => {
+        expect(eventCategory({ kind: "coworking", isRecurring: true })).toEqual(
+            { es: "Coworking · Semanal", en: "Coworking · Weekly" },
+        );
     });
 
-    it("cae al inglés si la recurrencia no tiene español", () => {
-        expect(
-            eventCategory({
-                isRecurring: true,
-                recurrenceLabel: { en: "Every Friday" },
-            }).es,
-        ).toBe("Coworking · Every Friday");
+    it("marca un Code & Coffee suelto como coworking", () => {
+        expect(eventCategory({ kind: "coworking" })).toEqual({
+            es: "Coworking",
+            en: "Coworking",
+        });
     });
 
     it("nombra la apertura", () => {
@@ -140,34 +134,162 @@ describe("upcomingFixedEvents", () => {
         ).toEqual(["launch", "later"]);
     });
 
+    it("el mismo día, ordena por hora", () => {
+        const at = (id: string, startTime: string) => ({
+            id,
+            data: { type: "fixed", date: "2026-11-13", startTime },
+        });
+        expect(
+            upcomingFixedEvents(
+                [at("night", "20:00"), at("noon", "12:00")],
+                "2026-11-13",
+            ).map((e) => e.id),
+        ).toEqual(["noon", "night"]);
+    });
+
     it("devuelve vacío cuando ya pasaron todos", () => {
         expect(upcomingFixedEvents(events, "2027-01-01")).toEqual([]);
     });
 });
 
-describe("nextWeeklyDate", () => {
-    // Code & Coffee: los viernes (5) desde el 6 de noviembre de 2026.
-    it("da el próximo viernes desde hoy", () => {
-        expect(nextWeeklyDate("2026-11-06", 5, "2026-11-11")).toBe(
+// Code & Coffee: los viernes (5) desde el 6 de noviembre de 2026.
+const fridays = { startDate: "2026-11-06", weekday: 5 };
+
+describe("weeklyDates", () => {
+    it("da las fechas de la serie dentro del rango", () => {
+        expect(weeklyDates(fridays, "2026-11-01", "2026-11-30")).toEqual([
+            "2026-11-06",
             "2026-11-13",
-        );
+            "2026-11-20",
+            "2026-11-27",
+        ]);
+    });
+
+    it("no da fechas antes de empezar la serie", () => {
+        expect(weeklyDates(fridays, "2026-10-01", "2026-10-31")).toEqual([]);
+    });
+
+    it("termina en su endDate, que se incluye", () => {
+        expect(
+            weeklyDates(
+                { ...fridays, endDate: "2026-11-20" },
+                "2026-11-01",
+                "2026-11-30",
+            ),
+        ).toEqual(["2026-11-06", "2026-11-13", "2026-11-20"]);
+    });
+
+    it("salta las semanas canceladas", () => {
+        expect(
+            weeklyDates(
+                { ...fridays, skipDates: ["2026-11-13"] },
+                "2026-11-01",
+                "2026-11-20",
+            ),
+        ).toEqual(["2026-11-06", "2026-11-20"]);
+    });
+
+    it("una serie nueva sigue a la anterior sin cambiar sus fechas", () => {
+        const before = { ...fridays, endDate: "2026-11-27" };
+        const after = { startDate: "2026-11-28", weekday: 0 };
+        expect([
+            ...weeklyDates(before, "2026-11-01", "2026-12-15"),
+            ...weeklyDates(after, "2026-11-01", "2026-12-15"),
+        ]).toEqual([
+            "2026-11-06",
+            "2026-11-13",
+            "2026-11-20",
+            "2026-11-27",
+            "2026-11-29",
+            "2026-12-06",
+            "2026-12-13",
+        ]);
+    });
+});
+
+describe("nextWeeklyDate", () => {
+    it("da el próximo viernes desde hoy", () => {
+        expect(nextWeeklyDate(fridays, "2026-11-11")).toBe("2026-11-13");
     });
 
     it("el mismo día cuenta como próxima vez", () => {
-        expect(nextWeeklyDate("2026-11-06", 5, "2026-11-13")).toBe(
+        expect(nextWeeklyDate(fridays, "2026-11-13")).toBe("2026-11-13");
+    });
+
+    it("antes de empezar, la primera fecha", () => {
+        expect(nextWeeklyDate(fridays, "2026-10-01")).toBe("2026-11-06");
+    });
+
+    it("cruza el mes y el año", () => {
+        expect(nextWeeklyDate(fridays, "2026-12-30")).toBe("2027-01-01");
+    });
+
+    it("salta una semana cancelada", () => {
+        const skipping = { ...fridays, skipDates: ["2026-11-13"] };
+        expect(nextWeeklyDate(skipping, "2026-11-11")).toBe("2026-11-20");
+    });
+
+    it("no da nada si la serie ya terminó", () => {
+        const ended = { ...fridays, endDate: "2026-11-13" };
+        expect(nextWeeklyDate(ended, "2026-11-14")).toBeUndefined();
+    });
+});
+
+describe("nextWeeklySession", () => {
+    it("mantiene la sesión de hoy mientras no termine", () => {
+        expect(nextWeeklySession(fridays, "22:00", "2026-11-13T21:30")).toBe(
             "2026-11-13",
         );
     });
 
-    it("antes de empezar, la primera fecha", () => {
-        expect(nextWeeklyDate("2026-11-06", 5, "2026-10-01")).toBe(
-            "2026-11-06",
+    it("pasa a la semana siguiente cuando la de hoy terminó", () => {
+        expect(nextWeeklySession(fridays, "22:00", "2026-11-13T22:00")).toBe(
+            "2026-11-20",
         );
     });
 
-    it("cruza el mes y el año", () => {
-        expect(nextWeeklyDate("2026-11-06", 5, "2026-12-30")).toBe(
-            "2027-01-01",
+    it("no da nada si hoy era la última sesión y ya terminó", () => {
+        const ended = { ...fridays, endDate: "2026-11-13" };
+        expect(
+            nextWeeklySession(ended, "22:00", "2026-11-13T23:00"),
+        ).toBeUndefined();
+    });
+});
+
+describe("currentSeries", () => {
+    const old = { id: "old", ...fridays, endDate: "2026-11-27" };
+    const sundays = { id: "new", startDate: "2026-11-28", weekday: 0 };
+
+    it("elige la serie con la próxima sesión más cercana", () => {
+        expect(currentSeries([old, sundays], "2026-11-20")?.id).toBe("old");
+        expect(currentSeries([old, sundays], "2026-11-28")?.id).toBe("new");
+    });
+
+    it("si todas terminaron, la más reciente", () => {
+        const ended = { ...sundays, endDate: "2026-12-06" };
+        expect(currentSeries([old, ended], "2027-01-01")?.id).toBe("new");
+    });
+});
+
+describe("hasEnded", () => {
+    it("un evento termina a su hora de fin en Lima, no al cambiar de día", () => {
+        expect(hasEnded("2026-11-13", "13:00", "2026-11-13T12:59")).toBe(false);
+        expect(hasEnded("2026-11-13", "13:00", "2026-11-13T13:00")).toBe(true);
+    });
+
+    it("sin hora de fin, dura todo el día", () => {
+        expect(endStamp("2026-11-13")).toBe("2026-11-13T23:59");
+        expect(hasEnded("2026-11-13", undefined, "2026-11-13T20:00")).toBe(
+            false,
+        );
+    });
+});
+
+describe("limaNowStamp", () => {
+    it("da la fecha y la hora de Lima", () => {
+        // 02:30 UTC del día 14 son las 21:30 del día 13 en Lima.
+        expect(limaNowStamp(new Date("2026-11-14T02:30:00Z"))).toBe(
+            "2026-11-13T21:30",
         );
     });
 });

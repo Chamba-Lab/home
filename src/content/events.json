@@ -87,10 +87,6 @@
         "kind": "coworking",
         "weekday": 5,
         "startDate": "2026-11-06",
-        "recurrenceLabel": {
-            "en": "Every Friday",
-            "es": "Todos los viernes"
-        },
         "startTime": "20:00",
         "endTime": "22:00",
         "timezone": "UTC-5",
