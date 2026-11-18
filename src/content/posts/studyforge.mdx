@@ -1,0 +1,98 @@
+---
+title: StudyForge, una skill de IA para armar laboratorios de estudio
+description: Creamos StudyForge, una skill de IA que convierte un tema en labs prácticos y verificables, y la probamos armando un curso de testing en Python.
+date: 2026-11-17
+tags: [IA, StudyForge, Python, Testing]
+author: Melio Díaz
+lang: es
+draft: false
+---
+
+Al aprender una tecnología, lo que más se queda no es lo que leímos, sino lo que corrimos, rompimos y arreglamos. Con esa idea armamos **StudyForge**, una skill de IA que convierte un tema en un camino de estudio con labs cortos y verificables. Funciona con Claude Code, Codex, Gemini CLI, Copilot y cualquier agente que lea skills.
+
+Para probarla, construimos con ella su primer laboratorio: **pytest-lab**, un curso de testing en Python en español.
+
+## Cómo funciona
+
+StudyForge nace de varias generaciones de labs de estudio personales (Quarkus, Kafka, programación reactiva y MongoDB): se queda con las reglas que funcionaron y deja atrás el proceso pesado. Se instala como una [Agent Skill](https://agentskills.io) y le pides todo a tu agente en lenguaje natural, a través de cinco _workflows_:
+
+![Diagrama del flujo de StudyForge: Syllabus lleva de lo que quieres aprender a un plan, Init crea el repositorio de estudio y Build construye el siguiente lab. Quien aprende resuelve el lab, y Feedback lleva lo aprendido de vuelta a Build: mejora los labs y también StudyForge. Review audita y actualiza lo construido.](./studyforge/01-flujo.webp)
+
+- 🗺️ `syllabus`: acuerdas el plan, en bloques de sesiones de 1 a 2 horas.
+- 📦 `init`: crea el repositorio de estudio, con su guía, sus reglas y un verificador.
+- 🔨 `build`: construye el siguiente lab y lo verifica.
+- 💬 `feedback`: lo que cuenta quien resolvió un lab mejora ese lab, el plan y la propia skill.
+- 🔍 `review`: pone al día un bloque con el estándar más reciente.
+
+Cada lab es de uno de cuatro tipos:
+
+| Tipo           | Qué trae                                                        |
+| -------------- | --------------------------------------------------------------- |
+| 🧩 Reto        | Un punto de partida con pruebas que fallan, y su solución       |
+| 🔭 Exploración | Una demo terminada para activar, romper y observar              |
+| 💭 Concepto    | Sin código: explicación a fondo y autoevaluación                |
+| 🏗️ Proyecto    | Cierra el bloque: enunciado, pruebas de aceptación y referencia |
+
+✅ La regla de oro es **verificado, no recordado**. Cada comando de un lab se ejecutó con las versiones fijadas, y un verificador comprueba que las soluciones pasen y que los retos fallen **por la razón correcta**: un reto que falla por un `import` roto no enseña nada.
+
+## La prueba: pytest-lab
+
+Es para quien sabe Python básico y escribió pocas pruebas o ninguna. El primer bloque tiene cinco labs y un proyecto:
+
+| Lab | Tema                           | Tipo           |
+| --- | ------------------------------ | -------------- |
+| 1.1 | ¿Qué probar y por qué?         | 💭 Concepto    |
+| 1.2 | Primeras pruebas               | 🧩 Reto        |
+| 1.3 | Parametrizar y organizar       | 🧩 Reto        |
+| 1.4 | Fixtures y dobles de prueba    | 🧩 Reto        |
+| 1.5 | Cobertura y pruebas inestables | 🔭 Exploración |
+| 1.P | Una CLI para dividir la cuenta | 🏗️ Proyecto    |
+
+Los retos van al revés: el código ya funciona y **tú escribes las pruebas**. Para saber si sirven, cada reto trae una **caza de mutantes**: copias del código con un bug sembrado, como un promedio que usa división entera. Tus pruebas deben pasar con el código real y fallar con cada mutante.
+
+![Diagrama de la caza de mutantes: si tus pruebas no pasan con el código real, primero hay que arreglarlas. Si pasan, se corren contra cada mutante: si fallan, el mutante muere porque tu prueba atrapó el bug; si pasan, el mutante sigue vivo y falta una prueba.](./studyforge/02-caza-de-mutantes.webp)
+
+Así se ve la caza del lab 1.2 cuando tus pruebas atrapan los cinco mutantes:
+
+```text
+test_your_tests_pass_against_the_real_code PASSED
+test_your_tests_catch[m1-integer-division] PASSED
+test_your_tests_catch[m2-empty-returns-zero] PASSED
+test_your_tests_catch[m3-no-range-check] PASSED
+test_your_tests_catch[m4-strict-boundary] PASSED
+test_your_tests_catch[m5-ties-insertion-order] PASSED
+```
+
+🧪 El laboratorio está verificado en Python 3.12 y 3.15. Antes de publicarlo, un agente lo resolvió haciendo de estudiante y dejó 22 observaciones, que ya aplicamos. Falta lo más importante: que lo resuelvan personas.
+
+## Aprendizajes
+
+1. **Prueba la herramienta con un caso real.** Al construir pytest-lab encontramos errores en el propio StudyForge, y cada uno terminó como una regla del método.
+2. **Que el reto falle bien importa tanto como que la solución pase.** Una prueba que falla por la razón equivocada confunde más de lo que enseña.
+3. **Menos proceso, más verificación.** Cambiar la especificación de cada lab por un verificador nos dio labs más rápidos de construir y más confiables.
+4. **Que no dependa de un solo agente.** Cada repositorio de estudio lleva sus reglas en un `AGENTS.md`, así que cualquier agente puede seguir construyendo labs, aunque no tenga la skill.
+
+## Pruébala
+
+En Claude Code, como plugin:
+
+```text
+/plugin marketplace add Chamba-Lab/studyforge
+/plugin install studyforge@studyforge
+```
+
+En cualquier agente que lea Agent Skills:
+
+```bash
+npx skills add Chamba-Lab/studyforge
+```
+
+Luego pídele: «Usa StudyForge para diseñar un camino de estudio de…».
+
+¿Prefieres empezar como estudiante? Resuelve el lab 1.1 (de 45 minutos a 1 hora, sin código) y cuéntanos cómo te fue en un issue «Feedback de lab». El tema del próximo laboratorio lo elige la comunidad en [Discord](https://chambalab.org/discord).
+
+## Enlaces
+
+- [StudyForge](https://github.com/Chamba-Lab/studyforge): la skill, con su README en español.
+- [pytest-lab](https://github.com/Chamba-Lab/pytest-lab): el curso de testing en Python.
+- [Agent Skills](https://agentskills.io): el formato abierto de skills que usa StudyForge.
