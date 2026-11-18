@@ -3,6 +3,9 @@ title: StudyForge, una skill de IA para armar laboratorios de estudio
 description: Creamos StudyForge, una skill de IA que convierte un tema en labs prácticos y verificables, y la probamos armando un curso de testing en Python.
 date: 2026-11-17
 tags: [IA, StudyForge, Python, Testing]
+cover: ./studyforge/portada.webp
+coverAlt: "Ilustración de StudyForge con el título «De un tema a labs prácticos». El tema de ejemplo, «Testing en Python», en una etiqueta amarilla, apunta con una flecha a los labs del bloque 1 de 4, pruebas unitarias: del 1.1 «Qué es una prueba y sus tipos» al proyecto 1.P «Proyecto: dividir la cuenta»."
+ogImage: ./studyforge/og.jpg
 author: Melio Díaz
 lang: es
 draft: false
@@ -37,16 +40,17 @@ Cada lab es de uno de cuatro tipos:
 
 ## La prueba: pytest-lab
 
-Es para quien sabe Python básico y escribió pocas pruebas o ninguna. El primer bloque tiene cinco labs y un proyecto:
+Es para quien sabe Python básico y escribió pocas pruebas o ninguna. El plan sube la pirámide de pruebas en cuatro bloques: pruebas unitarias, de integración, de aceptación y la calidad de la suite. El primero, pruebas unitarias, ya está listo, con seis labs y un proyecto:
 
-| Lab | Tema                           | Tipo           |
-| --- | ------------------------------ | -------------- |
-| 1.1 | ¿Qué probar y por qué?         | 💭 Concepto    |
-| 1.2 | Primeras pruebas               | 🧩 Reto        |
-| 1.3 | Parametrizar y organizar       | 🧩 Reto        |
-| 1.4 | Fixtures y dobles de prueba    | 🧩 Reto        |
-| 1.5 | Cobertura y pruebas inestables | 🔭 Exploración |
-| 1.P | Una CLI para dividir la cuenta | 🏗️ Proyecto    |
+| Lab | Tema                          | Tipo           |
+| --- | ----------------------------- | -------------- |
+| 1.1 | Qué es una prueba y sus tipos | 💭 Concepto    |
+| 1.2 | Primeras pruebas con pytest   | 🧩 Reto        |
+| 1.3 | Diseño de casos de prueba     | 🧩 Reto        |
+| 1.4 | Organizar la suite            | 🧩 Reto        |
+| 1.5 | Dobles de prueba              | 🧩 Reto        |
+| 1.6 | Cobertura                     | 🔭 Exploración |
+| 1.P | Proyecto: dividir la cuenta   | 🏗️ Proyecto    |
 
 Los retos van al revés: el código ya funciona y **tú escribes las pruebas**. Para saber si sirven, cada reto trae una **caza de mutantes**: copias del código con un bug sembrado, como un promedio que usa división entera. Tus pruebas deben pasar con el código real y fallar con cada mutante.
 
@@ -63,7 +67,7 @@ test_your_tests_catch[m4-strict-boundary] PASSED
 test_your_tests_catch[m5-ties-insertion-order] PASSED
 ```
 
-🧪 El laboratorio está verificado en Python 3.12 y 3.15. Antes de publicarlo, un agente lo resolvió haciendo de estudiante y dejó 22 observaciones, que ya aplicamos. Falta lo más importante: que lo resuelvan personas.
+🧪 El laboratorio está verificado en Python 3.12 y 3.15. Antes de publicarlo, lo revisaron agentes haciendo de estudiante, y aplicamos sus observaciones. Falta lo más importante: que lo resuelvan personas.
 
 ## Aprendizajes
 
