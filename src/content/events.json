@@ -153,6 +153,7 @@
         "date": "2026-11-19",
         "startTime": "18:00",
         "endTime": "19:00",
-        "timezone": "UTC-5"
+        "timezone": "UTC-5",
+        "post": "studyforge"
     }
 ]
