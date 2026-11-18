@@ -153,6 +153,7 @@
         "date": "2026-11-19",
         "startTime": "18:00",
         "endTime": "19:00",
-        "timezone": "UTC-5"
+        "timezone": "UTC-5",
+        "discordEvent": "https://discord.com/events/1473927361106808832/1572444422279532685"
     }
 ]
