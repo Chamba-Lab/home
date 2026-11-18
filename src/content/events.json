@@ -133,5 +133,26 @@
         "startTime": "12:00",
         "endTime": "13:00",
         "timezone": "UTC-5"
+    },
+    {
+        "id": "studyforge-launch",
+        "title": {
+            "en": "StudyForge: build your own study labs with AI",
+            "es": "StudyForge: arma tus laboratorios de estudio con IA"
+        },
+        "description": {
+            "en": "We present StudyForge, the community skill that turns a topic into hands-on labs, try it live with pytest-lab, and vote on the topic of the next lab.",
+            "es": "Presentamos StudyForge, la skill de la comunidad que convierte un tema en labs prácticos, la probamos en vivo con pytest-lab y votamos el tema del próximo laboratorio."
+        },
+        "type": "fixed",
+        "kind": "activity",
+        "tag": {
+            "en": "Community news",
+            "es": "Novedades de la comunidad"
+        },
+        "date": "2026-11-19",
+        "startTime": "18:00",
+        "endTime": "19:00",
+        "timezone": "UTC-5"
     }
 ]
