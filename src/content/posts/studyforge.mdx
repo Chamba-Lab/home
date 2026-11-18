@@ -12,19 +12,19 @@ Cuando aprendemos una tecnología nueva, lo que más se queda no es lo que leím
 
 ## De dónde sale
 
-StudyForge viene de varias generaciones de laboratorios de estudio personales: Quarkus, Kafka, programación reactiva, MongoDB. Cada generación dejó reglas que hacían mejores los labs, y también procesos que pesaban más de lo que aportaban, como escribir una especificación, un plan y una lista de tareas antes de cada lab. StudyForge se queda con las reglas y quita ese proceso.
+StudyForge viene de varias generaciones de laboratorios de estudio personales: Quarkus, Kafka, programación reactiva y MongoDB. Cada generación dejó reglas que hacían mejores los labs, y también procesos que pesaban más de lo que aportaban, como escribir una especificación, un plan y una lista de tareas antes de cada lab. StudyForge se queda con las reglas y quita ese proceso.
 
 ## Cómo funciona
 
-Se instala como una [Agent Skill](https://agentskills.io) y, desde ahí, le pides las cosas a tu agente en lenguaje natural. El recorrido tiene cinco pasos, que la skill llama _workflows_:
+Se instala como una [Agent Skill](https://agentskills.io) y, desde ahí, le pides a tu agente lo que necesitas, en lenguaje natural. La skill tiene cinco _workflows_:
 
-![Diagrama del flujo de StudyForge: syllabus lleva de lo que quieres aprender a un plan, init crea el repositorio de estudio y build construye el siguiente lab. Quien aprende resuelve el lab y su feedback vuelve a build: mejora los labs y también StudyForge. Review audita y actualiza lo construido.](./studyforge/01-flujo.webp)
+![Diagrama del flujo de StudyForge: Syllabus lleva de lo que quieres aprender a un plan, Init crea el repositorio de estudio y Build construye el siguiente lab. Quien aprende resuelve el lab, y Feedback lleva lo aprendido de vuelta a Build: mejora los labs y también StudyForge. Review audita y actualiza lo construido.](./studyforge/01-flujo.webp)
 
-- **syllabus**: acuerdas el plan. Bloques de temas pensados para sesiones de 1 a 2 horas, y cada tema marcado como núcleo, profundización, alternativa o electiva.
-- **init**: crea el repositorio de estudio, con el sílabo, la guía de instalación, las reglas para el agente y un verificador.
-- **build**: construye el siguiente lab, lo verifica y lo guarda en git.
-- **feedback**: lo que cuenta quien resolvió un lab corrige ese lab, los anteriores y el plan. Si la lección sirve para cualquier laboratorio, vuelve a StudyForge.
-- **review**: revisa un bloque completo con el estándar más reciente.
+- `syllabus`: acuerdas el plan, con bloques de temas pensados para sesiones de 1 a 2 horas. Cada tema se marca como núcleo, profundización, alternativa o electiva.
+- `init`: crea el repositorio de estudio, con el sílabo, la guía de instalación, las reglas para el agente y un verificador.
+- `build`: construye el siguiente lab, lo verifica y lo guarda en Git.
+- `feedback`: lo que cuenta quien resolvió un lab corrige ese lab, los anteriores y el plan. Si la lección sirve para cualquier laboratorio, vuelve a StudyForge.
+- `review`: revisa un bloque completo con el estándar más reciente.
 
 Los labs son de cuatro tipos:
 
@@ -35,7 +35,7 @@ Los labs son de cuatro tipos:
 | Concepto    | Sin código: explicación a fondo y autoevaluación                                           |
 | Proyecto    | Cierra cada bloque: un enunciado, pruebas de aceptación y una implementación de referencia |
 
-La regla que más nos importa es **verificado, no recordado**. Cada comando y cada salida que muestra un lab se ejecutó con las versiones fijadas, y un verificador comprueba dos cosas: que las soluciones pasen y que los puntos de partida fallen **por la razón correcta**. Un reto que falla porque falta un import no le enseña nada a nadie.
+La regla que más nos importa es **verificado, no recordado**. Cada comando y cada salida que muestra un lab se ejecutó con las versiones fijadas, y un verificador comprueba dos cosas: que las soluciones pasen y que los puntos de partida fallen **por la razón correcta**. Un reto que falla porque falta un `import` no le enseña nada a nadie.
 
 ## La prueba: pytest-lab
 
@@ -50,7 +50,7 @@ Le pedimos a StudyForge, con Claude Code, un camino para aprender testing en Pyt
 | 1.5 | Cobertura y pruebas inestables           | Exploración |
 | 1.P | Proyecto: una CLI para dividir la cuenta | Proyecto    |
 
-Los retos van al revés de lo habitual: el código ya funciona y **tú escribes las pruebas**. ¿Cómo sabes si tus pruebas sirven? Con una **caza de mutantes**. Cada reto trae versiones del código con un bug sembrado a propósito, por ejemplo un promedio que usa división entera o un límite que deja pasar un valor que no debería. Tus pruebas deben pasar con el código real y fallar contra cada mutante:
+Los retos van al revés de lo habitual: el código ya funciona y **tú escribes las pruebas**. ¿Cómo sabes si tus pruebas sirven? Con una **caza de mutantes**. Cada reto trae versiones del código con un bug sembrado a propósito: por ejemplo, un promedio que usa división entera o un límite que deja pasar un valor que no debería. Tus pruebas deben pasar con el código real y fallar contra cada mutante:
 
 ![Diagrama de la caza de mutantes: si tus pruebas no pasan con el código real, primero hay que arreglarlas. Si pasan, se corren contra cada mutante: si fallan, el mutante muere porque tu prueba atrapó el bug; si pasan, el mutante sigue vivo y falta una prueba.](./studyforge/02-caza-de-mutantes.webp)
 
@@ -69,7 +69,7 @@ El laboratorio está verificado en Python 3.12 y 3.15 en cada cambio. Antes de p
 
 ## Aprendizajes
 
-1. **Probar la herramienta con un caso real.** Construir pytest-lab encontró errores en el propio StudyForge. Un mutante sobrevivía porque los datos de prueba de la solución no separaban dos criterios, y en Windows la caza se caía por la codificación de la consola. Cada error terminó como una regla del método.
+1. **Probar la herramienta con un caso real.** Al construir pytest-lab encontramos errores en el propio StudyForge. Un mutante sobrevivía porque los datos de prueba de la solución no separaban dos criterios, y en Windows la caza se caía por la codificación de la consola. Cada error terminó como una regla del método.
 2. **Que el reto falle bien importa tanto como que la solución pase.** Una prueba que falla por la razón equivocada confunde más de lo que enseña.
 3. **Menos proceso, más verificación.** Quitar la especificación por lab y sumar un verificador nos dio labs más rápidos de construir y más confiables.
 4. **Que no dependa de un solo agente.** Cada repositorio de estudio lleva sus reglas en un `AGENTS.md`, así que cualquier agente puede seguir construyendo labs aunque no tenga la skill instalada.
