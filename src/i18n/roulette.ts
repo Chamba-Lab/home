@@ -85,12 +85,12 @@ export const ROULETTE_I18N = {
         // Preset names
         presetNames: {
             employability: "💼 Empleabilidad & Carrera",
-            "tech-debates": "⚔️ Debates Tech & Arquitectura",
-            "learning-early-career": "🌱 Qué Aprender en 2026 (Early Career)",
-            "learning-mid-senior": "🚀 Qué Aprender en 2026 (Mid & Senior)",
-            "production-dilemmas": "🔥 Dilemas de Producción",
+            "tech-debates": "⚔️ Debates Tech",
+            "learning-early-career": "🌱 Qué Aprender Primero",
+            "production-dilemmas": "🔥 Dilemas Dev",
             "ai-dev-future": "🤖 IA & Futuro del Dev",
             "icebreaker-culture": "⚡ Rompehielos & Cultura Dev",
+            "daily-learning": "🧭 Día a día & Aprendizaje",
         } as Record<string, string>,
     },
     en: {
@@ -177,12 +177,12 @@ export const ROULETTE_I18N = {
         // Preset names
         presetNames: {
             employability: "💼 Employability & Career",
-            "tech-debates": "⚔️ Tech Debates & Architecture",
-            "learning-early-career": "🌱 What to Learn in 2026 (Early Career)",
-            "learning-mid-senior": "🚀 What to Learn in 2026 (Mid & Senior)",
-            "production-dilemmas": "🔥 Production Dilemmas",
+            "tech-debates": "⚔️ Tech Debates",
+            "learning-early-career": "🌱 What to Learn First",
+            "production-dilemmas": "🔥 Dev Dilemmas",
             "ai-dev-future": "🤖 AI & Future of Dev",
             "icebreaker-culture": "⚡ Icebreakers & Dev Culture",
+            "daily-learning": "🧭 Day to Day & Learning",
         } as Record<string, string>,
     },
 };
