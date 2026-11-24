@@ -160,6 +160,17 @@ El blog (`/blog/`) documenta lo que hacemos en la comunidad. Las entradas las es
 6. La entrada no incluye datos del evento al que corresponde. Ese vínculo se añade en el evento, con su campo `post` (ver [Añadir un evento](#añadir-un-evento)).
 7. Nada de datos de prueba al commitear: revierte entradas o videos temporales antes del PR.
 
+### Proponer preguntas para La Ruleta
+
+Los packs de [La Ruleta](https://chambalab.org/activities/roulette/) viven en `src/content/roulette.json`, y Rakim, el bot de Discord, publica algunos como tema del día. Para sumar o cambiar preguntas:
+
+1. **Es una pregunta** que se puede contestar en una línea, de unos 80 caracteres como máximo (la rueda recorta los textos largos). Un tema suelto («Docker para desarrollo local») no se puede debatir.
+2. **Pensada para Early Career**: quien busca su primer trabajo y quien está en él o saliendo. No da por hecho un trabajo previo sin dejar entrar a quien busca; las preguntas puente («¿Qué te sorprendió, o crees que te sorprenderá, de tu primer trabajo?») funcionan para ambos. Nada solo para Mid o Senior.
+3. **Sin años ni productos que caduquen**, y nada delicado para hablar en público, como el salario de cada quien.
+4. Un pack lleva un `id` en inglés que no cambia (lo usan las traducciones y el bot), un `name` y 12 preguntas. El nombre en ES y EN va además en `presetNames` de `src/i18n/roulette.ts`.
+
+El porqué está en [`docs/decisions.md`](./docs/decisions.md#producto).
+
 ### Proponer un pack de Preguntas Rápidas
 
 Los packs de [Preguntas Rápidas](https://chambalab.org/activities/quick-questions/) viven en `src/content/quick-questions.json`. Puedes proponer uno nuevo o ampliar uno existente en un PR (o abrir antes un issue o consultar en Discord).
